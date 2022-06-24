@@ -34,6 +34,8 @@ Coming Soon
 * [Government on Github](https://government.github.com/)
 * [Open Source Institute](https://opensi.net/)
 * [Best Practices for Government Open Source](https://playbook.cio.gov/)
+* [CKAN Data Portal Framework](https://github.com/ckan/ckan)
+* [HUBKIT Data Portal Framework](https://github.com/internetofwater/HubKit)
 
 ## Roadmap
 ### Community Engagement (June 1, 2022 - August 31, 2022)
