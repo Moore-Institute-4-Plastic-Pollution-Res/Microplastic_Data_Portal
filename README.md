@@ -30,9 +30,8 @@ Coming Soon
 * [Open Source Institute](https://opensi.net/)
 * [Best Practices for Government Open Source](https://playbook.cio.gov/)
 
-
 ## Roadmap
-Community Engagement (June 1, 2022 - August 31, 2022)
+### Community Engagement (June 1, 2022 - August 31, 2022)
 * [ ] Engage with open source community
   * [x] Water Data Challenge
   * [ ] Presentation at Code for America Groups
@@ -47,24 +46,24 @@ Community Engagement (June 1, 2022 - August 31, 2022)
   * [ ] Meetings with open source policy creators
   * [ ] Meetings with government coders and database managers
 
-Policy Research Scoping (June 1, 2022 - August 31, 2022)
+### Policy Research Scoping (June 1, 2022 - August 31, 2022)
 * [ ] Meetings with drinking water regulators
 * [ ] Meetings with drinking water facilities
 * [ ] Meetings with environmental justice organizations
 * [ ] Meetings with open source policy creators
 * [ ] Meetings with government coders and database managers
 
-Data Collection (June 1, 2022 - August 31, 2022)
+### Data Collection (June 1, 2022 - August 31, 2022)
 * [ ] Github Data
 * [ ] Presentation and Workshop Notes
 * [ ] Media Feedback
 * [ ] Security Reports in Logs
 
-Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
+### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
 * [x] Innitial Dataset Development 
 * [ ] Web Application Development
 
-Beta Testing of Portal (January 1, 2023 - June 30, 2023)
+### Beta Testing of Portal (January 1, 2023 - June 30, 2023)
 * [ ] Meetings with Trash Monitoring Workgroup
 * [ ] Meetings with Water Data Science Symposium
 * [ ] Meetings with drinking water regulators
@@ -73,17 +72,17 @@ Beta Testing of Portal (January 1, 2023 - June 30, 2023)
 * [ ] Meetings with open source policy creators
 * [ ] Meetings with government coders and database managers
 
-Data Portal Finalization and Publishing (June 1, 2023 - December 31, 2023)
+### Data Portal Finalization and Publishing (June 1, 2023 - December 31, 2023)
 * [ ] Integration of beta testers feedback
 * [ ] Handoff project to Waterboard staff for long term management
 
-Software Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
+### Software Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
 * [ ] Identify coauthors on manuscript
 * [ ] Outline Manuscript and Share with Coauthors
 * [ ] First Draft of Manuscript and Share with Coauthors
 * [ ] Final Draft of Manuscript and share with Coauthors
 
-Policy Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
+### Policy Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
 * [ ] Identify coauthors on manuscript
 * [ ] Outline Manuscript and Share with Coauthors
 * [ ] First Draft of Manuscript and Share with Coauthors
