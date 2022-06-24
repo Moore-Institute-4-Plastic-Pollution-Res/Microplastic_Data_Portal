@@ -16,7 +16,7 @@ This software supports the implementation of Senate Bill No. 1422 which mandates
 
 ## Roadmap
 Community Engagement (June 1, 2022 - August 31, 2022)
-* [x] Engage with open source community
+* [ ] Engage with open source community
   * [x] Water Data Challenge
   * [ ] Presentation at Code for America Groups
 * [ ] Stakeholder Meetings
