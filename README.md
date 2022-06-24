@@ -2,17 +2,29 @@
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 [![Twitter Follow](https://img.shields.io/twitter/follow/ThePlastiverse?style=social)](https://twitter.com/ThePlastiverse)
 
-This software supports the implementation of Senate Bill No. 1422 which mandates sharing of microplastic data from drinking water, policy SAM 5160 which mandates that state data be open access, and policy SAM 4984 which mandates that software be open by default. Our vision is to use this project as a framework for future open software development in by state agencies in the California. All engagement on this open repo will be the subject of future policy research on how government and open source communities can better collaborate on software development projects. 
+We are reimaging what government open data can be by creating an Open Source portal where all aspects of data ingestion, analysis, visualization, and sharing are transparent and collaboratable by the open source community. This project is a collaboration with [California Water Boards](https://www.waterboards.ca.gov/), [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/), [The Gray Lab](https://www.thegraylab.org/), [San Francisco Estuary Institue](https://www.sfei.org/), [California 100](https://california100.org/), and the open source community at large. 
 
-# Upcoming Events and Recent Highlights
+This data portal supports the implementation of Senate Bill No. 1422 which mandates sharing of microplastic data from drinking water, policy SAM 5160 which mandates that state data be open access, and policy SAM 4984 which mandates that software be open by default. Our vision is to use this project as a framework for future open software development in by state agencies in the California. All engagement on this open repo will be the subject of future policy research on how government and open source communities can better collaborate on software development projects. 
 
-# Project Timeline
+## Contirbuting
+Contributions of all kinds are welcome!
 
-# Helpful Resources
+See `contributing.md` for ways to get started.
 
-# Collaborators
+Please adhere to this project's `code of conduct`.
 
-# How to get involved
+## Installation
+Coming Soon
+```bash
+  ....
+```
+
+## Project Timeline
+
+## Helpful Resources
+
+
+## How to get involved
 
 ## Roadmap
 Community Engagement (June 1, 2022 - August 31, 2022)
