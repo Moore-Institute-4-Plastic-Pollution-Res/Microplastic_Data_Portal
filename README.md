@@ -8,12 +8,12 @@ This software supports the implementation of Senate Bill No. 1422 which mandates
 
 Community Engagement (June 1, 2022 - August 31, 2022)
 * [x] Water Data Challenge
-* [] Stakeholder Meetings
+* [ ] Stakeholder Meetings
 *   [x] Presentation to Trash Monitoring Workgroup
 
 Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
 * [x] Innitial Dataset Development 
-* [] Web Application Development
+* [ ] Web Application Development
 
 # Upcoming Events and Recent Highlights
 
