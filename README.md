@@ -14,6 +14,10 @@ See `contributing.md` for ways to get started.
 Please adhere to this project's `code of conduct`.
 
 ## Installation
+### Data
+Download the .xlsx files we have created to begin developing the database schema and visualizations. 
+
+### Software
 Coming Soon
 ```bash
   ....
