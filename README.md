@@ -16,7 +16,7 @@ Please adhere to this project's `code of conduct`.
 
 ## Installation
 ### Data
-Download the .xlsx files we have created to begin developing the database schema and visualizations. 
+Download the .xlsx files we have created to begin developing the database schema and visualizations in [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data). 
 
 ### Software
 Coming Soon
