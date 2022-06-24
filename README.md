@@ -20,15 +20,16 @@ Coming Soon
 ```
 
 ## Helpful Resources
-* code.ca.gov
-* https://www.newamerica.org/digital-impact-governance-initiative/reports/building-and-reusing-open-source-tools-government/section-one-an-overview-of-open-source/
-* https://government.github.com/
-* https://opensi.net/
-* https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0
-* https://codecagov-playbook.readthedocs.io/en/latest/policy/
-* https://playbook.cio.gov/
-* https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422
-* https://data.ca.gov/pages/california-open-data-policy
+* [California Microplastics Policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
+* [Califonia Open Source Policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/)
+* [California Open Data Policy](https://data.ca.gov/pages/california-open-data-policy)
+* [Success Story Cal DMV](https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0)
+* [California Open Source Code](code.ca.gov)
+* [Overview of Government Open Source Software](https://www.newamerica.org/digital-impact-governance-initiative/reports/building-and-reusing-open-source-tools-government/section-one-an-overview-of-open-source/)
+* [Government on Github](https://government.github.com/)
+* [Open Source Institute](https://opensi.net/)
+* [Best Practices for Government Open Source](https://playbook.cio.gov/)
+
 
 ## Roadmap
 Community Engagement (June 1, 2022 - August 31, 2022)
