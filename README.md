@@ -10,9 +10,9 @@ This data portal supports the implementation of Senate Bill No. 1422 which manda
 ## Contributing
 Contributions of all kinds are welcome!
 
-See `contributing.md` for ways to get started.
+Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/). 
 
-Please adhere to this project's `code of conduct`.
+Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
 ## Installation
 ### Data
