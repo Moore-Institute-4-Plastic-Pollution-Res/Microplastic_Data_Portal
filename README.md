@@ -17,7 +17,20 @@ Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/).
 
 Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
-## Proposed Framework for Software Development
+
+
+## Installation
+### Data
+Download the .xlsx files we have created to begin developing the database schema and visualizations in [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data). 
+#### Proposed Schema for Database
+
+
+### Software
+Coming Soon
+```bash
+  ....
+```
+#### Proposed Framework for Software Development
 ```mermaid
 graph LR
     B(CKAN Database)--API---I(R Shiny);
@@ -46,16 +59,6 @@ graph LR
       style J stroke:#333,stroke-width:4px
       style M stroke:#333,stroke-width:4px
       style K stroke:#333,stroke-width:4px
-```
-
-## Installation
-### Data
-Download the .xlsx files we have created to begin developing the database schema and visualizations in [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data). 
-
-### Software
-Coming Soon
-```bash
-  ....
 ```
 
 ## Helpful Resources
