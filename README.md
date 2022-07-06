@@ -17,6 +17,15 @@ Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/).
 
 Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
+## Proposed Framework for Software Development
+```mermaid
+  graph LR;
+      Data Analysis-->Database;
+      Auto Export to State Databases-->Database;
+      B-->D;
+      C-->D;
+```
+
 ## Installation
 ### Data
 Download the .xlsx files we have created to begin developing the database schema and visualizations in [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data). 
