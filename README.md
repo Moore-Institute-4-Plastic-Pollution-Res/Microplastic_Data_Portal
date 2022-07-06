@@ -20,10 +20,8 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 ## Proposed Framework for Software Development
 ```mermaid
   graph LR;
-      Data Analysis-->Database;
-      Auto Export to State Databases-->Database;
-      B-->D;
-      C-->D;
+      A(Data Analysis)-->B(Database);
+      C(Auto Export to State Databases)-->B(Database);
 ```
 
 ## Installation
