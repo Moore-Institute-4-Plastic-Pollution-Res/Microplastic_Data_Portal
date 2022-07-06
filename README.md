@@ -19,7 +19,7 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 
 ## Proposed Framework for Software Development
 ```mermaid
-  graph LR;
+  flowchart LR;
       B(Database)--API--I(R Shiny);
       subgraph Back
       A(Data Analysis)-->B;
