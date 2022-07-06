@@ -20,18 +20,20 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 ## Proposed Framework for Software Development
 ```mermaid
   graph LR;
+      subgraph Back
       A(Data Analysis)-->B(Database);
       C(Auto Export to State Databases)-->B(Database);
       D(Download Formatting)-->B;
-      E(Data QAQC)-->B;
-      F(Ingestion)-->B;
-      B-->G(Back End);
-      G--API-->H(Front End);
-      H-->I(R Shiny);
-      I-->J(Upload);
-      I-->K(Analysis);
-      I-->L(Visualization);
-      I-->M(Download);
+      E(Data QAQC)--B;
+      F(Ingestion)--B;
+      end
+      B--API--I(R Shiny);
+      subgraph Front
+      I--J(Upload);
+      I--K(Analysis);
+      I--L(Visualization);
+      I--M(Download);
+      end
 ```
 
 ## Installation
