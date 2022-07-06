@@ -19,21 +19,33 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 
 ## Proposed Framework for Software Development
 ```mermaid
-  flowchart LR;
-      B(Database)--API--I(R Shiny);
-      subgraph Back
-      A(Data Analysis)-->B;
-      C(Auto Export to State Databases)-->B;
-      D(Download Formatting)-->B;
-      E(Data QAQC)--B;
-      F(Ingestion)--B;
+graph LR
+    B(CKAN Database)--API---I(R Shiny);
+      subgraph Back End
+      A(Data Analysis)---B;
+      C(Auto Export to State Databases)---B;
+      D(Download Formatting)---B;
+      E(Data QAQC)---B;
+      F(Ingestion)---B;
       end
-      subgraph Front
-      I--J(Upload);
-      I--K(Analysis);
-      I--L(Visualization);
-      I--M(Download);
+      subgraph Front End
+      I---J(Upload);
+      I---K(Analysis);
+      I---L(Visualization);
+      I---M(Download);
       end
+      click B href "https://github.com/ckan/ckan" _blank
+      click I "https://shiny.rstudio.com/" "R Shiny"
+      click L "https://plotly.com/r/" "Plotly"
+      click J "https://shiny.rstudio.com/gallery/file-upload.html" "Upload"
+      click M "https://shiny.rstudio.com/gallery/file-download.html" "Download"
+      click K "https://www.tidyverse.org/" "tidyverse"
+      style B stroke:#333,stroke-width:4px
+      style I stroke:#333,stroke-width:4px
+      style L stroke:#333,stroke-width:4px
+      style J stroke:#333,stroke-width:4px
+      style M stroke:#333,stroke-width:4px
+      style K stroke:#333,stroke-width:4px
 ```
 
 ## Installation
