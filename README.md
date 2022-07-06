@@ -23,15 +23,16 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 ### Data
 Download the .xlsx files we have created to begin developing the database schema and visualizations in [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data). 
 #### Proposed Schema for Database
+
 ```mermaid
 erDiagram
-    PARTICLES }|--|{ SAMPLES : RELATES
-    PARTICLES ||--|| METHODOLOGY : RELATES
     METHODOLOGY ||--|| SAMPLES : RELATES
+    PARTICLES ||--|| METHODOLOGY : RELATES
+    PARTICLES }|--|{ SAMPLES : RELATES
 
     SAMPLES {
-        string DOI PK "Online identifier for methodology"
         string SampleID PK "Unique ID for Sample" 
+        string DOI FK "Online identifier for methodology"
         string Organization "Unique ID for organization collecting sample"
         string Location "Latitude and Longitude of Sample"
         string Source "One of Bottled or Tap"
@@ -43,8 +44,9 @@ erDiagram
         string ColorX "A value for the proportion of particles of color X"
     }
     PARTICLES {
-        string DOI PK "Online identifier for methodology"
-        string SampleID PK "Unique ID for Sample" 
+        string ParticleID PK "Unique ID for each particle" 
+        string DOI FK "Online identifier for methodology"
+        string SampleID FK "Unique ID for sample" 
         string Polymer "Polymer name"
         string Size "Particle size"
         string Shape "Particle shape"
@@ -59,7 +61,7 @@ erDiagram
         string VisIDMethod "Visual Confirmation methods used e.g. visual microscopy SEM"
         string MatIDMethod "Material identification method e.g. pygcms, raman, ftir"
         string Controls "Description of blanks and spikes used"
-    }
+    }    
 ```
 
 ### Software
