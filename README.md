@@ -23,7 +23,44 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 ### Data
 Download the .xlsx files we have created to begin developing the database schema and visualizations in [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data). 
 #### Proposed Schema for Database
+```mermaid
+erDiagram
+    PARTICLES }|--|{ SAMPLES : RELATES
+    PARTICLES ||--|| METHODOLOGY : RELATES
+    METHODOLOGY ||--|| SAMPLES : RELATES
 
+    SAMPLES {
+        string DOI PK "Online identifier for methodology"
+        string SampleID PK "Unique ID for Sample" 
+        string Organization "Unique ID for organization collecting sample"
+        string Location "Latitude and Longitude of Sample"
+        string Source "One of Bottled or Tap"
+        string Date "Sample Date"
+        string Concentration "Concentration (count per L)"
+        string PolymerX "A value for the proportion of particles of polymer X"
+        string SizeX "A value for the proportion of particles of size range X"
+        string ShapeX "A value for the proportion of particles of shape X"
+        string ColorX "A value for the proportion of particles of color X"
+    }
+    PARTICLES {
+        string DOI PK "Online identifier for methodology"
+        string SampleID PK "Unique ID for Sample" 
+        string Polymer "Polymer name"
+        string Size "Particle size"
+        string Shape "Particle shape"
+        string Color "Particle color"
+    }
+    METHODOLOGY {
+        string DOI PK "Online identifier for methodology"
+        string SamplingDevice "Device used to collect sample and dimensions"
+        string Digestion "Digestion solution used and concentration"
+        string Filtration "Filter material type"
+        string FilterSize "Filter pore size"
+        string VisIDMethod "Visual Confirmation methods used e.g. visual microscopy SEM"
+        string MatIDMethod "Material identification method e.g. pygcms, raman, ftir"
+        string Controls "Description of blanks and spikes used"
+    }
+```
 
 ### Software
 Coming Soon
