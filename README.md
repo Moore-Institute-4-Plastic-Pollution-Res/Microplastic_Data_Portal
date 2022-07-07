@@ -115,6 +115,22 @@ graph LR
 * [HUBKIT Data Portal Framework](https://github.com/internetofwater/HubKit)
 
 ## Roadmap
+```mermaid
+gantt
+    title Project Timeline
+    dateFormat  YYYY-MM-DD
+    section Innovation
+    Community Engagement           :2022-06-01, 2022-08-31
+    Minimum Viable Product     :2022-08-01 , 2023-01-31
+    Beta Testing     :2023-01-01 , 2023-06-30
+    Data Portal Finalization and Publishing     :2023-06-01 , 2023-12-31
+    section Research
+    Policy Research Scoping      :2022-06-01  , 2022-08-31
+    Data Collection      : 2022-06-01  , 2024-06-01
+    Software Manuscript      : 2023-06-01  , 2024-06-01
+    Policy Manuscript      : 2023-06-01  , 2024-06-01
+```
+
 ### Community Engagement (June 1, 2022 - August 31, 2022)
 * [ ] Engage with open source community
   * [x] Water Data Challenge
@@ -123,21 +139,21 @@ graph LR
   * [x] Presentation to Trash Monitoring Workgroup
   * [x] Presentation at SoCal SETAC
   * [x] Presentation at SoCal Academy of Sciences
-  * [ ] Presentation to Water Data Science Symposium
+  * [x] Presentation to Water Data Science Symposium
   * [ ] Meetings with drinking water regulators
   * [ ] Meetings with drinking water facilities
   * [ ] Meetings with environmental justice organizations
-  * [ ] Meetings with open source policy creators
-  * [ ] Meetings with government coders and database managers
+  * [x] Meetings with open source policy creators
+  * [x] Meetings with government coders and database managers
 
 ### Policy Research Scoping (June 1, 2022 - August 31, 2022)
 * [ ] Meetings with drinking water regulators
 * [ ] Meetings with drinking water facilities
 * [ ] Meetings with environmental justice organizations
 * [ ] Meetings with open source policy creators
-* [ ] Meetings with government coders and database managers
+* [x] Meetings with government coders and database managers
 
-### Data Collection (June 1, 2022 - August 31, 2022)
+### Data Collection (June 1, 2022 - June 1, 2024)
 * [ ] Github Data
 * [ ] Presentation and Workshop Notes
 * [ ] Media Feedback
