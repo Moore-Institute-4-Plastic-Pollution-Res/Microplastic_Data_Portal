@@ -105,8 +105,8 @@ graph LR
 ### Open Source Policy
 - 2010 Open Source is Allowed [policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/#california-department-of-technology-letters)
 - 2018 Open Source is Strongly Encouraged [policy](https://cdt.ca.gov/wp-content/uploads/2018/05/TL-18-02-OSCodeReuse_2018-0419.pdf)
--- code.ca.gov
--- https://codecagov-playbook.readthedocs.io/en/latest/policy
+    - code.ca.gov
+    - https://codecagov-playbook.readthedocs.io/en/latest/policy
 
 
 ## Helpful Resources
