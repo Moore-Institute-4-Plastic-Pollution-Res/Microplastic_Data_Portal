@@ -102,11 +102,25 @@ graph LR
 ```
 
 ## Policy Scoping
+### Microplastic Policy
+- Require developing methods for microplastics in drinking water [policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
+    -  https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/microplastics/mcrplstcs_ir.pdf
+### Open Data Policy
+- 2019 Establishes Open Data Portal for Whole State [policy](https://cdt.ca.gov/wp-content/uploads/2018/05/TL-18-02-OSCodeReuse_2018-0419.pdf) 
+    - https://data.ca.gov/
+    - https://fastdemocracy.com/bill-search/ca/20192020/bills/CAB00017185/
+    - https://handbook.data.ca.gov/introduction/
 ### Open Source Policy
 - 2010 Open Source is Allowed [policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/#california-department-of-technology-letters)
-- 2018 Open Source is Strongly Encouraged [policy](https://cdt.ca.gov/wp-content/uploads/2018/05/TL-18-02-OSCodeReuse_2018-0419.pdf)
-    - code.ca.gov
+- 2018 Open Source is Strongly Encouraged Unless Security Risk [policy](https://cdt.ca.gov/wp-content/uploads/2018/05/TL-18-02-OSCodeReuse_2018-0419.pdf)
+    - https://code.ca.gov/
     - https://codecagov-playbook.readthedocs.io/en/latest/policy
+    - https://alpha.ca.gov/
+    - https://digital.ca.gov/blog/posts/working-in-the-open-on-the-california-design-system/
+    - https://github.com/cagov/design-system
+    - https://github.com/cagov
+    - https://github.com/CAWaterBoardDataCenter
+    - https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0
 
 
 ## Helpful Resources
