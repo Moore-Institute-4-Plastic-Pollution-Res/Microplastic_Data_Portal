@@ -123,19 +123,6 @@ graph LR
     - https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0
 
 
-## Helpful Resources
-* [California Microplastics Policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
-* [Califonia Open Source Policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/)
-* [California Open Data Policy](https://data.ca.gov/pages/california-open-data-policy)
-* [Success Story Cal DMV](https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0)
-* [California Open Source Code](code.ca.gov)
-* [Overview of Government Open Source Software](https://www.newamerica.org/digital-impact-governance-initiative/reports/building-and-reusing-open-source-tools-government/section-one-an-overview-of-open-source/)
-* [Government on Github](https://government.github.com/)
-* [Open Source Institute](https://opensi.net/)
-* [Best Practices for Government Open Source](https://playbook.cio.gov/)
-* [CKAN Data Portal Framework](https://github.com/ckan/ckan)
-* [HUBKIT Data Portal Framework](https://github.com/internetofwater/HubKit)
-
 ## Roadmap
 ```mermaid
 gantt
@@ -209,3 +196,16 @@ gantt
 * [ ] Outline Manuscript and Share with Coauthors
 * [ ] First Draft of Manuscript and Share with Coauthors
 * [ ] Final Draft of Manuscript and share with Coauthors
+
+## Helpful Resources
+* [California Microplastics Policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
+* [Califonia Open Source Policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/)
+* [California Open Data Policy](https://data.ca.gov/pages/california-open-data-policy)
+* [Success Story Cal DMV](https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0)
+* [California Open Source Code](code.ca.gov)
+* [Overview of Government Open Source Software](https://www.newamerica.org/digital-impact-governance-initiative/reports/building-and-reusing-open-source-tools-government/section-one-an-overview-of-open-source/)
+* [Government on Github](https://government.github.com/)
+* [Open Source Institute](https://opensi.net/)
+* [Best Practices for Government Open Source](https://playbook.cio.gov/)
+* [CKAN Data Portal Framework](https://github.com/ckan/ckan)
+* [HUBKIT Data Portal Framework](https://github.com/internetofwater/HubKit)
