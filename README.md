@@ -159,12 +159,12 @@ gantt
 * [ ] Meetings with drinking water regulators
 * [ ] Meetings with drinking water facilities
 * [ ] Meetings with environmental justice organizations
-* [ ] Meetings with open source policy creators
+* [x] Meetings with open source policy creators
 * [x] Meetings with government coders and database managers
 
 ### Data Collection (June 1, 2022 - June 1, 2024)
-* [ ] Github Data
-* [ ] Presentation and Workshop Notes
+* [x] Github Data
+* [x] Presentation and Workshop Notes
 * [ ] Media Feedback
 * [ ] Security Reports in Logs
 
