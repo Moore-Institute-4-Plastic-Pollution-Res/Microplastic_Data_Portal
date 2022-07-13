@@ -79,7 +79,8 @@ graph LR
       C(Auto Export to State Databases)---B;
       D(Download Formatting)---B;
       E(Data QAQC)---B;
-      F(Ingestion)---B;
+      F(CRUD)---B;
+      G(Deployment)---B;
       end
       subgraph Front End
       I---J(Upload);
@@ -93,7 +94,11 @@ graph LR
       click J "https://shiny.rstudio.com/gallery/file-upload.html" "Upload"
       click M "https://shiny.rstudio.com/gallery/file-download.html" "Download"
       click K "https://www.tidyverse.org/" "tidyverse"
+      click F "https://github.com/ropensci/ckanr"
+      click G "https://docs.ckan.org/en/2.9/maintaining/installing/install-from-docker-compose.html"
       style B stroke:#333,stroke-width:4px
+      style F stroke:#333,stroke-width:4px
+      style G stroke:#333,stroke-width:4px
       style I stroke:#333,stroke-width:4px
       style L stroke:#333,stroke-width:4px
       style J stroke:#333,stroke-width:4px
