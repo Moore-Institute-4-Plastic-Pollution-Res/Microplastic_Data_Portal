@@ -65,6 +65,10 @@ erDiagram
     }    
 ```
 
+### Knowledge graph representation
+![image](https://user-images.githubusercontent.com/26821843/180331100-1c067439-d5ca-41c4-a2fb-2fa539e1e261.png)
+
+
 ### Software
 Coming Soon
 ```bash
