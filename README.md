@@ -18,7 +18,8 @@ Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/).
 
 Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
-
+### Meeting Videos
+- [Github Demo: July 21 2022](https://drive.google.com/file/d/1wlJwcfsrGVNbPxqRq67vcWxlshbJ32xk/view?usp=sharing)
 
 ## Installation
 ### Data
