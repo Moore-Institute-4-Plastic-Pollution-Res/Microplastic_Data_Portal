@@ -14,6 +14,8 @@ If you want to discuss anything with the community you can start a conversation 
 ## Contributing
 Contributions of all kinds are welcome!
 
+We have meetings every two weeks at 3PM California Time on Thursday for anyone interested in being involved. Contact wincowger@gmail.com to get added to the virtual meeting invite. 
+
 Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/). 
 
 Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
@@ -162,15 +164,15 @@ gantt
   * [x] Presentation at SoCal SETAC
   * [x] Presentation at SoCal Academy of Sciences
   * [x] Presentation to Water Data Science Symposium
-  * [ ] Meetings with drinking water regulators
-  * [ ] Meetings with drinking water facilities
+  * [x] Meetings with drinking water regulators
+  * [x] Meetings with drinking water facilities
   * [ ] Meetings with environmental justice organizations
   * [x] Meetings with open source policy creators
   * [x] Meetings with government coders and database managers
 
 ### Policy Research Scoping (June 1, 2022 - August 31, 2022)
 * [ ] Meetings with drinking water regulators
-* [ ] Meetings with drinking water facilities
+* [x] Meetings with drinking water facilities
 * [ ] Meetings with environmental justice organizations
 * [x] Meetings with open source policy creators
 * [x] Meetings with government coders and database managers
