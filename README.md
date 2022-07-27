@@ -123,6 +123,7 @@ graph LR
     - https://data.ca.gov/
     - https://fastdemocracy.com/bill-search/ca/20192020/bills/CAB00017185/
     - https://handbook.data.ca.gov/introduction/
+    - https://www.govops.ca.gov/caldata/
 ### Open Source Policy
 - 2010 Open Source is Allowed [policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/#california-department-of-technology-letters)
 - 2018 Open Source is Strongly Encouraged Unless Security Risk [policy](https://cdt.ca.gov/wp-content/uploads/2018/05/TL-18-02-OSCodeReuse_2018-0419.pdf)
