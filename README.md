@@ -181,10 +181,10 @@ gantt
 * [x] Meetings with government coders and database managers
 
 ### Data Collection (June 1, 2022 - June 1, 2024)
-* [x] Github Data
+* [x] [Github Data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal)
 * [x] Presentation and Workshop Notes
 * [ ] Media Feedback
-* [ ] Security Reports in Logs
+* [x] [Security Reports in Logs](https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates)
 
 ### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
 * [x] Innitial Dataset Development 
