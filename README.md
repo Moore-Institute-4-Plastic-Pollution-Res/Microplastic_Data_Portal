@@ -221,6 +221,7 @@ gantt
 
 ## Helpful Resources
 * [California Microplastics Policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
+* [California Open Data Portal Sharing](https://data.ca.gov/pages/open-data-publisher-guide-contents)
 * [Califonia Open Source Policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/)
 * [California Open Data Policy](https://data.ca.gov/pages/california-open-data-policy)
 * [Success Story Cal DMV](https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0)
