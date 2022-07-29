@@ -89,6 +89,7 @@ graph LR
       E(Data QAQC)---B;
       F(CRUD)---B;
       G(Deployment)---B;
+      H(Wikidata)---B;
       end
       subgraph Front End
       I---J(Upload);
@@ -99,6 +100,7 @@ graph LR
       click B href "https://github.com/ckan/ckan" _blank
       click I "https://shiny.rstudio.com/" "R Shiny"
       click L "https://plotly.com/r/" "Plotly"
+      click H "https://www.wikidata.org/wiki/Wikidata:Main_Page" "Wikidata"
       click J "https://shiny.rstudio.com/gallery/file-upload.html" "Upload"
       click M "https://shiny.rstudio.com/gallery/file-download.html" "Download"
       click K "https://www.tidyverse.org/" "tidyverse"
@@ -187,6 +189,10 @@ gantt
 ### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
 * [x] Innitial Dataset Development 
 * [ ] Web Application Development
+    * [ ] User Interface
+    * [ ] Data Visualization
+    * [ ] Database APIs
+    * [ ] Wikidata integration
 
 ### Beta Testing of Portal (January 1, 2023 - June 30, 2023)
 * [ ] Meetings with Trash Monitoring Workgroup
