@@ -1,7 +1,8 @@
 # Microplastics Data Portal
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 [![Twitter Follow](https://img.shields.io/twitter/follow/ThePlastiverse?style=social)](https://twitter.com/ThePlastiverse)
-[![Twitter Follow](https://img.shields.io/twitter/follow/MoorePlasticRes?style=social)](https://twitter.com/MoorePlasticRes) [![Join the chat at https://gitter.im/Microplastic_Data_Portal/community](https://badges.gitter.im/Microplastic_Data_Portal/community.svg)](https://gitter.im/Microplastic_Data_Portal/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Twitter Follow](https://img.shields.io/twitter/follow/MoorePlasticRes?style=social)](https://twitter.com/MoorePlasticRes)
+[![Join the chat at https://gitter.im/Microplastic_Data_Portal/community](https://badges.gitter.im/Microplastic_Data_Portal/community.svg)](https://gitter.im/Microplastic_Data_Portal/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 We are innovating what government open data can be by creating an open source data portal where all aspects of data ingestion, analysis, visualization, and sharing are transparent and collaboratable by the open source community. This project is a collaboration with [California Water Boards](https://www.waterboards.ca.gov/), [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/), [The Gray Lab @ UCR](https://www.thegraylab.org/), [San Francisco Estuary Institue](https://www.sfei.org/), [California 100](https://california100.org/), and the open source community at large. 
 
@@ -13,11 +14,14 @@ If you want to discuss anything with the community you can start a conversation 
 ## Contributing
 Contributions of all kinds are welcome!
 
+We have meetings every two weeks at 3PM California Time on Thursday for anyone interested in being involved. Contact wincowger@gmail.com to get added to the virtual meeting invite. 
+
 Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/). 
 
 Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
-
+### Meeting Videos
+- [Github Demo: July 21 2022](https://drive.google.com/file/d/1wlJwcfsrGVNbPxqRq67vcWxlshbJ32xk/view?usp=sharing)
 
 ## Installation
 ### Data
@@ -65,6 +69,10 @@ erDiagram
     }    
 ```
 
+### Knowledge graph representation
+![image](https://user-images.githubusercontent.com/26821843/180331100-1c067439-d5ca-41c4-a2fb-2fa539e1e261.png)
+
+
 ### Software
 Coming Soon
 ```bash
@@ -79,7 +87,9 @@ graph LR
       C(Auto Export to State Databases)---B;
       D(Download Formatting)---B;
       E(Data QAQC)---B;
-      F(Ingestion)---B;
+      F(CRUD)---B;
+      G(Deployment)---B;
+      H(Wikidata)---B;
       end
       subgraph Front End
       I---J(Upload);
@@ -90,10 +100,15 @@ graph LR
       click B href "https://github.com/ckan/ckan" _blank
       click I "https://shiny.rstudio.com/" "R Shiny"
       click L "https://plotly.com/r/" "Plotly"
+      click H "https://www.wikidata.org/wiki/Wikidata:Main_Page" "Wikidata"
       click J "https://shiny.rstudio.com/gallery/file-upload.html" "Upload"
       click M "https://shiny.rstudio.com/gallery/file-download.html" "Download"
       click K "https://www.tidyverse.org/" "tidyverse"
+      click F "https://github.com/ropensci/ckanr"
+      click G "https://docs.ckan.org/en/2.9/maintaining/installing/install-from-docker-compose.html"
       style B stroke:#333,stroke-width:4px
+      style F stroke:#333,stroke-width:4px
+      style G stroke:#333,stroke-width:4px
       style I stroke:#333,stroke-width:4px
       style L stroke:#333,stroke-width:4px
       style J stroke:#333,stroke-width:4px
@@ -101,20 +116,48 @@ graph LR
       style K stroke:#333,stroke-width:4px
 ```
 
-## Helpful Resources
-* [California Microplastics Policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
-* [Califonia Open Source Policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/)
-* [California Open Data Policy](https://data.ca.gov/pages/california-open-data-policy)
-* [Success Story Cal DMV](https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0)
-* [California Open Source Code](code.ca.gov)
-* [Overview of Government Open Source Software](https://www.newamerica.org/digital-impact-governance-initiative/reports/building-and-reusing-open-source-tools-government/section-one-an-overview-of-open-source/)
-* [Government on Github](https://government.github.com/)
-* [Open Source Institute](https://opensi.net/)
-* [Best Practices for Government Open Source](https://playbook.cio.gov/)
-* [CKAN Data Portal Framework](https://github.com/ckan/ckan)
-* [HUBKIT Data Portal Framework](https://github.com/internetofwater/HubKit)
+## Policy Scoping
+### Microplastic Policy
+- 2018 Require developing methods for microplastics in drinking water [policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
+    -  https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/microplastics/mcrplstcs_ir.pdf
+### Open Data Policy
+- 2019 Establishes Open Data Portal for Whole State [policy](https://cdt.ca.gov/wp-content/uploads/2018/05/TL-18-02-OSCodeReuse_2018-0419.pdf) 
+    - https://data.ca.gov/
+    - https://fastdemocracy.com/bill-search/ca/20192020/bills/CAB00017185/
+    - https://handbook.data.ca.gov/introduction/
+    - https://www.govops.ca.gov/caldata/
+### Open Source Policy
+- 2010 Open Source is Allowed [policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/#california-department-of-technology-letters)
+- 2018 Open Source is Strongly Encouraged Unless Security Risk [policy](https://cdt.ca.gov/wp-content/uploads/2018/05/TL-18-02-OSCodeReuse_2018-0419.pdf)
+    - https://code.ca.gov/
+    - https://go.code.ca.gov/
+    - https://github.com/CA-CODE-Works/codecagov
+    - https://codecagov-playbook.readthedocs.io/en/latest/policy
+    - https://alpha.ca.gov/
+    - https://digital.ca.gov/blog/posts/working-in-the-open-on-the-california-design-system/
+    - https://github.com/cagov/design-system
+    - https://github.com/cagov
+    - https://github.com/CAWaterBoardDataCenter
+    - https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0
+
 
 ## Roadmap
+```mermaid
+gantt
+    title Project Timeline
+    dateFormat  YYYY-MM-DD
+    section Innovation
+    Community Engagement           :2022-06-01, 2022-08-31
+    Minimum Viable Product     :2022-08-01 , 2023-01-31
+    Beta Testing     :2023-01-01 , 2023-06-30
+    Data Portal Finalization and Publishing     :2023-06-01 , 2023-12-31
+    section Research
+    Policy Research Scoping      :2022-06-01  , 2022-08-31
+    Data Collection      : 2022-06-01  , 2024-06-01
+    Software Manuscript      : 2023-06-01  , 2024-06-01
+    Policy Manuscript      : 2023-06-01  , 2024-06-01
+```
+
 ### Community Engagement (June 1, 2022 - August 31, 2022)
 * [ ] Engage with open source community
   * [x] Water Data Challenge
@@ -123,29 +166,33 @@ graph LR
   * [x] Presentation to Trash Monitoring Workgroup
   * [x] Presentation at SoCal SETAC
   * [x] Presentation at SoCal Academy of Sciences
-  * [ ] Presentation to Water Data Science Symposium
-  * [ ] Meetings with drinking water regulators
-  * [ ] Meetings with drinking water facilities
+  * [x] Presentation to Water Data Science Symposium
+  * [x] Meetings with drinking water regulators
+  * [x] Meetings with drinking water facilities
   * [ ] Meetings with environmental justice organizations
-  * [ ] Meetings with open source policy creators
-  * [ ] Meetings with government coders and database managers
+  * [x] Meetings with open source policy creators
+  * [x] Meetings with government coders and database managers
 
 ### Policy Research Scoping (June 1, 2022 - August 31, 2022)
 * [ ] Meetings with drinking water regulators
-* [ ] Meetings with drinking water facilities
+* [x] Meetings with drinking water facilities
 * [ ] Meetings with environmental justice organizations
-* [ ] Meetings with open source policy creators
-* [ ] Meetings with government coders and database managers
+* [x] Meetings with open source policy creators
+* [x] Meetings with government coders and database managers
 
-### Data Collection (June 1, 2022 - August 31, 2022)
-* [ ] Github Data
-* [ ] Presentation and Workshop Notes
+### Data Collection (June 1, 2022 - June 1, 2024)
+* [x] [Github Data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal)
+* [x] Presentation and Workshop Notes
 * [ ] Media Feedback
-* [ ] Security Reports in Logs
+* [x] [Security Reports in Logs](https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates)
 
 ### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
 * [x] Innitial Dataset Development 
 * [ ] Web Application Development
+    * [ ] User Interface
+    * [ ] Data Visualization
+    * [ ] Database APIs
+    * [ ] Wikidata integration
 
 ### Beta Testing of Portal (January 1, 2023 - June 30, 2023)
 * [ ] Meetings with Trash Monitoring Workgroup
@@ -171,3 +218,17 @@ graph LR
 * [ ] Outline Manuscript and Share with Coauthors
 * [ ] First Draft of Manuscript and Share with Coauthors
 * [ ] Final Draft of Manuscript and share with Coauthors
+
+## Helpful Resources
+* [California Microplastics Policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
+* [California Open Data Portal Sharing](https://data.ca.gov/pages/open-data-publisher-guide-contents)
+* [Califonia Open Source Policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/)
+* [California Open Data Policy](https://data.ca.gov/pages/california-open-data-policy)
+* [Success Story Cal DMV](https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0)
+* [California Open Source Code](code.ca.gov)
+* [Overview of Government Open Source Software](https://www.newamerica.org/digital-impact-governance-initiative/reports/building-and-reusing-open-source-tools-government/section-one-an-overview-of-open-source/)
+* [Government on Github](https://government.github.com/)
+* [Open Source Institute](https://opensi.net/)
+* [Best Practices for Government Open Source](https://playbook.cio.gov/)
+* [CKAN Data Portal Framework](https://github.com/ckan/ckan)
+* [HUBKIT Data Portal Framework](https://github.com/internetofwater/HubKit)

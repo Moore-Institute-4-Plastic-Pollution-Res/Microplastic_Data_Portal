@@ -4,6 +4,9 @@
 .Ruserdata
 *.ini
 *.Rproj
+<<<<<<< HEAD
 
 #secrets
 /secrets
+=======
+>>>>>>> a771ceb663d576f1b4b304ab186082b6577187bb
