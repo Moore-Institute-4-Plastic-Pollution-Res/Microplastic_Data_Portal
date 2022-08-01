@@ -146,6 +146,7 @@ graph LR
       click F "https://github.com/ropensci/ckanr"
       click G "https://docs.ckan.org/en/2.9/maintaining/installing/install-from-docker-compose.html"
       style B stroke:#333,stroke-width:4px
+      style H stroke:#333,stroke-width:4px
       style F stroke:#333,stroke-width:4px
       style G stroke:#333,stroke-width:4px
       style I stroke:#333,stroke-width:4px
