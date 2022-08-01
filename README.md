@@ -33,8 +33,8 @@ erDiagram
     METHODOLOGY ||--|| SAMPLES : RELATES
     PARTICLES ||--|| METHODOLOGY : RELATES
     PARTICLES }|--|{ SAMPLES : RELATES
-    PARTICLES ||--|| POLYMER HIERARCHY : RELATES
-    PARTICLES ||--|| MORPHOLOGY HIERARCHY : RELATES
+	PARTICLES ||--|| POLYMER_HIERARCHY : RELATES
+    PARTICLES ||--|| MORPHOLOGY_HIERARCHY : RELATES
 
     SAMPLES {
         string SampleID PK "Unique ID for Sample" 
@@ -50,6 +50,7 @@ erDiagram
         numeric ShapeX "A value for the proportion of particles of shape X"
         numeric ColorX "A value for the proportion of particles of color X"
     }
+    
     PARTICLES {
         string ParticleID PK "Unique ID for each particle" 
         string DOI FK "Online identifier for methodology"
@@ -59,6 +60,7 @@ erDiagram
         numeric Size "Particle size"
         string Color "Particle color"
     }
+    
     METHODOLOGY {
         string DOI PK "Online identifier for methodology"
         string SamplingDevice "Device used to collect sample and dimensions"
@@ -68,15 +70,19 @@ erDiagram
         string VisIDMethod "Visual Confirmation methods used e.g. visual microscopy SEM"
         string MatIDMethod "Material identification method e.g. pygcms, raman, ftir"
         string Controls "Description of blanks and spikes used"
-    }    
-    POLYMER HIERARCHY {
+    } 
+      POLYMER_HIERARCHY {
         string Polymer PK "Polymer name"
         string Parent "Parent Category of the Polymer"
     }   
-    MORPHOLOGY HIERARCHY {
+    
+    MORPHOLOGY_HIERARCHY {
         string Morphology PK "Particle morphology"
         string Parent "Parent Category of the morphology"
     }   
+    
+  
+    
 ```
 
 ### Knowledge graph representation
