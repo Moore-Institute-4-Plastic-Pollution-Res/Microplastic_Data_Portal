@@ -33,36 +33,50 @@ erDiagram
     METHODOLOGY ||--|| SAMPLES : RELATES
     PARTICLES ||--|| METHODOLOGY : RELATES
     PARTICLES }|--|{ SAMPLES : RELATES
-	PARTICLES ||--|| POLYMER_HIERARCHY : RELATES
+    PARTICLES ||--|| POLYMER_HIERARCHY : RELATES
     PARTICLES ||--|| MORPHOLOGY_HIERARCHY : RELATES
 
     SAMPLES {
         string SampleID PK "Unique ID for Sample" 
-        string DOI FK "Online identifier for methodology"
-        string Organization "Unique ID for organization collecting sample"
+        string Methodology FK "Online identifier for methodology"
+	string SubmissionID "Unique ID for each submission"
+        string OwnerOrganization "Unique ID for organization who owns the sample"
+        string AnalysisOrganization "Unique ID for organization who analyzed the sample"
+        string ReportingOrganization "Unique ID for organization who reported the sample results"
         string Location "Latitude and Longitude of Sample"
         string Source "One of Bottled or Tap"
-        date Date "Sample Date"
-        numeric SampleVolume "Volume of sample (L)"
+        date CollectionDate "Sample Collection Date"
+        date AnalysisDate "Sample Analysis Date"
+	numeric SampleVolume "Volume of sample (L)"
         numeric ParticleCount "Count of particles in the sample (count)"
         numeric PolymerX "A value for the proportion of particles of polymer X"
         numeric SizeX "A value for the proportion of particles of size range X"
         numeric ShapeX "A value for the proportion of particles of shape X"
         numeric ColorX "A value for the proportion of particles of color X"
+        numeric TactileX "A value for the proportion of particles of tactile feature X"
     }
     
     PARTICLES {
         string ParticleID PK "Unique ID for each particle" 
-        string DOI FK "Online identifier for methodology"
+        string Methodology FK "Online identifier for methodology"
         string SampleID FK "Unique ID for sample" 
+	string PhotoID "URL address for photo of particle"
+	string ImageTime "Time image was taken"
+	string Comments "Any comments about the particle analysis"
         string Polymer FK "Particle Polymer name"
         string Morphology FK "Particle morphology"
-        numeric Size "Particle size"
+        numeric Length "Particle size longest dimension"
+        numeric Width "Particle size shortest dimension"
+	numeric Height "Third particle dimension"
+	numeric Mass "Particle mass"
+        numeric SurfaceArea "Particle projected surface area"
+        numeric Volume "Particle projected surface area"
         string Color "Particle color"
+        string Tactile "Particle tactile features"
     }
     
     METHODOLOGY {
-        string DOI PK "Online identifier for methodology"
+        string Methodology PK "Online identifier for methodology"
         string SamplingDevice "Device used to collect sample and dimensions"
         string Digestion "Digestion solution used and concentration"
         string Filtration "Filter material type"
