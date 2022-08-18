@@ -214,7 +214,7 @@ gantt
   * [x] Meetings with government coders and database managers
 
 ### Policy Research Scoping (June 1, 2022 - August 31, 2022)
-* [ ] Meetings with drinking water regulators
+* [x] Meetings with drinking water regulators
 * [x] Meetings with drinking water facilities
 * [ ] Meetings with environmental justice organizations
 * [x] Meetings with open source policy creators
