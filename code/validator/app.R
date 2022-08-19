@@ -6,8 +6,13 @@ library(shinythemes)
 library(shinyWidgets)
 library(validate)
 library(digest)
+library(data.table)
 
 options(shiny.maxRequestSize = 30*1024^2)
+
+rules_example <- read.csv("www/rules.csv") 
+    
+data_example <- read.csv("www/Samples.csv")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -17,9 +22,20 @@ ui <- fluidPage(
     titlePanel("Data Validator"),
     
     fluidRow(
-        column(4, 
+        column(2,
+               fileInput("file_rules", NULL,
+                         placeholder = "rules .csv",
+                         buttonLabel = "Rules...",
+                         accept=c("text/csv",
+                                  "text/comma-separated-values,text/plain")), 
+               p(
+                   downloadButton("download_rules", "Rules File Example", style = "background-color: #2a9fd6;")
+               )
+               ),
+        column(2,
                fileInput("file", NULL,
-                         placeholder = ".csv",
+                         placeholder = "data .csv",
+                         buttonLabel = "Data...",
                          accept=c("text/csv",
                                   "text/comma-separated-values,text/plain")) %>%
                    add_prompt(
@@ -62,13 +78,10 @@ server <- function(input, output, session) {
     
     validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
     
-    observeEvent(input$file, {
-        # Read in data when uploaded based on the file type
-        req(input$file)
-        file <- input$file$datapath
-        
+    observeEvent(input$file_rules, {
+        file_rules <- input$file_rules$datapath
         if (!grepl("(\\.csv$)",
-                   ignore.case = T, as.character(file))) {
+                   ignore.case = T, as.character(file_rules))) {
             #reset("file")
             dataset$data <- NULL
             validation_summary$rules <- NULL
@@ -82,11 +95,44 @@ server <- function(input, output, session) {
             #return(NULL)
         }
         else{
-            dataset$data <- read.csv(file)
-
-            rules <- read.csv("www/rules.csv")
+            rules <- read.csv(input$file_rules$datapath)
             
             validation_summary$rules <- validator(.data=rules)
+        }
+
+    })
+    observeEvent(input$file, {
+        req(input$file)
+        file <- input$file$datapath
+        
+        # Read in data when uploaded based on the file type
+        if (!grepl("(\\.csv$)", ignore.case = T, as.character(file))) {
+            dataset$data <- NULL
+            validation_summary$rules <- NULL
+            validation_summary$report <- NULL
+            validation_summary$results <- NULL
+            show_alert(
+                title = "Data type not supported!",
+                text = paste0("Uploaded data type is not currently supported; please
+                      upload a .csv file."),
+                type = "warning")
+        }
+
+        
+        else if (is.null(input$file_rules)) {
+            #reset("file")
+            dataset$data <- NULL
+            validation_summary$rules <- NULL
+            validation_summary$report <- NULL
+            validation_summary$results <- NULL
+            show_alert(
+                title = "Need Rules File",
+                text = paste0("You must upload a rules file before uploading a data file to validate."),
+                type = "warning")
+            #return(NULL)
+        }
+        else{
+            dataset$data <- read.csv(file)
             
             validation_summary$report <- confront(dataset$data, validation_summary$rules)
             
@@ -202,6 +248,10 @@ server <- function(input, output, session) {
     output$download_certificate <- downloadHandler(
         filename = function() {"certificate.csv"},
         content = function(file) {write.csv(data.frame(data = digest(dataset$data), web_hash = digest(paste(sessionInfo(), Sys.time(), Sys.info()))), file)}
+    )
+    output$download_rules <- downloadHandler(
+        filename = function() {"rules.csv"},
+        content = function(file) {write.csv(rules_example, file)}
     )
 }
 
