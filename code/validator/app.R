@@ -42,7 +42,10 @@ ui <- fluidPage(
                        message = "Upload your csv spreadsheet for validation",
                        type = "info", 
                        size = "medium", rounded = TRUE
-                   )),
+                   ),
+               p(
+                   downloadButton("download_sample", "Data File Example", style = "background-color: #2a9fd6;")
+               )),
         column(8, uiOutput("certificate"), uiOutput("alert"))),
     fluidRow(
         column(3, prettySwitch("show_decision",
@@ -252,6 +255,10 @@ server <- function(input, output, session) {
     output$download_rules <- downloadHandler(
         filename = function() {"rules.csv"},
         content = function(file) {write.csv(rules_example, file)}
+    )
+    output$download_sample <- downloadHandler(
+        filename = function() {"data.csv"},
+        content = function(file) {write.csv(data_example, file)}
     )
 }
 
