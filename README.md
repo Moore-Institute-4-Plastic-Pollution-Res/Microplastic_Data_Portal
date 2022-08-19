@@ -4,7 +4,7 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/MoorePlasticRes?style=social)](https://twitter.com/MoorePlasticRes)
 [![Join the chat at https://gitter.im/Microplastic_Data_Portal/community](https://badges.gitter.im/Microplastic_Data_Portal/community.svg)](https://gitter.im/Microplastic_Data_Portal/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-We are innovating what government open data can be by creating an open source data portal where all aspects of data ingestion, analysis, visualization, and sharing are transparent and collaboratable by the open source community. This project is a collaboration with [California Water Boards](https://www.waterboards.ca.gov/), [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/), [The Gray Lab @ UCR](https://www.thegraylab.org/), [San Francisco Estuary Institue](https://www.sfei.org/), [California 100](https://california100.org/), and the open source community at large. 
+We are innovating what government open data can be by creating an open source data portal where all aspects of data ingestion, analysis, visualization, and sharing are transparent and collaboratable by the open source community. This project is a collaboration with [California Water Boards](https://www.waterboards.ca.gov/), [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/), [The Gray Lab @ UCR](https://www.thegraylab.org/), [San Francisco Estuary Institue](https://www.sfei.org/), [California 100](https://california100.org/), [Possibility Lab](https://possibilitylab.berkeley.edu/) and the open source community at large. 
 
 This data portal supports the implementation of Senate Bill No. 1422 which mandates sharing of microplastic data from drinking water, policy SAM 5160 which mandates that state data be open access, and policy SAM 4984 which mandates that software be open by default. Our vision is to use this project as a framework for future open software development by state agencies in the California. All engagement on this open repo will be the subject of future policy research on how government and open source communities can better collaborate on software development projects. 
 
@@ -22,6 +22,7 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 
 ### Meeting Videos
 - [Github Demo: July 21 2022](https://drive.google.com/file/d/1wlJwcfsrGVNbPxqRq67vcWxlshbJ32xk/view?usp=sharing)
+- [Update on Validation and Wikidata: August 18 2022](https://drive.google.com/file/d/1QH2WDoJ3k1GW4wSMebObGS-R53kBfyIj/view?usp=sharing)
 
 ## Installation
 ### Data
@@ -33,40 +34,79 @@ erDiagram
     METHODOLOGY ||--|| SAMPLES : RELATES
     PARTICLES ||--|| METHODOLOGY : RELATES
     PARTICLES }|--|{ SAMPLES : RELATES
+    PARTICLES ||--|| POLYMER_HIERARCHY : RELATES
+    PARTICLES ||--|| MORPHOLOGY_HIERARCHY : RELATES
 
     SAMPLES {
         string SampleID PK "Unique ID for Sample" 
-        string DOI FK "Online identifier for methodology"
-        string Organization "Unique ID for organization collecting sample"
+        string Methodology FK "Online identifier for methodology"
+	string SubmissionID "Unique ID for each submission"
+        string OwnerOrganization "Unique ID for organization who owns the sample"
+        string AnalysisOrganization "Unique ID for organization who analyzed the sample"
+        string ReportingOrganization "Unique ID for organization who reported the sample results"
         string Location "Latitude and Longitude of Sample"
         string Source "One of Bottled or Tap"
-        date Date "Sample Date"
-        numeric SampleVolume "Volume of sample (L)"
+        date CollectionDate "Sample Collection Date"
+        date AnalysisDate "Sample Analysis Date"
+	numeric SampleVolume "Volume of sample (L)"
         numeric ParticleCount "Count of particles in the sample (count)"
         numeric PolymerX "A value for the proportion of particles of polymer X"
         numeric SizeX "A value for the proportion of particles of size range X"
         numeric ShapeX "A value for the proportion of particles of shape X"
         numeric ColorX "A value for the proportion of particles of color X"
+        numeric TactileX "A value for the proportion of particles of tactile feature X"
     }
+    
     PARTICLES {
         string ParticleID PK "Unique ID for each particle" 
-        string DOI FK "Online identifier for methodology"
+        string Methodology FK "Online identifier for methodology"
         string SampleID FK "Unique ID for sample" 
-        string Polymer "Polymer name"
-        numeric Size "Particle size"
-        string Shape "Particle shape"
+	string PhotoID "URL address for photo of particle"
+	string ImageTime "Time image was taken"
+	string Comments "Any comments about the particle analysis"
+        string Polymer FK "Particle Polymer name"
+        string Morphology FK "Particle morphology"
+        numeric Length "Particle size longest dimension"
+        numeric Width "Particle size shortest dimension"
+	numeric Height "Third particle dimension"
+	numeric Mass "Particle mass"
+        numeric SurfaceArea "Particle projected surface area"
+        numeric Volume "Particle projected surface area"
         string Color "Particle color"
+        string Tactile "Particle tactile features"
     }
+    
     METHODOLOGY {
-        string DOI PK "Online identifier for methodology"
+        string Methodology PK "Online identifier for methodology"
         string SamplingDevice "Device used to collect sample and dimensions"
-        string Digestion "Digestion solution used and concentration"
-        string Filtration "Filter material type"
-        numeric FilterSize "Filter pore size"
+	string AirFiltration "Is there HEPA air filtration system in the lab?"
+	string AirFiltrationType "What is the type of HEPA air filtration system in the lab?"
+	string ClothingPolicy "Is synthetic clothing allowed in the lab?"
+	string SealedEnvironment "Is a sealed environment used to minimize contamination?"
+	string SealedEnvironmentType "Type of sealed environment used?"
+	string SieveMeshSizes "mesh sizes of seives used"
+        string FilterType "Filter material type"
+	string FilterDiameter "Diameter of filter in mm"
+        numeric FilterPoreSize "Filter pore size in um"
         string VisIDMethod "Visual Confirmation methods used e.g. visual microscopy SEM"
+	string VisualSoftware "Software used for visual analysis"
+	string PickingStrategy "Picked wet or picked dry"
+	string Magnification "40x"
         string MatIDMethod "Material identification method e.g. pygcms, raman, ftir"
-        string Controls "Description of blanks and spikes used"
-    }    
+	string MatIDSoftware "Material ID software used"
+    } 
+      POLYMER_HIERARCHY {
+        string Polymer PK "Polymer name"
+        string Parent "Parent Category of the Polymer"
+    }   
+    
+    MORPHOLOGY_HIERARCHY {
+        string Morphology PK "Particle morphology"
+        string Parent "Parent Category of the morphology"
+    }   
+    
+  
+    
 ```
 
 ### Knowledge graph representation
@@ -107,6 +147,7 @@ graph LR
       click F "https://github.com/ropensci/ckanr"
       click G "https://docs.ckan.org/en/2.9/maintaining/installing/install-from-docker-compose.html"
       style B stroke:#333,stroke-width:4px
+      style H stroke:#333,stroke-width:4px
       style F stroke:#333,stroke-width:4px
       style G stroke:#333,stroke-width:4px
       style I stroke:#333,stroke-width:4px
@@ -160,39 +201,45 @@ gantt
 
 ### Community Engagement (June 1, 2022 - August 31, 2022)
 * [ ] Engage with open source community
-  * [x] Water Data Challenge
-  * [ ] Presentation at Code for America Groups
-* [ ] Stakeholder Meetings
+  * [x] Water Data Challenge, [Started Meetup](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#meeting-videos)
+  * [ ] Presentation at Code for America Groups (waiting until after beta version)
+* [x] Stakeholder Meetings
   * [x] Presentation to Trash Monitoring Workgroup
   * [x] Presentation at SoCal SETAC
   * [x] Presentation at SoCal Academy of Sciences
   * [x] Presentation to Water Data Science Symposium
   * [x] Meetings with drinking water regulators
   * [x] Meetings with drinking water facilities
-  * [ ] Meetings with environmental justice organizations
+  * [x] Meetings with environmental justice organizations
   * [x] Meetings with open source policy creators
   * [x] Meetings with government coders and database managers
 
 ### Policy Research Scoping (June 1, 2022 - August 31, 2022)
-* [ ] Meetings with drinking water regulators
+* [x] Meetings with drinking water regulators
 * [x] Meetings with drinking water facilities
-* [ ] Meetings with environmental justice organizations
+* [x] Meetings with environmental justice organizations
 * [x] Meetings with open source policy creators
 * [x] Meetings with government coders and database managers
 
 ### Data Collection (June 1, 2022 - June 1, 2024)
 * [x] [Github Data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal)
 * [x] Presentation and Workshop Notes
-* [ ] Media Feedback
+* [ ] Media Feedback (will track as soon as we have media)
 * [x] [Security Reports in Logs](https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates)
 
 ### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
-* [x] Innitial Dataset Development 
+* [x] [Innitial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
 * [ ] Web Application Development
     * [ ] User Interface
     * [ ] Data Visualization
     * [ ] Database APIs
     * [ ] Wikidata integration
+
+### Policy  (August 1, 2022 - June 31, 2023)
+* [ ] [Waterboard Github](https://github.com/CAWaterBoardDataCenter) Collaboration FAQ
+* [ ] [California Open Data Portal](https://data.ca.gov/) Integration Notes
+* [ ] Open Source Portal Policy Brief [similar too](https://handbook.data.ca.gov/) and [based on](https://codecagov-playbook.readthedocs.io/en/latest/policy/) 
+* [ ] Get Waterboard Repo on code.ca.gov
 
 ### Beta Testing of Portal (January 1, 2023 - June 30, 2023)
 * [ ] Meetings with Trash Monitoring Workgroup
