@@ -230,10 +230,12 @@ gantt
 ### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
 * [x] [Innitial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
 * [ ] Web Application Development
-    * [ ] User Interface
-    * [ ] Data Visualization
-    * [ ] Database APIs
-    * [ ] Wikidata integration
+    * [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
+    * [ ] Data Visualization, Richard is working on it. 
+    * [ ] Database APIs, working on getting keys to [this](https://data.ca.gov/)
+    	* [ ] Schema definitions
+   	* [ ] Integrate back end for upload/download
+    * [ ] [Wikidata integration](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#knowledge-graph-representation)
 
 ### Policy  (August 1, 2022 - June 31, 2023)
 * [ ] [Waterboard Github](https://github.com/CAWaterBoardDataCenter) Collaboration FAQ
