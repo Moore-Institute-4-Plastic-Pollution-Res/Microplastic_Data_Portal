@@ -1,10 +1,4 @@
-name,label,description,origin,created,language,severity,rule
-recorder_characters,,Recorder should only contain alphabetic characters and spaces.,command-line,8/12/2022 11:44,validate 1.1.1,error,"grepl(""([A-Za-z]+[:blank:]+)|([:blank:]+[A-Za-z]+)"", recorder)"
-latitude_range,,Latitude should be between 25 and 50,command-line,8/12/2022 11:44,validate 1.1.1,error,latitude - 25 - -1e-08 >= -1e-08 & latitude - 50 - 1e-08 <= 1e-08
-event_id_values,,"Event ID can only contain the values ""Low"", ""High"", and ""Flood""",command-line,8/12/2022 11:44,validate 1.1.1,error,"event_id %vin% c(""Low"", ""High"", ""Flood"")"
-sample_type_values,,"Sample Type can only contain ""Surface Whole"", ""Mid Column Whole"", ""Surface Net"", ""Mid Column Net"", ""Net Spike"", ""Whole Spike"", ""Net Blank"", or ""Whole Blank""",command-line,8/12/2022 11:44,validate 1.1.1,error,"sample_type %vin% c(""Surface Whole"", ""Mid Column Whole"", ""Surface Net"", ""Mid Column Net"", ""Net Spike"", ""Whole Spike"", ""Net Blank"", ""Whole Blank"")"
-replicate_id_values,,Replicate ID can only be a number between 1 and 4,command-line,8/12/2022 11:44,validate 1.1.1,error,replicate_id %vin% c(1:4)
-collection_date_range,,Collection Date can only be a date between 2022-09-01 and 2023-09-01,command-line,8/12/2022 11:44,validate 1.1.1,error,"in_range(collection_date, min = ""2022-09-01"", max = ""2023-09-01"", format = ""%F"")"
-non_completions_net,,"If the sample type is net, there must be values for the flow meter readings. ",command-line,8/12/2022 11:44,validate 1.1.1,error,"!grepl(""Net"", sample_type) | (!is.na(flow_meter_start) & !is.na(flow_meter_end))"
-key_unique,,"Combinations of Station ID, Event ID, Sample Type, and Replicate ID cannot be repeated. ",command-line,8/12/2022 11:44,validate 1.1.1,error,"is_unique(station_id, event_id, sample_type, replicate_id)"
-recorder_field_length,,Recorder should have at least 2 characters and no more than 30. ,command-line,8/12/2022 11:44,validate 1.1.1,error,"field_length(recorder, min = 2, max = 30)"
+name,description,severity,rule
+shape_values,Shape can only be fibers or fragments,error,"Shape %vin% c(""Fibers"", ""Fragments"")"
+source_values,Source can only be Tap Water or Bottled Water,error,"Source %vin% c(""Tap Water"", ""Bottled Water"")"
+sample_id_unique,Sample ID must be unique,error,is_unique(Sample_ID)

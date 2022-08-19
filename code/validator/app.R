@@ -1,21 +1,13 @@
 library(shiny)
 library(prompter)
-library(readxl)
 library(dplyr)
 library(DT)
 library(shinythemes)
-library(data.validator)
-library(assertr)
 library(shinyWidgets)
 library(validate)
 library(digest)
 
-
-between <- function(a, b) {
-    function(x) { a <= x && x <= b }
-}
-
-#May want to shift to https://cran.r-project.org/web/packages/validate/vignettes/cookbook.html#52_Group_properties, seems more thorough than the data.validator
+options(shiny.maxRequestSize = 30*1024^2)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -23,18 +15,15 @@ ui <- fluidPage(
     
     # Application title
     titlePanel("Data Validator"),
-    div(align = "right", 
-        HTML('<a class="btn btn-info" href = "https://github.com/wincowgerDEV/waterpact" role = "button" >Open Code</a>')),
     
     fluidRow(
         column(4, 
                fileInput("file", NULL,
-                         placeholder = ".xlsx",
+                         placeholder = ".csv",
                          accept=c("text/csv",
-                                  "text/comma-separated-values,text/plain",
-                                  ".xlsx")) %>%
+                                  "text/comma-separated-values,text/plain")) %>%
                    add_prompt(
-                       message = "Upload your Excel spreadsheet for validation",
+                       message = "Upload your csv spreadsheet for validation",
                        type = "info", 
                        size = "medium", rounded = TRUE
                    )),
@@ -46,6 +35,8 @@ ui <- fluidPage(
                                value = T,
                                status = "success",
                                fill = T))
+        
+        
     ),
     fluidRow(
         column(4, 
@@ -55,15 +46,19 @@ ui <- fluidPage(
                
                
         )
+    ),
+    fluidRow(
+        hr(),
+        p(align = "center", 
+            HTML('<a class="btn btn-info" href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal" role = "button" >Open Code</a>')
+            )
     )
 )   
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
     
-    dataset <- reactiveValues(sampledata = NULL, equipmentdata = NULL)
-    
-    #report <- reactiveValues(data = NULL)
+    dataset <- reactiveValues(data = NULL)
     
     validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
     
@@ -72,50 +67,33 @@ server <- function(input, output, session) {
         req(input$file)
         file <- input$file$datapath
         
-        if (!grepl("(\\.xlsx$)",
+        if (!grepl("(\\.csv$)",
                    ignore.case = T, as.character(file))) {
             #reset("file")
-            dataset$sampledata <- NULL
-            dataset$equipmentdata <- NULL
+            dataset$data <- NULL
             validation_summary$rules <- NULL
             validation_summary$report <- NULL
             validation_summary$results <- NULL
             show_alert(
                 title = "Data type not supported!",
                 text = paste0("Uploaded data type is not currently supported; please
-                      upload a .xlsx file."),
+                      upload a .csv file."),
                 type = "warning")
             #return(NULL)
         }
-        else if (!all(c("SampleData", "EquipmentData") %in% excel_sheets(file))){
-            #reset("file")
-            dataset$sampledata <- NULL
-            dataset$equipmentdata <- NULL
-            validation_summary$rules <- NULL
-            validation_summary$report <- NULL
-            validation_summary$results <- NULL
-            show_alert(
-                title = "Data type not supported!",
-                text = paste0("Uploaded data type does not have required sheets 'SampleData' and 'EquipmentData'."),
-                type = "warning")
-        }
         else{
-            dataset$sampledata <- readxl::read_xlsx(file, sheet = "SampleData")
-            dataset$equipmentdata <- readxl::read_xlsx(file, sheet = "EquipmentData")
-            
+            dataset$data <- read.csv(file)
+
             rules <- read.csv("www/rules.csv")
             
             validation_summary$rules <- validator(.data=rules)
             
-            validation_summary$report <- confront(dataset$sampledata, validation_summary$rules)
+            validation_summary$report <- confront(dataset$data, validation_summary$rules)
             
             validation_summary$results <- summary(validation_summary$report) %>%
                 mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
                 mutate(description = meta(validation_summary$rules)$description)
             
-            #print(report$data)
-            #print(validation_summary$data)
-            #print(any(validation_summary$data$status == "error"))
         }
         
     })
@@ -130,8 +108,7 @@ server <- function(input, output, session) {
     selected <- reactive({
         req(input$file)
         req(input$show_report_rows_selected)
-        violating(dataset$sampledata, validation_summary$report[overview_table()[input$show_report_rows_selected, "name"]])
-        #print(unlist(overview_table()[input$show_report_rows_selected,"name"]))
+        violating(dataset$data, validation_summary$report[overview_table()[input$show_report_rows_selected, "name"]])
     })
     
     
@@ -152,10 +129,10 @@ server <- function(input, output, session) {
         req(input$file)
         req(validation_summary$results)
         if(any(validation_summary$results$status == "error")){
-            HTML('<button type="button" class="btn btn-danger btn-lg btn-block" disabled>ERROR</button>')
+            HTML('<button type="button" class="btn btn-danger btn-lg btn-block">ERROR</button>')
         }
         else{
-            HTML('<button type="button" class="btn btn-success btn-lg btn-block" disabled>SUCCESS</button>')
+            HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }
     })
     
@@ -163,7 +140,8 @@ server <- function(input, output, session) {
     output$show_report <- DT::renderDataTable({
         req(input$file)
         req(any(validation_summary$results$status == "error"))
-        datatable({overview_table()},
+        datatable({overview_table() %>%
+                select(description, status)},
                   extensions = 'Buttons',
                   options = list(
                       searchHighlight = TRUE,
@@ -219,34 +197,11 @@ server <- function(input, output, session) {
             )
     })
     
-    output$table <- DT::renderDataTable({
-        req(input$file)
-        datatable(dataset$sampledata,
-                  options = list(searchHighlight = TRUE,
-                                 scrollX = TRUE,
-                                 sDom  = '<"top">lrt<"bottom">ip',
-                                 lengthChange = FALSE, pageLength = 5),
-                  rownames = FALSE,
-                  filter = "top", caption = "Sample Data View",
-                  style = "bootstrap")
-    })
-    
-    output$equipmenttable <- DT::renderDataTable({
-        req(input$file)
-        datatable(dataset$equipmentdata,
-                  options = list(searchHighlight = TRUE,
-                                 scrollX = TRUE,
-                                 sDom  = '<"top">lrt<"bottom">ip',
-                                 lengthChange = FALSE, pageLength = 5),
-                  rownames = FALSE,
-                  filter = "top", caption = "Equipment Data View",
-                  style = "bootstrap")
-    })
     
     #Downloads ----
     output$download_certificate <- downloadHandler(
         filename = function() {"certificate.csv"},
-        content = function(file) {write.csv(data.frame(sampledata = digest(dataset$sampledata), equipmentdata = digest(dataset$equipmentdata), web_hash = digest(paste(sessionInfo(), Sys.time(), Sys.info()))), file)}
+        content = function(file) {write.csv(data.frame(data = digest(dataset$data), web_hash = digest(paste(sessionInfo(), Sys.time(), Sys.info()))), file)}
     )
 }
 
