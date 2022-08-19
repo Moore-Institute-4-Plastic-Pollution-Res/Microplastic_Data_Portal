@@ -22,6 +22,7 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 
 ### Meeting Videos
 - [Github Demo: July 21 2022](https://drive.google.com/file/d/1wlJwcfsrGVNbPxqRq67vcWxlshbJ32xk/view?usp=sharing)
+- [Update on Validation and Wikidata: August 18 2022](https://drive.google.com/file/d/1QH2WDoJ3k1GW4wSMebObGS-R53kBfyIj/view?usp=sharing)
 
 ## Installation
 ### Data
@@ -200,39 +201,45 @@ gantt
 
 ### Community Engagement (June 1, 2022 - August 31, 2022)
 * [ ] Engage with open source community
-  * [x] Water Data Challenge
-  * [ ] Presentation at Code for America Groups
-* [ ] Stakeholder Meetings
+  * [x] Water Data Challenge, [Started Meetup](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#meeting-videos)
+  * [ ] Presentation at Code for America Groups (waiting until after beta version)
+* [x] Stakeholder Meetings
   * [x] Presentation to Trash Monitoring Workgroup
   * [x] Presentation at SoCal SETAC
   * [x] Presentation at SoCal Academy of Sciences
   * [x] Presentation to Water Data Science Symposium
   * [x] Meetings with drinking water regulators
   * [x] Meetings with drinking water facilities
-  * [ ] Meetings with environmental justice organizations
+  * [x] Meetings with environmental justice organizations
   * [x] Meetings with open source policy creators
   * [x] Meetings with government coders and database managers
 
 ### Policy Research Scoping (June 1, 2022 - August 31, 2022)
 * [x] Meetings with drinking water regulators
 * [x] Meetings with drinking water facilities
-* [ ] Meetings with environmental justice organizations
+* [x] Meetings with environmental justice organizations
 * [x] Meetings with open source policy creators
 * [x] Meetings with government coders and database managers
 
 ### Data Collection (June 1, 2022 - June 1, 2024)
 * [x] [Github Data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal)
 * [x] Presentation and Workshop Notes
-* [ ] Media Feedback
+* [ ] Media Feedback (will track as soon as we have media)
 * [x] [Security Reports in Logs](https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates)
 
 ### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
-* [x] Innitial Dataset Development 
+* [x] [Innitial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
 * [ ] Web Application Development
     * [ ] User Interface
     * [ ] Data Visualization
     * [ ] Database APIs
     * [ ] Wikidata integration
+
+### Policy  (August 1, 2022 - June 31, 2023)
+* [ ] [Waterboard Github](https://github.com/CAWaterBoardDataCenter) Collaboration FAQ
+* [ ] [California Open Data Portal](https://data.ca.gov/) Integration Notes
+* [ ] Open Source Portal Policy Brief [similar too](https://handbook.data.ca.gov/) and [based on](https://codecagov-playbook.readthedocs.io/en/latest/policy/) 
+* [ ] Get Waterboard Repo on code.ca.gov
 
 ### Beta Testing of Portal (January 1, 2023 - June 30, 2023)
 * [ ] Meetings with Trash Monitoring Workgroup
