@@ -10,9 +10,12 @@ library(data.table)
 
 options(shiny.maxRequestSize = 30*1024^2)
 
-rules_example <- read.csv("www/rules.csv") 
-    
-data_example <- read.csv("www/Samples.csv")
+
+containerfunction <- function(...) {
+        div(class = "jumbotron jumbotron-fluid",
+            style = "border:solid #f7f7f9;background-color:rgba(0, 0, 0, 0.5)",
+            align = "justify", ... )
+}
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -59,9 +62,9 @@ ui <- fluidPage(
     ),
     fluidRow(
         column(4, 
-               DT::dataTableOutput("show_report")),
+               containerfunction(h3("Issues Raised"), DT::dataTableOutput("show_report"))),
         column(8,
-               DT::dataTableOutput("report_selected")
+               containerfunction(h3("Issue Selected"), DT::dataTableOutput("report_selected"))
                
                
         )
@@ -76,6 +79,10 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
+    
+    rules_example <- read.csv("www/rules.csv") 
+    
+    data_example <- read.csv("www/Samples.csv")
     
     dataset <- reactiveValues(data = NULL)
     
@@ -120,8 +127,6 @@ server <- function(input, output, session) {
                       upload a .csv file."),
                 type = "warning")
         }
-
-        
         else if (is.null(input$file_rules)) {
             #reset("file")
             dataset$data <- NULL
@@ -205,7 +210,7 @@ server <- function(input, output, session) {
                       dom = 'Bfrtip',
                       buttons = c('copy', 'csv', 'excel', 'pdf')),
                   rownames = FALSE,
-                  filter = "top", caption = "Issues Raised",
+                  filter = "top", 
                   style = "bootstrap", 
                   selection = list(mode = "single", selected = c(1))) %>%
             formatStyle(
@@ -221,7 +226,6 @@ server <- function(input, output, session) {
         datatable({selected()},
                   rownames = FALSE,
                   filter = "top", 
-                  caption = "Issue Selected", 
                   extensions = 'Buttons',
                   options = list(
                       searchHighlight = TRUE,
@@ -250,15 +254,15 @@ server <- function(input, output, session) {
     #Downloads ----
     output$download_certificate <- downloadHandler(
         filename = function() {"certificate.csv"},
-        content = function(file) {write.csv(data.frame(data = digest(dataset$data), web_hash = digest(paste(sessionInfo(), Sys.time(), Sys.info()))), file)}
+        content = function(file) {write.csv(data.frame(data = digest(dataset$data), web_hash = digest(paste(sessionInfo(), Sys.time(), Sys.info()))), file, row.names = F)}
     )
     output$download_rules <- downloadHandler(
         filename = function() {"rules.csv"},
-        content = function(file) {write.csv(rules_example, file)}
+        content = function(file) {write.csv(rules_example, file, row.names = F)}
     )
     output$download_sample <- downloadHandler(
         filename = function() {"data.csv"},
-        content = function(file) {write.csv(data_example, file)}
+        content = function(file) {write.csv(data_example, file, row.names = F)}
     )
 }
 
