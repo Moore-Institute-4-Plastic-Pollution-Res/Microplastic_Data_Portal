@@ -50,19 +50,18 @@ ui <- fluidPage(
                    downloadButton("download_sample", "Data File Example", style = "background-color: #2a9fd6;")
                )),
         column(8, uiOutput("certificate"), uiOutput("alert"))),
+
     fluidRow(
-        column(3, prettySwitch("show_decision",
-                               label = "Show errors and warnings only?",
-                               inline = T,
-                               value = T,
-                               status = "success",
-                               fill = T))
-        
-        
-    ),
-    fluidRow(
-        column(4, 
-               containerfunction(h3("Issues Raised"), DT::dataTableOutput("show_report"))),
+        column(4,
+               
+               containerfunction(h3("Issues Raised"), 
+                                 prettySwitch("show_decision",
+                                              label = "Show errors and warnings only?",
+                                              inline = T,
+                                              value = T,
+                                              status = "success",
+                                              fill = T),
+                                 DT::dataTableOutput("show_report"))),
         column(8,
                containerfunction(h3("Issue Selected"), DT::dataTableOutput("report_selected"))
                
@@ -212,7 +211,7 @@ server <- function(input, output, session) {
                   rownames = FALSE,
                   filter = "top", 
                   style = "bootstrap", 
-                  selection = list(mode = "single", selected = c(1))) %>%
+                  selection = list(mode = "single", color = "red", selected = c(1))) %>%
             formatStyle(
                 'status',
                 target = 'row',
@@ -254,9 +253,10 @@ server <- function(input, output, session) {
     #Downloads ----
     output$download_certificate <- downloadHandler(
         filename = function() {"certificate.csv"},
-        content = function(file) {write.csv(data.frame(data = digest(dataset$data), web_hash = digest(paste(sessionInfo(), Sys.time(), Sys.info()))), file, row.names = F)}
+        content = function(file) {write.csv(data.frame(time = Sys.time(), data = digest(dataset$data), rules = digest(validation_summary$rules), package_version = packageVersion("validate"), web_hash = digest(paste(sessionInfo(), Sys.time(), Sys.info()))), file, row.names = F)}
     )
-    output$download_rules <- downloadHandler(
+    output$download_rules <- downloadHandler( 
+                                              
         filename = function() {"rules.csv"},
         content = function(file) {write.csv(rules_example, file, row.names = F)}
     )
