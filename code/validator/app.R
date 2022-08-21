@@ -14,41 +14,59 @@ options(shiny.maxRequestSize = 30*1024^2)
 containerfunction <- function(...) {
         div(class = "jumbotron jumbotron-fluid",
             style = "border:solid #f7f7f9;background-color:rgba(0, 0, 0, 0.5)",
-            align = "justify", ... )
+            align = "left", ... )
 }
+
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
     theme = shinytheme("cyborg"),
     
+    use_prompt(),
+    
     # Application title
     titlePanel("Data Validator"),
     
     fluidRow(
-        column(2,
+        column(1,
                fileInput("file_rules", NULL,
-                         placeholder = "rules .csv",
+                         placeholder = ".csv",
                          buttonLabel = "Rules...",
+                         width = "100%",
                          accept=c("text/csv",
-                                  "text/comma-separated-values,text/plain")), 
-               p(
-                   downloadButton("download_rules", "Rules File Example", style = "background-color: #2a9fd6;")
-               )
+                                  "text/comma-separated-values,text/plain")) %>%
+                   add_prompt(
+                       message = "Upload the rules csv you want to use",
+                       type = "info", 
+                       size = "medium", rounded = TRUE
+                   )),
+        column(1, 
+                   downloadButton("download_rules", "", style = "background-color: #2a9fd6;") %>%
+                   add_prompt(
+                       message = "Example Rules File",
+                       type = "info", 
+                       size = "medium", rounded = TRUE
+                   )
                ),
-        column(2,
+        column(1,
                fileInput("file", NULL,
-                         placeholder = "data .csv",
+                         placeholder = ".csv",
                          buttonLabel = "Data...",
                          accept=c("text/csv",
                                   "text/comma-separated-values,text/plain")) %>%
                    add_prompt(
-                       message = "Upload your csv spreadsheet for validation",
+                       message = "Upload the csv you want to validate",
                        type = "info", 
                        size = "medium", rounded = TRUE
-                   ),
-               p(
-                   downloadButton("download_sample", "Data File Example", style = "background-color: #2a9fd6;")
-               )),
+                   )),
+               column(1,
+                   downloadButton("download_sample", "", style = "background-color: #2a9fd6;") %>%
+                       add_prompt(
+                           message = "Download example data to validate",
+                           type = "info", 
+                           size = "medium", rounded = TRUE
+                       )
+               ),
         column(8, uiOutput("certificate"), uiOutput("alert"))),
 
     fluidRow(
