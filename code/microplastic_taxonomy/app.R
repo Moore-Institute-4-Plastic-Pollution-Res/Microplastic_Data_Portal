@@ -13,7 +13,7 @@ ui <- dashboardPage(
     dashboardSidebar(
         sidebarUserPanel(
             #image = "https://drive.google.com/file/d/13iCjC10dV3giFhCCoir_8mnbwtHM1rMA/view?usp=sharing",
-            name = "Welcome Onboard!"
+            name = "Welcome!"
         ),
         
         sidebarMenu(
@@ -34,7 +34,19 @@ ui <- dashboardPage(
     dashboardBody(
         tabItems(
             tabItem(
-                tabName = "item1"
+                tabName = "item1",
+                box(
+                    title = "Overview",
+                    h3("Welcome to the microplastic taxonomy page, this is a place to improve your use of visual microscopy in microplastic identification. Go to the image query tab to get started querying our database of microplastic images by color, morphology, and polymer types."),
+                    width = 12
+                    ),
+                box(
+                    title = "Contribute",
+                    h3("You can help us build this database of microplastic imagery by filling out this form:"),
+                    HTML('<a class="btn btn-info" href = "https://forms.gle/kA4ynuHsbu7VWkZm7" role = "button" >Form</a>'),
+                    width = 12
+                    
+                )
             ),
             tabItem(
                 tabName = "item2",
@@ -42,18 +54,18 @@ ui <- dashboardPage(
                     column(4, 
                            selectInput(inputId = "color", 
                                        label = "Color Selection", 
-                                       choices = c("All", "Black", "Blue", "White", "Green"),
-                                    )
-                           ),
+                                       choices = c("All", unique(file$`Color of particle`)),
+                           )
+                    ),
                     column(4,
                            selectInput(inputId = "morphology", 
                                        label = "Morphology Selection", 
-                                       choices = c("All", "Fiber", "Film", "Fragment", "Sphere"),
+                                       choices = c("All", unique(file$`Morphology of particle`)),
                            )),
                     column(4,
                            selectInput(inputId = "polymer", 
                                        label = "Polymer Selection", 
-                                       choices = c("All", "Polyethylene", "Polycarbonate", "Polyester", "Polyvinylchloride"),
+                                       choices = c("All", unique(file$`Polymer-type of particle`)),
                            ))
                 ),
                 uiOutput("images")
@@ -64,6 +76,7 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
     output$images <- renderUI({
+        
         #fluidRow(
             boxLayout(
                 type = "group",
@@ -75,7 +88,7 @@ server <- function(input, output) {
                            filter(if(input$color != "All") tolower(`Color of particle`) == tolower(input$color) else !is.na(images)) %>%
                            filter(if(input$morphology != "All") tolower(`Morphology of particle`) == tolower(input$morphology) else !is.na(images)) %>%
                            filter(if(input$polymer != "All") tolower(`Polymer-type of particle`) == tolower(input$polymer) else !is.na(images)) %>%
-                           
+                           slice_sample(n= 100)%>%
                            pull(images), function(x){
                     box(
                         tags$image(src = x, height = "200rem"),
