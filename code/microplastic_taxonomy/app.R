@@ -21,7 +21,7 @@ ui <- dashboardPage(
             menuItem(
                 "About",
                 tabName = "item1",
-                icon = icon("sliders")
+                icon = icon("sliders-h")
             ),
             menuItem(
                 "Image Query",
@@ -41,8 +41,9 @@ ui <- dashboardPage(
                     ),
                 box(
                     title = "Contribute",
-                    h3("You can help us build this database of microplastic imagery by filling out this form:"),
+                    h3("You can help us build this database of microplastic imagery by filling out this form if you just have a few images to share:"),
                     HTML('<a class="btn btn-info" href = "https://forms.gle/kA4ynuHsbu7VWkZm7" role = "button" >Form</a>'),
+                    h3("If you over 50 images to share, please contact wincowger@gmail.com to share a zip folder of images. All we need is a folder with images that have unique names and a spreadsheet that lists the name of the image and relevant metadata following the google form information."),
                     width = 12
                     
                 )
@@ -53,18 +54,18 @@ ui <- dashboardPage(
                     column(4, 
                            selectInput(inputId = "color", 
                                        label = "Color Selection", 
-                                       choices = c("All", unique(file$`Color of particle`)),
+                                       choices = c("ALL", toupper(unique(file$`Color of particle`))),
                            )
                     ),
                     column(4,
                            selectInput(inputId = "morphology", 
                                        label = "Morphology Selection", 
-                                       choices = c("All", unique(file$`Morphology of particle`)),
+                                       choices = c("ALL", toupper(unique(file$`Morphology of particle`))),
                            )),
                     column(4,
                            selectInput(inputId = "polymer", 
                                        label = "Polymer Selection", 
-                                       choices = c("All", unique(file$`Polymer-type of particle`)),
+                                       choices = c("ALL", toupper(unique(file$`Polymer-type of particle`))),
                            ))
                 ),
                 uiOutput("images")
@@ -73,29 +74,45 @@ ui <- dashboardPage(
     )
 )
 
+
+
 server <- function(input, output) {
+    
+    filtered <- reactive({
+    filtered_test <- file %>% 
+                                filter(if(input$color != "ALL") tolower(`Color of particle`) == tolower(input$color) else !is.na(images)) %>%
+                                filter(if(input$morphology != "ALL") tolower(`Morphology of particle`) == tolower(input$morphology) else !is.na(images)) %>%
+                                filter(if(input$polymer != "ALL") tolower(`Polymer-type of particle`) == tolower(input$polymer) else !is.na(images))
+
+        if(nrow(filtered_test) == 0){
+            NULL
+        }
+        else{
+            filtered_test %>%
+                slice_sample(n= if(nrow(.) > 100) 100 else nrow(.))
+        }
+    })    
     output$images <- renderUI({
-        
-        #fluidRow(
+        req(filtered())
             boxLayout(
                 type = "group",
-            #sortable(
-            #    width = 4,
+                #sortable(
+                #    width = 4,
                 # p(class = "text-center", paste("Column", i)),
                 
-                lapply(file %>% 
-                           filter(if(input$color != "All") tolower(`Color of particle`) == tolower(input$color) else !is.na(images)) %>%
-                           filter(if(input$morphology != "All") tolower(`Morphology of particle`) == tolower(input$morphology) else !is.na(images)) %>%
-                           filter(if(input$polymer != "All") tolower(`Polymer-type of particle`) == tolower(input$polymer) else !is.na(images)) %>%
-                           slice_sample(n= 100)%>%
-                           pull(images), function(x){
+                lapply(1:nrow(filtered()), function(x){
                     box(
-                        tags$image(src = x, height = "200rem"),
+                        title = filtered()$`Researcher Name`[x],
+                        
+                        tags$figure(tags$img(src = filtered()$images[x], width = "400em"),
+                               tags$figcaption(tags$small(filtered()$`Citation`[x]))),
+                        maximizable = T,
                         width = NULL
                     )
                 })
-            #)
-        )
+                #)
+            )
+            
        # )
     })
 
