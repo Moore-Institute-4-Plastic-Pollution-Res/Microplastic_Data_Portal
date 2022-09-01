@@ -41,6 +41,7 @@ ui <- dashboardPage(
                     ),
                 box(
                     title = "Contribute",
+                    collapsed = T,
                     h3("You can help us build this database of microplastic imagery by filling out this form if you just have a few images to share:"),
                     HTML('<a class="btn btn-info" href = "https://forms.gle/kA4ynuHsbu7VWkZm7" role = "button" >Form</a>'),
                     h3("If you over 50 images to share, please contact wincowger@gmail.com to share a zip folder of images. All we need is a folder with images that have unique names and a spreadsheet that lists the name of the image and relevant metadata following the google form information."),
