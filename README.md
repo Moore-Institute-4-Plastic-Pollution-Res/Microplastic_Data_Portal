@@ -108,6 +108,31 @@ erDiagram
     
 ```
 
+#### Definitions for terms in database
+#####Manuscripts
+  DOI <- DOI of manuscript being referenced
+  Sample_device_and_deployment_methods <- type and size of sample device used and how it was deployed
+  Digestion <- type of digestion used in preprocessing, if any
+  Filtration <- what type of filtration used
+  Filter_Size <- size(s) of filter(s)
+  Microplastic_Identification_Method <- type(s) of identification used, e.g. visual, fluorescent, SEM (scanning electron microscopy), light microscopy
+  Spectral_Analysis <- type of spectral analysis used in study, if any, e.g. GC/MS, FTIR, Raman
+  Controls <- type of controls used, if applicable
+  
+#####Samples
+  DOI <- DOI of manuscript being referenced
+  Sample_ID <- unique key for sample being referenced
+  Subsample_ID <- unique key for subsample being referenced, if applicable
+  Location <- most precise sata possible for location where sample was collected
+  Source <- source of water in sample, e.g. tap water, bottled water, etc
+  Date <- date sample was collected
+  Concentration <- concentration of microplastics in sample
+  Concentration_Units <- units used in corresponding concentration
+  Polymers <- if particles arent listed individually, list all polymers found and percentages if applicable
+  Size <- if particles arent listed individually, list all size ranges and percentages if applicable
+  Morphology <- if particles arent listed individually, list all shapes found and percentages if applicable
+  Color <- if particles arent listed individually, list all colors found and percentages if applicable
+
 ### Knowledge graph representation
 ![image](https://user-images.githubusercontent.com/26821843/180331100-1c067439-d5ca-41c4-a2fb-2fa539e1e261.png)
 
@@ -214,7 +239,7 @@ gantt
   * [x] Meetings with government coders and database managers
 
 ### Policy Research Scoping (June 1, 2022 - August 31, 2022)
-* [x] Meetings with drinking water regulators
+* [ ] Meetings with drinking water regulators
 * [x] Meetings with drinking water facilities
 * [ ] Meetings with environmental justice organizations
 * [x] Meetings with open source policy creators
