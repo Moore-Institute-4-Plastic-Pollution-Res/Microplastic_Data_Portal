@@ -240,7 +240,7 @@ gantt
   * [x] Meetings with government coders and database managers
 
 ### Policy Research Scoping (June 1, 2022 - August 31, 2022)
-* [ ] Meetings with drinking water regulators
+* [x] Meetings with drinking water regulators
 * [x] Meetings with drinking water facilities
 * [x] Meetings with environmental justice organizations
 * [x] Meetings with open source policy creators
@@ -256,15 +256,16 @@ gantt
 * [x] [Innitial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
 * [ ] Web Application Development
     * [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
-    * [ ] Data Visualization, Richard is working on it. 
-    * [ ] Database APIs, working on getting keys to [this](https://data.ca.gov/)
+    * [x] Data Visualization, Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R) and started collaboration on [microplastics taxonomy](https://wincowger.shinyapps.io/microplastic_taxonomy/)
+    * [ ] Database APIs, got keys to [this](https://data.ca.gov/)
     	* [ ] Schema definitions
    	* [ ] Integrate back end for upload/download
     * [ ] [Wikidata integration](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#knowledge-graph-representation)
+    * [ ] Link all tools together in one application. 
 
 ### Policy  (August 1, 2022 - June 31, 2023)
 * [ ] [Waterboard Github](https://github.com/CAWaterBoardDataCenter) Collaboration FAQ
-* [ ] [California Open Data Portal](https://data.ca.gov/) Integration Notes
+* [ ] [California Open Data Portal](https://data.ca.gov/) Integration Notes and Framework
 * [ ] Open Source Portal Policy Brief [similar too](https://handbook.data.ca.gov/) and [based on](https://codecagov-playbook.readthedocs.io/en/latest/policy/) 
 * [ ] Get Waterboard Repo on code.ca.gov
 
