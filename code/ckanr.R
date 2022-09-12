@@ -40,3 +40,13 @@ package_create("foobbbbbarrrr") %>%
                     extras = list(my_extra = "some value"),
                     rcurl = "http://google.com")
 
+
+#Richard Shared Code
+library(ckanr) #write to portal#### # get the data portal API key saved in the local environment (it's available on data.ca.gov by going to your user profile) 
+portal_key <- Sys.getenv('portal_key') # set the ckan defaults 
+ckanr_setup(url = '[https://data.ca.gov/](https://data.ca.gov/)', key = portal_key) 
+resourceID <- 'XXXXX' 
+ckan_resource_info <- resource_show(id = resourceID, as = 'table')
+file_upload <- ckanr::resource_update(id = resourceID, path = paste0("files to upload/XXXXX", Sys.Date(),'.csv'))
+
+
