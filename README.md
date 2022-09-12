@@ -109,6 +109,31 @@ erDiagram
     
 ```
 
+#### Definitions for terms in database
+#####Manuscripts
+  DOI <- DOI of manuscript being referenced
+  Sample_device_and_deployment_methods <- type and size of sample device used and how it was deployed
+  Digestion <- type of digestion used in preprocessing, if any
+  Filtration <- what type of filtration used
+  Filter_Size <- size(s) of filter(s)
+  Microplastic_Identification_Method <- type(s) of identification used, e.g. visual, fluorescent, SEM (scanning electron microscopy), light microscopy
+  Spectral_Analysis <- type of spectral analysis used in study, if any, e.g. GC/MS, FTIR, Raman
+  Controls <- type of controls used, if applicable
+  
+#####Samples
+  DOI <- DOI of manuscript being referenced
+  Sample_ID <- unique key for sample being referenced
+  Subsample_ID <- unique key for subsample being referenced, if applicable
+  Location <- most precise sata possible for location where sample was collected
+  Source <- source of water in sample, e.g. tap water, bottled water, etc
+  Date <- date sample was collected
+  Concentration <- concentration of microplastics in sample
+  Concentration_Units <- units used in corresponding concentration
+  Polymers <- if particles arent listed individually, list all polymers found and percentages if applicable
+  Size <- if particles arent listed individually, list all size ranges and percentages if applicable
+  Morphology <- if particles arent listed individually, list all shapes found and percentages if applicable
+  Color <- if particles arent listed individually, list all colors found and percentages if applicable
+
 ### Knowledge graph representation
 ![image](https://user-images.githubusercontent.com/26821843/180331100-1c067439-d5ca-41c4-a2fb-2fa539e1e261.png)
 
@@ -231,15 +256,16 @@ gantt
 * [x] [Innitial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
 * [ ] Web Application Development
     * [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
-    * [ ] Data Visualization, Richard is working on it. 
-    * [ ] Database APIs, working on getting keys to [this](https://data.ca.gov/)
+    * [x] Data Visualization, Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R) and started collaboration on [microplastics taxonomy](https://wincowger.shinyapps.io/microplastic_taxonomy/)
+    * [ ] Database APIs, got keys to [this](https://data.ca.gov/)
     	* [ ] Schema definitions
    	* [ ] Integrate back end for upload/download
     * [ ] [Wikidata integration](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#knowledge-graph-representation)
+    * [ ] Link all tools together in one application. 
 
 ### Policy  (August 1, 2022 - June 31, 2023)
 * [ ] [Waterboard Github](https://github.com/CAWaterBoardDataCenter) Collaboration FAQ
-* [ ] [California Open Data Portal](https://data.ca.gov/) Integration Notes
+* [ ] [California Open Data Portal](https://data.ca.gov/) Integration Notes and Framework
 * [ ] Open Source Portal Policy Brief [similar too](https://handbook.data.ca.gov/) and [based on](https://codecagov-playbook.readthedocs.io/en/latest/policy/) 
 * [ ] Get Waterboard Repo on code.ca.gov
 
