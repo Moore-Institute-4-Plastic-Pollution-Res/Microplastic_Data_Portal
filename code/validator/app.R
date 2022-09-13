@@ -97,7 +97,7 @@ ui <- dashboardPage(
                            popover(
                            downloadButton("download_sample", "", style = "background-color: #dc3545;"), #%>%
                            
-                           title = "Download flawed example data",
+                           title = "Download invalid example data",
                            content = "This is an example file that can be used in tandem with the example rules file to test out the tool for its performance with a dataset that isn't 100% validated."
                            ),
                            popover(
@@ -411,8 +411,12 @@ server <- function(input, output, session) {
         content = function(file) {write.csv(rules_example, file, row.names = F)}
     )
     output$download_sample <- downloadHandler(
-        filename = function() {"data.csv"},
+        filename = function() {"invalid_data.csv"},
         content = function(file) {write.csv(data_example, file, row.names = F)}
+    )
+    output$download_good_sample <- downloadHandler(
+        filename = function() {"valid_data.csv"},
+        content = function(file) {write.csv(success_example, file, row.names = F)}
     )
 }
 
