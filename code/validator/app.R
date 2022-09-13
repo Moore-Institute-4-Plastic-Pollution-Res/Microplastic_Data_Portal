@@ -115,7 +115,10 @@ ui <- dashboardPage(
                                width = 4
                                ),
                     box(title = "Issue Selected",
-                           DT::dataTableOutput("report_selected"),
+                        div(
+                            style = 'overflow-x: scroll',
+                           DT::dataTableOutput("report_selected")
+                           ),
                         width = 8
                     )
                     ),
