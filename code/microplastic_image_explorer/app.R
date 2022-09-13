@@ -1,5 +1,6 @@
 library(shiny)
 library(bs4Dash)
+library(shinyWidgets)
 library(googlesheets4)
 library(dplyr)
 
@@ -54,6 +55,13 @@ ui <- dashboardPage(
                 fluidRow(
                     varSelectInput("variables", "Variable:", file, multiple = TRUE),
                 ),
+                selectizeGroupUI(
+                    id = "my-filters",
+                    params = list(
+                        Color = list(inputId = "color", title = "Color:"),
+                        Morphology = list(inputId = "morphology", title = "Morphology:")
+                        )
+                    ),
                 fluidRow(
                     column(4, 
                            selectInput(inputId = "color", 
@@ -82,20 +90,30 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
     
-    filtered <- reactive({
-    filtered_test <- file %>% 
-                                filter(if(input$color != "ALL") tolower(`Color of particle`) == tolower(input$color) else !is.na(images)) %>%
-                                filter(if(input$morphology != "ALL") tolower(`Morphology of particle`) == tolower(input$morphology) else !is.na(images)) %>%
-                                filter(if(input$polymer != "ALL") tolower(`Polymer-type of particle`) == tolower(input$polymer) else !is.na(images))
+    filtered <- callModule(
+        module = selectizeGroupServer,
+        id = "my-filters",
+        data = file,
+        vars = c("Color", "Morphology")
+    )
+    
+    
+    #filtered <- reactive({
+    #filtered_test <- file %>% 
+    #                            filter(if(input$color != "ALL") tolower(`Color of particle`) == tolower(input$color) else !is.na(images)) %>%
+    #                            filter(if(input$morphology != "ALL") tolower(`Morphology of particle`) == tolower(input$morphology) else !is.na(images)) %>%
+    #                            filter(if(input$polymer != "ALL") tolower(`Polymer-type of particle`) == tolower(input$polymer) else !is.na(images))
 
-        if(nrow(filtered_test) == 0){
-            NULL
-        }
-        else{
-            filtered_test %>%
-                slice_sample(n= if(nrow(.) > 100) 100 else nrow(.))
-        }
-    })    
+    #    if(nrow(filtered_test) == 0){
+    #        NULL
+    #    }
+    #    else{
+    #        filtered_test %>%
+    #            slice_sample(n= if(nrow(.) > 100) 100 else nrow(.))
+#}
+#    }
+#    })  
+    
     output$images <- renderUI({
         req(filtered())
             boxLayout(
