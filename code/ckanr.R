@@ -1,7 +1,7 @@
 #install.packages("ckanr")
 #https://github.com/ropensci/ckanr
 
-library('ckanr')
+library(ckanr)
 library(data.table)
 library(dplyr)
 
@@ -27,9 +27,14 @@ ckanr::dashboard_count()
 #Richard Shared Code
 #library(ckanr) #write to portal#### # get the data portal API key saved in the local environment (it's available on data.ca.gov by going to your user profile) 
 #portal_key <- Sys.getenv('portal_key') # set the ckan defaults 
-resourceID <- '707b9fff-441b-42ba-929e-38827e64880b' 
-ckan_resource_info <- resource_show(id = resourceID, as = 'table')
+resource_id <- '707b9fff-441b-42ba-929e-38827e64880b' 
+package_id <- "microplastics_data_portal"
 path <- system.file("examples", "actinidiaceae.csv", package = "ckanr")
+creation_details <- resource_create(package_id = package_id,
+                      description = "my resource",
+                      name = "bears2",
+                      upload = path)
+ckan_resource_info <- resource_show(id = resource_id, as = 'table')
 file_upload <- ckanr::resource_update(id = resourceID, path = path)
 file <- ckan_fetch(ckan_resource_info$url)
 testfile <- read.csv(path) #Periods get parsed as spaces in ckan. 
