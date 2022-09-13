@@ -235,7 +235,7 @@ server <- function(input, output, session) {
                 validation_summary$results <- NULL
                 show_alert(
                     title = "Rules and data mismatch",
-                    text = paste0("All variables in the rules csv should be in data csv"),
+                    text = paste0("All variables in the rules csv (", paste(variables(validation_summary$rules), collapse = "-"), ") need to be in data csv (",  paste(names(dataset$data), collapse = "-"), ") for the validation to work."),
                     type = "warning")
             }
             else{
@@ -246,7 +246,7 @@ server <- function(input, output, session) {
                     #validation_summary$results <- NULL
                     show_alert(
                         title = "Rules and data mismatch",
-                        text = paste0("All variables in the data csv should probably be in rules csv for best data validation, but validation may proceed."),
+                        text = paste0("All variables in the data csv (", paste(names(dataset$data), collapse = "-"), ") should probably be in rules csv (",  paste(variables(validation_summary$rules), collapse = "-"), ") for best data validation, but validation may proceed."),
                         type = "warning")
                 }
                 validation_summary$report <- confront(dataset$data, validation_summary$rules)
