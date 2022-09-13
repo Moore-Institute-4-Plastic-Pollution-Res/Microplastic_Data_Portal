@@ -14,7 +14,9 @@ library(bs4Dash)
 options(shiny.maxRequestSize = 30*1024^2)
 
 ui <- dashboardPage(
-    dashboardHeader(title = "Data Validator"),
+    fullscreen = T,
+    help = T,
+    dashboardHeader(title = "Data Validator", rightUi = ),
     dashboardSidebar(
         sidebarUserPanel(
             #image = "https://drive.google.com/file/d/13iCjC10dV3giFhCCoir_8mnbwtHM1rMA/view?usp=sharing",
@@ -42,15 +44,14 @@ ui <- dashboardPage(
                 tabName = "item1",
                 box(
                     title = "Overview",
-                    h3("Welcome to the microplastic taxonomy page, this is a place to improve your use of visual microscopy in microplastic identification. Go to the image query tab to get started querying our database of microplastic images by color, morphology, and polymer types."),
+                    p("Welcome to the Data Validator webpage. This tool allows you to validate data interactively by uploading a dataset and rules file. To get started, go to the validator tab on the left."),
                     width = 12
                 ),
                 box(
                     title = "Contribute",
                     collapsed = T,
-                    h3("You can help us build this database of microplastic imagery by filling out this form if you just have a few images to share:"),
-                    HTML('<a class="btn btn-info" href = "https://forms.gle/kA4ynuHsbu7VWkZm7" role = "button" >Form</a>'),
-                    h3("If you over 50 images to share, please contact wincowger@gmail.com to share a zip folder of images. All we need is a folder with images that have unique names and a spreadsheet that lists the name of the image and relevant metadata following the google form information."),
+                    p("You can help us build this tool!"),
+                    HTML('<a class="btn btn-info" href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal" role = "button" >Github</a>'),
                     width = 12
                     
                 )
@@ -59,48 +60,49 @@ ui <- dashboardPage(
                 tabName = "item2",
                 fluidRow(
                     column(1,
+                           popover(
                            fileInput("file_rules", NULL,
                                      placeholder = ".csv",
                                      buttonLabel = "Rules...",
                                      width = "100%",
                                      accept=c("text/csv",
-                                              "text/comma-separated-values,text/plain")) 
-                           #%>%
-                           #   add_prompt(
-                           #       message = "Upload the rules csv you want to use",
-                           #       type = "info", 
-                           #       size = "medium", rounded = TRUE
+                                              "text/comma-separated-values,text/plain")), 
+                           title = "Upload rules",
+                           content = "Upload the rules csv to use to validate the data csv")
                     ),
                     column(1, 
-                           downloadButton("download_rules", "", style = "background-color: #2a9fd6;") #%>%
-                           # add_prompt(
-                           #     message = "Example Rules File",
-                           #     type = "info", 
-                           #     size = "medium", rounded = TRUE
-                           
-                           # )
+                           popover(
+                           downloadButton("download_rules", "", style = "background-color: #2a9fd6;"), #%>%
+                           title = "Download Rules Example",
+                           content = "This is an example rules file, follow the format of this rules file to create your own."
+                           )
                     ),
                     column(1,
+                           popover(
                            fileInput("file", NULL,
                                      placeholder = ".csv",
                                      buttonLabel = "Data...",
                                      accept=c("text/csv",
-                                              "text/comma-separated-values,text/plain")) #%>%
-                           #  add_prompt(
-                           #      message = "Upload the csv you want to validate",
-                           #      type = "info", 
+                                              "text/comma-separated-values,text/plain")), #%>%
+                           
+                           title = "Upload CSV to validate",
+                           content = "This is where you upload the csv file that you want to validate using the rules file."), 
                            #      size = "medium", rounded = TRUE
                     ),
                     column(1,
-                           downloadButton("download_sample", "", style = "background-color: #2a9fd6;") #%>%
-                           # add_prompt(
-                           #     message = "Download example data to validate",
+                           popover(
+                           downloadButton("download_sample", "", style = "background-color: #2a9fd6;"), #%>%
+                           
+                           title = "Download example data",
+                           content = "This is an example file that can be used in tandem with the example rules file to test out the tool."
+                           )
                            #     type = "info", 
                            #     size = "medium", rounded = TRUE
                            # )
                     ),
                     column(8, uiOutput("certificate"), uiOutput("alert"))),
                 fluidRow(
+                    popover(
                            box(title = "Issues Raised", 
                                dropdownMenu = boxDropdown(
                                    boxDropdownItem(
@@ -112,22 +114,21 @@ ui <- dashboardPage(
                                             fill = T))
                                    ),
                                DT::dataTableOutput("show_report"),
+                               style = 'overflow-x: scroll',
                                width = 4
                                ),
+                           title = "Issues Raised",
+                           content = "This is where the rules that are violated (or all rules if the advanced tool is turned on) show up. The table appears after data upload and is selectable which will query the issue selected box."),
+                    popover(
                     box(title = "Issue Selected",
-                        div(
-                            style = 'overflow-x: scroll',
-                           DT::dataTableOutput("report_selected")
-                           ),
+                           DT::dataTableOutput("report_selected"),
+                        style = 'overflow-x: scroll',
                         width = 8
-                    )
                     ),
-                fluidRow(
-                    hr(),
-                    p(align = "center", 
-                      HTML('<a class="btn btn-info" href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal" role = "button" >Open Code</a>')
+                    title = "Issue Selected", 
+                    content = "This is where the selection in the issues raised box will show up. Whatever rule is selected will query the dataset and show any rows that violate the rule and show any problematic columns in red."
                     )
-                )
+                    )
             )
         )
     )
