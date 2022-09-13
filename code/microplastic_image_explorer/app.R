@@ -52,6 +52,9 @@ ui <- dashboardPage(
             tabItem(
                 tabName = "item2",
                 fluidRow(
+                    varSelectInput("variables", "Variable:", file, multiple = TRUE),
+                ),
+                fluidRow(
                     column(4, 
                            selectInput(inputId = "color", 
                                        label = "Color Selection", 
