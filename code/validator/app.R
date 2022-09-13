@@ -1,8 +1,6 @@
 library(shiny)
-library(bs4Dash)
-library(googlesheets4)
+#library(googlesheets4)
 library(dplyr)
-library(prompter)
 library(DT)
 library(shinythemes)
 library(shinyWidgets)
@@ -10,8 +8,14 @@ library(validate)
 library(digest)
 library(data.table)
 library(bs4Dash)
+library(ckanr)
 
 options(shiny.maxRequestSize = 30*1024^2)
+
+
+api <- read.table("secrets/ckan.txt", sep = ",")
+ckanr_setup(url = "https://data.ca.gov/", key = api$V1)
+package_id <- "microplastics_data_portal"
 
 ui <- dashboardPage(
     fullscreen = T,
@@ -91,10 +95,16 @@ ui <- dashboardPage(
                     ),
                     column(1,
                            popover(
-                           downloadButton("download_sample", "", style = "background-color: #2a9fd6;"), #%>%
+                           downloadButton("download_sample", "", style = "background-color: #dc3545;"), #%>%
                            
-                           title = "Download example data",
-                           content = "This is an example file that can be used in tandem with the example rules file to test out the tool."
+                           title = "Download flawed example data",
+                           content = "This is an example file that can be used in tandem with the example rules file to test out the tool for its performance with a dataset that isn't 100% validated."
+                           ),
+                           popover(
+                               downloadButton("download_good_sample", "", style = "background-color: #28a745;"), #%>%
+                               
+                               title = "Download validated example data",
+                               content = "This is an example file that can be used in tandem with the example rules file to test out the tool with a dataset that is 100% validated."
                            )
                            #     type = "info", 
                            #     size = "medium", rounded = TRUE
@@ -104,6 +114,7 @@ ui <- dashboardPage(
                 fluidRow(
                     popover(
                            box(title = "Issues Raised", 
+                               id = "issues_raised",
                                dropdownMenu = boxDropdown(
                                    boxDropdownItem(
                                    prettySwitch("show_decision",
@@ -115,6 +126,7 @@ ui <- dashboardPage(
                                    ),
                                DT::dataTableOutput("show_report"),
                                style = 'overflow-x: scroll',
+                               maximizable = T,
                                width = 4
                                ),
                            title = "Issues Raised",
@@ -122,8 +134,10 @@ ui <- dashboardPage(
                            content = "This is where the rules that are violated (or all rules if the advanced tool is turned on) show up. The table appears after data upload and is selectable which will query the issue selected box."),
                     popover(
                     box(title = "Issue Selected",
+                        id = "issue_selected",
                            DT::dataTableOutput("report_selected"),
                         style = 'overflow-x: scroll',
+                        maximizable = T,
                         width = 8
                     ),
                     title = "Issue Selected", 
@@ -142,7 +156,10 @@ server <- function(input, output, session) {
     
     data_example <- read.csv("www/Samples.csv")
     
-    dataset <- reactiveValues(data = NULL)
+    success_example <- read.csv("www/data_success.csv")
+    
+    
+    dataset <- reactiveValues(data = NULL, creation = NULL)
     
     validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
     
@@ -164,7 +181,7 @@ server <- function(input, output, session) {
         }
 
         else{
-            rules <- read.csv(input$file_rules$datapath)
+            rules <- read.csv(input$file_rules$datapath, fileEncoding = "UTF-8")
             
             if (!all(c("name", "description", "severity", "rule") %in% names(rules))) {
                 #reset("file")
@@ -200,6 +217,9 @@ server <- function(input, output, session) {
     observeEvent(input$file, {
         req(input$file)
         file <- input$file$datapath
+        updateBox("issue_selected", action = "restore")
+        updateBox("issues_raised", action = "restore")
+        
         
         # Read in data when uploaded based on the file type
         if (!grepl("(\\.csv$)", ignore.case = T, as.character(file))) {
@@ -226,7 +246,7 @@ server <- function(input, output, session) {
             #return(NULL)
         }
         else{
-            dataset$data <- read.csv(file)
+            dataset$data <- read.csv(file, fileEncoding = "UTF-8")
             
             if(!all(variables(validation_summary$rules) %in% names(dataset$data))){
                 dataset$data <- NULL
@@ -260,6 +280,22 @@ server <- function(input, output, session) {
         }
     })
     
+    observeEvent(req(all(validation_summary$results$status != "error"), dataset$data, validation_summary$rules, validation_summary$results$status), {
+        updateBox("issue_selected", action = "remove")
+        hashed_data <- digest(dataset$data)
+        hashed_rules <- digest(validation_summary$rules)
+        package_version <- packageVersion("validate")
+        file <- tempfile(pattern = "data", fileext = ".csv")
+        #dataset
+        write.csv(dataset$data, file, row.names = F)
+        dataset$creation <- resource_create(package_id = package_id,
+                                            description = "validated raw data upload to microplastic data portal",
+                                            name = paste0("data_", hashed_data),
+                                            upload = file)
+        }
+    )
+    
+    
     overview_table <- reactive({
         req(input$file)
         validation_summary$results %>%
@@ -277,6 +313,7 @@ server <- function(input, output, session) {
     output$certificate <- renderUI({
         req(file)
         req(validation_summary$results)
+        req(dataset$creation)
         
         if(all(validation_summary$results$status != "error")){
             downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
@@ -293,15 +330,19 @@ server <- function(input, output, session) {
         if(any(validation_summary$results$status == "error")){
             HTML('<button type="button" class="btn btn-danger btn-lg btn-block">ERROR</button>')
         }
-        else{
+        else if(!is.null(dataset$creation)){
             HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
+        }
+        else{
+            NULL
         }
     })
     
     
     output$show_report <- DT::renderDataTable({
         req(input$file)
-        req(any(validation_summary$results$status == "error"))
+        req(nrow(overview_table()) > 0)
+        #req(any(validation_summary$results$status == "error"))
         datatable({overview_table() %>%
                 select(description, status)},
                 extensions = 'Buttons',
@@ -331,6 +372,7 @@ server <- function(input, output, session) {
         req(input$file)
         req(input$show_report_rows_selected)
         req(any(validation_summary$results$status == "error"))
+        req(nrow(selected()) > 0)
         datatable({selected()},
                   rownames = FALSE,
                   filter = "top", 
@@ -362,10 +404,9 @@ server <- function(input, output, session) {
     #Downloads ----
     output$download_certificate <- downloadHandler(
         filename = function() {"certificate.csv"},
-        content = function(file) {write.csv(data.frame(time = Sys.time(), data = digest(dataset$data), rules = digest(validation_summary$rules), package_version = packageVersion("validate"), web_hash = digest(paste(sessionInfo(), Sys.time(), Sys.info()))), file, row.names = F)}
+        content = function(file) {write.csv(data.frame(time = Sys.time(), data = digest(dataset$data), link = dataset$creation$url, rules = digest(validation_summary$rules), package_version = packageVersion("validate"), web_hash = digest(paste(sessionInfo(), Sys.time(), Sys.info()))), file, row.names = F)}
     )
     output$download_rules <- downloadHandler( 
-        
         filename = function() {"rules.csv"},
         content = function(file) {write.csv(rules_example, file, row.names = F)}
     )
