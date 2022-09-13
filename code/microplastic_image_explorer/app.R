@@ -8,7 +8,7 @@ file <- read_sheet("https://docs.google.com/spreadsheets/d/1pOLzGuweqyUinMaqYpWo
 file$images <- paste0("https://drive.google.com/uc?export=view&id=", gsub(".*id=", "", file$`Image File`))
 
 ui <- dashboardPage(
-    dashboardHeader(title = "Microplastic Taxonomy"),
+    dashboardHeader(title = "Microplastic Image Explorer"),
     dashboardSidebar(
         sidebarUserPanel(
             #image = "https://drive.google.com/file/d/13iCjC10dV3giFhCCoir_8mnbwtHM1rMA/view?usp=sharing",
