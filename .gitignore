@@ -4,9 +4,8 @@
 .Ruserdata
 *.ini
 *.Rproj
-<<<<<<< HEAD
+*rsconnect
 
 #secrets
-/secrets
-=======
->>>>>>> a771ceb663d576f1b4b304ab186082b6577187bb
+*secrets
+
