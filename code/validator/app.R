@@ -100,25 +100,25 @@ ui <- dashboardPage(
                            # )
                     ),
                     column(8, uiOutput("certificate"), uiOutput("alert"))),
-                
                 fluidRow(
-                    column(4,
-                           
-                           h3("Issues Raised"), 
-                           prettySwitch("show_decision",
-                                        label = "Show errors and warnings only?",
-                                        inline = T,
-                                        value = T,
-                                        status = "success",
-                                        fill = T),
-                           DT::dataTableOutput("show_report")),
-                    column(8,
-                           h3("Issue Selected"), 
-                           DT::dataTableOutput("report_selected")
-                           
-                           
+                           box(title = "Issues Raised", 
+                               dropdownMenu = boxDropdown(
+                                   boxDropdownItem(
+                                   prettySwitch("show_decision",
+                                            label = "Errors only?",
+                                            inline = T,
+                                            value = T,
+                                            status = "success",
+                                            fill = T))
+                                   ),
+                               DT::dataTableOutput("show_report"),
+                               width = 4
+                               ),
+                    box(title = "Issue Selected",
+                           DT::dataTableOutput("report_selected"),
+                        width = 8
                     )
-                ),
+                    ),
                 fluidRow(
                     hr(),
                     p(align = "center", 
