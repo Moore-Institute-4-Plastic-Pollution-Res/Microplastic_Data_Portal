@@ -16,7 +16,7 @@ options(shiny.maxRequestSize = 30*1024^2)
 ui <- dashboardPage(
     fullscreen = T,
     help = T,
-    dashboardHeader(title = "Data Validator", rightUi = ),
+    dashboardHeader(title = "Data Validator"),
     dashboardSidebar(
         sidebarUserPanel(
             #image = "https://drive.google.com/file/d/13iCjC10dV3giFhCCoir_8mnbwtHM1rMA/view?usp=sharing",
@@ -118,6 +118,7 @@ ui <- dashboardPage(
                                width = 4
                                ),
                            title = "Issues Raised",
+                           placement = "left",
                            content = "This is where the rules that are violated (or all rules if the advanced tool is turned on) show up. The table appears after data upload and is selectable which will query the issue selected box."),
                     popover(
                     box(title = "Issue Selected",
@@ -126,6 +127,7 @@ ui <- dashboardPage(
                         width = 8
                     ),
                     title = "Issue Selected", 
+                    placement = "left",
                     content = "This is where the selection in the issues raised box will show up. Whatever rule is selected will query the dataset and show any rows that violate the rule and show any problematic columns in red."
                     )
                     )
@@ -160,10 +162,37 @@ server <- function(input, output, session) {
                 type = "warning")
             #return(NULL)
         }
+
         else{
             rules <- read.csv(input$file_rules$datapath)
             
-            validation_summary$rules <- validator(.data=rules)
+            if (!all(c("name", "description", "severity", "rule") %in% names(rules))) {
+                #reset("file")
+                dataset$data <- NULL
+                validation_summary$rules <- NULL
+                validation_summary$report <- NULL
+                validation_summary$results <- NULL
+                show_alert(
+                    title = "Data type not supported!",
+                    text = paste0('Uploaded rules format is not currently supported, please provide a rules file with column names, "name", "description", "severity", "rule"'),
+                    type = "warning")
+                #return(NULL)
+            }
+            else if (!all(unlist(lapply(rules, class)) %in% "character")) {
+                #reset("file")
+                dataset$data <- NULL
+                validation_summary$rules <- NULL
+                validation_summary$report <- NULL
+                validation_summary$results <- NULL
+                show_alert(
+                    title = "Data type not supported!",
+                    text = paste0('Uploaded rules format is not currently supported, please provide a rules file with columns that are all character type.'),
+                    type = "warning")
+                #return(NULL)
+            }
+            else{
+                validation_summary$rules <- validator(.data=rules)
+            }
         }
         
     })
@@ -199,14 +228,36 @@ server <- function(input, output, session) {
         else{
             dataset$data <- read.csv(file)
             
-            validation_summary$report <- confront(dataset$data, validation_summary$rules)
+            if(!all(variables(validation_summary$rules) %in% names(dataset$data))){
+                dataset$data <- NULL
+                validation_summary$rules <- NULL
+                validation_summary$report <- NULL
+                validation_summary$results <- NULL
+                show_alert(
+                    title = "Rules and data mismatch",
+                    text = paste0("All variables in the rules csv should be in data csv"),
+                    type = "warning")
+            }
+            else{
+                if (any(!names(dataset$data) %in% variables(validation_summary$rules))){
+                    #dataset$data <- NULL
+                    #validation_summary$rules <- NULL
+                    #validation_summary$report <- NULL
+                    #validation_summary$results <- NULL
+                    show_alert(
+                        title = "Rules and data mismatch",
+                        text = paste0("All variables in the data csv should probably be in rules csv for best data validation, but validation may proceed."),
+                        type = "warning")
+                }
+                validation_summary$report <- confront(dataset$data, validation_summary$rules)
+                
+                validation_summary$results <- summary(validation_summary$report) %>%
+                    mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
+                    mutate(description = meta(validation_summary$rules)$description)
+            }
             
-            validation_summary$results <- summary(validation_summary$report) %>%
-                mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
-                mutate(description = meta(validation_summary$rules)$description)
             
         }
-        
     })
     
     overview_table <- reactive({
