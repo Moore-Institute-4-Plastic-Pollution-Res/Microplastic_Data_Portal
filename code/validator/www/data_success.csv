@@ -1,0 +1,4 @@
+DOI,Sample_ID,Location,Source,Date,Concentration,Polymers,Size,Shape,Color
+10.1016/j.watres.2017.11.011,1.10.1016/j.watres.2017.11.011,Germany,Tap Water,N/A,14 particles/L,PEST 59%; PE 9%; PP 1%; PA 1% ,> 100 um 2%; 50-100 um 5%; 20-50 um 22%; 10-20 um 30%; 5-10 um 41%,Fibers,N/A
+10.1016/j.watres.2017.11.011,2.10.1016/j.watres.2017.11.011,Germany,Bottled Water,N/A,118 particles/L,PEST 84%; PP 7%; PE 5%; PA 2%,">100 um 1%, 50-100 um 2%, 20-50 um 12%, 10-20 um 29%, 5-10 um 56%",Fibers,N/A
+10.1016/j.watres.2017.11.011,3.10.1016/j.watres.2017.11.011,Germany,Tap Water,N/A,50 particles/L,PEST 41%; PE 35%; PP 8%,> 100 um 3%; 50-100 um 7%; 20-50 um 14%; 10-20 um 32%; 5-10 um 45%,Fragments,N/A
