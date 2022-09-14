@@ -106,9 +106,11 @@ server <- function(input, output) {
                 
                 lapply(1:nrow(filtered()), function(x){
                     box(
+                        id = paste0("box", x),
                         title = filtered()$`Researcher Name`[x],
-                        
-                        tags$figure(tags$img(src = filtered()$images[x], width = "400rem"),
+                        tags$figure(
+                            tags$a(href=filtered()$images[x], target="_blank",
+                                tags$img(src = filtered()$images[x], width = "25%")),
                                tags$figcaption(tags$small(filtered()$`Citation`[x]))),
                         maximizable = T,
                         width = NULL
