@@ -108,11 +108,13 @@ server <- function(input, output) {
                     box(
                         id = paste0("box", x),
                         title = filtered()$`Researcher Name`[x],
+                        div(class = "figure", 
                         tags$figure(
                             tags$a(href=filtered()$images[x], target="_blank",
-                                tags$img(src = filtered()$images[x], width = "25%")),
-                               tags$figcaption(tags$small(filtered()$`Citation`[x]))),
+                                tags$img(src = filtered()$images[x], style = 'width: 20vw;')),
+                               tags$figcaption(tags$small(filtered()$`Citation`[x])))),
                         maximizable = T,
+                        style = 'width: 25vw;',
                         width = NULL
                     )
                 })
