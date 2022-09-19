@@ -274,7 +274,7 @@ gantt
 		* [ ] Download formatting setup from CKAN
 			* [ ] Public CKAN interface. 
 	* [ ] Database
-    		* [x] API keys, got keys to [this](https://data.ca.gov/)
+		* [x] API keys, got keys to [this](https://data.ca.gov/)
 		* [ ] Schema definitions
 			* [x] Definition created for manuscript data
    		* [ ] Integrate back end for upload
