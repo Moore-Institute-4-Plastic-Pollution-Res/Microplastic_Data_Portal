@@ -260,33 +260,33 @@ gantt
 ### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
 * [x] [Innitial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
 * [ ] Web Application Development
-    * [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
-    	* [ ] Standardize data format for uploads. (Leah is helping)
-    	* [ ] Standardize data validation rules for upload. (Leah is helping with this)
-    * [x] Data Visualization analysis download
-    	* [x] Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R) 
-    		* [ ] Turn into a web application for data vis from ckan. 
- 		* [ ] Pull down and visualize data from manuscripts.  
- 	* [ ] Image Explorer
-		* [x] Website online [microplastics image explorer](https://wincowger.shinyapps.io/microplastic_image_explorer/)
-		* [x] Coauthor collaboration started with ~10 other researchers.
-		* [ ] Publication (Laura working on)
-	* [ ] Download formatting setup from CKAN
-		* [ ] Public CKAN interface. 
-    * [ ] Database
-    	* [x] API keys, got keys to [this](https://data.ca.gov/)
-	* [ ] Schema definitions
-		* [x] Definition created for manuscript data
-   	* [ ] Integrate back end for upload
-		* [x] Connection made
-		* [ ] Add data from manuscripts to data.ca.gov. 
-		* [ ] Add api keys so only certain users with permissions can upload. 
-	* [ ] Integrate back end for download
-		* [ ] Standardize data from manuscripts. 
-	* [ ] Taxonomy
-		* [x] Hannah made rough draft of the taxonomies. 
-		* [ ] Integrate into data base queries
-		* [ ] Integrate into wikidata. 
+	* [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
+    		* [ ] Standardize data format for uploads. (Leah is helping)
+    		* [ ] Standardize data validation rules for upload. (Leah is helping with this)
+    	* [x] Data Visualization analysis download
+    		* [x] Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R) 
+    			* [ ] Turn into a web application for data vis from ckan. 
+ 			* [ ] Pull down and visualize data from manuscripts.  
+ 		* [ ] Image Explorer
+			* [x] Website online [microplastics image explorer](https://wincowger.shinyapps.io/microplastic_image_explorer/)
+			* [x] Coauthor collaboration started with ~10 other researchers.
+			* [ ] Publication (Laura working on)
+		* [ ] Download formatting setup from CKAN
+			* [ ] Public CKAN interface. 
+	* [ ] Database
+    		* [x] API keys, got keys to [this](https://data.ca.gov/)
+		* [ ] Schema definitions
+			* [x] Definition created for manuscript data
+   		* [ ] Integrate back end for upload
+			* [x] Connection made
+			* [ ] Add data from manuscripts to data.ca.gov. 
+			* [ ] Add api keys so only certain users with permissions can upload. 
+		* [ ] Integrate back end for download
+			* [ ] Standardize data from manuscripts. 
+		* [ ] Taxonomy
+			* [x] Hannah made rough draft of the taxonomies. 
+			* [ ] Integrate into data base queries
+			* [ ] Integrate into wikidata. 
     * [ ] Link all tools together in one application? (not sure if necessary, likely different endpoints for different services, maybe one for data analysis / download and one for upload)
 
 ### Policy  (August 1, 2022 - June 31, 2023)
