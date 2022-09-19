@@ -266,8 +266,8 @@ gantt
     * [x] Data Visualization analysis download
     	* [x] Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R) 
     		* [ ] Turn into a web application for data vis from ckan. 
- 		* [ ] Pull down and visualize data from manuscripts. 
-    	* [ ] Image Explorer
+ 		* [ ] Pull down and visualize data from manuscripts.  
+ 	* [ ] Image Explorer
 		* [x] Website online [microplastics image explorer](https://wincowger.shinyapps.io/microplastic_image_explorer/)
 		* [x] Coauthor collaboration started with ~10 other researchers.
 		* [ ] Publication (Laura working on)
