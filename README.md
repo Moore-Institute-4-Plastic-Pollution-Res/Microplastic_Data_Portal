@@ -109,7 +109,7 @@ erDiagram
     
 ```
 
-#### Definitions for terms in manuscript database
+#### Definitions for terms in manuscript database [LINK](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/data/README.md)
 ##### Manuscripts
   - DOI <- DOI of manuscript being referenced
   - Sample_device_and_deployment_methods <- type and size of sample device used and how it was deployed
