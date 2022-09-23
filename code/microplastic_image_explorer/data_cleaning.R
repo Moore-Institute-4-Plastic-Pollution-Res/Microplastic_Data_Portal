@@ -2,6 +2,22 @@ library(readxl)
 library(googledrive)
 library(dplyr)
 
+# Fadare ----
+fadare <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/microplastic_image_explorer/extra_data/Fadare and Conkle MP Taxonomy.xlsx")
+
+drive_deauth()
+files <- drive_ls(drive_get(as_id("https://drive.google.com/drive/folders/103OUoOpOqxgn06fJA2Rq38SjFgfdejbRcvanC9u2juKqelwmgzrL0f7xI8T9G-_z7r6XbAeb")))
+fadarefiles <- files[1:52,c("name", "id")]
+
+joined <- left_join(fadare %>%
+                        rename(name = Filename) %>%
+                        mutate(name = gsub(" .*", "", name)), 
+                    fadarefiles %>%
+                        mutate(name = gsub(".jpg", "", name)) %>%
+                        mutate(name = gsub(" .*", "", name)))
+write.csv(joined, "data/fadare.csv")
+
+#Algalita ----
 algalita <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/microplastic_taxonomy/extra_data/MethodEvaluationStudy_ALGALITA.xlsx", sheet = "tbl_rawdata")
 
 file <- tryCatch(algalita %>%
