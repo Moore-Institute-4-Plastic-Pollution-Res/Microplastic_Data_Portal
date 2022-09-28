@@ -23,6 +23,7 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 ### Meeting Videos
 - [Github Demo: July 21 2022](https://drive.google.com/file/d/1wlJwcfsrGVNbPxqRq67vcWxlshbJ32xk/view?usp=sharing)
 - [Update on Validation and Wikidata: August 18 2022](https://drive.google.com/file/d/1QH2WDoJ3k1GW4wSMebObGS-R53kBfyIj/view?usp=sharing)
+- [Overview of project status: September 28, 2022](https://drive.google.com/file/d/1tL33tC0d3oa1RsiVt7ylnbo1Z_VdRhC3/view?usp=sharing)
 
 ## Installation
 ### Data
