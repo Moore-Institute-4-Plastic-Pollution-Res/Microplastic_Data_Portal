@@ -23,6 +23,7 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 ### Meeting Videos
 - [Github Demo: July 21 2022](https://drive.google.com/file/d/1wlJwcfsrGVNbPxqRq67vcWxlshbJ32xk/view?usp=sharing)
 - [Update on Validation and Wikidata: August 18 2022](https://drive.google.com/file/d/1QH2WDoJ3k1GW4wSMebObGS-R53kBfyIj/view?usp=sharing)
+- [Overview of project status: September 28, 2022](https://drive.google.com/file/d/1tL33tC0d3oa1RsiVt7ylnbo1Z_VdRhC3/view?usp=sharing)
 
 ## Installation
 ### Data
@@ -109,30 +110,7 @@ erDiagram
     
 ```
 
-#### Definitions for terms in database
-#####Manuscripts
-  DOI <- DOI of manuscript being referenced
-  Sample_device_and_deployment_methods <- type and size of sample device used and how it was deployed
-  Digestion <- type of digestion used in preprocessing, if any
-  Filtration <- what type of filtration used
-  Filter_Size <- size(s) of filter(s)
-  Microplastic_Identification_Method <- type(s) of identification used, e.g. visual, fluorescent, SEM (scanning electron microscopy), light microscopy
-  Spectral_Analysis <- type of spectral analysis used in study, if any, e.g. GC/MS, FTIR, Raman
-  Controls <- type of controls used, if applicable
-  
-#####Samples
-  DOI <- DOI of manuscript being referenced
-  Sample_ID <- unique key for sample being referenced
-  Subsample_ID <- unique key for subsample being referenced, if applicable
-  Location <- most precise sata possible for location where sample was collected
-  Source <- source of water in sample, e.g. tap water, bottled water, etc
-  Date <- date sample was collected
-  Concentration <- concentration of microplastics in sample
-  Concentration_Units <- units used in corresponding concentration
-  Polymers <- if particles arent listed individually, list all polymers found and percentages if applicable
-  Size <- if particles arent listed individually, list all size ranges and percentages if applicable
-  Morphology <- if particles arent listed individually, list all shapes found and percentages if applicable
-  Color <- if particles arent listed individually, list all colors found and percentages if applicable
+#### Definitions for terms in manuscript database [LINK](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/data/README.md)
 
 ### Knowledge graph representation
 ![image](https://user-images.githubusercontent.com/26821843/180331100-1c067439-d5ca-41c4-a2fb-2fa539e1e261.png)
@@ -148,19 +126,18 @@ Coming Soon
 graph LR
     B(CKAN Database)--API---I(R Shiny);
       subgraph Back End
-      A(Data Analysis)---B;
       C(Auto Export to State Databases)---B;
-      D(Download Formatting)---B;
-      E(Data QAQC)---B;
       F(CRUD)---B;
       G(Deployment)---B;
       H(Wikidata)---B;
       end
       subgraph Front End
       I---J(Upload);
+      J---E(Data QAQC);
       I---K(Analysis);
-      I---L(Visualization);
-      I---M(Download);
+      K---L(Visualization);
+      K---M(Download);
+      M---D(Download Formatting);
       end
       click B href "https://github.com/ckan/ckan" _blank
       click I "https://shiny.rstudio.com/" "R Shiny"
@@ -171,6 +148,7 @@ graph LR
       click K "https://www.tidyverse.org/" "tidyverse"
       click F "https://github.com/ropensci/ckanr"
       click G "https://docs.ckan.org/en/2.9/maintaining/installing/install-from-docker-compose.html"
+      click E "https://wincowger.shinyapps.io/validate"
       style B stroke:#333,stroke-width:4px
       style H stroke:#333,stroke-width:4px
       style F stroke:#333,stroke-width:4px
@@ -180,6 +158,8 @@ graph LR
       style J stroke:#333,stroke-width:4px
       style M stroke:#333,stroke-width:4px
       style K stroke:#333,stroke-width:4px
+      style E stroke:#333,stroke-width:4px
+
 ```
 
 ## Policy Scoping
@@ -249,19 +229,43 @@ gantt
 ### Data Collection (June 1, 2022 - June 1, 2024)
 * [x] [Github Data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal)
 * [x] Presentation and Workshop Notes
-* [ ] Media Feedback (will track as soon as we have media)
+* [x] Media Feedback 
+	* [x] Made it into [policy handbook](https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/docs/2022/mp-hndbk.pdf).  
+		* [ ] Searching for related press releases relevant to the data portal. 
 * [x] [Security Reports in Logs](https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates)
+	* [ ] Customize tooling. 
 
 ### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
 * [x] [Innitial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
 * [ ] Web Application Development
-    * [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
-    * [x] Data Visualization, Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R) and started collaboration on [microplastics taxonomy](https://wincowger.shinyapps.io/microplastic_taxonomy/)
-    * [ ] Database APIs, got keys to [this](https://data.ca.gov/)
-    	* [ ] Schema definitions
-   	* [ ] Integrate back end for upload/download
-    * [ ] [Wikidata integration](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#knowledge-graph-representation)
-    * [ ] Link all tools together in one application. 
+	* [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
+    		* [ ] Standardize data format for uploads. (Leah is helping)
+    		* [ ] Standardize data validation rules for upload. (Leah is helping with this)
+    	* [x] Data Visualization analysis download
+    		* [x] Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R) 
+    			* [ ] Turn into a web application for data vis from ckan. 
+ 			* [ ] Pull down and visualize data from manuscripts.  
+ 		* [ ] Image Explorer
+			* [x] Website online [microplastics image explorer](https://wincowger.shinyapps.io/microplastic_image_explorer/)
+			* [x] Coauthor collaboration started with ~10 other researchers.
+			* [ ] Publication (Laura working on)
+		* [ ] Download formatting setup from CKAN
+			* [ ] Public CKAN interface. 
+	* [ ] Database
+		* [x] API keys, got keys to [this](https://data.ca.gov/)
+		* [ ] Schema definitions
+			* [x] Definition created for manuscript data
+   		* [ ] Integrate back end for upload
+			* [x] Connection made
+			* [ ] Add data from manuscripts to data.ca.gov. 
+			* [ ] Add api keys so only certain users with permissions can upload. 
+		* [ ] Integrate back end for download
+			* [ ] Standardize data from manuscripts. 
+		* [ ] Taxonomy
+			* [x] Hannah made rough draft of the taxonomies. 
+			* [ ] Integrate into data base queries
+			* [ ] Integrate into wikidata. 
+    * [ ] Link all tools together in one application? (not sure if necessary, likely different endpoints for different services, maybe one for data analysis / download and one for upload)
 
 ### Policy  (August 1, 2022 - June 31, 2023)
 * [ ] [Waterboard Github](https://github.com/CAWaterBoardDataCenter) Collaboration FAQ
@@ -281,6 +285,8 @@ gantt
 ### Data Portal Finalization and Publishing (June 1, 2023 - December 31, 2023)
 * [ ] Integration of beta testers feedback
 * [ ] Handoff project to Waterboard staff for long term management
+* [ ] [Wikidata integration](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#knowledge-graph-representation)
+
 
 ### Software Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
 * [ ] Identify coauthors on manuscript
