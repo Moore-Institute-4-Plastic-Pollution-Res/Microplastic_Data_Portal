@@ -1,6 +1,30 @@
 library(readxl)
 library(googledrive)
 library(dplyr)
+library("jpeg")
+library("tiff")
+
+
+# AnnaK ----
+annak <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/microplastic_image_explorer/extra_data/Photos_data.xlsx") %>%
+    mutate(name = paste0(`Image File`, ".jpg"))
+
+files_in_list <- list.files("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Annak", pattern = ".tif", full.names = T)
+files_in_list_names <- list.files("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Annak", pattern = ".tif")
+
+for(image in 1:length(files_in_list)){
+    img <- readTIFF(files_in_list[image], native=TRUE)
+    writeJPEG(img, target = paste0("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Annak/",gsub("\\..*", "", files_in_list_names[image]), ".jpg"), quality = 1)
+}
+
+drive_deauth()
+files <- drive_ls(drive_get(as_id("https://drive.google.com/drive/folders/103OUoOpOqxgn06fJA2Rq38SjFgfdejbRcvanC9u2juKqelwmgzrL0f7xI8T9G-_z7r6XbAeb")))
+annafiles <- files[,c("name", "id")] %>%
+    right_join(annak)
+
+write.csv(annafiles, "data/annak.csv")
+
+
 
 # Fadare ----
 fadare <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/microplastic_image_explorer/extra_data/Fadare and Conkle MP Taxonomy.xlsx")
