@@ -83,6 +83,7 @@ ui <- dashboardPage(
                            fileInput("file", NULL,
                                      placeholder = ".csv",
                                      buttonLabel = "Data...",
+                                     multiple = T,
                                      accept=c("text/csv",
                                               "text/comma-separated-values,text/plain")), #%>%
                            
@@ -164,8 +165,7 @@ server <- function(input, output, session) {
     #Reading in rules in correct format -----
     observeEvent(input$file_rules, {
         file_rules <- input$file_rules$datapath
-        if (!grepl("(\\.csv$)",
-                   ignore.case = T, as.character(file_rules))) {
+        if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
             #reset("file")
             dataset$data <- NULL
             api_info$data <- NULL
@@ -225,7 +225,7 @@ server <- function(input, output, session) {
         
         
         # Read in data when uploaded based on the file type
-        if (!grepl("(\\.csv$)", ignore.case = T, as.character(file))) {
+        if (!all(grepl("(\\.csv$)", ignore.case = T, as.character(file)))) {
             dataset$data <- NULL
             api_info$data <- NULL
             validation_summary$rules <- NULL
@@ -251,6 +251,7 @@ server <- function(input, output, session) {
             #return(NULL)
         }
         else{
+            
             dataset$data <- read.csv(file, fileEncoding = "UTF-8")
             
             if(!all(variables(validation_summary$rules) %in% names(dataset$data))){
