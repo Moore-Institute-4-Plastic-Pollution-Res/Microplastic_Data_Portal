@@ -238,7 +238,7 @@ server <- function(input, output, session) {
                       upload a .csv file."),
                 type = "warning")
         }
-        else if (is.null(input$file_rules)) {
+        else if (is.null(validation_summary$rules)) {
             #reset("file")
             dataset$data <- NULL
             api_info$data <- NULL
@@ -256,7 +256,7 @@ server <- function(input, output, session) {
                 dataset$data <- read.csv(file, fileEncoding = "UTF-8")
             }
             else{
-                sout <- tryCatch(lapply(files, function(file) read.csv(file, fileEncoding = "UTF-8")) %>% 
+                sout <- tryCatch(lapply(file, function(file) read.csv(file, fileEncoding = "UTF-8")) %>% 
                                              reduce(full_join),
                     warning = function(w) {w}, error = function(e) {e})
                 
@@ -274,7 +274,7 @@ server <- function(input, output, session) {
             if(!all(variables(validation_summary$rules) %in% names(dataset$data))){
                 show_alert(
                     title = "Rules and data mismatch",
-                    text = paste0("All variables in the rules csv (", paste(variables(validation_summary$rules), collapse = "-"), ") need to be in data csv (",  paste(names(dataset$data), collapse = "-"), ") for the validation to work."),
+                    text = paste0("All variables in the rules csv (", paste(variables(validation_summary$rules), collapse = ","), ") need to be in data csv (",  paste(names(dataset$data), collapse = ","), ") for the validation to work."),
                     type = "warning")
                 
                 dataset$data <- NULL
@@ -291,7 +291,7 @@ server <- function(input, output, session) {
                     #validation_summary$results <- NULL
                     show_alert(
                         title = "Rules and data mismatch",
-                        text = paste0("All variables in the data csv (", paste(names(dataset$data), collapse = "-"), ") should probably be in rules csv (",  paste(variables(validation_summary$rules), collapse = "-"), ") for best data validation, but validation may proceed."),
+                        text = paste0("All variables in the data csv (", paste(names(dataset$data), collapse = ","), ") should probably be in rules csv (",  paste(variables(validation_summary$rules), collapse = ","), ") for best data validation, but validation may proceed."),
                         type = "warning")
                 }
                 #Check for valid api key and format the api if it is valid. This needs to be a bulletproof firewall so lots of checks and even adding additional rules. 
