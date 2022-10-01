@@ -182,7 +182,7 @@ server <- function(input, output, session) {
         }
 
         else{
-            rules <- read.csv(input$file_rules$datapath)
+            rules <- read.csv(input$file_rules$datapath, fileEncoding = "UTF-8")
             
             if (!all(c("name", "description", "severity", "rule") %in% names(rules))) {
                 #reset("file")
@@ -272,15 +272,16 @@ server <- function(input, output, session) {
                 }
             }
             if(!all(variables(validation_summary$rules) %in% names(dataset$data))){
+                show_alert(
+                    title = "Rules and data mismatch",
+                    text = paste0("All variables in the rules csv (", paste(variables(validation_summary$rules), collapse = "-"), ") need to be in data csv (",  paste(names(dataset$data), collapse = "-"), ") for the validation to work."),
+                    type = "warning")
+                
                 dataset$data <- NULL
                 api_info$data <- NULL
                 validation_summary$rules <- NULL
                 validation_summary$report <- NULL
                 validation_summary$results <- NULL
-                show_alert(
-                    title = "Rules and data mismatch",
-                    text = paste0("All variables in the rules csv (", paste(variables(validation_summary$rules), collapse = "-"), ") need to be in data csv (",  paste(names(dataset$data), collapse = "-"), ") for the validation to work."),
-                    type = "warning")
             }
             else{
                 if (any(!names(dataset$data) %in% variables(validation_summary$rules))){
@@ -363,7 +364,7 @@ server <- function(input, output, session) {
     output$certificate <- renderUI({
         req(file)
         req(validation_summary$results)
-        req(dataset$creation)
+        #req(dataset$creation)
         
         if(all(validation_summary$results$status != "error")){
             downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
@@ -380,7 +381,7 @@ server <- function(input, output, session) {
         if(any(validation_summary$results$status == "error")){
             HTML('<button type="button" class="btn btn-danger btn-lg btn-block">ERROR</button>')
         }
-        else if(!is.null(dataset$creation)){
+        else if(!is.null(dataset$data)){
             HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }
         else{
@@ -456,7 +457,7 @@ server <- function(input, output, session) {
         filename = function() {"certificate.csv"},
         content = function(file) {write.csv(data.frame(time = Sys.time(), 
                                                        data = digest(dataset$data), 
-                                                       link = if(!is.null(dataset$creation)){dataset$creation$url}else{NULL}, 
+                                                       link = if(!is.null(dataset$creation)){dataset$creation$url} else{NULL}, 
                                                        rules = digest(validation_summary$rules), 
                                                        package_version = packageVersion("validate"), 
                                                        web_hash = digest(paste(sessionInfo(), 
