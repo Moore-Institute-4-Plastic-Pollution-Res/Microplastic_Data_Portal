@@ -12,10 +12,7 @@ library(ckanr)
 
 options(shiny.maxRequestSize = 30*1024^2)
 
-
-api <- read.table("secrets/ckan.txt", sep = ",")
-ckanr_setup(url = "https://data.ca.gov/", key = api$V1)
-package_id <- "microplastics_data_portal"
+api <- read.csv("secrets/ckan.csv")
 
 ui <- dashboardPage(
     fullscreen = T,
@@ -158,6 +155,7 @@ server <- function(input, output, session) {
     
     success_example <- read.csv("www/data_success.csv")
     
+    api_info <- reactiveValues(data = NULL)
     
     dataset <- reactiveValues(data = NULL, creation = NULL)
     
@@ -169,6 +167,7 @@ server <- function(input, output, session) {
                    ignore.case = T, as.character(file_rules))) {
             #reset("file")
             dataset$data <- NULL
+            api_info$data <- NULL
             validation_summary$rules <- NULL
             validation_summary$report <- NULL
             validation_summary$results <- NULL
@@ -186,6 +185,7 @@ server <- function(input, output, session) {
             if (!all(c("name", "description", "severity", "rule") %in% names(rules))) {
                 #reset("file")
                 dataset$data <- NULL
+                api_info$data <- NULL
                 validation_summary$rules <- NULL
                 validation_summary$report <- NULL
                 validation_summary$results <- NULL
@@ -198,6 +198,7 @@ server <- function(input, output, session) {
             else if (!all(unlist(lapply(rules, class)) %in% "character")) {
                 #reset("file")
                 dataset$data <- NULL
+                api_info$data <- NULL
                 validation_summary$rules <- NULL
                 validation_summary$report <- NULL
                 validation_summary$results <- NULL
@@ -224,6 +225,7 @@ server <- function(input, output, session) {
         # Read in data when uploaded based on the file type
         if (!grepl("(\\.csv$)", ignore.case = T, as.character(file))) {
             dataset$data <- NULL
+            api_info$data <- NULL
             validation_summary$rules <- NULL
             validation_summary$report <- NULL
             validation_summary$results <- NULL
@@ -236,6 +238,7 @@ server <- function(input, output, session) {
         else if (is.null(input$file_rules)) {
             #reset("file")
             dataset$data <- NULL
+            api_info$data <- NULL
             validation_summary$rules <- NULL
             validation_summary$report <- NULL
             validation_summary$results <- NULL
@@ -250,6 +253,7 @@ server <- function(input, output, session) {
             
             if(!all(variables(validation_summary$rules) %in% names(dataset$data))){
                 dataset$data <- NULL
+                api_info$data <- NULL
                 validation_summary$rules <- NULL
                 validation_summary$report <- NULL
                 validation_summary$results <- NULL
@@ -269,6 +273,20 @@ server <- function(input, output, session) {
                         text = paste0("All variables in the data csv (", paste(names(dataset$data), collapse = "-"), ") should probably be in rules csv (",  paste(variables(validation_summary$rules), collapse = "-"), ") for best data validation, but validation may proceed."),
                         type = "warning")
                 }
+                
+                
+                #Check for valid api key and format the api if it is valid. This needs to be a bulletproof firewall so lots of checks and even adding additional rules. 
+                if("KEY" %in% names(dataset$data)){
+                    if(length(unique(dataset$data$KEY)) == 1){
+                        if(unique(dataset$data$KEY) %in% api$VALID_KEY){
+                            #validation_summary$rules <- 
+                            api_info$data <- api %>%
+                                filter(VALID_KEY == unique(dataset$data$KEY))
+                            ckanr_setup(url = api_info$data$URL, key = api_info$data$KEY)
+                        }
+                    }
+                }
+                
                 validation_summary$report <- confront(dataset$data, validation_summary$rules)
                 
                 validation_summary$results <- summary(validation_summary$report) %>%
@@ -282,19 +300,20 @@ server <- function(input, output, session) {
     
     observeEvent(req(all(validation_summary$results$status != "error"), dataset$data, validation_summary$rules, validation_summary$results$status), {
         updateBox("issue_selected", action = "remove")
-        hashed_data <- digest(dataset$data)
-        hashed_rules <- digest(validation_summary$rules)
-        package_version <- packageVersion("validate")
-        file <- tempfile(pattern = "data", fileext = ".csv")
-        #dataset
-        write.csv(dataset$data, file, row.names = F)
-        dataset$creation <- resource_create(package_id = package_id,
-                                            description = "validated raw data upload to microplastic data portal",
-                                            name = paste0("data_", hashed_data),
-                                            upload = file)
+        if(!is.null(api_info$data)){
+            hashed_data <- digest(dataset$data)
+            hashed_rules <- digest(validation_summary$rules)
+            package_version <- packageVersion("validate")
+            file <- tempfile(pattern = "data", fileext = ".csv")
+            #dataset
+            write.csv(dataset$data %>% select(-KEY), file, row.names = F)
+            dataset$creation <- resource_create(package_id = api_info$data$PACKAGE,
+                                                description = "validated raw data upload to microplastic data portal",
+                                                name = paste0("data_", hashed_data),
+                                                upload = file)
+        }
         }
     )
-    
     
     overview_table <- reactive({
         req(input$file)
@@ -404,7 +423,15 @@ server <- function(input, output, session) {
     #Downloads ----
     output$download_certificate <- downloadHandler(
         filename = function() {"certificate.csv"},
-        content = function(file) {write.csv(data.frame(time = Sys.time(), data = digest(dataset$data), link = dataset$creation$url, rules = digest(validation_summary$rules), package_version = packageVersion("validate"), web_hash = digest(paste(sessionInfo(), Sys.time(), Sys.info()))), file, row.names = F)}
+        content = function(file) {write.csv(data.frame(time = Sys.time(), 
+                                                       data = digest(dataset$data), 
+                                                       link = if(!is.null(dataset$creation)){dataset$creation$url}else{NULL}, 
+                                                       rules = digest(validation_summary$rules), 
+                                                       package_version = packageVersion("validate"), 
+                                                       web_hash = digest(paste(sessionInfo(), 
+                                                                               Sys.time(), 
+                                                                               Sys.info()))), 
+                                            file, row.names = F)}
     )
     output$download_rules <- downloadHandler( 
         filename = function() {"rules.csv"},
