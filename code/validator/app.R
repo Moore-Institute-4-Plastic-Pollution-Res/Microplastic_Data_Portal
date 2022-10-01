@@ -161,6 +161,7 @@ server <- function(input, output, session) {
     
     validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
     
+    #Reading in rules in correct format -----
     observeEvent(input$file_rules, {
         file_rules <- input$file_rules$datapath
         if (!grepl("(\\.csv$)",
@@ -215,6 +216,7 @@ server <- function(input, output, session) {
         
     })
     
+    #Reading in data in correct format ----
     observeEvent(input$file, {
         req(input$file)
         file <- input$file$datapath
@@ -273,25 +275,36 @@ server <- function(input, output, session) {
                         text = paste0("All variables in the data csv (", paste(names(dataset$data), collapse = "-"), ") should probably be in rules csv (",  paste(variables(validation_summary$rules), collapse = "-"), ") for best data validation, but validation may proceed."),
                         type = "warning")
                 }
-                
-                
                 #Check for valid api key and format the api if it is valid. This needs to be a bulletproof firewall so lots of checks and even adding additional rules. 
                 if("KEY" %in% names(dataset$data)){
                     if(length(unique(dataset$data$KEY)) == 1){
                         if(unique(dataset$data$KEY) %in% api$VALID_KEY){
-                            #validation_summary$rules <- 
+                            if(any(unlist(lapply(dataset$data %>% select(-KEY), function(x) any(x %in% unique(dataset$data$KEY)))))){
+                                dataset$data <- NULL
+                                api_info$data <- NULL
+                                validation_summary$rules <- NULL
+                                validation_summary$report <- NULL
+                                validation_summary$results <- NULL
+                                show_alert(
+                                    title = "Secret Key is misplaced",
+                                    text = "The secret key is in locations other than the KEY column, please remove the secret key from any other locations.",
+                                    type = "error")
+                            }
+                            else{
                             api_info$data <- api %>%
                                 filter(VALID_KEY == unique(dataset$data$KEY))
-                            ckanr_setup(url = api_info$data$URL, key = api_info$data$KEY)
+                            ckanr_setup(url = api_info$data$URL, key = api_info$data$KEY) 
+                            }
                         }
                     }
                 }
-                
-                validation_summary$report <- confront(dataset$data, validation_summary$rules)
-                
-                validation_summary$results <- summary(validation_summary$report) %>%
-                    mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
-                    mutate(description = meta(validation_summary$rules)$description)
+                if(!is.null(dataset$data)){
+                    validation_summary$report <- confront(dataset$data, validation_summary$rules)
+                    
+                    validation_summary$results <- summary(validation_summary$report) %>%
+                        mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
+                        mutate(description = meta(validation_summary$rules)$description)    
+                }
             }
             
             
@@ -316,14 +329,14 @@ server <- function(input, output, session) {
     )
     
     overview_table <- reactive({
-        req(input$file)
+        req(input$file, dataset$data)
         validation_summary$results %>%
             filter(if(input$show_decision){status == "error"} else{status %in% c("error", "success")}) %>%
             select(description, status, name, expression, everything())
     })
     
     selected <- reactive({
-        req(input$file)
+        req(input$file, dataset$data)
         req(input$show_report_rows_selected)
         violating(dataset$data, validation_summary$report[overview_table()[input$show_report_rows_selected, "name"]])
     })
@@ -357,7 +370,7 @@ server <- function(input, output, session) {
         }
     })
     
-    
+    #Report tables ----
     output$show_report <- DT::renderDataTable({
         req(input$file)
         req(nrow(overview_table()) > 0)
