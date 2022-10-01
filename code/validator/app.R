@@ -182,7 +182,7 @@ server <- function(input, output, session) {
         }
 
         else{
-            rules <- read.csv(input$file_rules$datapath, fileEncoding = "UTF-8")
+            rules <- read.csv(input$file_rules$datapath)
             
             if (!all(c("name", "description", "severity", "rule") %in% names(rules))) {
                 #reset("file")
