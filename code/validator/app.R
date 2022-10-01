@@ -9,6 +9,7 @@ library(digest)
 library(data.table)
 library(bs4Dash)
 library(ckanr)
+library(purrr)
 
 options(shiny.maxRequestSize = 30*1024^2)
 
@@ -251,9 +252,25 @@ server <- function(input, output, session) {
             #return(NULL)
         }
         else{
-            
-            dataset$data <- read.csv(file, fileEncoding = "UTF-8")
-            
+            if(length(file) == 1){
+                dataset$data <- read.csv(file, fileEncoding = "UTF-8")
+            }
+            else{
+                sout <- tryCatch(lapply(files, function(file) read.csv(file, fileEncoding = "UTF-8")) %>% 
+                                             reduce(full_join),
+                    warning = function(w) {w}, error = function(e) {e})
+                
+                if (inherits(sout, "simpleWarning") | inherits(sout, "simpleError")){
+                    show_alert(
+                        title = "Something went wrong with the merge.",
+                        text = paste0("This tool expects at least one column in each dataset with the same name to merge on. There was an error that said ", sout$message),
+                        type = "error"
+                    )
+                }
+                else{
+                    dataset$data <- sout
+                }
+            }
             if(!all(variables(validation_summary$rules) %in% names(dataset$data))){
                 dataset$data <- NULL
                 api_info$data <- NULL
