@@ -168,16 +168,16 @@ server <- function(input, output, session) {
         file_rules <- input$file_rules$datapath
         if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
             #reset("file")
-            dataset$data <- NULL
-            api_info$data <- NULL
-            validation_summary$rules <- NULL
-            validation_summary$report <- NULL
-            validation_summary$results <- NULL
             show_alert(
                 title = "Data type not supported!",
                 text = paste0("Uploaded data type is not currently supported; please
                       upload a .csv file."),
                 type = "warning")
+            dataset$data <- NULL
+            api_info$data <- NULL
+            validation_summary$rules <- NULL
+            validation_summary$report <- NULL
+            validation_summary$results <- NULL
             #return(NULL)
         }
 
@@ -186,28 +186,29 @@ server <- function(input, output, session) {
             
             if (!all(c("name", "description", "severity", "rule") %in% names(rules))) {
                 #reset("file")
-                dataset$data <- NULL
-                api_info$data <- NULL
-                validation_summary$rules <- NULL
-                validation_summary$report <- NULL
-                validation_summary$results <- NULL
                 show_alert(
                     title = "Data type not supported!",
                     text = paste0('Uploaded rules format is not currently supported, please provide a rules file with column names, "name", "description", "severity", "rule"'),
                     type = "warning")
-                #return(NULL)
-            }
-            else if (!all(unlist(lapply(rules, class)) %in% "character")) {
-                #reset("file")
                 dataset$data <- NULL
                 api_info$data <- NULL
                 validation_summary$rules <- NULL
                 validation_summary$report <- NULL
                 validation_summary$results <- NULL
+                #return(NULL)
+            }
+            else if (!all(unlist(lapply(rules, class)) %in% "character")) {
+                #reset("file")
                 show_alert(
                     title = "Data type not supported!",
                     text = paste0('Uploaded rules format is not currently supported, please provide a rules file with columns that are all character type.'),
                     type = "warning")
+                dataset$data <- NULL
+                api_info$data <- NULL
+                validation_summary$rules <- NULL
+                validation_summary$report <- NULL
+                validation_summary$results <- NULL
+                
                 #return(NULL)
             }
             else{
@@ -227,28 +228,29 @@ server <- function(input, output, session) {
         
         # Read in data when uploaded based on the file type
         if (!all(grepl("(\\.csv$)", ignore.case = T, as.character(file)))) {
-            dataset$data <- NULL
-            api_info$data <- NULL
-            validation_summary$rules <- NULL
-            validation_summary$report <- NULL
-            validation_summary$results <- NULL
             show_alert(
                 title = "Data type not supported!",
                 text = paste0("Uploaded data type is not currently supported; please
                       upload a .csv file."),
                 type = "warning")
-        }
-        else if (is.null(validation_summary$rules)) {
-            #reset("file")
             dataset$data <- NULL
             api_info$data <- NULL
             validation_summary$rules <- NULL
             validation_summary$report <- NULL
             validation_summary$results <- NULL
+        }
+        else if (is.null(validation_summary$rules)) {
+            #reset("file")
+            
             show_alert(
                 title = "Need Rules File",
                 text = paste0("You must upload a rules file before uploading a data file to validate."),
                 type = "warning")
+            dataset$data <- NULL
+            api_info$data <- NULL
+            validation_summary$rules <- NULL
+            validation_summary$report <- NULL
+            validation_summary$results <- NULL
             #return(NULL)
         }
         else{
@@ -275,7 +277,7 @@ server <- function(input, output, session) {
                 show_alert(
                     title = "Rules and data mismatch",
                     text = paste0("All variables in the rules csv (", paste(variables(validation_summary$rules), collapse = ","), ") need to be in data csv (",  paste(names(dataset$data), collapse = ","), ") for the validation to work."),
-                    type = "warning")
+                    type = "error")
                 
                 dataset$data <- NULL
                 api_info$data <- NULL
@@ -300,15 +302,16 @@ server <- function(input, output, session) {
                         if(length(unique(dataset$data$KEY)) == 1){
                             if(unique(dataset$data$KEY) %in% api$VALID_KEY){
                                 if(any(unlist(lapply(dataset$data %>% select(-KEY), function(x) any(x %in% unique(dataset$data$KEY)))))){
+                                    show_alert(
+                                        title = "Secret Key is misplaced",
+                                        text = "The secret key is in locations other than the KEY column, please remove the secret key from any other locations.",
+                                        type = "error")
                                     dataset$data <- NULL
                                     api_info$data <- NULL
                                     validation_summary$rules <- NULL
                                     validation_summary$report <- NULL
                                     validation_summary$results <- NULL
-                                    show_alert(
-                                        title = "Secret Key is misplaced",
-                                        text = "The secret key is in locations other than the KEY column, please remove the secret key from any other locations.",
-                                        type = "error")
+                                    
                                 }
                                 else{
                                     api_info$data <- api %>%
@@ -330,28 +333,27 @@ server <- function(input, output, session) {
                                 }
                             }
                             else{
+                                show_alert(
+                                    title = "Secret Key is not valid",
+                                    text = "Any column labeled KEY is considered a secret key and should have a valid pair in our internal database.",
+                                    type = "error")
                                 dataset$data <- NULL
                                 api_info$data <- NULL
                                 validation_summary$rules <- NULL
                                 validation_summary$report <- NULL
                                 validation_summary$results <- NULL
-                                show_alert(
-                                    title = "Secret Key is not valid",
-                                    text = "Any column labeled KEY is considered a secret key and should have a valid pair in our internal database.",
-                                    type = "error")
                             }
                         }
                         else{
                             show_alert(
                                 title = "Multiple Secret Keys",
-                                text = paste0("There should only be one secret key per data upload, but these keys are in the data (", unique(dataset$data$KEY), ")", collapse = ","),
+                                text = paste0("There should only be one secret key per data upload, but these keys are in the data (", paste(unique(dataset$data$KEY), collapse = ","), ")"),
                                 type = "error")
                             dataset$data <- NULL
                             api_info$data <- NULL
                             validation_summary$rules <- NULL
                             validation_summary$report <- NULL
                             validation_summary$results <- NULL
-
                         }
                     }
                     if(!is.null(dataset$data)){
