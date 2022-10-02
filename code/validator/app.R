@@ -9,8 +9,10 @@ library(digest)
 library(data.table)
 library(bs4Dash)
 library(ckanr)
-library(purrr)
+#library(purrr)
 library(shinyjs)
+library(detector)
+
 
 options(shiny.maxRequestSize = 30*1024^2)
 
@@ -221,7 +223,18 @@ server <- function(input, output, session) {
                 #return(NULL)
             }
             else{
-                validation_summary$rules <- validator(.data=rules)
+            validation_summary$rules <- tryCatch(validator(.data=rules),
+                                     warning = function(w) {w}, error = function(e) {e})
+            if (inherits(validation_summary$rules, "simpleWarning") | inherits(validation_summary$rules, "simpleError")){
+                show_alert(
+                    title = "Something went wrong with reading the rules file.",
+                    text = paste0("There was an error that said ", validation_summary$rules$message),
+                    type = "error"
+                )
+                api_info <- reactiveValues(data = NULL)
+                dataset <- reactiveValues(data = NULL, creation = NULL)
+                validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
+            }
             }
         }
         
