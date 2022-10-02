@@ -14,6 +14,11 @@ library(shinyjs)
 
 options(shiny.maxRequestSize = 30*1024^2)
 
+reset_reactive_variables <- function(){
+    api_info <<- reactiveValues(data = NULL)
+    dataset <<- reactiveValues(data = NULL, creation = NULL)
+    validation_summary <<- reactiveValues(results = NULL, report = NULL, rules = NULL)
+}
 
 api <- read.csv("secrets/ckan.csv")
 
@@ -154,6 +159,8 @@ ui <- dashboardPage(
 )
 
 
+
+
 server <- function(input, output, session) {
     
     
@@ -163,9 +170,7 @@ server <- function(input, output, session) {
     
     success_example <- read.csv("www/data_success.csv")
     
-    api_info <- reactiveValues(data = NULL)
-    dataset <- reactiveValues(data = NULL, creation = NULL)
-    validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
+    reset_reactive_variables()
     
     #Reading in rules in correct format -----
     observeEvent(input$file_rules, {
