@@ -10,19 +10,18 @@ library(data.table)
 library(bs4Dash)
 library(ckanr)
 library(purrr)
+library(shinyjs)
 
 options(shiny.maxRequestSize = 30*1024^2)
-
-
 
 
 api <- read.csv("secrets/ckan.csv")
 
 ui <- dashboardPage(
-    fullscreen = T,
-    help = T,
-    dashboardHeader(title = "Data Validator"),
-    dashboardSidebar(
+        fullscreen = T,
+        help = T,
+        dashboardHeader(title = "Data Validator"),
+        dashboardSidebar(
         sidebarUserPanel(
             #image = "https://drive.google.com/file/d/13iCjC10dV3giFhCCoir_8mnbwtHM1rMA/view?usp=sharing",
             name = "Welcome!"
@@ -44,6 +43,7 @@ ui <- dashboardPage(
         )
     ),
     dashboardBody(
+        shinyjs::useShinyjs(),    
         tabItems(
             tabItem(
                 tabName = "item1",
@@ -152,6 +152,7 @@ ui <- dashboardPage(
     )
 )
 
+
 server <- function(input, output, session) {
     
     
@@ -168,6 +169,7 @@ server <- function(input, output, session) {
     #Reading in rules in correct format -----
     observeEvent(input$file_rules, {
         file_rules <- input$file_rules$datapath
+        shinyjs::reset(id = "file")
         if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
             #reset("file")
             show_alert(
@@ -355,8 +357,14 @@ server <- function(input, output, session) {
     })
     
     observeEvent(req(all(validation_summary$results$status != "error"), dataset$data, validation_summary$rules, validation_summary$results$status), {
-        updateBox("issue_selected", action = "remove")
-        if(!is.null(api_info$data)){
+        if(!is.null(input$file)){
+            updateBox("issue_selected", action = "remove")
+            show_alert(
+                title = "Data validation successful!",
+                text = paste0('Feel free to download a certificate proving that your data validation was successful.'),
+                type = "success")
+        }
+        if(!is.null(api_info$data) & !is.null(input$file)){
             hashed_data <- digest(dataset$data)
             hashed_rules <- digest(validation_summary$rules)
             package_version <- packageVersion("validate")
@@ -391,11 +399,11 @@ server <- function(input, output, session) {
     
     
     output$certificate <- renderUI({
-        req(file)
+        #req(input$file)
         req(validation_summary$results)
         #req(dataset$creation)
         
-        if(all(validation_summary$results$status != "error")){
+        if(all(validation_summary$results$status != "error") & !is.null(input$file)){
             downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
         }
         else{
@@ -405,12 +413,12 @@ server <- function(input, output, session) {
     
     
     output$alert <- renderUI({
-        req(input$file)
+        #req(input$file)
         req(validation_summary$results)
         if(any(validation_summary$results$status == "error")){
             HTML('<button type="button" class="btn btn-danger btn-lg btn-block">ERROR</button>')
         }
-        else if(!is.null(dataset$data)){
+        else if(!is.null(dataset$data) & !is.null(input$file)){
             HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }
         else{
@@ -488,7 +496,7 @@ server <- function(input, output, session) {
         filename = function() {"certificate.csv"},
         content = function(file) {write.csv(data.frame(time = Sys.time(), 
                                                        data = digest(dataset$data), 
-                                                       link = if(!is.null(dataset$creation)){dataset$creation$url} else{NULL}, 
+                                                       link = if(!is.null(dataset$creation)){dataset$creation$url} else{NA}, 
                                                        rules = digest(validation_summary$rules), 
                                                        package_version = packageVersion("validate"), 
                                                        web_hash = digest(paste(sessionInfo(), 
