@@ -84,15 +84,16 @@ ui <- dashboardPage(
                     ),
                     column(1,
                            popover(
+                            disabled(
                            fileInput("file", NULL,
                                      placeholder = ".csv",
                                      buttonLabel = "Data...",
                                      multiple = T,
                                      accept=c("text/csv",
-                                              "text/comma-separated-values,text/plain")), #%>%
+                                              "text/comma-separated-values,text/plain"))), #%>%
                            
                            title = "Upload CSV to validate",
-                           content = "This is where you upload the csv file that you want to validate using the rules file."), 
+                           content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file."), 
                            #      size = "medium", rounded = TRUE
                     ),
                     column(1,
@@ -168,6 +169,7 @@ server <- function(input, output, session) {
     
     #Reading in rules in correct format -----
     observeEvent(input$file_rules, {
+        enable("file")
         shinyjs::reset(id = "file")
         api_info <- reactiveValues(data = NULL)
         dataset <- reactiveValues(data = NULL, creation = NULL)
