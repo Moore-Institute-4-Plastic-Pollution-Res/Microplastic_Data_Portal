@@ -285,48 +285,83 @@ server <- function(input, output, session) {
             }
             else{
                 if (any(!names(dataset$data) %in% variables(validation_summary$rules))){
-                    #dataset$data <- NULL
-                    #validation_summary$rules <- NULL
-                    #validation_summary$report <- NULL
-                    #validation_summary$results <- NULL
                     show_alert(
                         title = "Rules and data mismatch",
-                        text = paste0("All variables in the data csv (", paste(names(dataset$data), collapse = ","), ") should probably be in rules csv (",  paste(variables(validation_summary$rules), collapse = ","), ") for best data validation, but validation may proceed."),
+                        text = paste0("All variables in the data csv (", paste(names(dataset$data), collapse = ","), ")."),
                         type = "warning")
+                    dataset$data <- NULL
+                    validation_summary$rules <- NULL
+                    validation_summary$report <- NULL
+                    validation_summary$results <- NULL
                 }
-                #Check for valid api key and format the api if it is valid. This needs to be a bulletproof firewall so lots of checks and even adding additional rules. 
-                if("KEY" %in% names(dataset$data)){
-                    if(length(unique(dataset$data$KEY)) == 1){
-                        if(unique(dataset$data$KEY) %in% api$VALID_KEY){
-                            if(any(unlist(lapply(dataset$data %>% select(-KEY), function(x) any(x %in% unique(dataset$data$KEY)))))){
+                else{
+                    #Check for valid api key and format the api if it is valid. This needs to be a bulletproof firewall so lots of checks and even adding additional rules. 
+                    if("KEY" %in% names(dataset$data)){
+                        if(length(unique(dataset$data$KEY)) == 1){
+                            if(unique(dataset$data$KEY) %in% api$VALID_KEY){
+                                if(any(unlist(lapply(dataset$data %>% select(-KEY), function(x) any(x %in% unique(dataset$data$KEY)))))){
+                                    dataset$data <- NULL
+                                    api_info$data <- NULL
+                                    validation_summary$rules <- NULL
+                                    validation_summary$report <- NULL
+                                    validation_summary$results <- NULL
+                                    show_alert(
+                                        title = "Secret Key is misplaced",
+                                        text = "The secret key is in locations other than the KEY column, please remove the secret key from any other locations.",
+                                        type = "error")
+                                }
+                                else{
+                                    api_info$data <- api %>%
+                                        filter(VALID_KEY == unique(dataset$data$KEY) & VALID_RULES == digest(as.data.frame(validation_summary$rules) %>% select(-created)))
+                                    if(nrow(api_info$data) != 1){
+                                        show_alert(
+                                            title = "Mismatched rules file and KEY column",
+                                            text = "The secret key and rules file must be exact matches to one another. One secret key is for one rules file.",
+                                            type = "error")
+                                        dataset$data <- NULL
+                                        api_info$data <- NULL
+                                        validation_summary$rules <- NULL
+                                        validation_summary$report <- NULL
+                                        validation_summary$results <- NULL
+                                    }
+                                    else{
+                                        ckanr_setup(url = api_info$data$URL, key = api_info$data$KEY) 
+                                    }
+                                }
+                            }
+                            else{
                                 dataset$data <- NULL
                                 api_info$data <- NULL
                                 validation_summary$rules <- NULL
                                 validation_summary$report <- NULL
                                 validation_summary$results <- NULL
                                 show_alert(
-                                    title = "Secret Key is misplaced",
-                                    text = "The secret key is in locations other than the KEY column, please remove the secret key from any other locations.",
+                                    title = "Secret Key is not valid",
+                                    text = "Any column labeled KEY is considered a secret key and should have a valid pair in our internal database.",
                                     type = "error")
                             }
-                            else{
-                            api_info$data <- api %>%
-                                filter(VALID_KEY == unique(dataset$data$KEY))
-                            ckanr_setup(url = api_info$data$URL, key = api_info$data$KEY) 
-                            }
+                        }
+                        else{
+                            dataset$data <- NULL
+                            api_info$data <- NULL
+                            validation_summary$rules <- NULL
+                            validation_summary$report <- NULL
+                            validation_summary$results <- NULL
+                            show_alert(
+                                title = "Multiple Secret Keys",
+                                text = "There should only be one secret key per data upload.",
+                                type = "error")
                         }
                     }
-                }
-                if(!is.null(dataset$data)){
-                    validation_summary$report <- confront(dataset$data, validation_summary$rules)
-                    
-                    validation_summary$results <- summary(validation_summary$report) %>%
-                        mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
-                        mutate(description = meta(validation_summary$rules)$description)    
+                    if(!is.null(dataset$data)){
+                        validation_summary$report <- confront(dataset$data, validation_summary$rules)
+                        
+                        validation_summary$results <- summary(validation_summary$report) %>%
+                            mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
+                            mutate(description = meta(validation_summary$rules)$description)    
+                    }    
                 }
             }
-            
-            
         }
     })
     
