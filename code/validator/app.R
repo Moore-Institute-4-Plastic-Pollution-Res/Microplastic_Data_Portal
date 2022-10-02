@@ -13,6 +13,9 @@ library(purrr)
 
 options(shiny.maxRequestSize = 30*1024^2)
 
+
+
+
 api <- read.csv("secrets/ckan.csv")
 
 ui <- dashboardPage(
@@ -151,6 +154,7 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
     
+    
     rules_example <- read.csv("www/rules.csv") 
     
     data_example <- read.csv("www/Samples.csv")
@@ -158,9 +162,7 @@ server <- function(input, output, session) {
     success_example <- read.csv("www/data_success.csv")
     
     api_info <- reactiveValues(data = NULL)
-    
     dataset <- reactiveValues(data = NULL, creation = NULL)
-    
     validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
     
     #Reading in rules in correct format -----
@@ -173,11 +175,9 @@ server <- function(input, output, session) {
                 text = paste0("Uploaded data type is not currently supported; please
                       upload a .csv file."),
                 type = "warning")
-            dataset$data <- NULL
-            api_info$data <- NULL
-            validation_summary$rules <- NULL
-            validation_summary$report <- NULL
-            validation_summary$results <- NULL
+            api_info <- reactiveValues(data = NULL)
+            dataset <- reactiveValues(data = NULL, creation = NULL)
+            validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
             #return(NULL)
         }
 
@@ -190,11 +190,10 @@ server <- function(input, output, session) {
                     title = "Data type not supported!",
                     text = paste0('Uploaded rules format is not currently supported, please provide a rules file with column names, "name", "description", "severity", "rule"'),
                     type = "warning")
-                dataset$data <- NULL
-                api_info$data <- NULL
-                validation_summary$rules <- NULL
-                validation_summary$report <- NULL
-                validation_summary$results <- NULL
+                api_info <- reactiveValues(data = NULL)
+                dataset <- reactiveValues(data = NULL, creation = NULL)
+                validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
+                
                 #return(NULL)
             }
             else if (!all(unlist(lapply(rules, class)) %in% "character")) {
@@ -203,12 +202,9 @@ server <- function(input, output, session) {
                     title = "Data type not supported!",
                     text = paste0('Uploaded rules format is not currently supported, please provide a rules file with columns that are all character type.'),
                     type = "warning")
-                dataset$data <- NULL
-                api_info$data <- NULL
-                validation_summary$rules <- NULL
-                validation_summary$report <- NULL
-                validation_summary$results <- NULL
-                
+                api_info <- reactiveValues(data = NULL)
+                dataset <- reactiveValues(data = NULL, creation = NULL)
+                validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
                 #return(NULL)
             }
             else{
@@ -233,11 +229,9 @@ server <- function(input, output, session) {
                 text = paste0("Uploaded data type is not currently supported; please
                       upload a .csv file."),
                 type = "warning")
-            dataset$data <- NULL
-            api_info$data <- NULL
-            validation_summary$rules <- NULL
-            validation_summary$report <- NULL
-            validation_summary$results <- NULL
+            api_info <- reactiveValues(data = NULL)
+            dataset <- reactiveValues(data = NULL, creation = NULL)
+            validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
         }
         else if (is.null(validation_summary$rules)) {
             #reset("file")
@@ -246,11 +240,9 @@ server <- function(input, output, session) {
                 title = "Need Rules File",
                 text = paste0("You must upload a rules file before uploading a data file to validate."),
                 type = "warning")
-            dataset$data <- NULL
-            api_info$data <- NULL
-            validation_summary$rules <- NULL
-            validation_summary$report <- NULL
-            validation_summary$results <- NULL
+            api_info <- reactiveValues(data = NULL)
+            dataset <- reactiveValues(data = NULL, creation = NULL)
+            validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
             #return(NULL)
         }
         else{
@@ -279,22 +271,20 @@ server <- function(input, output, session) {
                     text = paste0("All variables in the rules csv (", paste(variables(validation_summary$rules), collapse = ","), ") need to be in data csv (",  paste(names(dataset$data), collapse = ","), ") for the validation to work."),
                     type = "error")
                 
-                dataset$data <- NULL
-                api_info$data <- NULL
-                validation_summary$rules <- NULL
-                validation_summary$report <- NULL
-                validation_summary$results <- NULL
+                api_info <- reactiveValues(data = NULL)
+                dataset <- reactiveValues(data = NULL, creation = NULL)
+                validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
             }
             else{
                 if (any(!names(dataset$data) %in% variables(validation_summary$rules))){
                     show_alert(
                         title = "Rules and data mismatch",
-                        text = paste0("All variables in the data csv (", paste(names(dataset$data), collapse = ","), ")."),
+                        text = paste0("All variables in the data csv (", paste(names(dataset$data), collapse = ","), ") should be in the rules csv (", paste(variables(validation_summary$rules), collapse = ","), ")"),
                         type = "warning")
-                    dataset$data <- NULL
-                    validation_summary$rules <- NULL
-                    validation_summary$report <- NULL
-                    validation_summary$results <- NULL
+                    api_info <- reactiveValues(data = NULL)
+                    dataset <- reactiveValues(data = NULL, creation = NULL)
+                    validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
+                    
                 }
                 else{
                     #Check for valid api key and format the api if it is valid. This needs to be a bulletproof firewall so lots of checks and even adding additional rules. 
@@ -306,11 +296,10 @@ server <- function(input, output, session) {
                                         title = "Secret Key is misplaced",
                                         text = "The secret key is in locations other than the KEY column, please remove the secret key from any other locations.",
                                         type = "error")
-                                    dataset$data <- NULL
-                                    api_info$data <- NULL
-                                    validation_summary$rules <- NULL
-                                    validation_summary$report <- NULL
-                                    validation_summary$results <- NULL
+                                    api_info <- reactiveValues(data = NULL)
+                                    dataset <- reactiveValues(data = NULL, creation = NULL)
+                                    validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
+                                    
                                     
                                 }
                                 else{
@@ -321,11 +310,10 @@ server <- function(input, output, session) {
                                             title = "Mismatched rules file and KEY column",
                                             text = "The secret key and rules file must be exact matches to one another. One secret key is for one rules file.",
                                             type = "error")
-                                        dataset$data <- NULL
-                                        api_info$data <- NULL
-                                        validation_summary$rules <- NULL
-                                        validation_summary$report <- NULL
-                                        validation_summary$results <- NULL
+                                        api_info <- reactiveValues(data = NULL)
+                                        dataset <- reactiveValues(data = NULL, creation = NULL)
+                                        validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
+                                        
                                     }
                                     else{
                                         ckanr_setup(url = api_info$data$URL, key = api_info$data$KEY) 
@@ -337,11 +325,10 @@ server <- function(input, output, session) {
                                     title = "Secret Key is not valid",
                                     text = "Any column labeled KEY is considered a secret key and should have a valid pair in our internal database.",
                                     type = "error")
-                                dataset$data <- NULL
-                                api_info$data <- NULL
-                                validation_summary$rules <- NULL
-                                validation_summary$report <- NULL
-                                validation_summary$results <- NULL
+                                api_info <- reactiveValues(data = NULL)
+                                dataset <- reactiveValues(data = NULL, creation = NULL)
+                                validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
+                                
                             }
                         }
                         else{
@@ -349,11 +336,10 @@ server <- function(input, output, session) {
                                 title = "Multiple Secret Keys",
                                 text = paste0("There should only be one secret key per data upload, but these keys are in the data (", paste(unique(dataset$data$KEY), collapse = ","), ")"),
                                 type = "error")
-                            dataset$data <- NULL
-                            api_info$data <- NULL
-                            validation_summary$rules <- NULL
-                            validation_summary$report <- NULL
-                            validation_summary$results <- NULL
+                            api_info <- reactiveValues(data = NULL)
+                            dataset <- reactiveValues(data = NULL, creation = NULL)
+                            validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
+                            
                         }
                     }
                     if(!is.null(dataset$data)){
@@ -386,15 +372,20 @@ server <- function(input, output, session) {
     )
     
     overview_table <- reactive({
-        req(input$file, dataset$data)
+        req(input$file)
+        req(dataset$data)
+        req(validation_summary$results)
+        
         validation_summary$results %>%
             filter(if(input$show_decision){status == "error"} else{status %in% c("error", "success")}) %>%
             select(description, status, name, expression, everything())
     })
     
     selected <- reactive({
-        req(input$file, dataset$data)
+        req(input$file)
+        req(dataset$data)
         req(input$show_report_rows_selected)
+        req(validation_summary$results)
         violating(dataset$data, validation_summary$report[overview_table()[input$show_report_rows_selected, "name"]])
     })
     
@@ -430,6 +421,7 @@ server <- function(input, output, session) {
     #Report tables ----
     output$show_report <- DT::renderDataTable({
         req(input$file)
+        req(dataset$data)
         req(nrow(overview_table()) > 0)
         #req(any(validation_summary$results$status == "error"))
         datatable({overview_table() %>%
@@ -459,6 +451,7 @@ server <- function(input, output, session) {
     
     output$report_selected <- DT::renderDataTable({
         req(input$file)
+        req(dataset$data)
         req(input$show_report_rows_selected)
         req(any(validation_summary$results$status == "error"))
         req(nrow(selected()) > 0)
