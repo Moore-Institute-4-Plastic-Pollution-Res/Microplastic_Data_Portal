@@ -168,8 +168,12 @@ server <- function(input, output, session) {
     
     #Reading in rules in correct format -----
     observeEvent(input$file_rules, {
-        file_rules <- input$file_rules$datapath
         shinyjs::reset(id = "file")
+        api_info <- reactiveValues(data = NULL)
+        dataset <- reactiveValues(data = NULL, creation = NULL)
+        validation_summary$report <- NULL
+        validation_summary$results <- NULL
+        file_rules <- input$file_rules$datapath
         if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
             #reset("file")
             show_alert(
@@ -218,11 +222,10 @@ server <- function(input, output, session) {
     
     #Reading in data in correct format ----
     observeEvent(input$file, {
-        req(input$file)
+        #req(input$file)
         file <- input$file$datapath
         updateBox("issue_selected", action = "restore")
         updateBox("issues_raised", action = "restore")
-        
         
         # Read in data when uploaded based on the file type
         if (!all(grepl("(\\.csv$)", ignore.case = T, as.character(file)))) {
@@ -262,6 +265,9 @@ server <- function(input, output, session) {
                         text = paste0("This tool expects at least one column in each dataset with the same name to merge on. There was an error that said ", sout$message),
                         type = "error"
                     )
+                    api_info <- reactiveValues(data = NULL)
+                    dataset <- reactiveValues(data = NULL, creation = NULL)
+                    validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
                 }
                 else{
                     dataset$data <- sout
@@ -356,8 +362,8 @@ server <- function(input, output, session) {
         }
     })
     
-    observeEvent(req(all(validation_summary$results$status != "error"), dataset$data, validation_summary$rules, validation_summary$results$status), {
-        if(!is.null(input$file)){
+    observeEvent(all(validation_summary$results$status != "error"), {
+        if(!is.null(input$file) & !is.null(validation_summary$results)){
             updateBox("issue_selected", action = "remove")
             show_alert(
                 title = "Data validation successful!",
