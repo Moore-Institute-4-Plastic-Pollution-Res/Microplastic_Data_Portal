@@ -342,15 +342,16 @@ server <- function(input, output, session) {
                             }
                         }
                         else{
+                            show_alert(
+                                title = "Multiple Secret Keys",
+                                text = paste0("There should only be one secret key per data upload, but these keys are in the data (", unique(dataset$data$KEY), ")", collapse = ","),
+                                type = "error")
                             dataset$data <- NULL
                             api_info$data <- NULL
                             validation_summary$rules <- NULL
                             validation_summary$report <- NULL
                             validation_summary$results <- NULL
-                            show_alert(
-                                title = "Multiple Secret Keys",
-                                text = "There should only be one secret key per data upload.",
-                                type = "error")
+
                         }
                     }
                     if(!is.null(dataset$data)){
