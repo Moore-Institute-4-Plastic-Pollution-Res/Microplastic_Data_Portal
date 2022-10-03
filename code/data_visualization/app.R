@@ -50,7 +50,7 @@ ui <- dashboardPage(
                     tags$style(type = "text/css", "#mapplot {height: calc(100vh - 80px) !important;}"),
                     leafletOutput("mapplot"),
                     width = 12,
-                    height = "100vh",
+                    #height = "100vh",
                     maximizable = T
                 )
             )
