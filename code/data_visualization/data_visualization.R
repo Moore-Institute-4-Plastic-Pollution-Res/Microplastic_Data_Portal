@@ -10,18 +10,18 @@
 
 
 library(tidyverse)
-library("readxl")
+library(readxl)
 
 library(tidygeocoder)
 library(sf)  
 library(mapview)
 
 # Read Samples Excel file into R
-Samples_excel <- read.csv("Samples.csv")
+Samples_excel <- read.csv("code/data_visualization/Samples.csv")
 
 # Geocode locations to closest precision possible, add XY location values
 Samples_GeoCoded <- Samples_excel %>%
-  geocode('Location (most precise sata possible for location where sample was collected)', method = 'osm', lat = latitude, long = longitude)
+  geocode("Location", method = 'osm', lat = latitude, long = longitude)
 
 # Filter out samples which could not be geocoded
 Samples_Map <- Samples_GeoCoded %>%
@@ -31,4 +31,4 @@ Samples_Map <- Samples_GeoCoded %>%
 # Generate map of microplastics sample data
 World <- data(worldMapEnv)
 
-mapview(Samples_Map, zcol = 'Concentration (concentration of microplastics in sample)', legend = FALSE)
+mapview(Samples_Map, zcol = 'Concentration', legend = FALSE)
