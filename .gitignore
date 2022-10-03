@@ -9,6 +9,7 @@ data/Annak
 data/annak.csv
 data/fadare.csv
 code/ckanr.R
+code/microplastic_image_explorer/extra_data/Photos_data.xlsx
 
 #secrets
 *secrets

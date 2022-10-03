@@ -6,10 +6,25 @@ library(data.table)
 library(dplyr)
 library(validate)
 library(digest)
+library(detector)
 
+
+decimalplaces()
+unlist(lapply(c(0.058343413, 0.23432834), function(x) decimalplaces(x))) >= 5
+
+#detect PII
+any(detector::detect(test)[,-1])
+
+test <- read.csv("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/data_success_secret.csv", fileEncoding = "UTF-8")test <- read.csv("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/data_success_secret.csv", fileEncoding = "UTF-8")
 test <- read.csv("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/rules_secret.csv", fileEncoding = "UTF-8")
+
+
+
 digest(validator(.data=test), seed = 3)
-checking <- validator(.data=test)
+checking <- tryCatch(validator(.data=test),
+         warning = function(w) {w}, error = function(e) {e})
+
+inherits(checking, "simpleWarning")
 
 data <- api %>%
     filter(VALID_KEY == "8a49f228a877ec3654dfa5ff6aa57849" & VALID_RULES == digest(as.data.frame(validator(.data=test)) %>% select(-created)))
