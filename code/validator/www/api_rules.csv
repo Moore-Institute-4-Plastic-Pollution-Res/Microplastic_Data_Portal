@@ -1,0 +1,4 @@
+name,description,severity,rule
+shape_values,Shape can only be fibers or fragments,error,"Shape %vin% c(""Fibers"", ""Fragments"")"
+source_values,Source can only be Tap Water or Bottled Water,error,"Source %vin% c(""Tap Water"", ""Bottled Water"")"
+sample_id_unique,Sample ID must be unique,error,is_unique(Sample_ID)
