@@ -16,9 +16,8 @@ library(tidygeocoder)
 library(sf)  
 library(mapview)
 
-
 # Read Samples Excel file into R
-Samples_excel <- read_excel("data/Samples.xlsx")
+Samples_excel <- read.csv("Samples.csv")
 
 # Geocode locations to closest precision possible, add XY location values
 Samples_GeoCoded <- Samples_excel %>%
