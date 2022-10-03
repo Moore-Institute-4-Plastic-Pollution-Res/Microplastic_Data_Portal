@@ -47,6 +47,7 @@ ui <- dashboardPage(
             tabItem(
                 tabName = "item2",
                 box(
+                    tags$style(type = "text/css", "#mapplot {height: calc(100vh - 80px) !important;}"),
                     leafletOutput("mapplot"),
                     width = 12,
                     height = "100vh",
