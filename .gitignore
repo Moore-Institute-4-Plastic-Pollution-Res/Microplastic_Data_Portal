@@ -5,6 +5,10 @@
 *.ini
 *.Rproj
 *rsconnect
+data/Annak
+data/annak.csv
+data/fadare.csv
+code/ckanr.R
 
 #secrets
 *secrets
