@@ -11,10 +11,10 @@
 
 library(tidyverse)
 library(readxl)
-
 library(tidygeocoder)
 library(sf)  
 library(mapview)
+library(mapdata)
 
 # Read Samples Excel file into R
 Samples_excel <- read.csv("code/data_visualization/Samples.csv")
@@ -27,6 +27,11 @@ Samples_GeoCoded <- Samples_excel %>%
 Samples_Map <- Samples_GeoCoded %>%
   filter(!is.na(latitude) & !is.na(longitude)) %>% 
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326, remove = FALSE)
+
+# Save an object to a file
+saveRDS(Samples_Map, file = "code/data_visualization/data/Samples_Map.rds")
+# Restore the object
+Samples_Map <- readRDS(file = "code/data_visualization/data/Samples_Map.rds")
 
 # Generate map of microplastics sample data
 World <- data(worldMapEnv)
