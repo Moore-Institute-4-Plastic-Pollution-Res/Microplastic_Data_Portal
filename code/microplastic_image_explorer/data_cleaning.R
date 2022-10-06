@@ -4,6 +4,34 @@ library(dplyr)
 library("jpeg")
 library("tiff")
 
+#Info we want Timestamp	Image File	Researcher Name	Affiliation	Citation	Instrument name	Analysis Date	Polymer-type of particle	Magnification	Color	Morphology	Size of particle	Size dimension
+
+#Leah ----
+jpegs <- list.files("C:/Users/winco/Downloads/Leah", pattern = ".jpg", recursive = T, full.names = T)
+shortjpegs <- gsub(".jpg", "", gsub(".*/", "", jpegs))
+info <- read.csv("C:/Users/winco/Downloads/tbl_qa_master.csv")
+microscopy <- read.csv("C:/Users/winco/Downloads/tbl_microscopysettings.csv")
+info_clean <- info %>%
+    left_join(microscopy) %>%
+    mutate(file = paste0(particleid, ".jpg")) %>%
+    mutate(timestamp = NA) %>%
+    mutate(citation = "SCCWRP Interlaboratory Comparison 2020-2022",
+           instrument = NA, 
+           affiliation = "SCCWRP", 
+           researcher = paste0("Lab ", labid), 
+           analysis_date = "2020-2022")
+
+sum(shortjpegs %in% info$particleid)
+cleanedjpgs <- jpegs[shortjpegs %in% info$particleid]
+
+for(item in 1:length(cleanedjpgs)){
+    file.copy(from = cleanedjpgs[item], to = paste0("C:/Users/winco/Downloads/LeahClean/", shortjpegs[item], ".jpg"))
+}
+
+drive_deauth()
+files <- drive_ls(drive_get(as_id("https://drive.google.com/drive/folders/103OUoOpOqxgn06fJA2Rq38SjFgfdejbRcvanC9u2juKqelwmgzrL0f7xI8T9G-_z7r6XbAeb")))
+leahfiles <- files[,c("name", "id")] %>%
+    inner_join(info_clean, by = c("name" = "file"))
 
 # AnnaK ----
 annak <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/microplastic_image_explorer/extra_data/Photos_data.xlsx") %>%
@@ -11,6 +39,7 @@ annak <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/M
 
 files_in_list <- list.files("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Annak", pattern = ".tif", full.names = T)
 files_in_list_names <- list.files("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Annak", pattern = ".tif")
+
 
 for(image in 1:length(files_in_list)){
     img <- readTIFF(files_in_list[image], native=TRUE)
