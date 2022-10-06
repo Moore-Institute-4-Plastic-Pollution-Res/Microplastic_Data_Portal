@@ -56,7 +56,7 @@ ui <- dashboardPage(
                          column(4,
                                 selectInput(inputId = "citation", 
                                             label = "Citation", 
-                                            choices = c("ALL", toupper(unique(file$citation))),
+                                            choices = c("ALL", toupper(unique(file$Citation))),
                                 )),
                     column(4, 
                            selectInput(inputId = "color", 
