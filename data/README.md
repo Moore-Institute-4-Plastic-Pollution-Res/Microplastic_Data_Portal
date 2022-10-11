@@ -28,9 +28,9 @@ Sample_ID <- unique key for sample being referenced
 
 Subsample_ID <- unique key for subsample being referenced, if applicable
 
-Location <- most precise sata possible for location where sample was collected
+Location <- most precise data possible for location where sample was collected
 
-Source <- source of water in sample, e.g. tap water, bottled water, etc
+Source <- source of water in sample, either "tap water" or "bottled water"
 
 Date <- date sample was collected
 
