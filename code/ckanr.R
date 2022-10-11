@@ -4,8 +4,35 @@
 library(ckanr)
 library(data.table)
 library(dplyr)
+library(validate)
+library(digest)
+library(detector)
 
-api <- read.table("secrets/ckan.txt", sep = ",")
+
+decimalplaces()
+unlist(lapply(c(0.058343413, 0.23432834), function(x) decimalplaces(x))) >= 5
+
+#detect PII
+any(detector::detect(test)[,-1])
+
+test <- read.csv("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/data_success_secret.csv", fileEncoding = "UTF-8")test <- read.csv("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/data_success_secret.csv", fileEncoding = "UTF-8")
+test <- read.csv("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/rules_secret.csv", fileEncoding = "UTF-8")
+
+
+
+digest(validator(.data=test), seed = 3)
+checking <- tryCatch(validator(.data=test),
+         warning = function(w) {w}, error = function(e) {e})
+
+inherits(checking, "simpleWarning")
+
+data <- api %>%
+    filter(VALID_KEY == "8a49f228a877ec3654dfa5ff6aa57849" & VALID_RULES == digest(as.data.frame(validator(.data=test)) %>% select(-created)))
+
+digest(rules)
+digest(test)
+
+api <- read.csv("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/ckan.csv")
 ckanr_setup(url = "https://data.ca.gov/", key = api$V1)
 #ckanr_setup(url = "[https://data.ca.gov/](https://data.ca.gov/)", key = api$V1) 
 
@@ -59,3 +86,64 @@ ds_create(resource_id = resourceID)
 # Could go with this in the long run when the dataset starts getting really large. ?ckanr::ds_create()
 # Also a minimal example of something a little more advanced here: https://github.com/ropensci/ckanr/pull/102
 # Another useful strategy https://www.r-bloggers.com/2019/11/trying-the-ckanr-package/ 
+
+
+#test api validate
+
+rules <- read.csv("G:/My Drive/MooreInstitute/Projects/Water PACT/rules.csv", fileEncoding = "UTF-8")
+df1 <- read.csv("G:/My Drive/MooreInstitute/Projects/Water PACT/Proposed_WaterPACT_Datasharing_WC_Test_success_samples.csv", fileEncoding = "UTF-8")
+df2 <- read.csv("G:/My Drive/MooreInstitute/Projects/Water PACT/Proposed_WaterPACT_Datasharing_WC_Test_success_equipment.csv", fileEncoding = "UTF-8")
+
+files = "G:/My Drive/MooreInstitute/Projects/Water PACT/Proposed_WaterPACT_Datasharing_WC_Test_success_samples.csv"
+
+sout <- tryCatch(lapply(files, function(file) read.csv(file, fileEncoding = "UTF-8")) %>% 
+                     reduce(full_join),
+                 warning = function(w) {w}, error = function(e) {e})
+
+
+joined <- full_join(df1, df2)
+
+validation_summary <- validator(.data=rules)
+variables(validation_summary)
+
+function(file) read.csv(file, fileEncoding = "UTF-8")
+files <- c("G:/My Drive/MooreInstitute/Projects/Water PACT/Proposed_WaterPACT_Datasharing_WC_Test_success_equipment.csv", "G:/My Drive/MooreInstitute/Projects/Water PACT/Proposed_WaterPACT_Datasharing_WC_Test_success_samples.csv")
+
+examplelist <- lapply(files, function(file) read.csv(file, fileEncoding = "UTF-8"))
+library(purrr)
+joined <- examplelist %>% reduce(full_join)
+
+lapply(examplelist, names)
+
+data <- read.csv("G:/My Drive/MooreInstitute/Projects/Water PACT/Proposed_WaterPACT_Datasharing_WC_Test_success_samples.csv")
+library(stringr)
+
+str_detect("09/9/2020", "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$")
+
+as.Date("9-9-2020", format = "%Y-%m-%d")
+
+as.Date("2020-9-9", format = "%Y-%m-%d") > as.Date("2020-9-1", format = "%Y-%m-%d")
+str_detect("09/9/2020", "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$")
+
+number_format(10, max_dig=1)
+
+in_range("15:00:00", min="15:30:00", max = "16:00:00", format = "%H:%M:%S")
+
+in_range("A", min="05:00:00", max = "20:00:00", format = "%H:%M:%S")
+
+ddata <- read.csv("C:/Users/winco/OneDrive/Documents/test_validate/valid_data (3).csv")
+validation <- read.csv("C:/Users/winco/OneDrive/Documents/test_validate/rules (10).csv")
+
+testnames <- names(data)[names(data) != "KEY"]
+data2 <- data %>% select(-KEY)
+MISSING_KEY <- unique(data$KEY)
+rules <- validator(!. %in% KEY)
+report <- confront(data2, rules, ref = list(KEY = MISSING_KEY))
+any(unlist((lapply(data %>% select(-KEY), function(x) any(x %in% MISSING_KEY)))))
+
+rules <- validator(G:=var_group(names_ref), G != KEY)
+report <- confront(data, rules,  ref = list(names_ref = testnames))
+
+results <- summary(report) %>%
+    mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) #%>%
+    mutate(description = meta(rules)$description)

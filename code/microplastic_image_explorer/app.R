@@ -53,21 +53,32 @@ ui <- dashboardPage(
             tabItem(
                 tabName = "item2",
                 fluidRow(
+                         column(4,
+                                selectInput(inputId = "citation", 
+                                            label = "Citation", 
+                                            choices = c("ALL", toupper(unique(file$Citation))),
+                                )),
                     column(4, 
                            selectInput(inputId = "color", 
-                                       label = "Color Selection", 
+                                       label = "Color", 
                                        choices = c("ALL", toupper(unique(file$Color))),
                            )
                     ),
                     column(4,
                            selectInput(inputId = "morphology", 
-                                       label = "Morphology Selection", 
+                                       label = "Morphology", 
                                        choices = c("ALL", toupper(unique(file$Morphology))),
-                           )),
+                           ))),
+                fluidRow(
                     column(4,
                            selectInput(inputId = "polymer", 
-                                       label = "Polymer Selection", 
+                                       label = "Polymer", 
                                        choices = c("ALL", toupper(unique(file$`Polymer-type of particle`))),
+                           )),
+                    column(4,
+                           selectInput(inputId = "size", 
+                                       label = "Size", 
+                                       choices = c("ALL", toupper(unique(file$`Size of particle`))),
                            ))
                 ),
                 uiOutput("images")
@@ -83,6 +94,8 @@ server <- function(input, output) {
     
     filtered <- reactive({
             filtered_test <- file %>% 
+                                filter(if(input$citation != "ALL") tolower(Citation) == tolower(input$citation) else !is.na(images)) %>%
+                                filter(if(input$size != "ALL") tolower(`Size of particle`) == tolower(input$size) else !is.na(images)) %>%
                                 filter(if(input$color != "ALL") tolower(Color) == tolower(input$color) else !is.na(images)) %>%
                                 filter(if(input$morphology != "ALL") tolower(Morphology) == tolower(input$morphology) else !is.na(images)) %>%
                                 filter(if(input$polymer != "ALL") tolower(`Polymer-type of particle`) == tolower(input$polymer) else !is.na(images))
