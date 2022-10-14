@@ -9,7 +9,7 @@ library(digest)
 library(data.table)
 library(bs4Dash)
 library(ckanr)
-#library(purrr)
+library(purrr)
 library(shinyjs)
 library(detector)
 
@@ -166,7 +166,7 @@ ui <- dashboardPage(
 server <- function(input, output, session) {
     
     
-    rules_example <- read.csv("www/rules.csv") 
+    rules_example <- read.csv("www/rules.csv")
     
     data_example <- read.csv("www/Samples.csv")
     

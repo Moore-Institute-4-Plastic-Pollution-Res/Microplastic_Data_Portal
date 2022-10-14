@@ -6,6 +6,9 @@ library("tiff")
 
 #Info we want Timestamp	Image File	Researcher Name	Affiliation	Citation	Instrument name	Analysis Date	Polymer-type of particle	Magnification	Color	Morphology	Size of particle	Size dimension
 
+
+
+
 #Leah ----
 jpegs <- list.files("C:/Users/winco/Downloads/Leah", pattern = ".jpg", recursive = T, full.names = T)
 shortjpegs <- gsub(".jpg", "", gsub(".*/", "", jpegs))
