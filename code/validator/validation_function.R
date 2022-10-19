@@ -1,5 +1,12 @@
+#setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
 
-file_rules = "rules_secret.csv"
+#api <- read.csv("ckan.csv")
+#file_rules = "rules_secret.csv"
+
+#test_rules <- validate_rules("rules_secret.csv")
+#test_data <- validate_data(files_data = "data_success_secret.csv", rules = test_rules)
+#test_remote <- remote_share(data_formatted = test_data$data_formatted, api = api, rules = test_rules, results = test_data$results)
+#files_data = "data_success_secret.csv"
 
 
 validate_rules <- function(file_rules){
@@ -44,7 +51,6 @@ validate_rules <- function(file_rules){
     return(rules_formatted)
 }
 
-files_data = "data_success_secret.csv"
 
 validate_data <- function(files_data, rules){
     # Read in data when uploaded based on the file type
@@ -141,10 +147,3 @@ remote_share <- function(data_formatted, api, rules, results){
     return(creation)
 }
 
-setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
-
-api <- read.csv("ckan.csv")
-
-test_rules <- validate_rules("rules_secret.csv")
-test_data <- validate_data(files_data = "data_success_secret.csv", rules = test_rules)
-test_remote <- remote_share(data_formatted = test_data$data_formatted, api = api, rules = test_rules, results = test_data$results)

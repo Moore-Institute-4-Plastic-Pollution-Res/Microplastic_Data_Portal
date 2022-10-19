@@ -13,6 +13,7 @@ library(purrr)
 library(shinyjs)
 library(detector)
 
+source(validation_function.R)
 
 options(shiny.maxRequestSize = 30*1024^2)
 
