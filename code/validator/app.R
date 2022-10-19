@@ -13,15 +13,9 @@ library(purrr)
 library(shinyjs)
 library(detector)
 
-source(validation_function.R)
+source("validation_function.R")
 
 options(shiny.maxRequestSize = 30*1024^2)
-
-reset_reactive_variables <- function(){
-    api_info <<- reactiveValues(data = NULL)
-    dataset <<- reactiveValues(data = NULL, creation = NULL)
-    validation_summary <<- reactiveValues(results = NULL, report = NULL, rules = NULL)
-}
 
 api <- read.csv("secrets/ckan.csv")
 
@@ -166,271 +160,102 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
     
-    
     rules_example <- read.csv("www/rules.csv")
     
-    data_example <- read.csv("www/Samples.csv")
+    invalid_example <- read.csv("www/invalid_data.csv")
     
     success_example <- read.csv("www/data_success.csv")
     
-    reset_reactive_variables()
+    remote <- reactiveValues(creation = NULL, status = NULL)
+    rules <- reactiveValues(rules = NULL, status = NULL)
+    validation <- reactiveValues(data_formatted = NULL, report = NULL, results = NULL, rules = NULL, status = NULL)
     
     #Reading in rules in correct format -----
     observeEvent(input$file_rules, {
         enable("file")
         shinyjs::reset(id = "file")
-        api_info <- reactiveValues(data = NULL)
-        dataset <- reactiveValues(data = NULL, creation = NULL)
-        validation_summary$report <- NULL
-        validation_summary$results <- NULL
-        file_rules <- input$file_rules$datapath
-        if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
-            #reset("file")
+        rules_file <- input$file_rules$datapath
+        rules_output <- validate_rules(rules_file)
+        validation <- reactiveValues(data_formatted = NULL, report = NULL, results = NULL, rules = NULL, status = NULL)
+        if(rules_output$status == "error"){
             show_alert(
-                title = "Data type not supported!",
-                text = paste0("Uploaded data type is not currently supported; please
-                      upload a .csv file."),
-                type = "warning")
-            api_info <- reactiveValues(data = NULL)
-            dataset <- reactiveValues(data = NULL, creation = NULL)
-            validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-            #return(NULL)
+                title = rules_output$message$title,
+                text = rules_output$message$text,
+                type = rules_output$message$type)
+            disable("file")
         }
-
         else{
-            rules <- read.csv(input$file_rules$datapath, fileEncoding = "UTF-8")
-            
-            if (!all(c("name", "description", "severity", "rule") %in% names(rules))) {
-                #reset("file")
-                show_alert(
-                    title = "Data type not supported!",
-                    text = paste0('Uploaded rules format is not currently supported, please provide a rules file with column names, "name", "description", "severity", "rule"'),
-                    type = "warning")
-                api_info <- reactiveValues(data = NULL)
-                dataset <- reactiveValues(data = NULL, creation = NULL)
-                validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-                
-                #return(NULL)
-            }
-            else if (!all(unlist(lapply(rules, class)) %in% "character")) {
-                #reset("file")
-                show_alert(
-                    title = "Data type not supported!",
-                    text = paste0('Uploaded rules format is not currently supported, please provide a rules file with columns that are all character type.'),
-                    type = "warning")
-                api_info <- reactiveValues(data = NULL)
-                dataset <- reactiveValues(data = NULL, creation = NULL)
-                validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-                #return(NULL)
-            }
-            else{
-            validation_summary$rules <- tryCatch(validator(.data=rules),
-                                     warning = function(w) {w}, error = function(e) {e})
-            if (inherits(validation_summary$rules, "simpleWarning") | inherits(validation_summary$rules, "simpleError")){
-                show_alert(
-                    title = "Something went wrong with reading the rules file.",
-                    text = paste0("There was an error that said ", validation_summary$rules$message),
-                    type = "error"
-                )
-                api_info <- reactiveValues(data = NULL)
-                dataset <- reactiveValues(data = NULL, creation = NULL)
-                validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-            }
-            }
+            rules$rules <- rules_output$rules
+            rules$status <- rules_output$status
         }
-        
     })
     
     #Reading in data in correct format ----
     observeEvent(input$file, {
-        #req(input$file)
-        file <- input$file$datapath
+        req(input$file)
+        data <- input$file$datapath
         updateBox("issue_selected", action = "restore")
         updateBox("issues_raised", action = "restore")
-        
-        # Read in data when uploaded based on the file type
-        if (!all(grepl("(\\.csv$)", ignore.case = T, as.character(file)))) {
+        validation_output <- validate_data(files_data = data, rules = rules$rules)
+        if(validation_output$status == "error"){
             show_alert(
-                title = "Data type not supported!",
-                text = paste0("Uploaded data type is not currently supported; please
-                      upload a .csv file."),
-                type = "warning")
-            api_info <- reactiveValues(data = NULL)
-            dataset <- reactiveValues(data = NULL, creation = NULL)
-            validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-        }
-        else if (is.null(validation_summary$rules)) {
-            #reset("file")
-            
-            show_alert(
-                title = "Need Rules File",
-                text = paste0("You must upload a rules file before uploading a data file to validate."),
-                type = "warning")
-            api_info <- reactiveValues(data = NULL)
-            dataset <- reactiveValues(data = NULL, creation = NULL)
-            validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-            #return(NULL)
+                title = validation_output$message$title,
+                text  = validation_output$message$text,
+                type  = validation_output$message$type)
         }
         else{
-            if(length(file) == 1){
-                dataset$data <- read.csv(file, fileEncoding = "UTF-8")
-            }
-            else{
-                sout <- tryCatch(lapply(file, function(file) read.csv(file, fileEncoding = "UTF-8")) %>% 
-                                             reduce(full_join),
-                    warning = function(w) {w}, error = function(e) {e})
-                
-                if (inherits(sout, "simpleWarning") | inherits(sout, "simpleError")){
-                    show_alert(
-                        title = "Something went wrong with the merge.",
-                        text = paste0("This tool expects at least one column in each dataset with the same name to merge on. There was an error that said ", sout$message),
-                        type = "error"
-                    )
-                    api_info <- reactiveValues(data = NULL)
-                    dataset <- reactiveValues(data = NULL, creation = NULL)
-                    validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-                }
-                else{
-                    dataset$data <- sout
-                }
-            }
-            if(!all(variables(validation_summary$rules) %in% names(dataset$data))){
-                show_alert(
-                    title = "Rules and data mismatch",
-                    text = paste0("All variables in the rules csv (", paste(variables(validation_summary$rules), collapse = ","), ") need to be in data csv (",  paste(names(dataset$data), collapse = ","), ") for the validation to work."),
-                    type = "error")
-                
-                api_info <- reactiveValues(data = NULL)
-                dataset <- reactiveValues(data = NULL, creation = NULL)
-                validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-            }
-            else{
-                if (any(!names(dataset$data) %in% variables(validation_summary$rules))){
-                    show_alert(
-                        title = "Rules and data mismatch",
-                        text = paste0("All variables in the data csv (", paste(names(dataset$data), collapse = ","), ") should be in the rules csv (", paste(variables(validation_summary$rules), collapse = ","), ")"),
-                        type = "warning")
-                    api_info <- reactiveValues(data = NULL)
-                    dataset <- reactiveValues(data = NULL, creation = NULL)
-                    validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-                    
-                }
-                else{
-                    #Check for valid api key and format the api if it is valid. This needs to be a bulletproof firewall so lots of checks and even adding additional rules. 
-                    if("KEY" %in% names(dataset$data)){
-                        if(length(unique(dataset$data$KEY)) == 1){
-                            if(unique(dataset$data$KEY) %in% api$VALID_KEY){
-                                if(any(unlist(lapply(dataset$data %>% select(-KEY), function(x) any(x %in% unique(dataset$data$KEY)))))){
-                                    show_alert(
-                                        title = "Secret Key is misplaced",
-                                        text = "The secret key is in locations other than the KEY column, please remove the secret key from any other locations.",
-                                        type = "error")
-                                    api_info <- reactiveValues(data = NULL)
-                                    dataset <- reactiveValues(data = NULL, creation = NULL)
-                                    validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-                                    
-                                    
-                                }
-                                else{
-                                    api_info$data <- api %>%
-                                        filter(VALID_KEY == unique(dataset$data$KEY) & VALID_RULES == digest(as.data.frame(validation_summary$rules) %>% select(-created)))
-                                    if(nrow(api_info$data) != 1){
-                                        show_alert(
-                                            title = "Mismatched rules file and KEY column",
-                                            text = "The secret key and rules file must be exact matches to one another. One secret key is for one rules file.",
-                                            type = "error")
-                                        api_info <- reactiveValues(data = NULL)
-                                        dataset <- reactiveValues(data = NULL, creation = NULL)
-                                        validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-                                        
-                                    }
-                                    else{
-                                        ckanr_setup(url = api_info$data$URL, key = api_info$data$KEY) 
-                                    }
-                                }
-                            }
-                            else{
-                                show_alert(
-                                    title = "Secret Key is not valid",
-                                    text = "Any column labeled KEY is considered a secret key and should have a valid pair in our internal database.",
-                                    type = "error")
-                                api_info <- reactiveValues(data = NULL)
-                                dataset <- reactiveValues(data = NULL, creation = NULL)
-                                validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-                                
-                            }
-                        }
-                        else{
-                            show_alert(
-                                title = "Multiple Secret Keys",
-                                text = paste0("There should only be one secret key per data upload, but these keys are in the data (", paste(unique(dataset$data$KEY), collapse = ","), ")"),
-                                type = "error")
-                            api_info <- reactiveValues(data = NULL)
-                            dataset <- reactiveValues(data = NULL, creation = NULL)
-                            validation_summary <- reactiveValues(results = NULL, report = NULL, rules = NULL)
-                            
-                        }
-                    }
-                    if(!is.null(dataset$data)){
-                        validation_summary$report <- confront(dataset$data, validation_summary$rules)
-                        
-                        validation_summary$results <- summary(validation_summary$report) %>%
-                            mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
-                            mutate(description = meta(validation_summary$rules)$description)    
-                    }    
-                }
-            }
+            validation$data_formatted <- validation_output$data_formatted
+            validation$report <- validation_output$report
+            validation$results <- validation_output$results
+            validation$rules <- validation_output$rules
+            validation$status <- validation_output$status
         }
     })
     
-    observeEvent(all(validation_summary$results$status != "error"), {
-        if(!is.null(input$file) & !is.null(validation_summary$results)){
-            updateBox("issue_selected", action = "remove")
-            show_alert(
-                title = "Data validation successful!",
-                text = paste0('Feel free to download a certificate proving that your data validation was successful.'),
-                type = "success")
-        }
-        if(!is.null(api_info$data) & !is.null(input$file)){
-            hashed_data <- digest(dataset$data)
-            hashed_rules <- digest(validation_summary$rules)
-            package_version <- packageVersion("validate")
-            file <- tempfile(pattern = "data", fileext = ".csv")
-            #dataset
-            write.csv(dataset$data %>% select(-KEY), file, row.names = F)
-            dataset$creation <- resource_create(package_id = api_info$data$PACKAGE,
-                                                description = "validated raw data upload to microplastic data portal",
-                                                name = paste0("data_", hashed_data),
-                                                upload = file)
-        }
+    observeEvent(all(validation$results$status != "error"), {
+        if("KEY" %in% names(validation$data_formatted)){
+            remote_output <- remote_share(data_formatted = validation$data_formatted, 
+                                          api = api, 
+                                          rules = validation$rules, 
+                                          results = validation$rules)
+            if(remote_output$share == "error"){
+                show_alert(
+                    title = remote_output$message$title,
+                    text  = remote_output$message$text,
+                    type  = remote_output$message$type)
+            }
+            else{
+                remote$creation <- remote_output$creation
+                remote$status <- remote_output$status
+            }
+            }
         }
     )
     
     overview_table <- reactive({
         req(input$file)
-        req(dataset$data)
-        req(validation_summary$results)
-        
-        validation_summary$results %>%
-            filter(if(input$show_decision){status == "error"} else{status %in% c("error", "success")}) %>%
-            select(description, status, name, expression, everything())
+        req(validation$data_formatted)
+        req(validation$results)
+        rules_broken(results = validation$results, show_decision = input$show_decision)
     })
     
     selected <- reactive({
         req(input$file)
-        req(dataset$data)
+        req(validation$data_formatted)
         req(input$show_report_rows_selected)
-        req(validation_summary$results)
-        violating(dataset$data, validation_summary$report[overview_table()[input$show_report_rows_selected, "name"]])
+        req(validation$results)
+        rows_for_rules(data_formatted = validation$data_formatted, report = validation$report, broken_rules = overview_table(), rows = input$show_report_rows_selected)
     })
     
     
     output$certificate <- renderUI({
-        #req(input$file)
-        req(validation_summary$results)
+        req(input$file)
+        req(input$file_rules)
+        req(validation$results)
+        all(validation$results$status != "error")
         #req(dataset$creation)
         
-        if(all(validation_summary$results$status != "error") & !is.null(input$file)){
+        if(all(validation$results$status != "error") & !is.null(input$file)){
             downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
         }
         else{
@@ -440,12 +265,13 @@ server <- function(input, output, session) {
     
     
     output$alert <- renderUI({
-        #req(input$file)
-        req(validation_summary$results)
-        if(any(validation_summary$results$status == "error")){
+        req(input$file)
+        req(input$file_rules)
+        req(validation$results)
+        if(any(validation$results$status == "error")){
             HTML('<button type="button" class="btn btn-danger btn-lg btn-block">ERROR</button>')
         }
-        else if(!is.null(dataset$data) & !is.null(input$file)){
+        else if(!is.null(validation$data_formatted) & !is.null(input$file)){
             HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }
         else{
@@ -456,7 +282,7 @@ server <- function(input, output, session) {
     #Report tables ----
     output$show_report <- DT::renderDataTable({
         req(input$file)
-        req(dataset$data)
+        req(validation$data_formatted)
         req(nrow(overview_table()) > 0)
         #req(any(validation_summary$results$status == "error"))
         datatable({overview_table() %>%
@@ -486,9 +312,9 @@ server <- function(input, output, session) {
     
     output$report_selected <- DT::renderDataTable({
         req(input$file)
-        req(dataset$data)
+        req(validation$data_formatted)
         req(input$show_report_rows_selected)
-        req(any(validation_summary$results$status == "error"))
+        req(any(validation$results$status == "error"))
         req(nrow(selected()) > 0)
         datatable({selected()},
                   rownames = FALSE,
@@ -509,8 +335,8 @@ server <- function(input, output, session) {
                   class = "display",
                   style = "bootstrap") %>% 
             formatStyle(
-                if(any(validation_summary$results$status == "error")){
-                    variables(validation_summary$rules[overview_table()[input$show_report_rows_selected, "name"]])  
+                if(any(validation$results$status == "error")){
+                    variables(validation$rules[overview_table()[input$show_report_rows_selected, "name"]])  
                 }
                 else{NULL},
                 backgroundColor =  'red'
@@ -522,9 +348,9 @@ server <- function(input, output, session) {
     output$download_certificate <- downloadHandler(
         filename = function() {"certificate.csv"},
         content = function(file) {write.csv(data.frame(time = Sys.time(), 
-                                                       data = digest(dataset$data), 
-                                                       link = if(!is.null(dataset$creation)){dataset$creation$url} else{NA}, 
-                                                       rules = digest(validation_summary$rules), 
+                                                       data = digest(validation$data_formatted), 
+                                                       link = if(!is.null(remote$creation)){remote$creation$url} else{NA}, 
+                                                       rules = digest(validation$rules), 
                                                        package_version = packageVersion("validate"), 
                                                        web_hash = digest(paste(sessionInfo(), 
                                                                                Sys.time(), 
@@ -537,7 +363,7 @@ server <- function(input, output, session) {
     )
     output$download_sample <- downloadHandler(
         filename = function() {"invalid_data.csv"},
-        content = function(file) {write.csv(data_example, file, row.names = F)}
+        content = function(file) {write.csv(invalid_example, file, row.names = F)}
     )
     output$download_good_sample <- downloadHandler(
         filename = function() {"valid_data.csv"},
