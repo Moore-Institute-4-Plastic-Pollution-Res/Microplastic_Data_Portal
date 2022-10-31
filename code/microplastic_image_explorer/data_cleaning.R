@@ -6,14 +6,11 @@ library("tiff")
 
 #Info we want Timestamp	Image File	Researcher Name	Affiliation	Citation	Instrument name	Analysis Date	Polymer-type of particle	Magnification	Color	Morphology	Size of particle	Size dimension
 
-
-
-
 #Leah ----
-jpegs <- list.files("C:/Users/winco/Downloads/Leah", pattern = ".jpg", recursive = T, full.names = T)
+jpegs <- list.files("C:/Users/winco/OneDrive/Documents/Images_MicroplasticImageExplorer/Leah", pattern = ".jpg", recursive = T, full.names = T)
 shortjpegs <- gsub(".jpg", "", gsub(".*/", "", jpegs))
-info <- read.csv("C:/Users/winco/Downloads/tbl_qa_master.csv")
-microscopy <- read.csv("C:/Users/winco/Downloads/tbl_microscopysettings.csv")
+info <- read.csv("C:/Users/winco/OneDrive/Documents/Images_MicroplasticImageExplorer/tbl_qa_master.csv")
+microscopy <- read.csv("C:/Users/winco/OneDrive/Documents/Images_MicroplasticImageExplorer/tbl_microscopysettings.csv")
 info_clean <- info %>%
     left_join(microscopy, by = "objectid") %>%
     mutate(file = paste0(particleid, ".jpg")) %>%
@@ -29,7 +26,7 @@ sum(shortjpegs %in% info$particleid)
 cleanedjpgs <- jpegs[shortjpegs %in% info$particleid]
 
 for(item in 1:length(cleanedjpgs)){
-    file.copy(from = cleanedjpgs[item], to = paste0("C:/Users/winco/Downloads/LeahClean/", shortjpegs[item], ".jpg"))
+    file.copy(from = cleanedjpgs[item], to = paste0("C:/Users/winco/OneDrive/Documents/Images_MicroplasticImageExplorer/LeahClean/", shortjpegs[item], ".jpg"))
 }
 
 drive_deauth()
