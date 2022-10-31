@@ -21,9 +21,11 @@ Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/).
 Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
 ### Meeting Videos
-- [Github Demo: July 21 2022](https://drive.google.com/file/d/1wlJwcfsrGVNbPxqRq67vcWxlshbJ32xk/view?usp=sharing)
-- [Update on Validation and Wikidata: August 18 2022](https://drive.google.com/file/d/1QH2WDoJ3k1GW4wSMebObGS-R53kBfyIj/view?usp=sharing)
+- [Upcoming conference practice and app updates: October 28, 2022](https://drive.google.com/file/d/1Go_Vwl1bhNezcOBgfivsruRF1YT8VYjf/view?usp=sharing)
+- [Bugs in validation app and schema updates: October 14, 2022](https://drive.google.com/file/d/1UpCYxKfu1n45WKt6BQfNy43CYImdXGZL/view?usp=share_link)
 - [Overview of project status: September 28, 2022](https://drive.google.com/file/d/1tL33tC0d3oa1RsiVt7ylnbo1Z_VdRhC3/view?usp=sharing)
+- [Update on Validation and Wikidata: August 18 2022](https://drive.google.com/file/d/1QH2WDoJ3k1GW4wSMebObGS-R53kBfyIj/view?usp=sharing)
+- [Github Demo: July 21 2022](https://drive.google.com/file/d/1wlJwcfsrGVNbPxqRq67vcWxlshbJ32xk/view?usp=sharing)
 
 ## Installation
 ### Data
