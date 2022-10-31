@@ -10,8 +10,8 @@
 #test_remote <- remote_share(data_formatted = test_data$data_formatted, api = api, rules = test_rules$rules, results = test_data$results)
 #test_rules_2 <- validate_rules("C:/Users/winco/Downloads/rules (14).csv")
 #test_invalid <- validate_data(files_data = "C:/Users/winco/Downloads/invalid_data (3).csv", rules = test_rules_2$rules)
-test_rules_broken <- rules_broken(results = test_invalid$results, show_decision = T)
-test_rows <- rows_for_rules(data_formatted = test_invalid$data_formatted, report = test_invalid$report, broken_rules = test_rules_broken, rows = 1)
+#test_rules_broken <- rules_broken(results = test_invalid$results, show_decision = T)
+#test_rows <- rows_for_rules(data_formatted = test_invalid$data_formatted, report = test_invalid$report, broken_rules = test_rules_broken, rows = 1)
 validate_rules <- function(file_rules){
     if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
         #reset("file")
