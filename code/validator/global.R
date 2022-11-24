@@ -1,4 +1,26 @@
+# Libraries ----
+library(shiny)
+#library(googlesheets4)
+library(dplyr)
+library(DT)
+library(shinythemes)
+library(shinyWidgets)
+library(validate)
+library(digest)
+library(data.table)
+library(bs4Dash)
+library(ckanr)
+library(purrr)
+library(shinyjs)
+library(detector)
 
+# Options ----
+options(shiny.maxRequestSize = 30*1024^2)
+
+# Files ----
+api <- read.csv("secrets/ckan.csv")
+
+# Functions ----
 validate_rules <- function(file_rules){
     if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
         #reset("file")
@@ -34,6 +56,8 @@ validate_rules <- function(file_rules){
                                 error = function(e) {e})
     
     if (inherits(rules_formatted, "simpleWarning") | inherits(rules_formatted, "simpleError") | inherits(rules_formatted, "error") | inherits(rules_formatted, "notSubsetableError")){
+        
+        
         return(list(
             message = data.table(
             title = "Something else went wrong with reading the rules file.",
@@ -166,13 +190,26 @@ rows_for_rules <- function(data_formatted, report, broken_rules, rows){
 
 
 
+
 #Tests ----
 
 #setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
 
+#Material_PA <= 1| Material_PA %vin% c("N/A") | Material_PA %vin% ("Present")
 #api <- read.csv("ckan.csv")
-#file_data = "C:/Users/winco/Downloads/Samples_Merged.copy.csv"
-#files_rules = "C:/Users/winco/Downloads/Validation_Rules_Samples_Merged.copy.csv"
+#file_data = read.csv("C:/Users/winco/Downloads/Samples_Merged.copy.csv")
+
+#files_rules = read.csv("C:/Users/winco/Downloads/Validation_Rules_Samples_Merged.copy.csv")
+
+#list_complaints <- lapply(1:nrow(files_rules), function(x){
+#    tryCatch(validator(.data=files_rules[x,]), 
+#             warning = function(w) {w}, 
+#             error = function(e) {e})
+#})
+
+#rules_formatted <- tryCatch(validator(.data=rules), 
+#                            warning = function(w) {w}, 
+#                            error = function(e) {e})
 
 #test_rules <- validate_rules(files_rules)
 #test_bad_rules <- validate_rules("rules.txt")
