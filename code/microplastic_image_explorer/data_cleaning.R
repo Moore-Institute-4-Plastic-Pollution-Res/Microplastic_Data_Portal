@@ -3,8 +3,16 @@ library(googledrive)
 library(dplyr)
 library("jpeg")
 library("tiff")
+library(magick)
 
 #Info we want Timestamp	Image File	Researcher Name	Affiliation	Citation	Instrument name	Analysis Date	Polymer-type of particle	Magnification	Color	Morphology	Size of particle	Size dimension
+
+#Convert images to thumbnails
+gs4_deauth()
+file <- read_sheet("https://docs.google.com/spreadsheets/d/1pOLzGuweqyUinMaqYpWop0mqf0LaMNyHdCsWZ-ToV8M/edit?usp=sharing")
+file$images <- paste0("https://drive.google.com/uc?id=", gsub(".*id=", "", file$`Image File`))
+
+image <- load.image(file$images[[7000]])
 
 #Leah ----
 jpegs <- list.files("C:/Users/winco/OneDrive/Documents/Images_MicroplasticImageExplorer/Leah", pattern = ".jpg", recursive = T, full.names = T)

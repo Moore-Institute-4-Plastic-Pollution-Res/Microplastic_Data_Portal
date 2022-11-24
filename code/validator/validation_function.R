@@ -1,17 +1,4 @@
-#setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
 
-#api <- read.csv("ckan.csv")
-#file_rules = "rules_secret.csv"
-#files_data = "data_success_secret.csv"
-
-#test_rules <- validate_rules("rules_secret.csv")
-#test_bad_rules <- validate_rules("rules.txt")
-#test_data <- validate_data(files_data = "data_success_secret.csv", rules = test_rules$rules)
-#test_remote <- remote_share(data_formatted = test_data$data_formatted, api = api, rules = test_rules$rules, results = test_data$results)
-#test_rules_2 <- validate_rules("C:/Users/winco/Downloads/rules (14).csv")
-#test_invalid <- validate_data(files_data = "C:/Users/winco/Downloads/invalid_data (3).csv", rules = test_rules_2$rules)
-#test_rules_broken <- rules_broken(results = test_invalid$results, show_decision = T)
-#test_rows <- rows_for_rules(data_formatted = test_invalid$data_formatted, report = test_invalid$report, broken_rules = test_rules_broken, rows = 1)
 validate_rules <- function(file_rules){
     if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
         #reset("file")
@@ -46,7 +33,7 @@ validate_rules <- function(file_rules){
                                 warning = function(w) {w}, 
                                 error = function(e) {e})
     
-    if (inherits(rules_formatted, "simpleWarning") | inherits(rules_formatted, "simpleError")){
+    if (inherits(rules_formatted, "simpleWarning") | inherits(rules_formatted, "simpleError") | inherits(rules_formatted, "error") | inherits(rules_formatted, "notSubsetableError")){
         return(list(
             message = data.table(
             title = "Something else went wrong with reading the rules file.",
@@ -176,3 +163,22 @@ rules_broken <- function(results, show_decision){
 rows_for_rules <- function(data_formatted, report, broken_rules, rows){
     violating(data_formatted, report[broken_rules[rows, "name"]])
 }
+
+
+
+#Tests ----
+
+#setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
+
+#api <- read.csv("ckan.csv")
+#file_data = "C:/Users/winco/Downloads/Samples_Merged.copy.csv"
+#files_rules = "C:/Users/winco/Downloads/Validation_Rules_Samples_Merged.copy.csv"
+
+#test_rules <- validate_rules(files_rules)
+#test_bad_rules <- validate_rules("rules.txt")
+#test_data <- validate_data(files_data = file_data, rules = test_rules$rules)
+#test_remote <- remote_share(data_formatted = test_data$data_formatted, api = api, rules = test_rules$rules, results = test_data$results)
+#test_rules_2 <- validate_rules("C:/Users/winco/Downloads/rules (14).csv")
+#test_invalid <- validate_data(files_data = "C:/Users/winco/Downloads/invalid_data (3).csv", rules = test_rules_2$rules)
+#test_rules_broken <- rules_broken(results = test_invalid$results, show_decision = T)
+#test_rows <- rows_for_rules(data_formatted = test_invalid$data_formatted, report = test_invalid$report, broken_rules = test_rules_broken, rows = 1)

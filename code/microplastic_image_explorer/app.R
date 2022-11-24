@@ -3,10 +3,11 @@ library(bs4Dash)
 library(shinyWidgets)
 library(googlesheets4)
 library(dplyr)
+library(imager)
 
 gs4_deauth()
 file <- read_sheet("https://docs.google.com/spreadsheets/d/1pOLzGuweqyUinMaqYpWop0mqf0LaMNyHdCsWZ-ToV8M/edit?usp=sharing")
-file$images <- paste0("https://drive.google.com/uc?export=view&id=", gsub(".*id=", "", file$`Image File`))
+file$images <- paste0("https://drive.google.com/uc?id=", gsub(".*id=", "", file$`Image File`))
 
 ui <- dashboardPage(
     dashboardHeader(title = "Microplastic Image Explorer"),
