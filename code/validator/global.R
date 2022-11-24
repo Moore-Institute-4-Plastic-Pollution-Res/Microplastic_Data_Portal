@@ -105,7 +105,7 @@ validate_data <- function(files_data, rules){
         return(list(
             message = data.table(
             title = "Rules and data mismatch",
-            text = paste0("All variables in the rules csv (", paste(variables(rules), collapse = ","), ") need to be in data csv (",  paste(names(data_formatted), collapse = ","), ") and vice versa for the validation to work."),
+            text = paste0("All variables in the rules csv (", paste(variables(rules)[!variables(rules) %in% names(data_formatted)], collapse = ", "), ") need to be in the data csv (",  paste(names(data_formatted)[!names(data_formatted) %in% variables(rules)], collapse = ", "), ") and vice versa for the validation to work."),
             type = "error"), status = "error"))
     }
     report <- confront(data_formatted, rules)
