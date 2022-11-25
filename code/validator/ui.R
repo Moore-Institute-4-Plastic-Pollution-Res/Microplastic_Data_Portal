@@ -7,7 +7,6 @@ dashboardPage(
             #image = "https://drive.google.com/file/d/13iCjC10dV3giFhCCoir_8mnbwtHM1rMA/view?usp=sharing",
             name = "Welcome!"
         ),
-        
         sidebarMenu(
             id = "sidebarmenu",
             #sidebarHeader("Header 1"),

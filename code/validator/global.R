@@ -13,6 +13,8 @@ library(ckanr)
 library(purrr)
 library(shinyjs)
 library(detector)
+library(tidyxl)
+library(XLConnect)
 
 # Options ----
 options(shiny.maxRequestSize = 30*1024^2)
@@ -189,9 +191,43 @@ rows_for_rules <- function(data_formatted, report, broken_rules, rows){
 }
 
 
+#PII Checkers ----
+#https://www.servicenow.com/community/developer-articles/common-regular-expressions-and-cheat-sheet/ta-p/2297106
+license_plate <- "\\b[0-9A-Z]{3}([^ 0-9A-Z]|\\s)?[0-9]{4}\\b"
+email <- "^[[:alnum:].-]+@[[:alnum:].-]+$" #^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
+national_id <- "^[0-9]{3}-[0-9]{2}-[0-9]{4}$"
+ip <- "^(?:(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})\\.){3}\\1$"#"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" #
+phone_number <- "\\d{3}?[.-]? *\\d{3}[.-]? *[.-]?\\d{4}"
+amexcard <- "^3[47][0-9]{13}$"
+mastercard <- "^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$"
+visacard <- "\\b([4]\\d{3}[\\s]\\d{4}[\\s]\\d{4}[\\s]\\d{4}|[4]\\d{3}[-]\\d{4}[-]\\d{4}[-
+]\\d{4}|[4]\\d{3}[.]\\d{4}[.]\\d{4}[.]\\d{4}|[4]\\d{3}\\d{4}\\d{4}\\d{4})\\b"
+zip <- "^((\\d{5}-\\d{4})|(\\d{5})|([A-Z]\\d[A-Z]\\s\\d[A-Z]\\d))$" #^[0-9]{5}(?:-[0-9]{4})?$
+url <- "(((ftp|http|https):\\/\\/)|(www\\.))([-\\w\\.\\/#$\\?=+@&%_:;]+)"
+iban <- "^[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}$"
+time <- "^(?:2[0-3]|[01]?\\d):[0-5]\\d$"#"[0-9]?[0-9]:[0-9][0-9]"
+currency <- "^\\d+(?:\\.\\d{2})?$"
+file_info <- "(\\\\[^\\\\]+$)|(/[^/]+$)"
+dates <- "^([1][12]|[0]?[1-9])[\\/-]([3][01]|[12]\\d|[0]?[1-9])[\\/-](\\d{4}|\\d{2})$"
 
-
+grepl(license_plate, "NT5-6345")
+grepl(email, "cowger@gmail.com")
+grepl(national_id, "612-49-2884")
+grepl(ip, "192.168.1.1")
+grepl(phone_number, "+1 515-372-5733")
+grepl(amexcard, "372418640982660")
+grepl(mastercard, "5258704108753590")
+grepl(visacard, "4563-7568-5698-4587")
+grepl(zip, "92501")
+grepl(url, "https:\\www.wincowger.com")
+grepl(iban, "NL02ABNA0123456789")
+grepl(time, "23:00")
+grepl(currency, "5000.00")
+grepl(file_info, "the\\shdhfdk\\test.csv")
+grepl(file_info, "the/shdhfdk/test.csv")
+grepl(dates, "12-20-2020")
 #Tests ----
+
 
 #setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
 
