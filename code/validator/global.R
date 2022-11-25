@@ -196,13 +196,13 @@ rows_for_rules <- function(data_formatted, report, broken_rules, rows){
 #PII Checkers ----
 #https://www.servicenow.com/community/developer-articles/common-regular-expressions-and-cheat-sheet/ta-p/2297106
 #https://support.milyli.com/docs/resources/regex/financial-regex
-
+# ihateregex.io
 ## Checked
 license_plate <- "^[0-9A-Z]{3}([^ 0-9A-Z]|\\s)?[0-9]{4}$"
 email <- "^[[:alnum:].-]+@[[:alnum:].-]+$" #^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
 national_id <- "^[0-9]{3}-[0-9]{2}-[0-9]{4}$"
 ip <- "^(?:(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})\\.){3}\\1$"#"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" #
-ip6 <- "^([\\d\\w]{4}|0)(\\:([\\d\\w]{4}|0)){7}$"
+ip6 <- "(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))" #"^([\\d\\w]{4}|0)(\\:([\\d\\w]{4}|0)){7}$"
 phone_number <- "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$"#"\\d{3}?[.-]? *\\d{3}[.-]? *[.-]?\\d{4}"
 amexcard <- "^3[47][0-9]{13}$"
 mastercard <- "^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$"
@@ -213,7 +213,7 @@ iban <- "^[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}$" #"(?:(
 time <- "^(?:2[0-3]|[01]?\\d):[0-5]\\d$"#"[0-9]?[0-9]:[0-9][0-9]"
 currency <- "^(.{1})?\\d+(?:\\.\\d{2})?(.{1})?$"
 file_info <- "(\\\\[^\\\\]+$)|(/[^/]+$)"
-dates <- "^([1][12]|[0]?[1-9])[\\/-]([3][01]|[12]\\d|[0]?[1-9])[\\/-](\\d{4}|\\d{2})$"
+dates <- "(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})"
 amex_visa_mastercard <- "^((4\\d{3}|5[1-5]\\d{2}|2\\d{3}|3[47]\\d{1,2})[\\s\\-]?\\d{4,6}[\\s\\-]?\\d{4,6}?([\\s\\-]\\d{3,4})?(\\d{3})?)$"
 column_names <- "(^.*(firstname|fname|lastname|lname|fullname|fname|maidenname|_name|nickname|name_suffix|name|email|e-mail|mail|age|birth|date_of_birth|dateofbirth|dob|birthday|date_of_death|dateofdeath|death|medic|employ|position|financ|educat|income|gender|sex|race|religion|nationality|address|city|state|county|country|zipcode|postal|phone|card|license|security|location|date|latitude|longitude|login|ip).*$)|(^.*user(id|name|).*$)|(^.*pass.*$)|(^.*(ssn|social).*$)"
 discover_card <- "^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$"
@@ -306,7 +306,7 @@ grepl(time, "23:00")
 grepl(currency, "5000.00$")
 grepl(file_info, "the\\shdhfdk\\test.csv")
 grepl(file_info, "the/shdhfdk/test.csv")
-grepl(dates, "12-20-2020")
+grepl(dates, "2020-11-23")
 grepl(birthday, "birthday: 11-30-1992")
 grepl(column_names, names(ashley_madison), ignore.case = T)
 grepl(discover_card, "6011266701973605")
