@@ -191,9 +191,46 @@ rows_for_rules <- function(data_formatted, report, broken_rules, rows){
 }
 
 
+
+
 #PII Checkers ----
 #https://www.servicenow.com/community/developer-articles/common-regular-expressions-and-cheat-sheet/ta-p/2297106
 #https://support.milyli.com/docs/resources/regex/financial-regex
+
+#acknowledgement https://github.com/adamjdeacon/checkLuhn/blob/master/R/checkLuhn.R
+checkLuhn <- function(number) {
+    # must have at least 2 digits
+    if(nchar(number) <= 2) {
+        return(FALSE)
+    }
+    
+    # strip spaces
+    number <- gsub(pattern = " ", replacement = "", number)
+    
+    # Return FALSE if not a number
+    if (!grepl("^[[:digit:]]+$", number)) {
+        return(FALSE)
+    }
+    
+    # split the string, convert it to a list, and reverse it
+    digits <- unlist(strsplit(number, ""))
+    digits <- digits[length(digits):1]
+    
+    to_replace <- seq(2, length(digits), 2)
+    digits[to_replace] <- as.numeric(digits[to_replace]) * 2
+    
+    # gonna do some maths, let's convert it to numbers
+    digits <- as.numeric(digits)
+    
+    # a digit cannot be two digits, so any that are greater than 9, subtract 9 and
+    # make the world a better place
+    digits <- ifelse(digits > 9, digits - 9, digits)
+    
+    # does the sum divide by 10?
+    ((sum(digits) %% 10) == 0)
+}
+
+## Checked
 license_plate <- "^[0-9A-Z]{3}([^ 0-9A-Z]|\\s)?[0-9]{4}$"
 email <- "^[[:alnum:].-]+@[[:alnum:].-]+$" #^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
 national_id <- "^[0-9]{3}-[0-9]{2}-[0-9]{4}$"
@@ -207,15 +244,19 @@ zip <- "^((\\d{5}-\\d{4})|(\\d{5})|([A-Z]\\d[A-Z]\\s\\d[A-Z]\\d))$" #^[0-9]{5}(?
 url <- "(((ftp|http|https):\\/\\/)|(www\\.))([-\\w\\.\\/#$\\?=+@&%_:;]+)"
 iban <- "^[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}$" #"(?:(?:IT|SM)\\d{2}[\\w]\\d{22}|CY\\d{2}[\\w]\\d{23}|NL\\d{2}[\\w]{4}\\d{10}|LV\\d{2}[\\w]{4}\\d{13}|(?:BG|BH|GB|IE)\\d{2}[\\w]{4}\\d{14}|GI\\d{2}[\\w]{4}\\d{15}|RO\\d{2}[\\w]{4}\\d{16}|KW\\d{2}[\\w]{4}\\d{22}|MT\\d{2}[\\w]{4}\\d{23}|NO\\d{13}|(?:DK|FI|GL|FO)\\d{16}|MK\\d{17}|(?:AT|EE|KZ|LU|XK)\\d{18}|(?:BA|HR|LI|CH|CR)\\d{19}|(?:GE|DE|LT|ME|RS)\\d{20}|IL\\d{21}|(?:AD|CZ|ES|MD|SA)\\d{22}|PT\\d{23}|(?:BE|IS)\\d{24}|(?:FR|MR|MC)\\d{25}|(?:AL|DO|LB|PL)\\d{26}|(?:AZ|HU)\\d{27}|(?:GR|MU)\\d{28})"
 time <- "^(?:2[0-3]|[01]?\\d):[0-5]\\d$"#"[0-9]?[0-9]:[0-9][0-9]"
-currency <- "^\\d+(?:\\.\\d{2})?$"
+currency <- "^(.{1})?\\d+(?:\\.\\d{2})?(.{1})?$"
 file_info <- "(\\\\[^\\\\]+$)|(/[^/]+$)"
 dates <- "^([1][12]|[0]?[1-9])[\\/-]([3][01]|[12]\\d|[0]?[1-9])[\\/-](\\d{4}|\\d{2})$"
-address <- "^\\d{1,8}\\b[\\s\\S]{10,100}?\\b(AK|AL|AR|AZ|CA|CO|CT|DC|DE|FL|GA|HI|IA|ID|IL|IN|KS|KY|LA|MA|MD|ME|MI|MN|MO|MS|MT|NC|ND|NE|NH|NJ|NM|NV|NY|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VA|VT|WA|WI|WV|WY)\\b\\s\\d{5}$"
 amex_visa_mastercard <- "^((4\\d{3}|5[1-5]\\d{2}|2\\d{3}|3[47]\\d{1,2})[\\s\\-]?\\d{4,6}[\\s\\-]?\\d{4,6}?([\\s\\-]\\d{3,4})?(\\d{3})?)$"
+column_names <- "(^.*(firstname|fname|lastname|lname|fullname|fname|maidenname|_name|nickname|name_suffix|name|email|e-mail|mail|age|birth|date_of_birth|dateofbirth|dob|birthday|date_of_death|dateofdeath|death|medic|employ|position|financ|educat|income|gender|sex|race|religion|nationality|address|city|state|county|country|zipcode|postal|phone|card|license|security|location|date|latitude|longitude|login|ip).*$)|(^.*user(id|name|).*$)|(^.*pass.*$)|(^.*(ssn|social).*$)"
+discover_card <- "^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$"
+union_card <- "^(62[0-9]{14,17})$"
+
+## Not checked
+address <- "^\\d{1,8}\\b[\\s\\S]{10,100}?\\b(AK|AL|AR|AZ|CA|CO|CT|DC|DE|FL|GA|HI|IA|ID|IL|IN|KS|KY|LA|MA|MD|ME|MI|MN|MO|MS|MT|NC|ND|NE|NH|NJ|NM|NV|NY|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VA|VT|WA|WI|WV|WY)\\b\\s\\d{5}$"
 bs_global_card <- "^(6541|6556)[0-9]{12}$"
 carte_card <- "^389[0-9]{11}$"
 diners_card <- "^3(?:0[0-5]|[68][0-9])[0-9]{11}$"
-discover_card <- "^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$"
 insta_card <- "^63[7-9][0-9]{13}$"
 jbc_card <- "^(?:2131|1800|35\\d{3})\\d{11}$"
 korea_card <- "^9[0-9]{15}$"
@@ -223,7 +264,6 @@ laser_card <- "^(6304|6706|6709|6771)[0-9]{12,15}$"
 maestro_card <- "^(5018|5020|5038|6304|6759|6761|6763)[0-9]{8,15}$"
 solo_card <- "^(6334|6767)[0-9]{12}|(6334|6767)[0-9]{14}|(6334|6767)[0-9]{15}$"
 switch_card <- "^(4903|4905|4911|4936|6333|6759)[0-9]{12}|(4903|4905|4911|4936|6333|6759)[0-9]{14}|(4903|4905|4911|4936|6333|6759)[0-9]{15}|564182[0-9]{10}|564182[0-9]{12}|564182[0-9]{13}|633110[0-9]{10}|633110[0-9]{12}|633110[0-9]{13}$"
-union_card <- "^(62[0-9]{14,17})$"
 american_routing_number <- "^((0[0-9])|(1[0-2])|(2[1-9])|(3[0-2])|(6[1-9])|(7[0-2])|80)([0-9]{7})$"
 swift_code <- "^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$"
 argentina_id <- "^\\d{2}\\.\\d{3}\\.\\d{3}$"
@@ -246,8 +286,8 @@ sweden_pass <- "^\\d{8}$"
 uk_pass <- "^\\d{9}$"
 uk_dl <- "^[\\w9]{5}\\d{6}[\\w9]{2}\\d{5}$"
 uk_health_num <- "^\\d{3}\\s\\d{3}\\s\\d{4}$"
-column_names <- "(^.*(firstname|fname|lastname|lname|fullname|fname|maidenname|_name|nickname|name_suffix|name|email|e-mail|mail|age|birth|date_of_birth|dateofbirth|dob|birthday|date_of_death|dateofdeath|death|medic|employ|position|financ|educat|income|gender|sex|race|religion|nationality|address|city|state|county|country|zipcode|postal|phone|card|license|security|location|date|latitude|longitude|login|ip).*$)|(^.*user(id|name|).*$)|(^.*pass.*$)|(^.*(ssn|social).*$)"
 
+## Checks
 grepl(license_plate, "NT5-6345")
 grepl(email, "cowger@gmail.com")
 grepl(national_id, "612-49-2884")
@@ -263,14 +303,21 @@ grepl(zip, "92501")
 grepl(url, "https:\\www.wincowger.com")
 grepl(iban, "NL02ABNA0123456789")
 grepl(time, "23:00")
-grepl(currency, "5000.00")
+grepl(currency, "5000.00$")
 grepl(file_info, "the\\shdhfdk\\test.csv")
 grepl(file_info, "the/shdhfdk/test.csv")
 grepl(dates, "12-20-2020")
 grepl(birthday, "birthday: 11-30-1992")
+grepl(column_names, names(ashley_madison), ignore.case = T)
+grepl(discover_card, "6011266701973605")
+grepl(union_card, "6226984208995522")
+checkLuhn("6011266701973605")
+checkLuhn("6226984208995522")
+
+
+grepl(diners_card, "3036614767651300")
 grepl(ip6, "2001:0db8:0001:0000:0000:0ab9:C0A8:0102") #Not working. 
 grepl(address, "3385 Cambrige Riverside CA, 92345") #Not Working
-grepl(column_names, names(ashley_madison), ignore.case = T)
 
 #Tests ----
 
