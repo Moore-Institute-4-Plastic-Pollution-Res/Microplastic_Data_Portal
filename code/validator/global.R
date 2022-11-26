@@ -213,7 +213,7 @@ iban <- "^[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}$" #"(?:(
 time <- "^(?:2[0-3]|[01]?\\d):[0-5]\\d$"#"[0-9]?[0-9]:[0-9][0-9]"
 currency <- "^(.{1})?\\d+(?:\\.\\d{2})?(.{1})?$"
 file_info <- "(\\\\[^\\\\]+$)|(/[^/]+$)"
-dates <- "(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})"
+dates <- "^([1][12]|[0]?[1-9])[\\/-]([3][01]|[12]\\d|[0]?[1-9])[\\/-](\\d{4}|\\d{2})$" #(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})
 amex_visa_mastercard <- "^((4\\d{3}|5[1-5]\\d{2}|2\\d{3}|3[47]\\d{1,2})[\\s\\-]?\\d{4,6}[\\s\\-]?\\d{4,6}?([\\s\\-]\\d{3,4})?(\\d{3})?)$"
 column_names <- "(^.*(firstname|fname|lastname|lname|fullname|fname|maidenname|_name|nickname|name_suffix|name|email|e-mail|mail|age|birth|date_of_birth|dateofbirth|dob|birthday|date_of_death|dateofdeath|death|medic|employ|position|financ|educat|income|gender|sex|race|religion|nationality|address|city|state|county|country|zipcode|postal|phone|card|license|security|location|date|latitude|longitude|login|ip).*$)|(^.*user(id|name|).*$)|(^.*pass.*$)|(^.*(ssn|social).*$)"
 discover_card <- "^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$"
@@ -306,7 +306,7 @@ grepl(time, "23:00")
 grepl(currency, "5000.00$")
 grepl(file_info, "the\\shdhfdk\\test.csv")
 grepl(file_info, "the/shdhfdk/test.csv")
-grepl(dates, "2020-11-23")
+grepl(dates, "12-20-2020")
 grepl(birthday, "birthday: 11-30-1992")
 grepl(column_names, names(ashley_madison), ignore.case = T)
 grepl(discover_card, "6011266701973605")
@@ -320,6 +320,18 @@ grepl(swift_code, "WFBIUS6BXXX")
 grepl(diners_card, "3036614767651300") 
 grepl(ip6, "2001:0db8:0001:0000:0000:0ab9:C0A8:0102") #Not working. 
 grepl(address, "3385 Cambrige Riverside CA, 92345") #Not Working
+
+#Profanity
+library(sentimentr)
+
+bad_words <- unique(tolower(c(lexicon::profanity_alvarez, 
+                              lexicon::profanity_arr_bad, 
+                              lexicon::profanity_banned, 
+                              lexicon::profanity_zac_anger, 
+                              lexicon::profanity_racist)))
+
+profanity(bad_words[1], bad_words)
+profanity("hat", bad_words)
 
 #Tests ----
 
