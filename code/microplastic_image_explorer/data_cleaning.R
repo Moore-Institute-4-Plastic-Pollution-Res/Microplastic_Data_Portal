@@ -32,9 +32,10 @@ info_clean <- info %>%
 
 sum(shortjpegs %in% info$particleid)
 cleanedjpgs <- jpegs[shortjpegs %in% info$particleid]
+cleanedshortjpgs <- shortjpegs[shortjpegs %in% info$particleid]
 
 for(item in 1:length(cleanedjpgs)){
-    file.copy(from = cleanedjpgs[item], to = paste0("C:/Users/winco/OneDrive/Documents/Images_MicroplasticImageExplorer/LeahClean/", shortjpegs[item], ".jpg"))
+    file.copy(from = cleanedjpgs[item], to = paste0("C:/Users/winco/OneDrive/Documents/Images_MicroplasticImageExplorer/LeahClean/", cleanedshortjpgs[item], ".jpg"))
 }
 
 drive_deauth()
