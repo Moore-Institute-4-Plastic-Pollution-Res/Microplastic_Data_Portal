@@ -65,13 +65,12 @@ dashboardPage(
                     ),
                     column(1,
                            popover(
-                               disabled(
                                    fileInput("file", NULL,
                                              placeholder = ".csv",
                                              buttonLabel = "Data...",
                                              multiple = T,
                                              accept=c("text/csv",
-                                                      "text/comma-separated-values,text/plain"))), #%>%
+                                                      "text/comma-separated-values,text/plain")), #%>%
                                
                                title = "Upload CSV to validate",
                                content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file."), 
