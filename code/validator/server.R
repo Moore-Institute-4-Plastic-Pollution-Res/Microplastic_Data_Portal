@@ -143,14 +143,17 @@ function(input, output, session) {
                                                                                Sys.info()))), 
                                             file, row.names = F)}
     )
+    
     output$download_rules <- downloadHandler( 
         filename = function() {"rules.csv"},
         content = function(file) {write.csv(rules_example, file, row.names = F)}
     )
+    
     output$download_sample <- downloadHandler(
         filename = function() {"invalid_data.csv"},
         content = function(file) {write.csv(invalid_example, file, row.names = F)}
     )
+    
     output$download_good_sample <- downloadHandler(
         filename = function() {"valid_data.csv"},
         content = function(file) {write.csv(success_example, file, row.names = F)}
@@ -179,6 +182,16 @@ function(input, output, session) {
         }
     })
     
+    #Diagnosis ----
+    output$rules_out <- renderReactjson({
+        reactjson(rules())
+    })
+    output$validation_out <- renderReactjson({
+        reactjson(validation())
+    })
+    output$remote_out <- renderReactjson({
+        reactjson(remote())
+    })
     
     
 }

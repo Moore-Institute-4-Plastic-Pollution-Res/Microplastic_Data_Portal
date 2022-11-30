@@ -132,8 +132,9 @@ dashboardPage(
                     box(
                         title = "Diagnose",
                         width = 12, 
-                        DT::dataTableOutput("rules_dt"),
-                        DT::dataTableOutput("data_dt")
+                        reactjsonOutput("rules_out"),
+                        reactjsonOutput("validation_out"), 
+                        reactjsonOutput("remote_out") 
                     )
                 )
             )

@@ -13,6 +13,8 @@ library(ckanr)
 library(purrr)
 library(shinyjs)
 library(sentimentr)
+library(listviewer)
+
 
 # Options ----
 options(shiny.maxRequestSize = 30*1024^2)
