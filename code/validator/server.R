@@ -166,7 +166,6 @@ function(input, output, session) {
                 title = rules()$message$title,
                 text = rules()$message$text,
                 type = rules()$message$type)
-            disable("file")          
         }
         if(validation()$status != "success"){
             show_alert(
