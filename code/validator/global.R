@@ -12,9 +12,7 @@ library(bs4Dash)
 library(ckanr)
 library(purrr)
 library(shinyjs)
-library(detector)
-library(tidyxl)
-library(XLConnect)
+library(sentimentr)
 
 # Options ----
 options(shiny.maxRequestSize = 30*1024^2)
@@ -156,7 +154,7 @@ remote_share <- function(data_formatted, api, rules, results){
             type = "error"), status = "error"))
     }
     api_info <- api %>%
-        filter(VALID_KEY == unique(data_formatted$KEY) & VALID_RULES == digest(as.data.frame(rules) %>% select(-created)))
+        dplyr::filter(VALID_KEY == unique(data_formatted$KEY) & VALID_RULES == digest(as.data.frame(rules) %>% select(-created)))
     
     if(nrow(api_info) != 1){
         return(list(
@@ -190,37 +188,6 @@ rows_for_rules <- function(data_formatted, report, broken_rules, rows){
     violating(data_formatted, report[broken_rules[rows, "name"]])
 }
 
-
-
-
-#PII Checkers ----
-#https://www.servicenow.com/community/developer-articles/common-regular-expressions-and-cheat-sheet/ta-p/2297106
-#https://support.milyli.com/docs/resources/regex/financial-regex
-# ihateregex.io
-## Checked
-license_plate <- "^[0-9A-Z]{3}([^ 0-9A-Z]|\\s)?[0-9]{4}$"
-email <- "^[[:alnum:].-]+@[[:alnum:].-]+$" #^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
-national_id <- "^[0-9]{3}-[0-9]{2}-[0-9]{4}$"
-ip <- "^(?:(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})\\.){3}\\1$"#"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" #
-ip6 <- "(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))" #"^([\\d\\w]{4}|0)(\\:([\\d\\w]{4}|0)){7}$"
-phone_number <- "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$"#"\\d{3}?[.-]? *\\d{3}[.-]? *[.-]?\\d{4}"
-amexcard <- "^3[47][0-9]{13}$"
-mastercard <- "^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$"
-visacard <- "^([4]\\d{3}[\\s]\\d{4}[\\s]\\d{4}[\\s]\\d{4}|[4]\\d{3}[-]\\d{4}[-]\\d{4}[-]\\d{4}|[4]\\d{3}[.]\\d{4}[.]\\d{4}[.]\\d{4}|[4]\\d{3}\\d{4}\\d{4}\\d{4})$"
-zip <- "^((\\d{5}-\\d{4})|(\\d{5})|([A-Z]\\d[A-Z]\\s\\d[A-Z]\\d))$" #^[0-9]{5}(?:-[0-9]{4})?$
-url <- "(((ftp|http|https):\\/\\/)|(www\\.))([-\\w\\.\\/#$\\?=+@&%_:;]+)"
-iban <- "^[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}$" #"(?:(?:IT|SM)\\d{2}[\\w]\\d{22}|CY\\d{2}[\\w]\\d{23}|NL\\d{2}[\\w]{4}\\d{10}|LV\\d{2}[\\w]{4}\\d{13}|(?:BG|BH|GB|IE)\\d{2}[\\w]{4}\\d{14}|GI\\d{2}[\\w]{4}\\d{15}|RO\\d{2}[\\w]{4}\\d{16}|KW\\d{2}[\\w]{4}\\d{22}|MT\\d{2}[\\w]{4}\\d{23}|NO\\d{13}|(?:DK|FI|GL|FO)\\d{16}|MK\\d{17}|(?:AT|EE|KZ|LU|XK)\\d{18}|(?:BA|HR|LI|CH|CR)\\d{19}|(?:GE|DE|LT|ME|RS)\\d{20}|IL\\d{21}|(?:AD|CZ|ES|MD|SA)\\d{22}|PT\\d{23}|(?:BE|IS)\\d{24}|(?:FR|MR|MC)\\d{25}|(?:AL|DO|LB|PL)\\d{26}|(?:AZ|HU)\\d{27}|(?:GR|MU)\\d{28})"
-time <- "^(?:2[0-3]|[01]?\\d):[0-5]\\d$"#"[0-9]?[0-9]:[0-9][0-9]"
-currency <- "^(.{1})?\\d+(?:\\.\\d{2})?(.{1})?$"
-file_info <- "(\\\\[^\\\\]+$)|(/[^/]+$)"
-dates <- "^([1][12]|[0]?[1-9])[\\/-]([3][01]|[12]\\d|[0]?[1-9])[\\/-](\\d{4}|\\d{2})$" #(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})
-amex_visa_mastercard <- "^((4\\d{3}|5[1-5]\\d{2}|2\\d{3}|3[47]\\d{1,2})[\\s\\-]?\\d{4,6}[\\s\\-]?\\d{4,6}?([\\s\\-]\\d{3,4})?(\\d{3})?)$"
-column_names <- "(^.*(firstname|fname|lastname|lname|fullname|fname|maidenname|_name|nickname|name_suffix|name|email|e-mail|mail|age|birth|date_of_birth|dateofbirth|dob|birthday|date_of_death|dateofdeath|death|medic|employ|position|financ|educat|income|gender|sex|race|religion|nationality|address|city|state|county|country|zipcode|postal|phone|card|license|security|location|date|latitude|longitude|login|ip).*$)|(^.*user(id|name|).*$)|(^.*pass.*$)|(^.*(ssn|social).*$)"
-discover_card <- "^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$"
-union_card <- "^(62[0-9]{14,17})$"
-usa_routing_number <- "^((0[0-9])|(1[0-2])|(2[1-9])|(3[0-2])|(6[1-9])|(7[0-2])|80)([0-9]{7})$"
-swift_code <- "^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$"
-
 #acknowledgement https://github.com/adamjdeacon/checkLuhn/blob/master/R/checkLuhn.R
 checkLuhn <- function(number) {
     # must have at least 2 digits
@@ -253,6 +220,40 @@ checkLuhn <- function(number) {
     # does the sum divide by 10?
     ((sum(digits) %% 10) == 0)
 }
+
+#PII Checkers ----
+#https://www.servicenow.com/community/developer-articles/common-regular-expressions-and-cheat-sheet/ta-p/2297106
+#https://support.milyli.com/docs/resources/regex/financial-regex
+# ihateregex.io
+## Checked
+
+bad_words <- unique(tolower(c(lexicon::profanity_alvarez, 
+                              lexicon::profanity_arr_bad, 
+                              lexicon::profanity_banned, 
+                              lexicon::profanity_zac_anger, 
+                              lexicon::profanity_racist)))
+license_plate <- "^[0-9A-Z]{3}([^ 0-9A-Z]|\\s)?[0-9]{4}$"
+email <- "^[[:alnum:].-]+@[[:alnum:].-]+$" #^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
+national_id <- "^[0-9]{3}-[0-9]{2}-[0-9]{4}$"
+ip <- "^(?:(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})\\.){3}\\1$"#"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" #
+ip6 <- "(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))" #"^([\\d\\w]{4}|0)(\\:([\\d\\w]{4}|0)){7}$"
+phone_number <- "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$"#"\\d{3}?[.-]? *\\d{3}[.-]? *[.-]?\\d{4}"
+amexcard <- "^3[47][0-9]{13}$"
+mastercard <- "^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$"
+visacard <- "^([4]\\d{3}[\\s]\\d{4}[\\s]\\d{4}[\\s]\\d{4}|[4]\\d{3}[-]\\d{4}[-]\\d{4}[-]\\d{4}|[4]\\d{3}[.]\\d{4}[.]\\d{4}[.]\\d{4}|[4]\\d{3}\\d{4}\\d{4}\\d{4})$"
+zip <- "^((\\d{5}-\\d{4})|(\\d{5})|([A-Z]\\d[A-Z]\\s\\d[A-Z]\\d))$" #^[0-9]{5}(?:-[0-9]{4})?$
+url <- "(((ftp|http|https):\\/\\/)|(www\\.))([-\\w\\.\\/#$\\?=+@&%_:;]+)"
+iban <- "^[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}$" #"(?:(?:IT|SM)\\d{2}[\\w]\\d{22}|CY\\d{2}[\\w]\\d{23}|NL\\d{2}[\\w]{4}\\d{10}|LV\\d{2}[\\w]{4}\\d{13}|(?:BG|BH|GB|IE)\\d{2}[\\w]{4}\\d{14}|GI\\d{2}[\\w]{4}\\d{15}|RO\\d{2}[\\w]{4}\\d{16}|KW\\d{2}[\\w]{4}\\d{22}|MT\\d{2}[\\w]{4}\\d{23}|NO\\d{13}|(?:DK|FI|GL|FO)\\d{16}|MK\\d{17}|(?:AT|EE|KZ|LU|XK)\\d{18}|(?:BA|HR|LI|CH|CR)\\d{19}|(?:GE|DE|LT|ME|RS)\\d{20}|IL\\d{21}|(?:AD|CZ|ES|MD|SA)\\d{22}|PT\\d{23}|(?:BE|IS)\\d{24}|(?:FR|MR|MC)\\d{25}|(?:AL|DO|LB|PL)\\d{26}|(?:AZ|HU)\\d{27}|(?:GR|MU)\\d{28})"
+time <- "^(?:2[0-3]|[01]?\\d):[0-5]\\d$"#"[0-9]?[0-9]:[0-9][0-9]"
+currency <- "^(.{1})?\\d+(?:\\.\\d{2})?(.{1})?$"
+file_info <- "(\\\\[^\\\\]+$)|(/[^/]+$)"
+dates <- "^([1][12]|[0]?[1-9])[\\/-]([3][01]|[12]\\d|[0]?[1-9])[\\/-](\\d{4}|\\d{2})$" #(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})
+amex_visa_mastercard <- "^((4\\d{3}|5[1-5]\\d{2}|2\\d{3}|3[47]\\d{1,2})[\\s\\-]?\\d{4,6}[\\s\\-]?\\d{4,6}?([\\s\\-]\\d{3,4})?(\\d{3})?)$"
+column_names <- "(^.*(firstname|fname|lastname|lname|fullname|fname|maidenname|_name|nickname|name_suffix|name|email|e-mail|mail|age|birth|date_of_birth|dateofbirth|dob|birthday|date_of_death|dateofdeath|death|medic|employ|position|financ|educat|income|gender|sex|race|religion|nationality|address|city|state|county|country|zipcode|postal|phone|card|license|security|location|date|latitude|longitude|login|ip).*$)|(^.*user(id|name|).*$)|(^.*pass.*$)|(^.*(ssn|social).*$)"
+discover_card <- "^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$"
+union_card <- "^(62[0-9]{14,17})$"
+usa_routing_number <- "^((0[0-9])|(1[0-2])|(2[1-9])|(3[0-2])|(6[1-9])|(7[0-2])|80)([0-9]{7})$"
+swift_code <- "^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$"
 
 ## Not checked or not working.
 address <- "^\\d{1,8}\\b[\\s\\S]{10,100}?\\b(AK|AL|AR|AZ|CA|CO|CT|DC|DE|FL|GA|HI|IA|ID|IL|IN|KS|KY|LA|MA|MD|ME|MI|MN|MO|MS|MT|NC|ND|NE|NH|NJ|NM|NV|NY|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VA|VT|WA|WI|WV|WY)\\b\\s\\d{5}$"
@@ -288,6 +289,8 @@ uk_dl <- "^[\\w9]{5}\\d{6}[\\w9]{2}\\d{5}$"
 uk_health_num <- "^\\d{3}\\s\\d{3}\\s\\d{4}$"
 
 ## Checks
+profanity(bad_words[1], bad_words)
+profanity("hat", bad_words)
 grepl(license_plate, "NT5-6345")
 grepl(email, "cowger@gmail.com")
 grepl(national_id, "612-49-2884")
@@ -307,8 +310,8 @@ grepl(currency, "5000.00$")
 grepl(file_info, "the\\shdhfdk\\test.csv")
 grepl(file_info, "the/shdhfdk/test.csv")
 grepl(dates, "12-20-2020")
-grepl(birthday, "birthday: 11-30-1992")
-grepl(column_names, names(ashley_madison), ignore.case = T)
+#grepl(birthday, "birthday: 11-30-1992")
+grepl(column_names, "birthday", ignore.case = T)
 grepl(discover_card, "6011266701973605")
 grepl(union_card, "6226984208995522")
 checkLuhn("6011-266701-973605")
@@ -322,16 +325,7 @@ grepl(ip6, "2001:0db8:0001:0000:0000:0ab9:C0A8:0102") #Not working.
 grepl(address, "3385 Cambrige Riverside CA, 92345") #Not Working
 
 #Profanity
-library(sentimentr)
 
-bad_words <- unique(tolower(c(lexicon::profanity_alvarez, 
-                              lexicon::profanity_arr_bad, 
-                              lexicon::profanity_banned, 
-                              lexicon::profanity_zac_anger, 
-                              lexicon::profanity_racist)))
-
-profanity(bad_words[1], bad_words)
-profanity("hat", bad_words)
 
 #Tests ----
 

@@ -89,10 +89,10 @@ function(input, output, session) {
     
     
     output$certificate <- renderUI({
-        req(input$file)
-        req(input$file_rules)
-        req(validation$results)
-        all(validation$results$status != "error")
+        #req(input$file)
+        #req(input$file_rules)
+        #req(validation$results)
+        #all(validation$results$status != "error")
         #req(dataset$creation)
         
         if(all(validation$results$status != "error") & !is.null(input$file)){
