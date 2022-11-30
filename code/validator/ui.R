@@ -132,8 +132,8 @@ dashboardPage(
                     box(
                         title = "Diagnose",
                         width = 12, 
-                        reactjsonOutput("rules_out"),
-                        reactjsonOutput("validation_out")#, 
+                        jsoneditOutput("rules_out"),
+                        jsoneditOutput("validation_out")#, 
                        # reactjsonOutput("remote_out") 
                     )
                 )

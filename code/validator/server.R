@@ -182,14 +182,14 @@ function(input, output, session) {
     })
     
     #Diagnosis ----
-    output$rules_out <- renderReactjson({
-        reactjson(rules())
+    output$rules_out <- renderJsonedit({
+        jsonedit(rules())
     })
-    output$validation_out <- renderReactjson({
-        reactjson(validation())
+    output$validation_out <- renderJsonedit({
+        jsonedit(validation())
     })
-    output$remote_out <- renderReactjson({
-        reactjson(remote())
+    output$remote_out <- renderJsonedit({
+        jsonedit(remote())
     })
     
     
