@@ -133,8 +133,8 @@ dashboardPage(
                         title = "Diagnose",
                         width = 12, 
                         reactjsonOutput("rules_out"),
-                        reactjsonOutput("validation_out"), 
-                        reactjsonOutput("remote_out") 
+                        reactjsonOutput("validation_out")#, 
+                       # reactjsonOutput("remote_out") 
                     )
                 )
             )
