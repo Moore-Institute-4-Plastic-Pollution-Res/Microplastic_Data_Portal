@@ -87,7 +87,6 @@ function(input, output, session) {
         rows_for_rules(data_formatted = validation$data_formatted, report = validation$report, broken_rules = overview_table(), rows = input$show_report_rows_selected)
     })
     
-    
     output$certificate <- renderUI({
         if(validation$results$status == "success" && !is.null(validation$results$status)){
             downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
