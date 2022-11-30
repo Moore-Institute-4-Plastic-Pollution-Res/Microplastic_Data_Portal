@@ -17,16 +17,16 @@ function(input, output, session) {
         rules_file <- input$file_rules$datapath
         rules_output <- validate_rules(rules_file)
         validation <- reactiveValues(data_formatted = NULL, report = NULL, results = NULL, rules = NULL, status = NULL)
-        if(rules_output$status == "error"){
+        if(rules_output$status == "success"){
+            rules$rules <- rules_output$rules
+            rules$status <- rules_output$status            
+        }
+        else{
             show_alert(
                 title = rules_output$message$title,
                 text = rules_output$message$text,
                 type = rules_output$message$type)
             disable("file")
-        }
-        else{
-            rules$rules <- rules_output$rules
-            rules$status <- rules_output$status
         }
     })
     
@@ -89,12 +89,6 @@ function(input, output, session) {
     
     
     output$certificate <- renderUI({
-        #req(input$file)
-        #req(input$file_rules)
-        #req(validation$results)
-        #all(validation$results$status != "error")
-        #req(dataset$creation)
-        
         if(all(validation$results$status != "error") & !is.null(input$file)){
             downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
         }

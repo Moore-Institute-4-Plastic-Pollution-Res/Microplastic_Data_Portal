@@ -45,15 +45,16 @@ dashboardPage(
                 tabName = "item2",
                 fluidRow(
                     column(1,
-                           popover(
-                               fileInput("file_rules", NULL,
-                                         placeholder = ".csv",
-                                         buttonLabel = "Rules...",
-                                         width = "100%",
-                                         accept=c("text/csv",
-                                                  "text/comma-separated-values,text/plain")), 
-                               title = "Upload rules",
-                               content = "Upload the rules csv to use to validate the data csv")
+                               popover(
+                                   fileInput("file_rules", NULL,
+                                             placeholder = ".csv",
+                                             buttonLabel = "Rules...",
+                                             width = "100%",
+                                             accept=c("text/csv",
+                                                      "text/comma-separated-values,text/plain")), 
+                                   title = "Upload rules",
+                                   content = "Upload the rules csv to use to validate the data csv"
+                               )   
                     ),
                     column(1, 
                            popover(
@@ -126,6 +127,14 @@ dashboardPage(
                         title = "Issue Selected", 
                         placement = "left",
                         content = "This is where the selection in the issues raised box will show up. Whatever rule is selected will query the dataset and show any rows that violate the rule and show any problematic columns in red."
+                    )
+                ),
+                fluidRow(
+                    box(
+                        title = "Diagnose",
+                        width = 12, 
+                        DT::dataTableOutput("rules_dt"),
+                        DT::dataTableOutput("data_dt")
                     )
                 )
             )

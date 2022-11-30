@@ -55,18 +55,17 @@ validate_rules <- function(file_rules){
                                 warning = function(w) {w}, 
                                 error = function(e) {e})
     
-    if (inherits(rules_formatted, "simpleWarning") | inherits(rules_formatted, "simpleError") | inherits(rules_formatted, "error") | inherits(rules_formatted, "notSubsetableError")){
-        
-        
-        return(list(
-            message = data.table(
-            title = "Something else went wrong with reading the rules file.",
+    if (class(rules_formatted) == "validator"){
+        return(list(rules = rules_formatted, status = "success"))  
+    }
+    
+    return(list(
+        message = data.table(
+            title = "Something went wrong with reading the rules file.",
             text = paste0("There was an error that said ", rules_formatted$message),
             type = "error"
-            ), status = "error"
-        ))
-    }
-    return(list(rules = rules_formatted, status = "success"))
+        ), status = "error"
+    ))
 }
 
 
