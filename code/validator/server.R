@@ -52,7 +52,7 @@ function(input, output, session) {
         }
     })
     
-    observeEvent(all(validation$results$status != "error"), {
+    observeEvent(validation$results$status == "success", {
         if("KEY" %in% names(validation$data_formatted)){
             remote_output <- remote_share(data_formatted = validation$data_formatted, 
                                           api = api, 
@@ -67,9 +67,9 @@ function(input, output, session) {
             else{
                 remote$creation <- remote_output$creation
                 remote$status <- remote_output$status
+                }
             }
         }
-    }
     )
     
     overview_table <- reactive({
@@ -89,7 +89,7 @@ function(input, output, session) {
     
     
     output$certificate <- renderUI({
-        if(all(validation$results$status != "error") & !is.null(input$file)){
+        if(validation$results$status == "success" && !is.null(validation$results$status)){
             downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
         }
         else{
@@ -102,11 +102,11 @@ function(input, output, session) {
         req(input$file)
         req(input$file_rules)
         req(validation$results)
-        if(any(validation$results$status == "error")){
-            HTML('<button type="button" class="btn btn-danger btn-lg btn-block">ERROR</button>')
+        if(!is.null(validation$results$status) && validation$results$status == "success"){
+            HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }
         else if(!is.null(validation$data_formatted) & !is.null(input$file)){
-            HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
+            HTML('<button type="button" class="btn btn-danger btn-lg btn-block">ERROR</button>')
         }
         else{
             NULL

@@ -55,17 +55,17 @@ validate_rules <- function(file_rules){
                                 warning = function(w) {w}, 
                                 error = function(e) {e})
     
-    if (class(rules_formatted) == "validator"){
-        return(list(rules = rules_formatted, status = "success"))  
+    if (length(class(rules_formatted)) != 1 || class(rules_formatted) != "validator"){
+        return(list(
+            message = data.table(
+                title = "Something went wrong with reading the rules file.",
+                text = paste0("There was an error that said ", rules_formatted$message),
+                type = "error"
+            ), status = "error"
+        ))
     }
     
-    return(list(
-        message = data.table(
-            title = "Something went wrong with reading the rules file.",
-            text = paste0("There was an error that said ", rules_formatted$message),
-            type = "error"
-        ), status = "error"
-    ))
+    return(list(rules = rules_formatted, status = "success"))  
 }
 
 
@@ -97,7 +97,7 @@ validate_data <- function(files_data, rules){
             text = paste0("This tool expects at least one column in each dataset with the same name to merge on. There was also an error that said ", data_formatted$message),
             type = "error"),
             status = "error"
-            )
+                )
             )
     }
     if(!all(variables(rules) %in% names(data_formatted)) | !all(names(data_formatted) %in% variables(rules))){
