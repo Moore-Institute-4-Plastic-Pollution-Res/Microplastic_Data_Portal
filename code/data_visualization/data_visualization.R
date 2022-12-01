@@ -17,7 +17,7 @@ library(mapview)
 library(mapdata)
 
 # Read Samples Excel file into R
-Samples_excel <- read.csv("code/data_visualization/Samples.csv")
+Samples_excel <- read.csv("https://data.ca.gov/dataset/e7624fce-c058-4fa1-a29f-2594d8f8f160/resource/32488529-3a8f-4909-a9c7-fe50ec5f75fa/download/samples_merged.csv")
 
 # Geocode locations to closest precision possible, add XY location values
 Samples_GeoCoded <- Samples_excel %>%

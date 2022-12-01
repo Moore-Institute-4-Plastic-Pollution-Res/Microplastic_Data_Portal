@@ -7,7 +7,6 @@ library(mapdata)
 library(tidyverse)
 library(leaflet)
 
-
 # Restore the object
 Samples_Map <- readRDS(file = "data/Samples_Map.rds")
 # Generate map of microplastics sample data
