@@ -71,7 +71,7 @@ validate_rules <- function(file_rules){
 }
 
 
-validate_data <- function(files_data, rules){
+validate_data <- function(files_data, rules = NULL){
     # Read in data when uploaded based on the file type
     if (!all(grepl("(\\.csv$)", ignore.case = T, as.character(files_data)))) {
         return(list(
@@ -234,6 +234,7 @@ bad_words <- unique(tolower(c(lexicon::profanity_alvarez,
                               lexicon::profanity_zac_anger, 
                               lexicon::profanity_racist)))
 license_plate <- "^[0-9A-Z]{3}([^ 0-9A-Z]|\\s)?[0-9]{4}$"
+address <- "[1-9][0-9]{0,5}\\s+[A-Za-z0-9\\s]+\\s+(St|Rd|Ave|Blvd|Way)"
 email <- "^[[:alnum:].-]+@[[:alnum:].-]+$" #^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
 national_id <- "^[0-9]{3}-[0-9]{2}-[0-9]{4}$"
 ip <- "^(?:(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})\\.){3}\\1$"#"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" #
@@ -257,7 +258,6 @@ usa_routing_number <- "^((0[0-9])|(1[0-2])|(2[1-9])|(3[0-2])|(6[1-9])|(7[0-2])|8
 swift_code <- "^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$"
 
 ## Not checked or not working.
-address <- "^\\d{1,8}\\b[\\s\\S]{10,100}?\\b(AK|AL|AR|AZ|CA|CO|CT|DC|DE|FL|GA|HI|IA|ID|IL|IN|KS|KY|LA|MA|MD|ME|MI|MN|MO|MS|MT|NC|ND|NE|NH|NJ|NM|NV|NY|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VA|VT|WA|WI|WV|WY)\\b\\s\\d{5}$"
 bs_global_card <- "^(6541|6556)[0-9]{12}$"
 carte_card <- "^389[0-9]{11}$"
 diners_card <- "^3(?:0[0-5]|[68][0-9])[0-9]{11}$"
@@ -289,41 +289,48 @@ uk_pass <- "^\\d{9}$"
 uk_dl <- "^[\\w9]{5}\\d{6}[\\w9]{2}\\d{5}$"
 uk_health_num <- "^\\d{3}\\s\\d{3}\\s\\d{4}$"
 
+#AI Generated
+#Social Security Numbers: \\b(\\d{3}[-\\.\\s]??\\d{2}[-\\.\\s]??\\d{4})\\b
+#Phone Numbers: \\b(\\d{3}[-\\.\\s]??\\d{3}[-\\.\\s]??\\d{4}|\\(?\\d{3}\\)?[-\\.\\s]??\\d{3}[-\\.\\s]??\\d{4})\\b
+#Email Addresses: \\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b
+#Names: \\b[A-Z][a-z]*\\s[A-Z][a-z]*\\b
+#Addresses: \\b[0-9]{1,6}\\s[A-Za-z0-9\\s]*(St|Rd|Ave|Blvd|Way)\\b
+
 ## Checks
-profanity(bad_words[1], bad_words)
-profanity("hat", bad_words)
-grepl(license_plate, "NT5-6345")
-grepl(email, "cowger@gmail.com")
-grepl(national_id, "612-49-2884")
-grepl(ip, "192.168.1.1")
-grepl(phone_number, "15153725233")
-grepl(amexcard, "372418640982660")
-grepl(mastercard, "5258704108753590")
-grepl(visacard, "4563-7568-5698-4587")
-grepl(amex_visa_mastercard, "372418640982660")
-grepl(amex_visa_mastercard, "5258704108753590")
-grepl(amex_visa_mastercard, "4563-7568-5698-4587")
-grepl(zip, "92501")
-grepl(url, "https:\\www.wincowger.com")
-grepl(iban, "NL02ABNA0123456789")
-grepl(time, "23:00")
-grepl(currency, "5000.00$")
-grepl(file_info, "the\\shdhfdk\\test.csv")
-grepl(file_info, "the/shdhfdk/test.csv")
-grepl(dates, "12-20-2020")
-#grepl(birthday, "birthday: 11-30-1992")
-grepl(column_names, "birthday", ignore.case = T)
-grepl(discover_card, "6011266701973605")
-grepl(union_card, "6226984208995522")
-checkLuhn("6011-266701-973605")
-checkLuhn("6226984208995522")
-grepl(usa_routing_number, "122105155")
-grepl(swift_code, "WFBIUS6BXXX")
+#profanity(bad_words[1], bad_words)
+#profanity("hat", bad_words)
+#grepl(license_plate, "NT5-6345")
+#grepl(email, "cowger@gmail.com")
+#grepl(national_id, "612-49-2884")
+#grepl(ip, "192.168.1.1")
+#grepl(phone_number, "15153725233")
+#grepl(amexcard, "372418640982660")
+#grepl(mastercard, "5258704108753590")
+#grepl(visacard, "4563-7568-5698-4587")
+#grepl(amex_visa_mastercard, "372418640982660")
+#grepl(amex_visa_mastercard, "5258704108753590")
+#grepl(amex_visa_mastercard, "4563-7568-5698-4587")
+#grepl(zip, "92501")
+#grepl(url, "https:\\www.wincowger.com")
+#grepl(iban, "NL02ABNA0123456789")
+#grepl(time, "23:00")
+#grepl(currency, "5000.00$")
+#grepl(file_info, "the\\shdhfdk\\test.csv")
+#grepl(file_info, "the/shdhfdk/test.csv")
+#grepl(dates, "12-20-2020")
+#grepl(column_names, "birthday", ignore.case = T)
+#grepl(discover_card, "6011266701973605")
+#grepl(union_card, "6226984208995522")
+#checkLuhn("6011-266701-973605")
+#checkLuhn("6226984208995522")
+#grepl(usa_routing_number, "122105155")
+#grepl(swift_code, "WFBIUS6BXXX")
+#grepl(address, " 123 Main St ", ignore.case = T) 
 
 #Not working
-grepl(diners_card, "3036614767651300") 
-grepl(ip6, "2001:0db8:0001:0000:0000:0ab9:C0A8:0102") #Not working. 
-grepl(address, "3385 Cambrige Riverside CA, 92345") #Not Working
+#grepl(diners_card, "3036614767651300") 
+#grepl(ip6, "2001:0db8:0001:0000:0000:0ab9:C0A8:0102") #Not working. 
+#grepl(birthday, "birthday: 11-30-1992")
 
 #Profanity
 

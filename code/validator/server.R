@@ -161,13 +161,13 @@ function(input, output, session) {
     
     #Alerts ----
     observe({
-        if(rules()$status != "success"){
+        if(rules()$status == "error"){
             show_alert(
                 title = rules()$message$title,
                 text = rules()$message$text,
                 type = rules()$message$type)
         }
-        if(validation()$status != "success"){
+        if(validation()$status == "error"){
             show_alert(
                 title = validation()$message$title,
                 text  = validation()$message$text,
