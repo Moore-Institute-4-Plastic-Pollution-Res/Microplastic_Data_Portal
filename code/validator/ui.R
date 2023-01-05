@@ -1,3 +1,4 @@
+
 dashboardPage(
     fullscreen = T,
     help = T,
@@ -19,8 +20,15 @@ dashboardPage(
                 "Validator",
                 tabName = "item2",
                 icon = icon("check")
+            ),
+            menuItem(
+                "Help",
+                tabName = "item3",
+                icon = icon("question")
             )
         )
+
+
     ),
     dashboardBody(
         shinyjs::useShinyjs(),    
@@ -30,6 +38,17 @@ dashboardPage(
                 box(
                     title = "Overview",
                     p("Welcome to the Data Validator webpage. This tool allows you to validate data interactively by uploading a dataset and rules file. To get started, go to the validator tab on the left."),
+                    width = 12
+                ),
+                box(
+                    title = "Instructions",
+                    collapsed = T,
+                    p("Both the data and rules files must be in .csv format. Examples for how to structure the data and rules can be found below:"),
+                    downloadButton("download_rules", "Download Sample Rules", style = "background-color: #2a9fd6;"),
+                    downloadButton("download_good_sample", "Download Valid Sample Data", style = "background-color: #2a9fd6;"),
+                    p("Once data is uploaded on the validator tab, you will either recieve a certificate that your data is valid (which you may download), or notification of any issue(s) found."),
+                    p("In the event of invalid data, the description of the issue(s) to be resolved and severity will be displayed in the 'Issues Raised' panel. You can click on any of the descriptions to display the rows where the issue was found in the 'Issues Selected' panel."),
+                    p("The 'Issues Raised' and 'Issue Selected' data sheets may be copied, or downloaded as CSV, Excel, or PDF."),
                     width = 12
                 ),
                 box(
@@ -86,7 +105,7 @@ dashboardPage(
                            popover(
                                downloadButton("download_good_sample", "", style = "background-color: #28a745;"), #%>%
                                
-                               title = "Download validated example data",
+                               title = "Download valid example data",
                                content = "This is an example file that can be used in tandem with the example rules file to test out the tool with a dataset that is 100% validated."
                            )
                            #     type = "info", 
@@ -131,13 +150,44 @@ dashboardPage(
                 fluidRow(
                     box(
                         title = "Diagnose",
+                        collapsed = T,
                         width = 12, 
                         jsoneditOutput("rules_out"),
                         jsoneditOutput("validation_out")#, 
                        # reactjsonOutput("remote_out") 
                     )
                 )
+            ),
+            tabItem(
+                tabName = "item3",
+                box(
+                    title = "FAQs",
+                    strong("Where is my data going?"),
+                    p("All data uploaded to the validator is private unless otherwise specified."),
+                    strong("Is this open source web tool secure?"),
+                    p("The validator app is https encrypted. Source code is available on GitHub for security review."),
+                    width = 12
+                ),
+                box(
+                    title = "Contact Us",
+                    p("Have any additional questions or concerns? Email us using the link below:"),
+                    HTML('<a class="btn btn-info" href = "mailto:win@mooreplasticresearch.org" role = "button" >Contact Us</a>'),
+                    p("Please include in your email:"),
+                    p ("(1) What should the app be doing?"), 
+                    p ("(2) What is the app doing instead?"),
+                    width = 12
+                )
             )
+            
         )
-    )
+
+    ),
+    
+    footer = dashboardFooter(left = fluidRow(column(1,a(href = "https://twitter.com/Win_OpenData", icon('twitter'))), 
+                                             column(1,a(href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator", icon('github'))), 
+                                             column(1,a(href = "https://creativecommons.org/licenses/by/4.0/", img(src= "CC.png", width= 18, height= 18)))),
+                            right = NULL
+                            )
+
+    
 )
