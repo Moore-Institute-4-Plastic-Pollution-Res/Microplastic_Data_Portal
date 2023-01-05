@@ -339,14 +339,12 @@ grepl(license_plate, "NT5-6345")
 
 #Tests ----
 
-
 #setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
 
 #Material_PA <= 1| Material_PA %vin% c("N/A") | Material_PA %vin% ("Present")
 #api <- read.csv("ckan.csv")
-#file_data = read.csv("C:/Users/winco/Downloads/Samples_Merged.copy.csv")
-
-#files_rules = read.csv("C:/Users/winco/Downloads/Validation_Rules_Samples_Merged.copy.csv")
+file_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Samples_Merged.csv"
+files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Validation_Rules_Samples_Merged.csv"
 
 #list_complaints <- lapply(1:nrow(files_rules), function(x){
 #    tryCatch(validator(.data=files_rules[x,]), 
@@ -358,9 +356,12 @@ grepl(license_plate, "NT5-6345")
 #                            warning = function(w) {w}, 
 #                            error = function(e) {e})
 
-#test_rules <- validate_rules(files_rules)
+test_rules <- validate_rules(files_rules)
+test_data <- validate_data(files_data = file_data, rules = test_rules$rules)
+test_rules$rules
+test_data$status
+test_data$results
 #test_bad_rules <- validate_rules("rules.txt")
-#test_data <- validate_data(files_data = file_data, rules = test_rules$rules)
 #test_remote <- remote_share(data_formatted = test_data$data_formatted, api = api, rules = test_rules$rules, results = test_data$results)
 #test_rules_2 <- validate_rules("C:/Users/winco/Downloads/rules (14).csv")
 #test_invalid <- validate_data(files_data = "C:/Users/winco/Downloads/invalid_data (3).csv", rules = test_rules_2$rules)

@@ -42,7 +42,7 @@ function(input, output, session) {
     })
     
     output$certificate <- renderUI({
-        if(validation()$results$status == "success" && !is.null(validation()$results$status)){
+        if(all(validation()$results$status == "success") && !is.null(validation()$results$status)){
             downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
         }
         else{
@@ -55,7 +55,7 @@ function(input, output, session) {
         req(input$file)
         req(input$file_rules)
         req(validation()$results)
-        if(!is.null(validation()$results$status) && validation()$results$status == "success"){
+        if(!is.null(validation()$results$status) && all(validation()$results$status == "success")){
             HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }
         else if(!is.null(validation()$data_formatted) & !is.null(input$file)){
