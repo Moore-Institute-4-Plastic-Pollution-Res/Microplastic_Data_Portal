@@ -1,0 +1,47 @@
+DOI,Sample_device_and_deployment_methods,Digestion,Filtration,Filter_Size,Microplastic_Identification_Method,Spectral_Analysis,Controls
+10.1016/j.watres.2017.11.011,Pre packaged bevarage cartons,N/A,polycarbonate filter,3 um,"Single Particle Explorer (SPE, rapID, Berlin)",Raman,Blank filters run through Raman
+10.1039/c6ay01184e,Pre packaged bevarage cartons,N/A,Cellulose nitrate,0.45 um,Raman scattering spectroscopy,Raman,Already analyzes sample filtered a second time and analyzed again; additional moistened filter placed in laminar flow box during filtration
+10.3389/fchem.2018.00407,Pre packaged bevarage cartons,N/A,Glass fiber,1.5 um,Nile red; visual,FTIR,DI procedural blanks
+10.1371/journal.pone.0194970,"Tap water, beer",N/A,Whatman cellulose fiber,2.5 um,Rose Bengal stain; visual,FTIR,DI procedural blanks
+10.1016/j.sciotenv.2018.08.178,Drinking water from ground water sources both at drinking water plant outlet and at customer households,N/A,Stainless steel,3 um,Stereo light microscope; FTIR Imaging,FTIR,Filtered drinking water procedural blanks; Mili-Q/Ethanol
+10.1016/j.sciotenv.2018.08.102,Tap water,Wet peroxide oxidation,Polytetraflouroethylene (PTFE) membrane filters,0.2 um; 5 um,SEM,FTIR,HPLC grade water procedural blanks
+http://dce2.au.dk/pub/SR291.pdf ,Tap water,N/A,Steel filters,20 um,Stereomicroscopy; FTIR imaging,FTIR,5 procedural blanks
+10.1016/j.hazmat.2021.125708,Drinking water from treatment facilities,Wet peroxide oxidation,Fiberglass filters,0.7 um,GCMS Pyrolysis,GCMS Pyrolysis,6 procedural blanks; filtered Mili-Q
+10.1016/j.chemosphere.2021.132587,Drinking water from treatment facilities,KOH,polycarbonate filter,10 um,Visual,Raman,Field blanks; procedural blanks
+10.1016/j.watres.2020.11.6519,Drinking water from treatment facilities,Density separation with sodium polytungstate,Stainless steel; fibreglass,5 um; 0.7 um,FTIR microscopy,FTIR; Py-GCMS,One blanks at each lab station; laminar flow bench
+10.1007/s11270-022-05649-y,River surface water (0-10 cm),N/A,Cellulose membrane,10 um; 0.22 um,N/A,N/A,N/A
+10.1016/j.scitotenv.2021.152623,Spiked drinking water,N/A,Granular activated carbon filter,N/A,NanoSight LM14; DLS; SEM,N/A,N/A
+10.18520/cs/v117/i11/1874-1879,Surface water; groundwater; commercial drinking water,N/A,Whatman cellulose fiber,0.45 um,SEM; EDX,FTIR,N/A
+10.1016/j.scitotenv.2021.150545,Drinking water from treatment facilities,N/A,Stainless steel; PTFE membrane filters,10 um; 5 um; 0.45 um,,Raman,Positive and negative lab controls
+10.1371/journal.pone.0236838,Literature review,hydrochloric acid; wet peroxide oxidation; acetic acid; ,Stainless steel; membrane; anodisc; aluminum oxide,3 um; 0.2 um; 5 um; 0.22 um; 0.45 um,,FTIR; Raman; m-FTIR; m-Raman,N/A
+10.11001/jksww.2020.34.5.357,Literature review,N/A,N/A,N/A,N/A,N/A,N/A
+10.1016/j.scitotenv.2019.02.431,Literature review,N/A,N/A,N/A,N/A,N/A,N/A
+10.1016/j.watres.2019.02.054,Literature review,N/A,N/A,N/A,N/A,N/A,N/A
+10.1016/j.cej.2020.128381,Literature review,N/A,N/A,N/A,N/A,N/A,N/A
+10.1016/j.jece.2020.104527,Literature review,N/A,Sand,0.45-50 um,N/A,FTIR; Raman,N/A
+10.1016/j.chemosphere.2020.126612,Literature review,N/A,trawl; glass filter; PTFE membrane filter; plankton net; nylon filter; sieve,1-500 um,visual; stereomicroscope; microscope; SEM,ATR; FTIR; Raman,N/A
+10.1016/j.impact.2021.100302,Literature review,calcium magnesium dissolusion; Fe H2O2; iron precipitates; HCl; H2O2;,polycarbonate; PTFE; Al3O3; Au coated polycarbonate; Al oxide,0.4 um; 5 um; 0.2 um; 0.22 um,FTIR; Raman; SEM-EDX,FTIR; Raman,N/A
+10.1007/s11783-021-1492-5,Literature review; drinking water treatment plants,N/A,Sand,N/A,N/A,N/A,N/A
+10.1016/j.envres.2022.112855,Groundwater drinking water,H2O2,polycarbonate membrane,5 um,FTIR,FTIR,N/A
+10.1021/acs.est.9b01517,Bottled water and tap water; food,N/A,N/A,N/A,N/A,N/A,N/A
+10.1016/j.envpol.2021.117524,Drinking water,H2O2,stainless steel,10 um,micro raman,Raman,N/A
+10.21203/rs.3.rs-242504/v1,Drinking water from treatment facilities,Fe H2O2,N/A,20 um,SEM,FTIR,N/A
+10.1016/j.sciotenv.2020.143421,Tap water,HCl,PC filter,1.2 um,EMCCD,Raman,5 procedural blanks
+10.1016/j.etap.2018.12.009,Reservoir water,H2O2,Glass fiber,0.45 um,SEM,Raman,N/A
+10.1016/j.envpol.2020.114227,Public water fountains,N/A,nitrocellulose filter paper,0.22 um,SEM,Raman,Procedural blanks; filters analyzed before; cotton used; laminar flow hood used
+10.1007/s11356-021-12467-y,Drinking water from treatment facilities,N/A,Stainless steel,100 um; 20 um; 10 um; 5 um,micro raman,Raman,Process blanks
+10.3390/w12113115,Drinking water from treatment facilities,KOH,Whatman cellulose fiber,7 um,Nile Red; flouresence microscopy,Referenced known particles under flouresence scope,N/A
+10.3390/environments8120138,Drinking water type used by participants (study also included stool samples and food samples from participants),Fenton's; HNO3,Cellulose nitrate-cellulose acetate,N/A,micro raman,Raman,N/A
+10.1016/j.cotox.2021.09.003,Review paper; Tap and bottled water,N/A,N/A,N/A,N/A,N/A,N/A
+10.1016/j.jwpe.2020.101884,Bottled water,N/A,Gold plated polycarbonate,0.4 um,micro FTIR,FTIR,laminar flow; cotton only in lab
+10.1007/s11356-021-13220-1,Drinking water from treatment facilities,N/A,stainless steel; membrane,3.5 mm; 1 mm; 300 um; 100 um; 20 um; 1 um,Steriomicroscopy; micro FTIR,FTIR,3 procedural blanks; black filters washed with reagents analyzed
+10.1016/j.cofs.2021.02.011,Bottled water,N/A,N/A,N/A,RM; micro FTIR; Nile Red; SEM,Raman; FTIR,Procedural blanks
+10.22630/PNIKS.2019.28.4.59,Fire hydrants; network water points; water holding tanks,N/A,cellulose,2-4 um,Rose Bengal stain; visual; stereoscope ,N/A,N/A
+10.3390/app112110109,Review; Drinking water from treatment facilities,N/A,N/A,N/A,N/A,N/A,N/A
+10.1016/j.jhazmat.2021.125347,Drinking water from treatment facilities,H2O2,glass microfiber,0.7 um,Nile Red; flouresence microscopy,FTIR,Procedural blanks; plastic equiptment minimized; cotton only worn in lab
+10.1016/j.scitotenv.2020.140236,Drinking water from treatment facilities,H2SO4,PTFE membrane; Al2O3,0.2 um,SEM; micro Raman,Raman,Procedural blanks; plastic equiptment minimized; cotton only worn in lab
+10.1016/j.chemosphere.2020.126493,Tap water,N/A,Whatman cellulose fiber,0.2 um,Nile red; visual,Raman,Procedural blanks; laminar flow table
+10.1016/j.scitotenv.2019.134520,Drinking water from treatment facilities,H2O2,PTFE membrane; Al2O3,0.5 um; 0.22 um,SEM; micro Raman,Raman,Procedural blanks; plastic equiptment minimized; cotton only worn in lab
+10.1007/s11356-021-13769-x,DWTP,H2O2,Alumina filter,0.2 um,Stereomicroscopy,FTIR,Plastic equiptment minimized
+10.1016/j.scitotenv.2021.148001,Drinking water canal,H2O2,Glass fiber,N/A,N/A,N/A,Plastic equiptment minimized
+10.1016/j.scitotenv.2022.154015,Drinking water from treatment facilities,H2O2,Al2O3,0.2 um,micro FTIR,FTIR,Procedural blanks; plastic equiptment minimized

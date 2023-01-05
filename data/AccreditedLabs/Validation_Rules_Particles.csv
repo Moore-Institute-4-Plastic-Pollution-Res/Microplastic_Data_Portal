@@ -1,0 +1,18 @@
+name,description,valid_example,severity,rule
+ParticleID,Unique ID for each particle,1_23jreh334,error,is_unique(ParticleID) & !is.na(ParticleID)
+MethodologyID,Online identifier for methodology,https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/microplastics/mcrplsts_plcy_drft.pdf,error,!is.na(MethodologyID)
+SampleID,Unique ID for sample,23jreh334,error,!is.na(SampleID)
+PhotoID,URL address for photo of particle,https://doc-00-7k-docs.googleusercontent.com/docs/securesc/kkkvndiqs416g5o4kra540qkfd8fc4ql/aqpgak0vhec59odem1r18l4vkc0ghtgm/1672932075000/06785475539150725270/01733808759481835310/1uWtmgq-kAkWIFg1CtmSlrFXvaNaiB07p?e=view&ax=ALjR8szmrYQf02Bshvbw9oDjP01GEQ9uwZ6YayML-2_E_QvSmEpLKmRs-P1yB2n0TQXNvNJrXFzbRasuzpXpcbX3PRTmuxdJSE-h1ENXe6e5zerA30UkGC765qjz9bCzGfST15mWQ9GnnH8G8s2CkQdnAKEBWEJZJ5yC02rR1w7AJ5adMjfkHaFB6R3fXTpuGZtrPJXHltbIOQWfau0KrTu1ib7DK7T7dNDEJRAfk51COGW60UqU4PuNvmp3qVm_EFP8VUZQbosrWjVF8n3_28jqet80anihFDtx8oVBdph885ppyEz14smsnwlFpVJ7n0ifZKV_vvhJat9T-Hj6Xx91a3cwu4nw6DrGtu1jbhCsPzNdT-5z7A3bB7YI1JQYHOJpgyzQtdXVJVFCh4sIf9NkD-XP6fIR9wuukSLcEx0wxf-UjpRCZClXGgvaUUVHEqfioz7FJ8MGVx1gxY29-X0xtFlFGVifGRPIOekZAfbDBMAAeyHb3bZm5Dm6KltWP-W-qtA6v6MQGDcGJEZfYbCdkuaqzxo_S2jaUCCaBud5ePDW9Ho0yoN1uT3VGshwGgV_L8evWNnBdj23QHrGUxXcJD64XzFwCLkD1BjeZkTMfeW-cwbcd3eTO3YDK0eHUpWQt75JzL1s7xPRXZwH2mt8jetKV5lN-8JJcXLk_xIg9VSDlPD6PXfKC5jy2j62-Hajpae3NWvvmRc6F9KZq_MaChjUXWOrw-nAuk8gfoA_UPBjnDKB4T7RtQ6fCuCAUOQtobnmMc9wR22NF2f6-hYSp2b8d144Adbwo0i3gyN6v5GvQ7EApjxfFl79jAGH1YINKdrdHa9_1aMKbTYol18w9-5iwElK5EV0az3_EIeYfb3S1uQ2zZZl9NITwnicnEetwanEw-fm8MU-o5iOs5a46eX-0lS5lp1SG9KVLIzWNhMjTEODT0HfSRYb5sXm328qfcs_05Pc&uuid=3389bb84-d83f-494d-8c98-00a32b8c7f31&authuser=0,error,!is.na(PhotoID) 
+SpectraID,URL address for spectra of particle,https://github.com/wincowgerDEV/OpenSpecy-package/blob/main/inst/extdata/fitr_nitrocellulose.jdx,error,(as.numeric(Latitude) > -90 & as.numeric(Latitude) < 90) & !is.na(Latitude)
+FinalAnalysisDate,The date the analysis for the particle was finalized. ,2023-02-10,error,(as.numeric(Longitude) > -180 & as.numeric(Longitude) < 180) & !is.na(Longitude)
+Comments,Any comments about the particle analysis,Spectra noisy,error,"!is.na(CollectionDate) & !is.na(as.Date(CollectionDate, format = ""%Y-%m-%d""))"
+Polymer,Particle polymer name,Polyethylene,error,!is.na(SampleVolume) & (as.numeric(SampleVolume) > 1 & as.numeric(SampleVolume) < 1000000)
+Morphology,Particle morphology,Sphere,error,
+Color,Particle color,White,error,
+Length,Particle size longest dimension (um),100,error,
+Width,Particle size shortest dimension (um),100,error,
+Height,Third particle dimension (um),100,error,
+Mass,Particle mass (mg),0.1,error,
+SurfaceArea,Particle projected surface area (um^3),31415.93,error,
+Volume,Particle projected volume,10000,error,
+Tactile,Particle tactile features,ridgid,error,
