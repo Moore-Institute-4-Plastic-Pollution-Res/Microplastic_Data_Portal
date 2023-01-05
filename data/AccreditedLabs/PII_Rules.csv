@@ -1,0 +1,3 @@
+name,description,valid_example,severity,rule
+PhoneNumbers,Check for phone numbers,515-298-4563,error,"grepl(""^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$"", G)"
+groupForm,check,test,error,"G:=var_group(phone, name, test)"

@@ -104,18 +104,23 @@ validate_data <- function(files_data, rules = NULL){
             )
     }
     if(!all(variables(rules) %in% names(data_formatted)) | !all(names(data_formatted) %in% variables(rules))){
-        return(list(
-            message = data.table(
-            title = "Rules and data mismatch",
-            text = paste0("All variables in the rules csv (", paste(variables(rules)[!variables(rules) %in% names(data_formatted)], collapse = ", "), ") need to be in the data csv (",  paste(names(data_formatted)[!names(data_formatted) %in% variables(rules)], collapse = ", "), ") and vice versa for the validation to work."),
-            type = "error"), status = "error"))
+        warning_2 <- data.table(
+                        title = "Rules and data mismatch",
+                        text = paste0("All variables in the rules csv (", paste(variables(rules)[!variables(rules) %in% names(data_formatted)], collapse = ", "), ") need to be in the data csv (",  paste(names(data_formatted)[!names(data_formatted) %in% variables(rules)], collapse = ", "), ") and vice versa for the validation to work."),
+                        type = "warning")
     }
     report <- confront(data_formatted, rules)
+    
     results <- summary(report) %>%
         mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
-        mutate(description = meta(rules)$description)
+        left_join(meta(rules))
     
-    return(list(data_formatted = data_formatted, report = report, results = results, rules = rules, status = "success"))
+    return(list(data_formatted = data_formatted, 
+                report = report, 
+                results = results, 
+                rules = rules, 
+                status = "success", 
+                message = if(exists("warning_2")){warning_2} else{NULL}))
 }
 
 
@@ -346,7 +351,9 @@ grepl(license_plate, "NT5-6345")
 #Material_PA <= 1| Material_PA %vin% c("N/A") | Material_PA %vin% ("Present")
 #api <- read.csv("ckan.csv")
 #file_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Samples_Merged.csv"
-file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Validation_Rules_Samples_Merged.csv"
+#files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Validation_Rules_Samples_Merged.csv"
+files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII.csv"
+files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII_Rules.csv"
 
 #list_complaints <- lapply(1:nrow(files_rules), function(x){
 #    tryCatch(validator(.data=files_rules[x,]), 
@@ -360,11 +367,11 @@ file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_D
 
 test_rules <- validate_rules(files_rules)
 test_data <- validate_data(files_data = file_data, rules = test_rules$rules)
-
+#variables(test_rules$rules)[variables(test_rules$rules) != "DOI"]
 #(test_data$data_formatted$Approximate_Lattitude == "N/A" | suppressWarnings(as.numeric(test_data$data_formatted$Approximate_Lattitude) > -90 & as.numeric(test_data$data_formatted$Approximate_Lattitude) < 90)) & !is.na(test_data$data_formatted$Approximate_Lattitude)
-test_rules$message
+#test_rules$message
 #test_data$status
-test_data$results
+#test_data$results
 #test_data$data_formatted$Approximate_Lattitude
 #test_bad_rules <- validate_rules("rules.txt")
 #test_remote <- remote_share(data_formatted = test_data$data_formatted, api = api, rules = test_rules$rules, results = test_data$results)

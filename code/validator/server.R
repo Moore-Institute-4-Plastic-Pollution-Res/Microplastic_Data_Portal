@@ -168,7 +168,7 @@ function(input, output, session) {
                 text = rules()$message$text,
                 type = rules()$message$type)
         }
-        if(validation()$status == "error"){
+        if(validation()$status == "error" | is.list(validation()$message)){
             show_alert(
                 title = validation()$message$title,
                 text  = validation()$message$text,

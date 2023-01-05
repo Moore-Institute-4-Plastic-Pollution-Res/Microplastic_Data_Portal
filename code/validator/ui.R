@@ -45,7 +45,13 @@ dashboardPage(
                     collapsed = T,
                     p("Both the data and rules files must be in .csv format. Examples for how to structure the data and rules can be found below:"),
                     downloadButton("download_rules", "Download Sample Rules", style = "background-color: #2a9fd6;"),
-                    downloadButton("download_good_sample", "Download Valid Sample Data", style = "background-color: #2a9fd6;"),
+                    downloadButton("download_good_sample", "Download Valid Sample Data", style = "background-color: #28a745;"),
+                    popover(
+                        downloadButton("download_sample", "Download Invalid Sample Data", style = "background-color: #dc3545;"), #%>%
+                        
+                        title = "Download invalid example data",
+                        content = "This is an example file that can be used in tandem with the example rules file to test out the tool for its performance with a dataset that isn't 100% validated."
+                    ),
                     p("Once data is uploaded on the validator tab, you will either recieve a certificate that your data is valid (which you may download), or notification of any issue(s) found."),
                     p("In the event of invalid data, the description of the issue(s) to be resolved and severity will be displayed in the 'Issues Raised' panel. You can click on any of the descriptions to display the rows where the issue was found in the 'Issues Selected' panel."),
                     p("The 'Issues Raised' and 'Issue Selected' data sheets may be copied, or downloaded as CSV, Excel, or PDF."),
@@ -75,12 +81,7 @@ dashboardPage(
                                    content = "Upload the rules csv to use to validate the data csv"
                                )   
                     ),
-                    column(1, 
-                           popover(
-                               downloadButton("download_rules", "", style = "background-color: #2a9fd6;"), #%>%
-                               title = "Download Rules Example",
-                               content = "This is an example rules file, follow the format of this rules file to create your own."
-                           )
+                    column(1
                     ),
                     column(1,
                            popover(
@@ -95,19 +96,7 @@ dashboardPage(
                                content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file."), 
                            #      size = "medium", rounded = TRUE
                     ),
-                    column(1,
-                           popover(
-                               downloadButton("download_sample", "", style = "background-color: #dc3545;"), #%>%
-                               
-                               title = "Download invalid example data",
-                               content = "This is an example file that can be used in tandem with the example rules file to test out the tool for its performance with a dataset that isn't 100% validated."
-                           ),
-                           popover(
-                               downloadButton("download_good_sample", "", style = "background-color: #28a745;"), #%>%
-                               
-                               title = "Download valid example data",
-                               content = "This is an example file that can be used in tandem with the example rules file to test out the tool with a dataset that is 100% validated."
-                           )
+                    column(1
                            #     type = "info", 
                            #     size = "medium", rounded = TRUE
                            # )
