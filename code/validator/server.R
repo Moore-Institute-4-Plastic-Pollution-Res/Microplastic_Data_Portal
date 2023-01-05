@@ -17,7 +17,7 @@ function(input, output, session) {
     })
     
     remote <- reactive({
-        req(validation()$results$status == "success")
+        req(all(validation()$results$status == "success"))
         req("KEY" %in% names(validation()$data_formatted))
         api <- read.csv("secrets/ckan.csv")
         remote_share(data_formatted = validation()$data_formatted, 
