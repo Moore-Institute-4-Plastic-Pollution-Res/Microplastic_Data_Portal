@@ -6,14 +6,11 @@ function(input, output, session) {
     
     success_example <- read.csv("www/data_success.csv")
     
-    rules <- reactive({
-        req(input$file_rules)
-        validate_rules(input$file_rules$datapath)
-    })
     
     validation <- reactive({
         req(input$file)
-        validate_data(files_data = input$file$datapath, rules = rules()$rules)
+        req(input$file_rules)
+        validate_data(files_data = input$file$datapath, file_rules = input$file_rules$datapath)
     })
     
     remote <- reactive({
@@ -162,12 +159,6 @@ function(input, output, session) {
     
     #Alerts ----
     observe({
-        if(rules()$status == "error"){
-            show_alert(
-                title = rules()$message$title,
-                text = rules()$message$text,
-                type = rules()$message$type)
-        }
         if(validation()$status == "error" | is.list(validation()$message)){
             show_alert(
                 title = validation()$message$title,
@@ -183,9 +174,6 @@ function(input, output, session) {
     })
     
     #Diagnosis ----
-    output$rules_out <- renderJsonedit({
-        jsonedit(rules())
-    })
     output$validation_out <- renderJsonedit({
         jsonedit(validation())
     })

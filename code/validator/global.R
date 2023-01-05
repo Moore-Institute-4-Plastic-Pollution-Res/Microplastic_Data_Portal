@@ -24,14 +24,15 @@ options(shiny.maxRequestSize = 30*1024^2)
 
 # Functions ----
 
-validate_rules <- function(file_rules){
+
+validate_data <- function(files_data, file_rules = NULL){
     if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
         #reset("file")
         return(list(
             message = data.table(
-            title = "Data type not supported!",
-            text = paste0("Uploaded data type is not currently supported; please upload a .csv file."),
-            type = "warning"), status = "error"))
+                title = "Data type not supported!",
+                text = paste0("Uploaded data type is not currently supported; please upload a .csv file."),
+                type = "warning"), status = "error"))
     }
     
     rules <- read.csv(file_rules)
@@ -40,39 +41,20 @@ validate_rules <- function(file_rules){
         #reset("file")
         return(list(
             message = data.table(
-            title = "Data type not supported!",
-            text = paste0('Uploaded rules format is not currently supported, please provide a rules file with column names, "name", "description", "severity", "rule"'),
-            type = "warning"), status = "error"))
+                title = "Data type not supported!",
+                text = paste0('Uploaded rules format is not currently supported, please provide a rules file with column names, "name", "description", "severity", "rule"'),
+                type = "warning"), status = "error"))
     }
     
     if (!all(unlist(lapply(rules, class)) %in% c("character"))) {
         #reset("file")
         return(list(
             message = data.table(
-            title = "Data type not supported!",
-            text = paste0('Uploaded rules format is not currently supported, please provide a rules file with columns that are all character type.'),
-            type = "warning"), status = "error"))
+                title = "Data type not supported!",
+                text = paste0('Uploaded rules format is not currently supported, please provide a rules file with columns that are all character type.'),
+                type = "warning"), status = "error"))
     }
     
-    rules_formatted <- tryCatch(validator(.data=rules), 
-                                warning = function(w) {w}, 
-                                error = function(e) {e})
-    
-    if (length(class(rules_formatted)) != 1 || class(rules_formatted) != "validator"){
-        return(list(
-            message = data.table(
-                title = "Something went wrong with reading the rules file.",
-                text = paste0("There was an error that said ", rules_formatted$message),
-                type = "error"
-            ), status = "error"
-        ))
-    }
-    
-    return(list(rules = rules_formatted, status = "success"))  
-}
-
-
-validate_data <- function(files_data, rules = NULL){
     # Read in data when uploaded based on the file type
     if (!all(grepl("(\\.csv$)", ignore.case = T, as.character(files_data)))) {
         return(list(
@@ -103,22 +85,51 @@ validate_data <- function(files_data, rules = NULL){
                 )
             )
     }
-    if(!all(variables(rules) %in% names(data_formatted)) | !all(names(data_formatted) %in% variables(rules))){
+    
+    do_to_all <- rules %>%
+        filter(grepl("___", rule))
+    
+    if(nrow(do_to_all) > 0){
+            rules <- lapply(colnames(data_formatted), function(new_name){
+                do_to_all %>%
+                    mutate(rule = gsub("___", new_name, rule)) %>%
+                    mutate(name = paste0(new_name, "_", name))
+            }) %>%
+                rbindlist(.) %>%
+                bind_rows(rules %>% filter(!grepl("___", rule)))
+    }
+   
+    
+    rules_formatted <- tryCatch(validator(.data=rules), 
+                                warning = function(w) {w}, 
+                                error = function(e) {e})
+    
+    if (length(class(rules_formatted)) != 1 || class(rules_formatted) != "validator"){
+        return(list(
+            message = data.table(
+                title = "Something went wrong with reading the rules file.",
+                text = paste0("There was an error that said ", rules_formatted$message),
+                type = "error"
+            ), status = "error"
+        ))
+    }
+    
+    if(!all(variables(rules_formatted) %in% names(data_formatted)) | !all(names(data_formatted) %in% variables(rules_formatted))){
         warning_2 <- data.table(
                         title = "Rules and data mismatch",
-                        text = paste0("All variables in the rules csv (", paste(variables(rules)[!variables(rules) %in% names(data_formatted)], collapse = ", "), ") need to be in the data csv (",  paste(names(data_formatted)[!names(data_formatted) %in% variables(rules)], collapse = ", "), ") and vice versa for the validation to work."),
+                        text = paste0("All variables in the rules csv (", paste(variables(rules_formatted)[!variables(rules_formatted) %in% names(data_formatted)], collapse = ", "), ") need to be in the data csv (",  paste(names(data_formatted)[!names(data_formatted) %in% variables(rules_formatted)], collapse = ", "), ") and vice versa for the validation to work."),
                         type = "warning")
     }
-    report <- confront(data_formatted, rules)
+    report <- confront(data_formatted, rules_formatted)
     
     results <- summary(report) %>%
         mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
-        left_join(meta(rules))
+        left_join(meta(rules_formatted))
     
     return(list(data_formatted = data_formatted, 
                 report = report, 
                 results = results, 
-                rules = rules, 
+                rules = rules_formatted, 
                 status = "success", 
                 message = if(exists("warning_2")){warning_2} else{NULL}))
 }
@@ -345,18 +356,6 @@ grepl(license_plate, "NT5-6345")
 
 
 #Tests ----
-rules <- read.csv("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII_Rules.csv")
-do_to_all <- rules %>%
-    filter(grepl("___", rule))
-
-new_rules <- lapply(colnames(data_formatted), function(new_name){
-    do_to_all %>%
-        mutate(rule = gsub("___", new_name, rule)) %>%
-        mutate(name = paste0(new_name, "_", name))
-        }) %>%
-    rbindlist(.)
-    
-
 
 #setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
 
@@ -366,6 +365,7 @@ new_rules <- lapply(colnames(data_formatted), function(new_name){
 #files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Validation_Rules_Samples_Merged.csv"
 #files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII.csv"
 #files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII_Rules.csv"
+
 
 #list_complaints <- lapply(1:nrow(files_rules), function(x){
 #    tryCatch(validator(.data=files_rules[x,]), 
