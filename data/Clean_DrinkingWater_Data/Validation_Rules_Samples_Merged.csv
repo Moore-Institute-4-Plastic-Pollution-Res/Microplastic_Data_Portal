@@ -4,8 +4,8 @@ unique,"The combination of DOI, Sample_ID, and Subsample_ID is unique for each r
 Sample_ID,A unique sample ID is given for each sample,error,"Sample_ID != ""N/A"""
 Subsample_ID,A unique subsample ID is given is subsample is applicable,error,is.character(Subsample_ID)
 Location,"Location of bottled or tap water to highest specificity, if applicaple",error,is.character(Location)
-Approximate_Lattitude,Approximate lattitude of location provided,error,"Approximate_Lattitude == ""N/A"" | (Approximate_Lattitude > -90 & Approximate_Lattitude < 90)"
-Approximate_Longitude,Approximate longitude of location provided,error,"Approximate_Longitude == ""N/A"" | (Approximate_Longitude > -180 & Approximate_Longitude < 180)"
+Approximate_Lattitude,Approximate lattitude of location provided and is greater than -90 and less than 90,error,"Approximate_Lattitude == ""N/A"" | (as.numeric(Approximate_Lattitude) > -90 & as.numeric(Approximate_Lattitude) < 90)"
+Approximate_Longitude,Approximate longitude of location provided and is greater than -180 and less than 180,error,"Approximate_Longitude == ""N/A"" | (as.numeric(Approximate_Longitude) > -180 & as.numeric(Approximate_Longitude) < 180)"
 Source,"Source of water, either bottled water or tap water",error,"Source%vin% c(""bottled water"",""tap water"")"
 Date,"Date sample was collected, if applicable",error,is.character(Date)
 Concentration,Concentration of particles in sample (number or range) without units,error,is.character(Concentration)
