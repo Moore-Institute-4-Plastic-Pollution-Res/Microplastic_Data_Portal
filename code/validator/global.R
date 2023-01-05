@@ -45,7 +45,7 @@ validate_rules <- function(file_rules){
             type = "warning"), status = "error"))
     }
     
-    if (!all(unlist(lapply(rules, class)) %in% c("character", "logical"))) {
+    if (!all(unlist(lapply(rules, class)) %in% c("character"))) {
         #reset("file")
         return(list(
             message = data.table(
@@ -345,6 +345,18 @@ grepl(license_plate, "NT5-6345")
 
 
 #Tests ----
+rules <- read.csv("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII_Rules.csv")
+do_to_all <- rules %>%
+    filter(grepl("___", rule))
+
+new_rules <- lapply(colnames(data_formatted), function(new_name){
+    do_to_all %>%
+        mutate(rule = gsub("___", new_name, rule)) %>%
+        mutate(name = paste0(new_name, "_", name))
+        }) %>%
+    rbindlist(.)
+    
+
 
 #setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
 
@@ -352,8 +364,8 @@ grepl(license_plate, "NT5-6345")
 #api <- read.csv("ckan.csv")
 #file_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Samples_Merged.csv"
 #files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Validation_Rules_Samples_Merged.csv"
-files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII.csv"
-files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII_Rules.csv"
+#files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII.csv"
+#files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII_Rules.csv"
 
 #list_complaints <- lapply(1:nrow(files_rules), function(x){
 #    tryCatch(validator(.data=files_rules[x,]), 
@@ -365,8 +377,8 @@ files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_
 #                            warning = function(w) {w}, 
 #                            error = function(e) {e})
 
-test_rules <- validate_rules(files_rules)
-test_data <- validate_data(files_data = file_data, rules = test_rules$rules)
+#test_rules <- validate_rules(files_rules)
+#test_data <- validate_data(files_data = file_data, rules = test_rules$rules)
 #variables(test_rules$rules)[variables(test_rules$rules) != "DOI"]
 #(test_data$data_formatted$Approximate_Lattitude == "N/A" | suppressWarnings(as.numeric(test_data$data_formatted$Approximate_Lattitude) > -90 & as.numeric(test_data$data_formatted$Approximate_Lattitude) < 90)) & !is.na(test_data$data_formatted$Approximate_Lattitude)
 #test_rules$message
