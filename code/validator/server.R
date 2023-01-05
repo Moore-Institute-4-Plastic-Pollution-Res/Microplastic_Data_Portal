@@ -1,10 +1,5 @@
 function(input, output, session) {
-    
-    rules_example <- read.csv("www/rules.csv")
-    
-    invalid_example <- read.csv("www/invalid_data.csv")
-    
-    success_example <- read.csv("www/data_success.csv")
+
     
     
     validation <- reactive({

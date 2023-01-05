@@ -22,6 +22,12 @@ options(shiny.maxRequestSize = 30*1024^2)
 
 # Files ----
 
+rules_example <- read.csv("www/rules.csv")
+
+invalid_example <- read.csv("www/invalid_data.csv")
+
+success_example <- read.csv("www/data_success.csv")
+
 # Functions ----
 
 
