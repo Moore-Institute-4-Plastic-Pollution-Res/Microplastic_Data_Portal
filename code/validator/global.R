@@ -234,7 +234,7 @@ bad_words <- unique(tolower(c(lexicon::profanity_alvarez,
                               lexicon::profanity_racist)))
 
 license_plate <- "^[0-9A-Z]{3}([^ 0-9A-Z]|\\s)?[0-9]{4}$"
-address <- "[1-9][0-9]{0,5}\\s+[A-Za-z0-9\\s]+\\s+(St|Rd|Ct|Ave|Blvd|Way)"
+address <- "[1-9][0-9]{0,5}\\s+[A-Za-z0-9\\s]+\\s+(St|Rd|Ct|Ave|Blvd|Way)" #https://pe.usps.com/text/pub28/28apc_002.htm
 email <- "[[:alnum:].-]+@[[:alnum:].-]+" #^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
 national_id <- "[0-9]{3}-[0-9]{2}-[0-9]{4}"
 ip <- "(?:(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})\\.){3}\\1"#"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" #
@@ -289,7 +289,7 @@ uk_pass <- "^\\d{9}$"
 uk_dl <- "^[\\w9]{5}\\d{6}[\\w9]{2}\\d{5}$"
 uk_health_num <- "^\\d{3}\\s\\d{3}\\s\\d{4}$"
 
-#grepl(license_plate, "NT5-6345")
+grepl(license_plate, "NT5-6345")
 
 #AI Generated
 #Social Security Numbers: \\b(\\d{3}[-\\.\\s]??\\d{2}[-\\.\\s]??\\d{4})\\b
