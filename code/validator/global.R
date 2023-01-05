@@ -43,7 +43,7 @@ validate_rules <- function(file_rules){
             type = "warning"), status = "error"))
     }
     
-    if (!all(unlist(lapply(rules, class)) %in% "character")) {
+    if (!all(unlist(lapply(rules, class)) %in% c("character", "logical"))) {
         #reset("file")
         return(list(
             message = data.table(
