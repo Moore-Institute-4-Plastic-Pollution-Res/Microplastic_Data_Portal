@@ -1,4 +1,3 @@
-setwd("/Users/hannahhapich/Downloads/Microplastic_Data_Portal-main3")
 
 dashboardPage(
     fullscreen = T,
