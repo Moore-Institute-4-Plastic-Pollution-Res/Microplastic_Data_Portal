@@ -38,6 +38,7 @@ dashboardPage(
                 box(
                     title = "Overview",
                     p("Welcome to the Data Validator webpage. This tool allows you to validate data interactively by uploading a dataset and rules file. To get started, go to the validator tab on the left."),
+                    HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/GKsoNega7CY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'),
                     width = 12
                 ),
                 box(
@@ -152,7 +153,7 @@ dashboardPage(
                 box(
                     title = "FAQs",
                     strong("Where is my data going?"),
-                    p("All data uploaded to the validator is private unless otherwise specified."),
+                    p("Data uploaded to the validator does not get saved unless you have a specific agreement with our group to save it."),
                     strong("Is this open source web tool secure?"),
                     p("The validator app is https encrypted. Source code is available on GitHub for security review."),
                     width = 12
