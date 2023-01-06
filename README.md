@@ -1,5 +1,4 @@
 # Microplastics Data Portal
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 [![Twitter Follow](https://img.shields.io/twitter/follow/ThePlastiverse?style=social)](https://twitter.com/ThePlastiverse)
 [![Twitter Follow](https://img.shields.io/twitter/follow/MoorePlasticRes?style=social)](https://twitter.com/MoorePlasticRes)
 [![Join the chat at https://gitter.im/Microplastic_Data_Portal/community](https://badges.gitter.im/Microplastic_Data_Portal/community.svg)](https://gitter.im/Microplastic_Data_Portal/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -21,6 +20,7 @@ Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/).
 Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
 ### Meeting Videos
+- [3 Month Update: January 6, 2023](https://drive.google.com/file/d/15o4KYY_YAMX31JN5AKH9afxHSOFH9N9D/view?usp=sharing)
 - [Upcoming conference practice and app updates: October 28, 2022](https://drive.google.com/file/d/1Go_Vwl1bhNezcOBgfivsruRF1YT8VYjf/view?usp=sharing)
 - [Bugs in validation app and schema updates: October 14, 2022](https://drive.google.com/file/d/1UpCYxKfu1n45WKt6BQfNy43CYImdXGZL/view?usp=share_link)
 - [Overview of project status: September 28, 2022](https://drive.google.com/file/d/1tL33tC0d3oa1RsiVt7ylnbo1Z_VdRhC3/view?usp=sharing)
