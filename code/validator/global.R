@@ -16,6 +16,8 @@ library(sentimentr)
 library(listviewer)
 library(httr)
 
+#Note for logic using outside functions in the calls. 
+#https://github.com/data-cleaning/validate/issues/45
 
 # Options ----
 options(shiny.maxRequestSize = 30*1024^2)
