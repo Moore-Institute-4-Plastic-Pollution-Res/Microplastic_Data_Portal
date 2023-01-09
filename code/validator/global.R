@@ -399,3 +399,4 @@ grepl(license_plate, "NT5-6345")
 #test_invalid <- validate_data(files_data = "C:/Users/winco/Downloads/invalid_data (3).csv", rules = test_rules_2$rules)
 #test_rules_broken <- rules_broken(results = test_invalid$results, show_decision = T)
 #test_rows <- rows_for_rules(data_formatted = test_invalid$data_formatted, report = test_invalid$report, broken_rules = test_rules_broken, rows = 1)
+#RIP LIL PEEP TEST BY GABRIEL
