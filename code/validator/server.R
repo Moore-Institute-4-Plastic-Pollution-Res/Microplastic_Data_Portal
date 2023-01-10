@@ -128,7 +128,7 @@ function(input, output, session) {
         filename = function() {"certificate.csv"},
         content = function(file) {write.csv(data.frame(time = Sys.time(), 
                                                        data = digest(validation()$data_formatted), 
-                                                       link = if(!is.null(remote()$creation)){remote()$creation$url} else{NA}, 
+                                                       #link = if(isTruthy(remote())){remote()$creation$url} else{NA}, #Buggy 
                                                        rules = digest(validation()$rules), 
                                                        package_version = packageVersion("validate"), 
                                                        web_hash = digest(paste(sessionInfo(), 

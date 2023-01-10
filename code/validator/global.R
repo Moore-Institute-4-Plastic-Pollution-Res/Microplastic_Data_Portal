@@ -1,6 +1,5 @@
 # Libraries ----
 library(shiny)
-#library(googlesheets4)
 library(dplyr)
 library(DT)
 library(shinythemes)
@@ -14,7 +13,7 @@ library(purrr)
 library(shinyjs)
 library(sentimentr)
 library(listviewer)
-library(httr)
+library(RCurl)
 
 #Note for logic using outside functions in the calls. 
 #https://github.com/data-cleaning/validate/issues/45
