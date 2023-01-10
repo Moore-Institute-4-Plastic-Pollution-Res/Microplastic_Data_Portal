@@ -53,6 +53,15 @@ validate_data <- function(files_data, file_rules = NULL){
                 type = "warning"), status = "error"))
     }
     
+    if (grepl("config|secret", rules$rule)) {
+        #reset("file")
+        return(list(
+            message = data.table(
+                title = "Rule not supported!",
+                text = paste0('At this time we are unable to support any rules with the words config or secret in them as they could be malicious.'),
+                type = "warning"), status = "error"))
+    }
+    
     if (!all(unlist(lapply(rules, class)) %in% c("character"))) {
         #reset("file")
         return(list(
