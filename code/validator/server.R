@@ -42,7 +42,6 @@ function(input, output, session) {
         }
     })
     
-    
     output$alert <- renderUI({
         req(input$file)
         req(input$file_rules)
@@ -65,7 +64,8 @@ function(input, output, session) {
         req(nrow(overview_table()) > 0)
         #req(any(validation_summary$results$status == "error"))
         datatable({overview_table() %>%
-                select(description, status)},
+                select(description, status, expression, name) %>%
+                mutate(description = as.factor(description))},
                 extensions = 'Buttons',
                 options = list(
                     searchHighlight = TRUE,
