@@ -170,9 +170,8 @@ dashboardPage(
                         title = "Diagnose",
                         collapsed = T,
                         width = 12, 
-                        jsoneditOutput("rules_out"),
+                        #jsoneditOutput("remote_out"),
                         jsoneditOutput("validation_out")#, 
-                       # reactjsonOutput("remote_out") 
                     ),
                     title = "Diagnose",
                     placement = "bottom",

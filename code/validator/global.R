@@ -378,8 +378,8 @@ test_profanity <- function(x){
 #api <- read.csv("ckan.csv")
 #file_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Samples_Merged.csv"
 #files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Validation_Rules_Samples_Merged.csv"
-files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/data_success_secret.csv"
-files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/rules_secret.csv"
+#files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/data_success_secret.csv"
+#files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/rules_secret.csv"
 
 
 #list_complaints <- lapply(1:nrow(files_rules), function(x){
@@ -394,12 +394,12 @@ files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_
 
 #test_rules <- validate_rules(files_rules)
 
-test_data <- validate_data(files_data = files_data, file_rules = files_rules)
+#test_data <- validate_data(files_data = files_data, file_rules = files_rules)
 
-req(all(test_data$results$status == "success"))
+#req(all(test_data$results$status == "success"))
 #req("KEY" %in% names(validation()$data_formatted))
 
-api <- read.csv("secrets/ckan.csv")
+#api <- read.csv("secrets/ckan.csv")
 
 
 #variables(test_rules$rules)[variables(test_rules$rules) != "DOI"]
