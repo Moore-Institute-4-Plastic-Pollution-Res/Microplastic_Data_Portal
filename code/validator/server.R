@@ -169,19 +169,15 @@ function(input, output, session) {
     })
     
     # reactiveValues object for storing current data set.
-    vals <- reactiveValues(data = NULL)
+    vals <- reactiveValues(key = NULL)
     
-    #Secret Key Input
+    #Secret Key Input ----
     dataModal <- function(failed = FALSE) {
         modalDialog(
-            textInput("dataset", "Choose data set",
-                      placeholder = 'Try "mtcars" or "abc"'
-            ),
-            span('(Try the name of a valid data object like "mtcars", ',
-                 'then a name of a non-existent object like "abc")'),
+            textInput("secret", "Input Key"),
+            span('If you do not have a key then contact wincowger@gmail.com for one.'),
             if (failed)
-                div(tags$b("Invalid name of data object", style = "color: red;")),
-            
+                div(tags$b("Invalid key please try again or contact Win for help.", style = "color: red;")),
             footer = tagList(
                 modalButton("Cancel"),
                 actionButton("ok", "OK")
@@ -198,10 +194,13 @@ function(input, output, session) {
     # message.
     observeEvent(input$ok, {
         # Check that data object exists and is data frame.
-        if (!is.null(input$dataset) && nzchar(input$dataset) &&
-            exists(input$dataset) && is.data.frame(get(input$dataset))) {
-            vals$data <- get(input$dataset)
+        if (!is.null(input$secret) && input$secret %in% read.csv("secrets/ckan.csv")$VALID_KEY) {
+            vals$key <- TRUE
             removeModal()
+            show_alert(
+                title = "Success Logging In",
+                text  = "Your key is valid and you are now logged in.",
+                type  = "success")
         } else {
             showModal(dataModal(failed = TRUE))
         }
