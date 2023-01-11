@@ -10,12 +10,14 @@ function(input, output, session) {
     
     remote <- reactive({
         req(all(validation()$results$status == "success"))
-        req("KEY" %in% names(validation()$data_formatted))
+        #req("KEY" %in% names(validation()$data_formatted))
+        req(vals$key)
         api <- read.csv("secrets/ckan.csv")
         remote_share(data_formatted = validation()$data_formatted, 
+                     verified = vals$key,
                      api = api, 
                      rules = validation()$rules, 
-                     results = validation()$rules)
+                     results = validation()$results)
     })
     
     overview_table <- reactive({
@@ -160,7 +162,7 @@ function(input, output, session) {
                 text  = validation()$message$text,
                 type  = validation()$message$type)
         }
-        if(remote()$share == "error"){
+        if(remote()$status == "error"){
             show_alert(
                 title = remote()$message$title,
                 text  = remote()$message$text,
@@ -195,7 +197,7 @@ function(input, output, session) {
     observeEvent(input$ok, {
         # Check that data object exists and is data frame.
         if (!is.null(input$secret) && input$secret %in% read.csv("secrets/ckan.csv")$VALID_KEY && input$ok < 4) {
-            vals$key <- secret
+            vals$key <- input$secret
             removeModal()
             show_alert(
                 title = "Success Logging In",

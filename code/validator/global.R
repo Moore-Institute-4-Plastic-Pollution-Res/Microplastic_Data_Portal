@@ -53,7 +53,7 @@ validate_data <- function(files_data, file_rules = NULL){
                 type = "warning"), status = "error"))
     }
     
-    if (grepl("config|secret", rules$rule)) {
+    if (any(grepl("config|secret", rules$rule))) {
         #reset("file")
         return(list(
             message = data.table(
@@ -191,7 +191,7 @@ remote_share <- function(data_formatted, verified, api, rules, results){
     #hashed_rules <- digest(rules)
     #package_version <- packageVersion("validate")
     file <- tempfile(pattern = "data", fileext = ".csv")
-    write.csv(data_formatted %>% select(-KEY), file, row.names = F)
+    write.csv(data_formatted, file, row.names = F)
     creation <- resource_create(package_id = api_info$PACKAGE,
                                         description = "validated raw data upload to microplastic data portal",
                                         name = paste0("data_", hashed_data),
@@ -374,8 +374,8 @@ test_profanity <- function(x){
 #api <- read.csv("ckan.csv")
 #file_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Samples_Merged.csv"
 #files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Validation_Rules_Samples_Merged.csv"
-#files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII.csv"
-#files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/PII_Rules.csv"
+files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/data_success_secret.csv"
+files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/rules_secret.csv"
 
 
 #list_complaints <- lapply(1:nrow(files_rules), function(x){
@@ -389,7 +389,15 @@ test_profanity <- function(x){
 #                            error = function(e) {e})
 
 #test_rules <- validate_rules(files_rules)
-#test_data <- validate_data(files_data = file_data, rules = test_rules$rules)
+
+test_data <- validate_data(files_data = files_data, file_rules = files_rules)
+
+req(all(test_data$results$status == "success"))
+#req("KEY" %in% names(validation()$data_formatted))
+
+api <- read.csv("secrets/ckan.csv")
+
+
 #variables(test_rules$rules)[variables(test_rules$rules) != "DOI"]
 #(test_data$data_formatted$Approximate_Lattitude == "N/A" | suppressWarnings(as.numeric(test_data$data_formatted$Approximate_Lattitude) > -90 & as.numeric(test_data$data_formatted$Approximate_Lattitude) < 90)) & !is.na(test_data$data_formatted$Approximate_Lattitude)
 #test_rules$message
