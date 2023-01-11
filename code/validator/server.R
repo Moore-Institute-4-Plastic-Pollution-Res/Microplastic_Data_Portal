@@ -194,8 +194,8 @@ function(input, output, session) {
     # message.
     observeEvent(input$ok, {
         # Check that data object exists and is data frame.
-        if (!is.null(input$secret) && input$secret %in% read.csv("secrets/ckan.csv")$VALID_KEY) {
-            vals$key <- TRUE
+        if (!is.null(input$secret) && input$secret %in% read.csv("secrets/ckan.csv")$VALID_KEY && input$ok < 4) {
+            vals$key <- secret
             removeModal()
             show_alert(
                 title = "Success Logging In",
@@ -204,6 +204,11 @@ function(input, output, session) {
         } else {
             showModal(dataModal(failed = TRUE))
         }
+    })
+    
+    output$verified <- renderUI({
+        req(vals$key)
+        icon("check")
     })
     
     #Diagnosis ----

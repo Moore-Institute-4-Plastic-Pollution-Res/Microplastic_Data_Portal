@@ -151,7 +151,7 @@ validate_data <- function(files_data, file_rules = NULL){
 }
 
 
-remote_share <- function(data_formatted, api, rules, results){
+remote_share <- function(data_formatted, verified, api, rules, results){
     if(any(results$status == "error")){
         return(list(
             message = data.table(
@@ -159,36 +159,24 @@ remote_share <- function(data_formatted, api, rules, results){
             text = "There are errors in the dataset that persist. Until all errors are remedied, the data cannot be uploaded to the remote repository.",
             type = "error"), status = "error"))
     }
-    if(any(unlist(lapply(data_formatted %>% select(-KEY), function(x) any(x %in% unique(data_formatted$KEY)))))){
-        return(list(
-            message = data.table(
-            title = "Secret Key is misplaced",
-            text = "The secret key is in locations other than the KEY column, please remove the secret key from any other locations.",
-            type = "error"), status = "error"))
-    }
-    if(length(unique(data_formatted$KEY)) != 1){
-        return(list(
-            message = data.table(
-            title = "Multiple Secret Keys",
-            text = paste0("There should only be one secret key per data upload, but these keys are in the data (", paste(unique(data_formatted$KEY), collapse = ","), ")"),
-            type = "error"), status = "error"))
-    }
-    if(!any(unique(data_formatted$KEY) %in% api$VALID_KEY)){
-        return(list(
-            message = data.table(
-            title = "Secret Key is not valid",
-            text = "Any column labeled KEY is considered a secret key and should have a valid pair in our internal database.",
-            type = "error"), status = "error"))
-    }
     if(!any(digest(as.data.frame(rules) %>% select(-created)) %in% api$VALID_RULES)){
         return(list(
             message = data.table(
             title = "Rules file is not valid",
-            text = "If you are using a key column to upload data to a remote repo then there must be a valid pair with the rules you are using in our internal database.",
+            text = "If you are using a key to upload data to a remote repo then there must be a valid pair with the rules you are using in our internal database.",
             type = "error"), status = "error"))
     }
+    
+    if(!any(verified %in% api$VALID_KEY)){
+        return(list(
+            message = data.table(
+                title = "Secret Key is not valid",
+                text = "Any column labeled KEY is considered a secret key and should have a valid pair in our internal database.",
+                type = "error"), status = "error"))
+    }
+    
     api_info <- api %>%
-        dplyr::filter(VALID_KEY == unique(data_formatted$KEY) & VALID_RULES == digest(as.data.frame(rules) %>% select(-created)))
+        dplyr::filter(VALID_KEY == verified & VALID_RULES == digest(as.data.frame(rules) %>% select(-created)))
     
     if(nrow(api_info) != 1){
         return(list(
