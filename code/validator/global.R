@@ -196,7 +196,11 @@ remote_share <- function(data_formatted, verified, api, rules, results){
                                         description = "validated raw data upload to microplastic data portal",
                                         name = paste0("data_", hashed_data),
                                         upload = file)
-    return(list(creation = creation, status = "success"))
+    return(list(creation = creation, 
+                status = "success", 
+                message = data.table(title = "Data Upload Successful", 
+                                     text = paste0("Data was successfully sent to the state data portal at ", creation$url), 
+                                     type = "success")))
 }
 
 

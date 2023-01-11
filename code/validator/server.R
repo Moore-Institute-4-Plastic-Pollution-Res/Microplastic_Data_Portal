@@ -156,13 +156,13 @@ function(input, output, session) {
     
     #Alerts ----
     observe({
-        if(validation()$status == "error" | is.list(validation()$message)){
+        if(is.list(validation()$message)){
             show_alert(
                 title = validation()$message$title,
                 text  = validation()$message$text,
                 type  = validation()$message$type)
         }
-        if(remote()$status == "error"){
+        if(is.list(remote()$message)){
             show_alert(
                 title = remote()$message$title,
                 text  = remote()$message$text,
