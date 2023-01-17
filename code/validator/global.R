@@ -89,8 +89,8 @@ validate_data <- function(files_data, file_rules = NULL){
             type = "warning"), status = "error"))
     }
     
-    data_formatted <- tryCatch(lapply(files_data, read.csv),
-                            warning = function(w) {w}, error = function(e) {e})
+    data_formatted <- tryCatch(lapply(files_data, function(x){read.csv(x)}),
+                                        warning = function(w) {w}, error = function(e) {e})
     
     if (inherits(data_formatted, "simpleWarning") | inherits(data_formatted, "simpleError")){
         return(list(
@@ -108,7 +108,7 @@ validate_data <- function(files_data, file_rules = NULL){
     names(data_formatted) <- data_names
     
     if ("dataset" %in% names(rules)){
-        if(all(unique(rules$dataset) %in% data_names)){
+        if(!all(unique(rules$dataset) %in% data_names)){
             return(list(
             message = data.table(
                 title = "Dataset names incompatible",
@@ -180,14 +180,15 @@ validate_data <- function(files_data, file_rules = NULL){
     }
     
     report <- lapply(data_names, function(x){
-       confront(data_formatted[[x]], rules_formatted %>% filter()) 
+       confront(data_formatted[[x]], validator(.data=rules %>% filter(dataset == x))) 
     })
     
-    results <- summary(report) %>%
+    results <- lapply(report, function(x) {summary(x) %>%
         mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
-        left_join(meta(rules_formatted))
+        left_join(rules)})
     
-    return(list(data_formatted = data_formatted, 
+    return(list(data_formatted = data_formatted,
+                data_names = data_names,
                 report = report, 
                 results = results, 
                 rules = rules_formatted, 
@@ -439,7 +440,7 @@ file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_D
 
 #test_rules <- validate_rules(files_rules)
 
-#test_data <- validate_data(files_data = files_data, file_rules = files_rules)
+#test_data <- validate_data(files_data = files_data, file_rules = file_rules)
 
 #req(all(test_data$results$status == "success"))
 #req("KEY" %in% names(validation()$data_formatted))
