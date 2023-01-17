@@ -89,8 +89,7 @@ validate_data <- function(files_data, file_rules = NULL){
             type = "warning"), status = "error"))
     }
     
-    data_formatted <- tryCatch(lapply(files_data, function(x) read.csv(x)) %>% 
-                         reduce(full_join),
+    data_formatted <- tryCatch(lapply(files_data, read.csv),
                             warning = function(w) {w}, error = function(e) {e})
     
     if (inherits(data_formatted, "simpleWarning") | inherits(data_formatted, "simpleError")){
@@ -103,6 +102,24 @@ validate_data <- function(files_data, file_rules = NULL){
                 )
             )
     }
+    
+    #Custom validation formats
+    data_names <- gsub("(.*/)|(\\..*)", "", files_data)
+    names(data_formatted) <- data_names
+    
+    if ("dataset" %in% names(rules)){
+        if(all(unique(rules$dataset) %in% datanames)){
+            return(list(
+            message = data.table(
+                title = "Dataset names incompatible",
+                text = "If there is a dataset column in the rules file it needs to pertain to the names of the datasets being tested.",
+                type = "error"),
+            status = "error"
+            )
+        )
+        }
+    }
+    
     
     do_to_all <- rules %>%
         filter(grepl("___", rule))
@@ -117,6 +134,19 @@ validate_data <- function(files_data, file_rules = NULL){
                 bind_rows(rules %>% filter(!grepl("___", rule)))
     }
    
+    foreign_keys <- rules %>%
+        filter(grepl("is_foreign_key(.*)", rule))
+    
+    if(nrow(do_to_all) > 0){
+        rules <- lapply(colnames(data_formatted), function(new_name){
+            do_to_all %>%
+                mutate(rule = gsub("___", new_name, rule)) %>%
+                mutate(name = paste0(new_name, "_", name))
+        }) %>%
+            rbindlist(.) %>%
+            bind_rows(rules %>% filter(!grepl("___", rule)))
+    }
+    
     
     rules_formatted <- tryCatch(validator(.data=rules), 
                                 warning = function(w) {w}, 
@@ -378,8 +408,8 @@ test_profanity <- function(x){
 
 #Material_PA <= 1| Material_PA %vin% c("N/A") | Material_PA %vin% ("Present")
 #api <- read.csv("ckan.csv")
-#file_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Samples_Merged.csv"
-#files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/Clean_DrinkingWater_Data/Validation_Rules_Samples_Merged.csv"
+files_data = c("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/particles.csv", "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/methodology.csv", "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/samples.csv")
+file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/rules_all.csv"
 #files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/data_success_secret.csv"
 #files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/rules_secret.csv"
 
