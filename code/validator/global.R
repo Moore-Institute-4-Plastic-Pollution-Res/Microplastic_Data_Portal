@@ -80,6 +80,7 @@ validate_data <- function(files_data, file_rules = NULL){
                       upload a .csv file."),
             type = "warning"), status = "error"))
     }
+    
     if(is.null(rules)) {
         return(list(
             message = data.table(
@@ -87,6 +88,7 @@ validate_data <- function(files_data, file_rules = NULL){
             text = paste0("You must upload a rules file before uploading a data file to validate."),
             type = "warning"), status = "error"))
     }
+    
     data_formatted <- tryCatch(lapply(files_data, function(x) read.csv(x)) %>% 
                          reduce(full_join),
                             warning = function(w) {w}, error = function(e) {e})
