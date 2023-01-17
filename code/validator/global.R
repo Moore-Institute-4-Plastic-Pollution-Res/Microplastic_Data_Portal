@@ -108,7 +108,7 @@ validate_data <- function(files_data, file_rules = NULL){
     names(data_formatted) <- data_names
     
     if ("dataset" %in% names(rules)){
-        if(all(unique(rules$dataset) %in% datanames)){
+        if(all(unique(rules$dataset) %in% data_names)){
             return(list(
             message = data.table(
                 title = "Dataset names incompatible",
@@ -120,7 +120,7 @@ validate_data <- function(files_data, file_rules = NULL){
         }
     }
     
-    
+    #Circle back to add logic for multiple dfs
     do_to_all <- rules %>%
         filter(grepl("___", rule))
     
@@ -137,14 +137,24 @@ validate_data <- function(files_data, file_rules = NULL){
     foreign_keys <- rules %>%
         filter(grepl("is_foreign_key(.*)", rule))
     
-    if(nrow(do_to_all) > 0){
-        rules <- lapply(colnames(data_formatted), function(new_name){
-            do_to_all %>%
-                mutate(rule = gsub("___", new_name, rule)) %>%
-                mutate(name = paste0(new_name, "_", name))
-        }) %>%
-            rbindlist(.) %>%
-            bind_rows(rules %>% filter(!grepl("___", rule)))
+    if(nrow(foreign_keys) > 0){
+       columns <- gsub("(is_foreign_key\\()|(\\))", "", foreign_keys[["rule"]])
+       rules <- lapply(1:nrow(foreign_keys), function(x){
+           foreign_keys[x,] %>%
+           mutate(rule = paste0(columns[x], 
+                                ' %in% c("',
+                                paste(
+                                lapply(data_formatted, function(y){
+                                       y[[columns[x]]]
+                                            }) %>% 
+                                       unlist(.) %>%
+                                       unique(.), 
+                                collapse = '", "', 
+                                sep = ""), 
+                                '")'))
+       }) %>%
+           rbindlist(.) %>%
+           bind_rows(rules %>% filter(!grepl("is_foreign_key(.*)", rule)))
     }
     
     
@@ -162,12 +172,15 @@ validate_data <- function(files_data, file_rules = NULL){
         ))
     }
     
-    if(!all(variables(rules_formatted) %in% names(data_formatted)) | !all(names(data_formatted) %in% variables(rules_formatted))){
+    if(!all(variables(rules_formatted) %in% unlist(lapply(data_formatted, names))) | !all(unlist(lapply(data_formatted, names)) %in% variables(rules_formatted))){
         warning_2 <- data.table(
                         title = "Rules and data mismatch",
                         text = paste0("All variables in the rules csv (", paste(variables(rules_formatted)[!variables(rules_formatted) %in% names(data_formatted)], collapse = ", "), ") need to be in the data csv (",  paste(names(data_formatted)[!names(data_formatted) %in% variables(rules_formatted)], collapse = ", "), ") and vice versa for the validation to work."),
                         type = "warning")
     }
+    
+    data_names
+    
     report <- confront(data_formatted, rules_formatted)
     
     results <- summary(report) %>%
