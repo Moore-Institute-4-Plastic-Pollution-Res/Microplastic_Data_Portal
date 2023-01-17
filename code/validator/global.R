@@ -179,9 +179,9 @@ validate_data <- function(files_data, file_rules = NULL){
                         type = "warning")
     }
     
-    data_names
-    
-    report <- confront(data_formatted, rules_formatted)
+    report <- lapply(data_names, function(x){
+       confront(data_formatted[[x]], rules_formatted %>% filter()) 
+    })
     
     results <- summary(report) %>%
         mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
