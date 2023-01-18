@@ -132,38 +132,7 @@ dashboardPage(
                     ),
                     column(8, uiOutput("certificate"), uiOutput("alert"))),
                 fluidRow(
-                    popover(
-                        box(title = "Issues Raised",
-                            id = "issues_raised",
-                            dropdownMenu = boxDropdown(
-                                boxDropdownItem(
-                                    prettySwitch("show_decision",
-                                                 label = "Errors only?",
-                                                 inline = T,
-                                                 value = T,
-                                                 status = "success",
-                                                 fill = T))
-                            ),
-                            DT::dataTableOutput("show_report"),
-                            style = 'overflow-x: scroll',
-                            maximizable = T,
-                            width = 4
-                        ),
-                        title = "Issues Raised",
-                        placement = "left",
-                        content = "This is where the rules that are violated (or all rules if the advanced tool is turned on) show up. The table appears after data upload and is selectable which will query the issue selected box."),
-                    popover(
-                        box(title = "Issue Selected",
-                            id = "issue_selected",
-                            DT::dataTableOutput("report_selected"),
-                            style = 'overflow-x: scroll',
-                            maximizable = T,
-                            width = 8
-                        ),
-                        title = "Issue Selected",
-                        placement = "left",
-                        content = "This is where the selection in the issues raised box will show up. Whatever rule is selected will query the dataset and show any rows that violate the rule and show any problematic columns in red."
-                    )
+                    uiOutput("error_query")  
                 ),
                 fluidRow(
                     popover(
@@ -171,7 +140,7 @@ dashboardPage(
                         title = "Diagnose",
                         collapsed = T,
                         width = 12,
-                        #jsoneditOutput("remote_out"),
+                        jsoneditOutput("remote_out"),
                         jsoneditOutput("validation_out")#,
                     ),
                     title = "Diagnose",

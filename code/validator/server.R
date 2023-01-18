@@ -5,7 +5,118 @@ function(input, output, session) {
     validation <- reactive({
         req(input$file)
         req(input$file_rules)
-        validate_data(files_data = input$file$datapath, file_rules = input$file_rules$datapath)
+        validate_data(files_data = input$file$datapath, data_names = input$file$name, file_rules = input$file_rules$datapath)
+    })
+    
+    output$error_query <- renderUI({
+        req(input$file)
+        req(validation()$data_formatted)
+        req(input$show_report_rows_selected)
+        req(validation()$results)
+        
+        lapply(1:length(validation()$data_formatted), function(x){
+            #Tables calculations ----
+            overview_table <- rules_broken(results = validation()$results[[x]], show_decision = input$show_decision)
+            selected <- rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = overview_table, rows = input[[paste0("show_report", x, "_rows_selected")]]) 
+            
+            #Report tables to view ----
+            output[[paste0("show_report", x)]] <- DT::renderDataTable({
+                req(nrow(overview_table) > 0)
+                datatable({overview_table %>%
+                        select(description, status, expression, name) %>%
+                        mutate(description = as.factor(description))},
+                        extensions = 'Buttons',
+                        options = list(
+                            searchHighlight = TRUE,
+                            scrollX = TRUE,
+                            lengthChange = FALSE, 
+                            pageLength = 5,
+                            paging = TRUE,
+                            searching = TRUE,
+                            fixedColumns = TRUE,
+                            autoWidth = TRUE,
+                            ordering = TRUE,
+                            dom = 'Bfrtip',
+                            buttons = c('copy', 'csv', 'excel', 'pdf')),
+                        rownames = FALSE,
+                        filter = "top", 
+                        style = "bootstrap", 
+                        selection = list(mode = "single", color = "red", selected = c(1))) %>%
+                    formatStyle(
+                        'status',
+                        target = 'row',
+                        backgroundColor = styleEqual(c("error", "success"), c('red', 'green')))
+            })
+            
+            
+            }
+        )
+
+        output[[paste0("report_selected", x)]] <- DT::renderDataTable({
+            req(input[[paste0("show_report", x, "_rows_selected")]])
+            req(any(validation()$results[[x]]$status == "error"))
+            req(nrow(selected) > 0)
+            datatable({selected},
+                      rownames = FALSE,
+                      filter = "top", 
+                      extensions = 'Buttons',
+                      options = list(
+                          searchHighlight = TRUE,
+                          scrollX = TRUE,
+                          lengthChange = FALSE, 
+                          pageLength = 5,
+                          paging = TRUE,
+                          searching = TRUE,
+                          fixedColumns = TRUE,
+                          autoWidth = TRUE,
+                          ordering = TRUE,
+                          dom = 'Bfrtip',
+                          buttons = c('copy', 'csv', 'excel', 'pdf')),
+                      class = "display",
+                      style = "bootstrap") %>% 
+                formatStyle(
+                    if(any(validation()$results[[x]]$status == "error")){
+                        variables(validation()$rules[[x]][overview_table[input[[paste0("show_report", x, "_rows_selected")]], "name"]])  
+                    }
+                    else{NULL},
+                    backgroundColor =  'red'
+                )
+        })
+        
+        fluidRow(
+            popover(
+                box(title = "Issues Raised",
+                    id = "issues_raised",
+                    dropdownMenu = boxDropdown(
+                        boxDropdownItem(
+                            prettySwitch("show_decision",
+                                         label = "Errors only?",
+                                         inline = T,
+                                         value = T,
+                                         status = "success",
+                                         fill = T))
+                    ),
+                    DT::dataTableOutput(paste0("show_report", x, "_rows_selected")),
+                    style = 'overflow-x: scroll',
+                    maximizable = T,
+                    width = 4
+                ),
+                title = "Issues Raised",
+                placement = "left",
+                content = "This is where the rules that are violated (or all rules if the advanced tool is turned on) show up. The table appears after data upload and is selectable which will query the issue selected box."),
+            popover(
+                box(title = "Issue Selected",
+                    id = "issue_selected",
+                    DT::dataTableOutput(paste0("report_selected", x)),
+                    style = 'overflow-x: scroll',
+                    maximizable = T,
+                    width = 8
+                ),
+                title = "Issue Selected",
+                placement = "left",
+                content = "This is where the selection in the issues raised box will show up. Whatever rule is selected will query the dataset and show any rows that violate the rule and show any problematic columns in red."
+            )
+        )
     })
     
     remote <- reactive({
@@ -18,21 +129,6 @@ function(input, output, session) {
                      api = api, 
                      rules = validation()$rules, 
                      results = validation()$results)
-    })
-    
-    overview_table <- reactive({
-        req(input$file)
-        req(validation()$data_formatted)
-        req(validation()$results)
-        rules_broken(results = validation()$results, show_decision = input$show_decision)
-    })
-    
-    selected <- reactive({
-        req(input$file)
-        req(validation()$data_formatted)
-        req(input$show_report_rows_selected)
-        req(validation()$results)
-        rows_for_rules(data_formatted = validation()$data_formatted, report = validation()$report, broken_rules = overview_table(), rows = input$show_report_rows_selected)
     })
     
     output$certificate <- renderUI({
@@ -58,72 +154,6 @@ function(input, output, session) {
             NULL
         }
     })
-    
-    #Report tables ----
-    output$show_report <- DT::renderDataTable({
-        req(input$file)
-        req(validation()$data_formatted)
-        req(nrow(overview_table()) > 0)
-        #req(any(validation_summary$results$status == "error"))
-        datatable({overview_table() %>%
-                select(description, status, expression, name) %>%
-                mutate(description = as.factor(description))},
-                extensions = 'Buttons',
-                options = list(
-                    searchHighlight = TRUE,
-                    scrollX = TRUE,
-                    lengthChange = FALSE, 
-                    pageLength = 5,
-                    paging = TRUE,
-                    searching = TRUE,
-                    fixedColumns = TRUE,
-                    autoWidth = TRUE,
-                    ordering = TRUE,
-                    dom = 'Bfrtip',
-                    buttons = c('copy', 'csv', 'excel', 'pdf')),
-                rownames = FALSE,
-                filter = "top", 
-                style = "bootstrap", 
-                selection = list(mode = "single", color = "red", selected = c(1))) %>%
-            formatStyle(
-                'status',
-                target = 'row',
-                backgroundColor = styleEqual(c("error", "success"), c('red', 'green')))
-    })
-    
-    output$report_selected <- DT::renderDataTable({
-        req(input$file)
-        req(validation()$data_formatted)
-        req(input$show_report_rows_selected)
-        req(any(validation()$results$status == "error"))
-        req(nrow(selected()) > 0)
-        datatable({selected()},
-                  rownames = FALSE,
-                  filter = "top", 
-                  extensions = 'Buttons',
-                  options = list(
-                      searchHighlight = TRUE,
-                      scrollX = TRUE,
-                      lengthChange = FALSE, 
-                      pageLength = 5,
-                      paging = TRUE,
-                      searching = TRUE,
-                      fixedColumns = TRUE,
-                      autoWidth = TRUE,
-                      ordering = TRUE,
-                      dom = 'Bfrtip',
-                      buttons = c('copy', 'csv', 'excel', 'pdf')),
-                  class = "display",
-                  style = "bootstrap") %>% 
-            formatStyle(
-                if(any(validation()$results$status == "error")){
-                    variables(validation()$rules[overview_table()[input$show_report_rows_selected, "name"]])  
-                }
-                else{NULL},
-                backgroundColor =  'red'
-            )
-    })
-    
     
     #Downloads ----
     output$download_certificate <- downloadHandler(
@@ -218,7 +248,7 @@ function(input, output, session) {
         jsonedit(validation())
     })
     output$remote_out <- renderJsonedit({
-        jsonedit(remote())
+        jsonedit(input$file)
     })
     
     

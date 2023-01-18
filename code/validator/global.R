@@ -32,7 +32,7 @@ success_example <- read.csv("www/data_success.csv")
 # Functions ----
 
 
-validate_data <- function(files_data, file_rules = NULL){
+validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
         #reset("file")
         return(list(
@@ -104,7 +104,7 @@ validate_data <- function(files_data, file_rules = NULL){
     }
     
     #Custom validation formats
-    data_names <- gsub("(.*/)|(\\..*)", "", files_data)
+    data_names <- if(is.null(data_names)){gsub("(.*/)|(\\..*)", "", files_data)} else{gsub("(.*/)|(\\..*)", "", data_names)} 
     names(data_formatted) <- data_names
     
     if ("dataset" %in% names(rules)){
@@ -112,7 +112,7 @@ validate_data <- function(files_data, file_rules = NULL){
             return(list(
             message = data.table(
                 title = "Dataset names incompatible",
-                text = "If there is a dataset column in the rules file it needs to pertain to the names of the datasets being tested.",
+                text = paste0("If there is a dataset column in the rules file it needs to pertain to the names of the datasets being tested. The rules file lists these datasets ", paste(unique(rules$dataset), collapse = ", "), " while the datasets shared are ", paste(data_names, collapse = ",")),
                 type = "error"),
             status = "error"
             )
@@ -422,8 +422,8 @@ test_profanity <- function(x){
 
 #Material_PA <= 1| Material_PA %vin% c("N/A") | Material_PA %vin% ("Present")
 #api <- read.csv("ckan.csv")
-files_data = c("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/particles.csv", "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/methodology.csv", "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/samples.csv")
-file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/rules_all.csv"
+#files_data = c("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/particles.csv", "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/methodology.csv", "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/samples.csv")
+#file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/rules_all.csv"
 #files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/data_success_secret.csv"
 #files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/rules_secret.csv"
 
