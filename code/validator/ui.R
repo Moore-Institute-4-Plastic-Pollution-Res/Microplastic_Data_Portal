@@ -88,7 +88,7 @@ dashboardPage(
                         boxProfile(image = "https://media.licdn.com/dms/image/C5603AQHVTKQR_Xmm8g/profile-displayphoto-shrink_400_400/0/1654033306784?e=1678924800&v=beta&t=6LRkyHUOIo7MkUlmrRmDR5Ft55rSyC0KMnLec4qW3Jk", title = "Haig Jack Minasian", subtitle = "CSU Long Beach", bordered = FALSE),
                         boxProfile(image = "https://media.licdn.com/dms/image/C5603AQHLq0Iv-e9SGg/profile-displayphoto-shrink_400_400/0/1588630989428?e=1678924800&v=beta&t=suBzVjL4nwHZzOEUSHDRHwlfGZiccL4aqAKEYudN4jc", title = "Holden Ford", subtitle = "CSU Long Beach", bordered = FALSE),
                         boxProfile(image = "", title = "Anja Oca", subtitle = "CSU Long Beach", bordered = FALSE),
-                        boxProfile(image = "", title = "Libby Heeren", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE)
+                        boxProfile(image = "https://photos.smugmug.com/photos/i-V6hDWm7/0/c09dd854/X2/i-V6hDWm7-X2.jpg", title = "Libby Heeren", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE)
                     ),
                     width = 12
 
@@ -132,7 +132,7 @@ dashboardPage(
                     ),
                     column(8, uiOutput("certificate"), uiOutput("alert"))),
                 fluidRow(
-                    uiOutput("error_query")  
+                    uiOutput("error_query")
                 ),
                 fluidRow(
                     popover(
