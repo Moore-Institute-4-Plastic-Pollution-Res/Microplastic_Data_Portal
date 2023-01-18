@@ -187,11 +187,15 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
         mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
         left_join(rules)})
     
+    rules_list_formatted <- tryCatch(lapply(data_names, function(x){validator(.data=rules %>% filter(dataset == x))}), 
+                                warning = function(w) {w}, 
+                                error = function(e) {e})
+    
     return(list(data_formatted = data_formatted,
                 data_names = data_names,
                 report = report, 
                 results = results, 
-                rules = rules_formatted, 
+                rules = rules_list_formatted, 
                 status = "success", 
                 message = if(exists("warning_2")){warning_2} else{NULL}))
 }
