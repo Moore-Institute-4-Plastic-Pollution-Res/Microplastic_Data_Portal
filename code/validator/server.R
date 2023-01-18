@@ -11,7 +11,6 @@ function(input, output, session) {
     output$error_query <- renderUI({
         req(input$file)
         req(validation()$data_formatted)
-        req(input$show_report_rows_selected)
         req(validation()$results)
         
         lapply(1:length(validation()$data_formatted), function(x){
