@@ -82,10 +82,10 @@ function(input, output, session) {
             fluidRow(
                 popover(
                     box(title = "Issues Raised",
-                        id = "issues_raised",
+                        id = paste0("issues_raised", x),
                         dropdownMenu = boxDropdown(
                             boxDropdownItem(
-                                prettySwitch("show_decision",
+                                prettySwitch(paste0("show_decision", x),
                                              label = "Errors only?",
                                              inline = T,
                                              value = T,
@@ -102,7 +102,7 @@ function(input, output, session) {
                     content = "This is where the rules that are violated (or all rules if the advanced tool is turned on) show up. The table appears after data upload and is selectable which will query the issue selected box."),
                 popover(
                     box(title = "Issue Selected",
-                        id = "issue_selected",
+                        id = paste0("issue_selected", x),
                         DT::dataTableOutput(paste0("report_selected", x)),
                         style = 'overflow-x: scroll',
                         maximizable = T,
