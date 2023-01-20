@@ -16,13 +16,12 @@ function(input, output, session) {
         lapply(1:length(validation()$data_formatted), function(x){
             
             #Tables calculations ----
-            overview_table <- rules_broken(results = validation()$results[[x]], show_decision = T)
             #selected <- rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = overview_table, rows = input[[paste0("show_report", x, "_rows_selected")]]) 
             
             #Report tables to view ----
             output[[paste0("show_report", x)]] <- DT::renderDataTable({
                 #req(nrow(overview_table) > 0)
-                datatable({overview_table %>%
+                datatable({rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]) %>%
                         select(description, status, expression, name) %>%
                         mutate(description = as.factor(description))},
                         extensions = 'Buttons',
