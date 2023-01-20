@@ -33,8 +33,11 @@ success_example <- read.csv("www/data_success.csv")
 
 
 validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
+    
+    #Accepts three fields, files data is the data set we are validating. data_names is optional and can be used to specify the names of the datasets. file_rules is the rules file. 
+    
+    #Tests that rules file is a csv
     if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
-        #reset("file")
         return(list(
             message = data.table(
                 title = "Data type not supported!",
@@ -42,10 +45,11 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
                 type = "warning"), status = "error"))
     }
     
+    #Reads the rules file. 
     rules <- read.csv(file_rules)
     
+    #Test that rules file has the correct required column names. 
     if (!all(c("name", "description", "severity", "rule") %in% names(rules))) {
-        #reset("file")
         return(list(
             message = data.table(
                 title = "Data type not supported!",
@@ -53,8 +57,8 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
                 type = "warning"), status = "error"))
     }
     
+    #Tests that the rules do not contain sensitive words that may be malicious. 
     if (any(grepl("config|secret", rules$rule))) {
-        #reset("file")
         return(list(
             message = data.table(
                 title = "Rule not supported!",
@@ -62,8 +66,8 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
                 type = "warning"), status = "error"))
     }
     
+    #Checks that all the rules fields are character type. 
     if (!all(unlist(lapply(rules, class)) %in% c("character"))) {
-        #reset("file")
         return(list(
             message = data.table(
                 title = "Data type not supported!",
@@ -71,7 +75,7 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
                 type = "warning"), status = "error"))
     }
     
-    # Read in data when uploaded based on the file type
+    # check files data to make sure it is a csv. 
     if (!all(grepl("(\\.csv$)", ignore.case = T, as.character(files_data)))) {
         return(list(
             message = data.table(
@@ -81,6 +85,7 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
             type = "warning"), status = "error"))
     }
     
+    # Check that the rules file exists, if not then provide message. 
     if(is.null(rules)) {
         return(list(
             message = data.table(
@@ -89,9 +94,11 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
             type = "warning"), status = "error"))
     }
     
+    #Read in all csv files from files_data as a list. 
     data_formatted <- tryCatch(lapply(files_data, function(x){read.csv(x)}),
                                         warning = function(w) {w}, error = function(e) {e})
     
+    #Check if there is a warning when reading in the data. 
     if (inherits(data_formatted, "simpleWarning") | inherits(data_formatted, "simpleError")){
         return(list(
             message = data.table(
@@ -103,10 +110,13 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
             )
     }
     
-    #Custom validation formats
+    #Grab the names of the datasets.
     data_names <- if(is.null(data_names)){gsub("(.*/)|(\\..*)", "", files_data)} else{gsub("(.*/)|(\\..*)", "", data_names)} 
+    
+    #Names the data with the file names. 
     names(data_formatted) <- data_names
     
+    #Checks if there is a dataset column in the rules file and tests that all of the datasets exist. 
     if ("dataset" %in% names(rules)){
         if(!all(unique(rules$dataset) %in% data_names)){
             return(list(
@@ -121,6 +131,8 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     }
     
     #Circle back to add logic for multiple dfs
+    #Check for special character "___" which is for assessing every column. 
+    
     do_to_all <- rules %>%
         filter(grepl("___", rule))
     
@@ -134,6 +146,7 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
                 bind_rows(rules %>% filter(!grepl("___", rule)))
     }
    
+    # Check special character of is_foreign_key and if so then testing that foreign keys are exact. 
     foreign_keys <- rules %>%
         filter(grepl("is_foreign_key(.*)", rule))
     
@@ -157,11 +170,12 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
            bind_rows(rules %>% filter(!grepl("is_foreign_key(.*)", rule)))
     }
     
-    
+    #Testing that the rules file has no errors. 
     rules_formatted <- tryCatch(validator(.data=rules), 
                                 warning = function(w) {w}, 
                                 error = function(e) {e})
     
+    #Tests that rules_formatted has only one class and that class is validator. 
     if (length(class(rules_formatted)) != 1 || class(rules_formatted) != "validator"){
         return(list(
             message = data.table(
@@ -172,6 +186,7 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
         ))
     }
     
+    #Tests that columns in rules files are in the same as in the data. 
     if(!all(variables(rules_formatted) %in% unlist(lapply(data_formatted, names))) | !all(unlist(lapply(data_formatted, names)) %in% variables(rules_formatted))){
         warning_2 <- data.table(
                         title = "Rules and data mismatch",
@@ -179,18 +194,22 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
                         type = "warning")
     }
     
+    #Loops through and makes a validation object for every dataset. 
     report <- lapply(data_names, function(x){
        confront(data_formatted[[x]], validator(.data=rules %>% filter(dataset == x))) 
     })
     
+    #Loops through and makes a results report for the validation
     results <- lapply(report, function(x) {summary(x) %>%
         mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
         left_join(rules)})
     
+    #Loops through and makes a rules file for each dataset. 
     rules_list_formatted <- tryCatch(lapply(data_names, function(x){validator(.data=rules %>% filter(dataset == x))}), 
                                 warning = function(w) {w}, 
                                 error = function(e) {e})
     
+    #Returns all the results for everything in a formatted list. 
     return(list(data_formatted = data_formatted,
                 data_names = data_names,
                 report = report, 
