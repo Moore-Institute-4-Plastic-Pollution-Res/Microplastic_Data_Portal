@@ -16,8 +16,8 @@ function(input, output, session) {
         lapply(1:length(validation()$data_formatted), function(x){
             
             #Tables calculations ----
-            #selected <- rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = overview_table, rows = input[[paste0("show_report", x, "_rows_selected")]]) 
-            
+            #selected <- rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]), rows = input[[paste0("show_report", x, "_rows_selected")]]) 
+            #overview_table <- rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]])
             #Report tables to view ----
             output[[paste0("show_report", x)]] <- DT::renderDataTable({
                 #req(nrow(overview_table) > 0)
@@ -47,38 +47,39 @@ function(input, output, session) {
                         backgroundColor = styleEqual(c("error", "success"), c('red', 'green')))
             })
             
-            #output[[paste0("report_selected", x)]] <- DT::renderDataTable({
-            #    req(input[[paste0("show_report", x, "_rows_selected")]])
-            #    req(any(validation()$results[[x]]$status == "error"))
-            #    req(nrow(selected) > 0)
-            #    datatable({selected},
-            #              rownames = FALSE,
-            #              filter = "top", 
-            #              extensions = 'Buttons',
-            #              options = list(
-            #                  searchHighlight = TRUE,
-            #                  scrollX = TRUE,
-            #                  lengthChange = FALSE, 
-            #                  pageLength = 5,
-            #                  paging = TRUE,
-            #                  searching = TRUE,
-            #                  fixedColumns = TRUE,
-            #                  autoWidth = TRUE,
-            #                  ordering = TRUE,
-            #                  dom = 'Bfrtip',
-            #                  buttons = c('copy', 'csv', 'excel', 'pdf')),
-            #              class = "display",
-            #              style = "bootstrap") %>% 
-            #        formatStyle(
-            #            if(any(validation()$results[[x]]$status == "error")){
-            #                variables(validation()$rules[[x]][overview_table[input[[paste0("show_report", x, "_rows_selected")]], "name"]])  
-            #            }
-            #            else{NULL},
-            #            backgroundColor =  'red'
-            #        )
-            #})
+            output[[paste0("report_selected", x)]] <- DT::renderDataTable({
+                req(input[[paste0("show_report", x, "_rows_selected")]])
+                req(any(validation()$results[[x]]$status == "error"))
+                #req(nrow(selected) > 0)
+                datatable({rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]), rows = input[[paste0("show_report", x, "_rows_selected")]]) },
+                          rownames = FALSE,
+                          filter = "top", 
+                          extensions = 'Buttons',
+                          options = list(
+                              searchHighlight = TRUE,
+                              scrollX = TRUE,
+                              lengthChange = FALSE, 
+                              pageLength = 5,
+                              paging = TRUE,
+                              searching = TRUE,
+                              fixedColumns = TRUE,
+                              autoWidth = TRUE,
+                              ordering = TRUE,
+                              dom = 'Bfrtip',
+                              buttons = c('copy', 'csv', 'excel', 'pdf')),
+                          class = "display",
+                          style = "bootstrap") %>% 
+                    formatStyle(
+                        if(any(validation()$results[[x]]$status == "error")){
+                            variables(validation()$rules[[x]][rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]])[input[[paste0("show_report", x, "_rows_selected")]], "name"]])  
+                        }
+                        else{NULL},
+                        backgroundColor =  'red'
+                    )
+            })
             box(title = paste0(validation()$data_names[[x]]),
                 id = paste0(validation()$data_names[[x]]),
+                fluidRow(
                     box(title = "Issues Raised",
                         id = paste0("issues_raised", x),
                         dropdownMenu = boxDropdown(
@@ -95,6 +96,14 @@ function(input, output, session) {
                         maximizable = T,
                         width = 6
                     ), 
+                    box(title = "Issue Selected",
+                            id = paste0("issue_selected", x),
+                            DT::dataTableOutput(paste0("report_selected", x)),
+                            style = 'overflow-x: scroll',
+                            maximizable = T,
+                            width = 6
+                        )
+                    ),
                 width = 12
             )
                 #popover(
