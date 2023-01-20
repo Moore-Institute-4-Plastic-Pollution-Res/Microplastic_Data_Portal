@@ -21,7 +21,7 @@ function(input, output, session) {
             
             #Report tables to view ----
             output[[paste0("show_report", x)]] <- DT::renderDataTable({
-                req(nrow(overview_table) > 0)
+                #req(nrow(overview_table) > 0)
                 datatable({overview_table %>%
                         select(description, status, expression, name) %>%
                         mutate(description = as.factor(description))},
@@ -91,7 +91,7 @@ function(input, output, session) {
                                              status = "success",
                                              fill = T))
                         ),
-                        DT::dataTableOutput(paste0("show_report", x, "_rows_selected")),
+                        DT::dataTableOutput(paste0("show_report", x)),
                         style = 'overflow-x: scroll',
                         maximizable = T,
                         width = 6
