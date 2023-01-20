@@ -131,9 +131,10 @@ dashboardPage(
                            # )
                     ),
                     column(8, uiOutput("certificate"), uiOutput("alert"))),
-                fluidRow(
-                    uiOutput("error_query")  
-                ),
+                #fluidRow(
+                    uiOutput("error_query"),  
+                
+                #),
                 fluidRow(
                     popover(
                       box(
