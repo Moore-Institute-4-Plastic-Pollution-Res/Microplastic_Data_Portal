@@ -102,8 +102,8 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     if (inherits(data_formatted, "simpleWarning") | inherits(data_formatted, "simpleError")){
         return(list(
             message = data.table(
-            title = "Something went wrong with the merge.",
-            text = paste0("This tool expects at least one column in each dataset with the same name to merge on. There was also an error that said ", data_formatted$message),
+            title = "Something went wrong with reading the data.",
+            text = paste0("There was an error that said ", data_formatted$message),
             type = "error"),
             status = "error"
                 )
@@ -117,6 +117,18 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     names(data_formatted) <- data_names
     
     #Checks if there is a dataset column in the rules file and tests that all of the datasets exist. 
+    if (!"dataset" %in% names(rules) & length(data_names) > 1){
+            return(list(
+                message = data.table(
+                    title = "Missing dataset column",
+                    text = paste0("If there is more than one dataset then a dataset column must be specified in the rules file to describe which rule applies to which dataset."),
+                    type = "error"),
+                status = "error"
+            )
+            )
+    }
+    
+    #Checks if there is a dataset column in the rules file and tests that all of the datasets exist. 
     if ("dataset" %in% names(rules)){
         if(!all(unique(rules$dataset) %in% data_names)){
             return(list(
@@ -128,6 +140,13 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
             )
         )
         }
+    }
+    
+    
+    #Add dataset if one doesn't exist so that everything else works. 
+    if (!"dataset" %in% names(rules)){
+        rules <- rules %>%
+            mutate(dataset = data_names)
     }
     
     #Circle back to add logic for multiple dfs
@@ -152,6 +171,15 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     
     if(nrow(foreign_keys) > 0){
        columns <- gsub("(is_foreign_key\\()|(\\))", "", foreign_keys[["rule"]])
+       if (!"dataset" %in% names(rules)){
+           return(list(
+               message = data.table(
+                   title = "Foreign key error.",
+                   text = "Foreign key searches only work if there is a dataset column in the rules file that specifies which dataset the foreign key is in.",
+                   type = "error"
+               ), status = "error"
+           ))
+       }
        rules <- lapply(1:nrow(foreign_keys), function(x){
            foreign_keys[x,] %>%
            mutate(rule = paste0(columns[x], 
