@@ -222,7 +222,7 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     if(!all(variables(rules_formatted) %in% unlist(lapply(data_formatted, names))) | !all(unlist(lapply(data_formatted, names)) %in% variables(rules_formatted))){
         warning_2 <- data.table(
                         title = "Rules and data mismatch",
-                        text = paste0("All variables in the rules csv (", paste(variables(rules_formatted)[!variables(rules_formatted) %in% names(data_formatted)], collapse = ", "), ") need to be in the data csv (",  paste(names(data_formatted)[!names(data_formatted) %in% variables(rules_formatted)], collapse = ", "), ") and vice versa for the validation to work."),
+                        text = paste0("All variables in the rules csv (", paste(variables(rules_formatted)[!variables(rules_formatted) %in% unlist(lapply(data_formatted, names))], collapse = ", "), ") need to be in the data csv (",  paste(unlist(lapply(data_formatted, names))[!unlist(lapply(data_formatted, names)) %in% variables(rules_formatted)], collapse = ", "), ") and vice versa for the validation to work."),
                         type = "warning")
     }
     
@@ -236,6 +236,10 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
         mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
         left_join(rules)})
     
+    any_issues <- any(vapply(results, function(x){
+                            any(x$status == "error")
+                            }, FUN.VALUE = TRUE))
+    
     #Loops through and makes a rules object for each data set. 
     rules_list_formatted <- tryCatch(lapply(data_names, function(x){validator(.data=rules %>% filter(dataset == x))}), 
                                 warning = function(w) {w}, 
@@ -248,6 +252,7 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
                 results = results, 
                 rules = rules_list_formatted, 
                 status = "success", 
+                issues = any_issues,
                 message = if(exists("warning_2")){warning_2} else{NULL}))
 }
 

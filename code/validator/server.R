@@ -1,7 +1,5 @@
 function(input, output, session) {
 
-    
-    
     validation <- reactive({
         req(input$file)
         req(input$file_rules)
@@ -148,10 +146,10 @@ function(input, output, session) {
         req(input$file)
         req(input$file_rules)
         req(validation()$results)
-        if(!is.null(validation()$results$status) && all(validation()$results$status == "success")){
+        if(isTRUE(!validation()$issues)){
             HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }
-        else if(!is.null(validation()$data_formatted) & !is.null(input$file)){
+        else if(isTRUE(validation()$issues)){
             HTML('<button type="button" class="btn btn-danger btn-lg btn-block">ERROR</button>')
         }
         else{
