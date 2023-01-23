@@ -156,13 +156,17 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
         filter(grepl("___", rule))
     
     if(nrow(do_to_all) > 0){
-            rules <- lapply(colnames(data_formatted), function(new_name){
-                do_to_all %>%
+       rules <- lapply(data_names, function(x){
+            rules_sub <- do_to_all %>% filter(dataset == x)
+            lapply(colnames(data_formatted), function(new_name){
+                rules_sub %>%
                     mutate(rule = gsub("___", new_name, rule)) %>%
                     mutate(name = paste0(new_name, "_", name))
             }) %>%
-                rbindlist(.) %>%
-                bind_rows(rules %>% filter(!grepl("___", rule)))
+                rbindlist(.)
+        }) %>%
+           rbindlist(.) %>%
+           bind_rows(rules %>% filter(!grepl("___", rule)))
     }
    
     # Check special character of is_foreign_key and if so then testing that foreign keys are exact. 
