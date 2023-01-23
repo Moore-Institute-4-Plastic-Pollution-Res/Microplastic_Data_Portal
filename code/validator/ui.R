@@ -91,9 +91,7 @@ dashboardPage(
                         boxProfile(image = "https://photos.smugmug.com/photos/i-V6hDWm7/0/c09dd854/X2/i-V6hDWm7-X2.jpg", title = "Libby Heeren", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE)
                     ),
                     width = 12
-
                 )
-
             ),
             tabItem(
                 tabName = "item2",

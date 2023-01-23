@@ -236,9 +236,9 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
         mutate(status = ifelse(fails > 0 | error | warning , "error", "success")) %>%
         left_join(rules)})
     
-    any_issues <- any(vapply(results, function(x){
+    any_issues <- vapply(results, function(x){
                             any(x$status == "error")
-                            }, FUN.VALUE = TRUE))
+                            }, FUN.VALUE = TRUE)
     
     #Loops through and makes a rules object for each data set. 
     rules_list_formatted <- tryCatch(lapply(data_names, function(x){validator(.data=rules %>% filter(dataset == x))}), 

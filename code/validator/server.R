@@ -77,6 +77,8 @@ function(input, output, session) {
             })
             box(title = paste0(validation()$data_names[[x]]),
                 id = paste0(validation()$data_names[[x]]),
+                collapsed = T,
+                background = if(validation()$issues[[x]]){"danger"}else{"success"},
                 fluidRow(
                     box(title = "Issues Raised",
                         id = paste0("issues_raised", x),
@@ -134,7 +136,7 @@ function(input, output, session) {
     })
     
     output$certificate <- renderUI({
-        if(all(validation()$results$status == "success") && !is.null(validation()$results$status)){
+        if(isTRUE(all(!validation()$issues))){
             downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
         }
         else{
@@ -146,10 +148,10 @@ function(input, output, session) {
         req(input$file)
         req(input$file_rules)
         req(validation()$results)
-        if(isTRUE(!validation()$issues)){
+        if(isTRUE(!any(validation()$issues))){
             HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }
-        else if(isTRUE(validation()$issues)){
+        else if(isTRUE(any(validation()$issues))){
             HTML('<button type="button" class="btn btn-danger btn-lg btn-block">ERROR</button>')
         }
         else{
