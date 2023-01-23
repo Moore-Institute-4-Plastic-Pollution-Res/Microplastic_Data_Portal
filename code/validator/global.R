@@ -14,6 +14,7 @@ library(shinyjs)
 library(sentimentr)
 library(listviewer)
 library(RCurl)
+library(readxl)
 
 #Note for logic using outside functions in the calls. 
 #https://github.com/data-cleaning/validate/issues/45
@@ -37,16 +38,22 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     #Accepts three fields, files data is the data set we are validating. data_names is optional and can be used to specify the names of the datasets. file_rules is the rules file. 
     
     #Tests that rules file is a csv
-    if (!grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))) {
+    if (!grepl("(\\.csv$)|(\\.xlsx$)", ignore.case = T, as.character(file_rules))) {
         return(list(
             message = data.table(
                 title = "Data type not supported!",
-                text = paste0("Uploaded data type is not currently supported; please upload a .csv file."),
+                text = paste0("Uploaded data type is not currently supported; please upload a .csv or .xlsx file."),
                 type = "warning"), status = "error"))
     }
     
-    #Reads the rules file. 
-    rules <- read.csv(file_rules)
+    #Reads the rules file.
+    if(grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))){
+        rules <- read.csv(file_rules)
+    }
+    
+    if(grepl("(\\.xlsx$)", ignore.case = T, as.character(file_rules))){
+        rules <- read_excel(file_rules)
+    }
     
     #Test that rules file has the correct required column names. 
     if (!all(c("name", "description", "severity", "rule") %in% names(rules))) {
@@ -76,12 +83,12 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     }
     
     # check files data to make sure it is a csv. 
-    if (!all(grepl("(\\.csv$)", ignore.case = T, as.character(files_data)))) {
+    if (!all(grepl("(\\.csv$)|(\\.xlsx$)", ignore.case = T, as.character(files_data)))) {
         return(list(
             message = data.table(
             title = "Data type not supported!",
             text = paste0("Uploaded data type is not currently supported; please
-                      upload a .csv file."),
+                      upload a .csv or .xlsx file."),
             type = "warning"), status = "error"))
     }
     
@@ -95,8 +102,33 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     }
     
     #Read in all csv files from files_data as a list. 
-    data_formatted <- tryCatch(lapply(files_data, function(x){read.csv(x)}),
-                                        warning = function(w) {w}, error = function(e) {e})
+    if(all(grepl("(\\.csv$)", ignore.case = T, as.character(files_data)))){
+        data_formatted <- tryCatch(lapply(files_data, function(x){read.csv(x)}),
+                                   warning = function(w) {w}, error = function(e) {e})
+    }
+    
+    else if(all(grepl("(\\.xlsx$)", ignore.case = T, as.character(files_data)))){
+        if(length(as.character(files_data)) > 1){
+            data_formatted <- tryCatch(lapply(files_data, function(x){read_excel(x)}),
+                                       warning = function(w) {w}, error = function(e) {e})    
+        }
+        if(length(as.character(files_data)) == 1){
+            sheets <- readxl::excel_sheets(files_data)
+            data_formatted <- tryCatch(lapply(sheets, function(x){read_excel(files_data, sheet =  x)}),
+                                       warning = function(w) {w}, error = function(e) {e})    
+        }
+    }
+    
+    else{
+        return(list(
+            message = data.table(
+                title = "Mixed Data Types",
+                text = paste0("You cannot mix data types, choose either csv or xlsx for all datasets."),
+                type = "warning"), status = "error")) 
+    }
+    
+    
+    
     
     #Check if there is a warning when reading in the data. 
     if (inherits(data_formatted, "simpleWarning") | inherits(data_formatted, "simpleError")){
@@ -111,7 +143,16 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     }
     
     #Grab the names of the datasets.
-    data_names <- if(is.null(data_names)){gsub("(.*/)|(\\..*)", "", files_data)} else{gsub("(.*/)|(\\..*)", "", data_names)} 
+    data_names <- if(isTruthy(data_names)){
+                    gsub("(.*/)|(\\..*)", "", data_names)
+    } 
+    else if(all(grepl("(\\.xlsx$)", ignore.case = T, as.character(files_data))) & length(as.character(files_data)) == 1){
+        readxl::excel_sheets(files_data)
+    }
+    else{
+        gsub("(.*/)|(\\..*)", "", files_data)
+        } 
+                    
     
     #Names the data with the file names. 
     names(data_formatted) <- data_names

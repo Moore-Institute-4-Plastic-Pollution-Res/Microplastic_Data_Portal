@@ -1,6 +1,14 @@
 
 #Tests ----
 
+library(readxl)
+
+file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/rules.xlsx"
+files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/data_success.xlsx"
+
+sheets <- readxl::excel_sheets(file_rules)
+all <- readxl::read_excel(file_rules, sheet = sheets)
+
 files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/data_success.csv"
 file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/rules.csv"
 
