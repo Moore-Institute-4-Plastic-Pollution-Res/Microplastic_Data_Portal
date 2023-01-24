@@ -102,7 +102,7 @@ dashboardPage(
                     column(1,
                          selectInput(inputId = "rules_selection", 
                                      label = "Rules Options",
-                                     choices = c("Microplastic Acc. DW.", "Manual")
+                                     choices = c("Microplastic Acc. DW.", "Water PACT", "Manual")
                                     )      
                     ),
                     column(1,

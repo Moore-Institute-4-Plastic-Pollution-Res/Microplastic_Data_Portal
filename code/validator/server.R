@@ -4,7 +4,10 @@ function(input, output, session) {
         req(input$file)
         #req(input$file_rules | input$rules_selection == "Microplastic Acc. DW.")
         if(input$rules_selection == "Microplastic Acc. DW."){
-            file_rules = "www/rules_all.csv"
+            file_rules = "www/rules_dw_acc.csv"
+        }
+        if(input$rules_selection == "Water PACT"){
+            file_rules = "www/rules_waterpact.csv"
         }
         if(input$rules_selection == "Manual"){
             file_rules = input$file_rules$datapath

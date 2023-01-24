@@ -1,0 +1,49 @@
+﻿name,description,severity,rule
+station_id,"A unique ID is given to the location of the sample and should consist of the first 4 letters of the river name followed by an underscore and the number of kilometers upstream the location is from the ocean e.g., ""LOSA - 2.3km"" This value needs to be a character format. ",error,is.character(station_id)
+latitude,Latitude should be a value between 25.00000 and 50.00000. ,error,"in_range(latitude, min=25, max = 50) "
+latitude_3,The values for latitude should be reported in numeric format. ,error,is.numeric(latitude)
+latitude_2,The values for latitude should be reported in decimal degrees to five places. ,error,"number_format(latitude, format = ""dd.ddddd*"") | number_format(latitude, format = ""ddd.ddddd*"") "
+longitude_3,The values for longitude should be reported in numeric format.,error,is.numeric(longitude)
+longitude_2,The values for longitude should be reported in decimal degrees to five places.,error,"number_format(longitude, format = ""-dd.ddddd*"") | number_format(longitude, format = ""-ddd.ddddd*"")"
+longitude,Longitude should be a number between -125.00000 and -67.00000 .,error,"in_range(longitude, min=-125, max = -67) "
+event_id,event_id must be in character format.,error,is.character(event_id)
+event_id_2,"event_id must be one of Low, High, or Flood.",error,"event_id %vin% c(""Low"", ""High"", ""Flood"")"
+sample_type_2,sample_type must be a character value.,error,is.character(sample_type)
+sample_type,"sample_type must be one of Surface Whole, Mid Column Whole, Surface Net, Mid Column Net, Net Spike, Whole Spike, Net Blank, or Whole Blank ",error,"sample_type %vin% c(""Surface Whole"", ""Mid Column Whole"", ""Surface Net"", ""Mid Column Net"", ""Net Spike"", ""Whole Spike"", ""Net Blank"", ""Whole Blank"")"
+replicate_id_2,replicate_id must an integer.,error,is.integer(replicate_id)
+replicate_id,"replicate_id must be a whole number of 1, 2, 3 or 4",error,replicate_id %vin% 1:4
+recorder,recorder must be a character value.,error,is.character(recorder)
+collection_date,Date must be between 2022-8-1 and 2024-12-31.,error,"as.Date(collection_date) > as.Date(""2022-8-1"") & as.Date(collection_date) < as.Date(""2024-12-31"")"
+collection_date_2,"collection_date format must be Year-Month-Day (four number year, two number month, two number day). ",error,"!is.na(as.Date(collection_date, format = ""%Y-%m-%d""))"
+unique,"Sample information needs to be unique on combinations of station_id, event_id, replicate_id, and sample_type.",error,"is_unique(station_id, replicate_id, event_id, sample_type)"
+start_time_2,start_time must be between 5:00:00 AM and 20:00:00 PM.,error,"in_range(start_time, min=""05:00:00"", max = ""20:00:00"", format = ""%H:%M:%S"") "
+start_time,start_time should be formatted as 24 hr time in HH:MM:SS format.,error,"!is.na(in_range(start_time, min=""05:00:00"", max = ""20:00:00"", format = ""%H:%M:%S""))"
+end_time_2,end_time must be between 5:00:00 and 20:00:00.,error,"in_range(end_time, min=""05:00:00"", max = ""20:00:00"", format = ""%H:%M:%S"")"
+end_time,end_time should be formatted as 24 hr time in HH:MM:SS format.,error,"!is.na(in_range(end_time, min=""05:00:00"", max = ""20:00:00"", format = ""%H:%M:%S""))"
+sample_width_m_2,sample_width_m should be a numeric value. ,error,is.numeric(sample_width_m)
+sample_width_m,sample_width_m should be between 0.5 and 10000.,error,"in_range(sample_width_m, min=0.5, max = 10000)"
+sample_width_m_3,sample_width_m should be less than total_stream_width_m. ,error,sample_width_m < total_stream_width_m
+sample_depth_m_2,sample_depth_m should be a numeric type. ,error,is.numeric(sample_depth_m)
+sample_depth_m_3,sample_depth_m should be less than the total_stream_depth_m. ,error,sample_depth_m < total_stream_depth_m
+sample_depth_m,sample_depth_m should be between 0 and 100. ,error,"in_range(sample_depth_m, min=0, max = 100)"
+deployment_strategy_2,deployment_strategy should be a character value. ,error,is.character(deployment_strategy)
+deployment_strategy,"deployment_strategy should be one of Bridge, Boat, or Wading",error,"deployment_strategy %vin% c(""Bridge"", ""Boat"", ""Wading"")"
+total_stream_depth_m_2,total_stream_depth_m should be a numeric value. ,error,is.numeric(total_stream_depth_m)
+total_stream_depth_m,total_stream_depth_m should be between 0 and 100. ,error,"in_range(total_stream_depth_m, min=0, max = 100)"
+total_stream_width_m_2,total_stream_width_m should be a numeric value.,error,is.numeric(total_stream_width_m)
+total_stream_width_m,total_steam_width_m should be between 0.5 and 10000.,error,"in_range(total_stream_width_m, min=0.5, max = 10000)"
+flow_meter_start_2,flow_meter_start should be an integer value. ,error,is.integer(flow_meter_start)
+flow_meter_start,flow_meter_start should be between 0 and 10000.,error,"in_range(flow_meter_start, min=0, max = 10000)"
+flow_meter_end_2,flow_meter_end should be an integer value. ,error,is.integer(flow_meter_end)
+flow_meter_end,flow_meter_end should be between 0 and 10000.,error,"in_range(flow_meter_end, min=0, max = 10000)"
+number_containers_2,number_containers should be an integer. ,error,is.integer(number_containers)
+number_containers,number_containers should be between 0 and 20.,error,"in_range(number_containers, min=0, max = 20)"
+comments,comments should be a character value. ,error,is.character(comments)
+sample_collection_device_2,sample_collection_device should be a character value. ,error,is.character(sample_collection_device)
+sample_collection_device,"sample_collection_device should be one of Niskin Sampler, D84 Grab Sampler, Bed-Load Sampler, or Box Trawl.",error,"sample_collection_device %vin% c(""Niskin Sampler"", ""D84 Grab Sampler"", ""Bed-Load Sampler"", ""Box Trawl"")"
+aperature_width_m_2,aperature_width_m should be a numeric value. ,error,is.numeric(aperature_width_m)
+aperature_width_m,aperature_width_m should be between 0.01 and 10. ,error,"in_range(aperature_width_m, min=0.01, max = 10)"
+aperature_height_m_2,aperature_height_m should be a numeric value. ,error,is.numeric(aperature_height_m)
+aperature_height_m,aperature_height_m should be between 0.01 and 10.,error,"in_range(aperature_height_m, min=0.01, max = 10)"
+net_mesh_um,net_mesh_um should be between 200 and 400. ,error,"in_range(net_mesh_um, min=200, max = 400)"
+net_mesh_um_2,net_mesh_um should be a numeric value.,error,is.numeric(net_mesh_um)
