@@ -100,31 +100,26 @@ dashboardPage(
                 tabName = "item2",
                 fluidRow(
                     column(1,
-                               popover(
-                                   fileInput("file_rules", NULL,
-                                             placeholder = ".csv",
-                                             buttonLabel = "Rules...",
-                                             width = "100%",
-                                             accept=c("text/csv",
-                                                      "text/comma-separated-values,text/plain")),
-                                   title = "Upload rules",
-                                   content = "Upload the rules csv to use to validate the data csv"
-                               )
-                    ),
-                    column(1
+                         selectInput(inputId = "rules_selection", 
+                                     label = "Rules Options",
+                                     choices = c("Microplastic Acc. DW.", "Manual")
+                                    )      
                     ),
                     column(1,
                            popover(
-                                   fileInput("file", NULL,
-                                             placeholder = ".csv",
-                                             buttonLabel = "Data...",
-                                             multiple = T,
-                                             accept=c("text/csv",
-                                                      "text/comma-separated-values,text/plain")), #%>%
-
+                               fileInput("file", NULL,
+                                         placeholder = ".csv",
+                                         buttonLabel = "Data...",
+                                         multiple = T,
+                                         accept=c("text/csv",
+                                                  "text/comma-separated-values,text/plain")), #%>%
+                               
                                title = "Upload CSV to validate",
                                content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file."),
                            #      size = "medium", rounded = TRUE
+                    ),
+                    column(1,
+                           uiOutput(outputId = "rules_upload")
                     ),
                     column(1
                            #     type = "info",

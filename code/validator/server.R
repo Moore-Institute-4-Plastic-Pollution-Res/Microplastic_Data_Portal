@@ -2,8 +2,37 @@ function(input, output, session) {
 
     validation <- reactive({
         req(input$file)
-        req(input$file_rules)
-        validate_data(files_data = input$file$datapath, data_names = input$file$name, file_rules = input$file_rules$datapath)
+        #req(input$file_rules | input$rules_selection == "Microplastic Acc. DW.")
+        if(input$rules_selection == "Microplastic Acc. DW."){
+            file_rules = "www/rules_all.csv"
+        }
+        if(input$rules_selection == "Manual"){
+            file_rules = input$file_rules$datapath
+        }
+        if(isTruthy(file_rules)){
+            validate_data(files_data = input$file$datapath, data_names = input$file$name, file_rules = file_rules)
+        }
+        else{
+            NULL
+        }
+    })
+    
+    output$rules_upload <- renderUI({
+        if(input$rules_selection == "Manual"){
+            popover(
+                fileInput("file_rules", NULL,
+                          placeholder = ".csv",
+                          buttonLabel = "Rules...",
+                          width = "100%",
+                          accept=c("text/csv",
+                                   "text/comma-separated-values,text/plain")),
+                title = "Upload rules",
+                content = "Upload the rules csv to use to validate the data csv"
+            )    
+        }
+        else{
+            NULL
+        }
     })
     
     output$error_query <- renderUI({
@@ -124,7 +153,8 @@ function(input, output, session) {
     })
     
     remote <- reactive({
-        req(all(validation()$results$status == "success"))
+        req(validation()$data_formatted)
+        req(isTRUE(!any(validation()$issues)))
         #req("KEY" %in% names(validation()$data_formatted))
         req(vals$key)
         api <- read.csv("secrets/ckan.csv")
@@ -136,6 +166,7 @@ function(input, output, session) {
     })
     
     output$certificate <- renderUI({
+        req(validation()$data_formatted)
         if(isTRUE(all(!validation()$issues))){
             downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
         }
@@ -145,8 +176,8 @@ function(input, output, session) {
     })
     
     output$alert <- renderUI({
-        req(input$file)
-        req(input$file_rules)
+        #req(input$file)
+        #req(input$file_rules)
         req(validation()$results)
         if(isTRUE(!any(validation()$issues))){
             HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
