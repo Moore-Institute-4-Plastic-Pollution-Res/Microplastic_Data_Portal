@@ -99,11 +99,11 @@ dashboardPage(
             tabItem(
                 tabName = "item2",
                 fluidRow(
-                    column(1,
-                         selectInput(inputId = "rules_selection", 
+                    column(2,
+                         selectInput(inputId = "rules_selection",
                                      label = "Rules Options",
                                      choices = c("Microplastic Acc. DW.", "Water PACT", "Manual")
-                                    )      
+                                    )
                     ),
                     column(1,
                            popover(
@@ -113,7 +113,7 @@ dashboardPage(
                                          multiple = T,
                                          accept=c("text/csv",
                                                   "text/comma-separated-values,text/plain")), #%>%
-                               
+
                                title = "Upload CSV to validate",
                                content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file."),
                            #      size = "medium", rounded = TRUE
@@ -126,10 +126,10 @@ dashboardPage(
                            #     size = "medium", rounded = TRUE
                            # )
                     ),
-                    column(8, uiOutput("certificate"), uiOutput("alert"))),
+                    column(7, uiOutput("certificate"), uiOutput("alert"))),
                 #fluidRow(
-                    uiOutput("error_query"),  
-                
+                    uiOutput("error_query"),
+
                 #),
                 fluidRow(
                     popover(
