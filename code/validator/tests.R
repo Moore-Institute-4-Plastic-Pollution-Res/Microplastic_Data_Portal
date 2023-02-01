@@ -21,52 +21,58 @@ broken <- rules_broken(results = data_validation$results[[1]], show_decision = T
 
 #Excel spreadsheet creation. 
 
-validate::errors(data_validation$rules[[1]])
-#Can loop through one rule at a time. 
-validate::variables(data_validation$rules[[1]][1])
-validate::meta(data_validation$rules[[1]])
-rule_test@meta
-expression[1]
-expression[2]
-
-
-
 #initiate first
-column_index <- 1
-sheet_num <- 1
-rules_all <- data_validation$rules[[sheet_num]]
-sheet_name <- data_validation$data_names[sheet_num]
-wb <- createWorkbook()
-addWorksheet(wb, sheet_name)
-addWorksheet(wb, "Lookup")
-negStyle <- createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE")
-posStyle <- createStyle(fontColour = "#006100", bgFill = "#C6EFCE")
-for(col_num in 1:length(rules_all)){
-    rule_test <- rules_all[[col_num]]
-    expression <- rule_test@expr
-    column_name <- as.character(expression[2]) #Name of the column but Needs to be set to 2 to grab the data
-    df <- as_tibble(rep("", 1000))
-    names(df) <- column_name
-    writeData(wb, sheet = sheet_name, x = df, startCol = column_index)
-    if(any(grepl("%vin%", expression))){
-        values <- unlist(strsplit(gsub('(")|(\\))|(c\\()', "", as.character(expression[3])), ", "))
-        lookup_col <- LETTERS[column_index] 
-        df_lookup <- tibble(values)
-        names(df_lookup) <- paste0(column_name, "_lookup")
-        writeData(wb, sheet = "Lookup", x = df_lookup, startCol = column_index)
-        dataValidation(wb, 
-                       sheet = sheet_name, 
-                       cols = column_index, 
-                       rows = 1:1000, 
-                       type = "list", 
-                       value = paste0("Lookup!$", lookup_col, "$2:$", lookup_col, "$", length(values) +1))   
+create_valid_excel <- function(data_validation, 
+                               negStyle = createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE"),
+                               posStyle = createStyle(fontColour = "#006100", bgFill = "#C6EFCE"),
+                               row_num = 1000,
+                               file_name = "conditionalFormattingExample.xlsx"){
+    column_index <- 1
+    wb <- createWorkbook()
+    addWorksheet(wb, "Lookup")
+    for(sheet_num in 1:length(data_validation$data_names)){ #Sheet level for loop
+        rules_all <- data_validation$rules[[sheet_num]]
+        sheet_name <- data_validation$data_names[sheet_num]
+        addWorksheet(wb, sheet_name)
+        for(col_num in 1:length(rules_all)){
+            rule_test <- rules_all[[col_num]]
+            expression <- rule_test@expr
+            column_name <- as.character(expression[2]) #Name of the column but Needs to be set to 2 to grab the data
+            df <- as_tibble(rep("", row_num))
+            names(df) <- column_name
+            writeData(wb, sheet = sheet_name, x = df, startCol = column_index)
+            if(any(grepl("%vin%", expression))){
+                values <- unlist(strsplit(gsub('(")|(\\))|(c\\()', "", as.character(expression[3])), ", "))
+                lookup_col <- LETTERS[column_index] 
+                df_lookup <- tibble(values)
+                names(df_lookup) <- paste0(column_name, "_lookup")
+                writeData(wb, 
+                          sheet = "Lookup", 
+                          x = df_lookup, 
+                          startCol = column_index)
+                dataValidation(wb, 
+                               sheet = sheet_name, 
+                               cols = column_index, 
+                               rows = 2:row_num,
+                               type = "list", 
+                               value = paste0("Lookup!$", lookup_col, "$2:$", lookup_col, "$", length(values) +1))   
+            }
+            if(any(grepl("is_unique", expression))){
+                conditionalFormatting(wb, 
+                                      sheet_name, 
+                                      cols = column_index, 
+                                      rows = 2:row_num, 
+                                      type = "duplicates", 
+                                      style = negStyle)
+            }
+            column_index = column_index + 1
+        }
     }
-    if(any(grepl("is_unique", expression))){
-        conditionalFormatting(wb, sheet_name, cols = column_index, rows = 1:1000, type = "duplicates", style = negStyle)
-    }
-    column_index = column_index + 1
+    saveWorkbook(wb, file_name, TRUE)
+    wb
 }
-saveWorkbook(wb, "conditionalFormattingExample.xlsx", TRUE)    
+
+wb <- create_valid_excel(data_validation = data_validation)
 openXL(wb)
 
 
