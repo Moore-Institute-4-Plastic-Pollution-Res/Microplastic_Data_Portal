@@ -43,6 +43,17 @@ df <- as_tibble(rep("", 1000))
 names(df) <- column_name
 writeData(wb, sheet = sheet_name, x = df, startCol = col_num)
 values <- unlist(strsplit(gsub('(")|(\\))|(c\\()', "", as.character(expression[3])), ", "))
+lookup_col <- LETTERS[1] #Might need this number to update. 
+addWorksheet(wb, "Lookup")
+df_lookup <- tibble(values)
+names(df_lookup) <- paste0(column_name, "_lookup")
+writeData(wb, sheet = "Lookup", x = df_lookup)
+dataValidation(wb, 
+               sheet = sheet_name, 
+               cols = col_num, 
+               rows = 1:1000, 
+               type = "list", 
+               value = paste0("Lookup!$", lookup_col, "$2:$", lookup_col, "$", length(values) +1))
 for(value in values){
     conditionalFormatting(wb, sheet_name, cols = col_num, rows = 1:1000, type = "contains", rule = value, style = posStyle)
 }
