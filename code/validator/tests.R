@@ -10,8 +10,8 @@ files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_D
 sheets <- readxl::excel_sheets(file_rules)
 all <- readxl::read_excel(file_rules, sheet = sheets)
 
-files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/data_success.csv"
-file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/rules.csv"
+files_data = paste0("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/", c("samples.csv", "particles.csv", "methodology.csv"))
+file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/rules_dw_acc.csv"
 
 data_validation <- validate_data(files_data = files_data, file_rules = file_rules)
 
@@ -20,16 +20,15 @@ broken <- rules_broken(results = data_validation$results[[1]], show_decision = T
                 mutate(description = as.factor(description))
 
 #Excel spreadsheet creation. 
-
+data_validation$rules[[2]]
 #initiate first
 create_valid_excel <- function(data_validation, 
-                               negStyle = createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE"),
-                               posStyle = createStyle(fontColour = "#006100", bgFill = "#C6EFCE"),
-                               row_num = 1000,
+                               negStyle  = createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE"),
+                               posStyle  = createStyle(fontColour = "#006100", bgFill = "#C6EFCE"),
+                               row_num   = 1000,
                                file_name = "conditionalFormattingExample.xlsx"){
     lookup_column_index <- 1
     wb <- createWorkbook()
-    addWorksheet(wb, "Lookup")
     for(sheet_num in 1:length(data_validation$data_names)){ #Sheet level for loop
         column_index <- 1
         rules_all <- data_validation$rules[[sheet_num]]
@@ -43,6 +42,9 @@ create_valid_excel <- function(data_validation,
             names(df) <- column_name
             writeData(wb, sheet = sheet_name, x = df, startCol = column_index)
             if(any(grepl("%vin%", expression))){
+                if(lookup_column_index == 1){
+                    addWorksheet(wb, "Lookup")
+                }
                 values <- unlist(strsplit(gsub('(")|(\\))|(c\\()', "", as.character(expression[3])), ", "))
                 lookup_col <- LETTERS[lookup_column_index] 
                 df_lookup <- tibble(values)
