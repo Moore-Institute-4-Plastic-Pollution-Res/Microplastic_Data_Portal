@@ -27,10 +27,11 @@ create_valid_excel <- function(data_validation,
                                posStyle = createStyle(fontColour = "#006100", bgFill = "#C6EFCE"),
                                row_num = 1000,
                                file_name = "conditionalFormattingExample.xlsx"){
-    column_index <- 1
+    lookup_column_index <- 1
     wb <- createWorkbook()
     addWorksheet(wb, "Lookup")
     for(sheet_num in 1:length(data_validation$data_names)){ #Sheet level for loop
+        column_index <- 1
         rules_all <- data_validation$rules[[sheet_num]]
         sheet_name <- data_validation$data_names[sheet_num]
         addWorksheet(wb, sheet_name)
@@ -43,19 +44,21 @@ create_valid_excel <- function(data_validation,
             writeData(wb, sheet = sheet_name, x = df, startCol = column_index)
             if(any(grepl("%vin%", expression))){
                 values <- unlist(strsplit(gsub('(")|(\\))|(c\\()', "", as.character(expression[3])), ", "))
-                lookup_col <- LETTERS[column_index] 
+                lookup_col <- LETTERS[lookup_column_index] 
                 df_lookup <- tibble(values)
                 names(df_lookup) <- paste0(column_name, "_lookup")
                 writeData(wb, 
                           sheet = "Lookup", 
                           x = df_lookup, 
-                          startCol = column_index)
+                          startCol = lookup_column_index)
                 dataValidation(wb, 
                                sheet = sheet_name, 
                                cols = column_index, 
                                rows = 2:row_num,
                                type = "list", 
-                               value = paste0("Lookup!$", lookup_col, "$2:$", lookup_col, "$", length(values) +1))   
+                               value = paste0("Lookup!$", lookup_col, "$2:$", lookup_col, "$", length(values) +1))  
+                lookup_column_index = lookup_column_index + 1
+                
             }
             if(any(grepl("is_unique", expression))){
                 conditionalFormatting(wb, 
