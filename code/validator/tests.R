@@ -2,6 +2,7 @@
 #Tests ----
 
 library(readxl)
+library(openxlsx)
 
 file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/rules.xlsx"
 files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/data_success.xlsx"
@@ -17,6 +18,98 @@ data_validation <- validate_data(files_data = files_data, file_rules = file_rule
 broken <- rules_broken(results = data_validation$results[[1]], show_decision = T) %>%
                 select(description, status, expression, name) %>%
                 mutate(description = as.factor(description))
+
+#Excel spreadsheet creation. 
+
+validate::errors(data_validation$rules[[1]])
+#Can loop through one rule at a time. 
+validate::variables(data_validation$rules[[1]][1])
+validate::meta(data_validation$rules[[1]])
+expression <- rule_test@expr
+rule_test@meta
+expression[1]
+expression[2]
+
+sheet_num <- 1
+col_num <- 2
+rule_test <- data_validation$rules[[sheet_num]][[col_num]]
+wb <- createWorkbook()
+negStyle <- createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE")
+posStyle <- createStyle(fontColour = "#006100", bgFill = "#C6EFCE")
+sheet_name <- data_validation$data_names[sheet_num]
+addWorksheet(wb, sheet_name)
+column_name <- as.character(expression[2])
+data.frame(paste0(column_name) = character(1000))
+writeData(wb, sheet = sheet_name, x = column_name)
+values <- unlist(strsplit(gsub('(")|(\\))|(c\\()', "", as.character(expression[3])), ", "))
+conditionalFormatting(wb, sheet_name, cols = col_num, rows = 1:1000, type = "contains", rule = values[1])
+saveWorkbook(wb, "conditionalFormattingExample.xlsx", TRUE)
+openXL(wb)
+
+
+create_conditional_excel <- function(rules){
+    if(grepl("%vin%", rule_test@expr))
+}
+
+variables(rule_test)
+data_validation$results[[1]]
+
+wb <- createWorkbook()
+addWorksheet(wb, "cellIs")
+addWorksheet(wb, "Moving Row")
+addWorksheet(wb, "Moving Col")
+addWorksheet(wb, "Dependent on 1")
+addWorksheet(wb, "Duplicates")
+addWorksheet(wb, "containsText")
+addWorksheet(wb, "colourScale", zoom = 30)
+addWorksheet(wb, "databar")
+
+negStyle <- createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE")
+posStyle <- createStyle(fontColour = "#006100", bgFill = "#C6EFCE")
+
+## rule applies to all each cell in range
+writeData(wb, "cellIs", -5:5)
+writeData(wb, "cellIs", LETTERS[1:11], startCol=2)
+conditionalFormatting(wb, "cellIs", cols=1, rows=1:11, rule="!=0", style = negStyle)
+conditionalFormatting(wb, "cellIs", cols=1, rows=1:11, rule="==0", style = posStyle)
+
+## highlight row dependent on first cell in row
+writeData(wb, "Moving Row", -5:5)
+writeData(wb, "Moving Row", LETTERS[1:11], startCol=2)
+conditionalFormatting(wb, "Moving Row", cols=1:2, rows=1:11, rule="$A1<0", style = negStyle)
+conditionalFormatting(wb, "Moving Row", cols=1:2, rows=1:11, rule="$A1>0", style = posStyle)
+
+## highlight column dependent on first cell in column
+writeData(wb, "Moving Col", -5:5)
+writeData(wb, "Moving Col", LETTERS[1:11], startCol=2)
+conditionalFormatting(wb, "Moving Col", cols=1:2, rows=1:11, rule="A$1<0", style = negStyle)
+conditionalFormatting(wb, "Moving Col", cols=1:2, rows=1:11, rule="A$1>0", style = posStyle)
+
+## highlight entire range cols X rows dependent only on cell A1
+writeData(wb, "Dependent on 1", -5:5)
+writeData(wb, "Dependent on 1", LETTERS[1:11], startCol=2)
+conditionalFormatting(wb, "Dependent on 1", cols=1:2, rows=1:11, rule="$A$1<0", style = negStyle)
+conditionalFormatting(wb, "Dependent on 1", cols=1:2, rows=1:11, rule="$A$1>0", style = posStyle)
+
+## highlight duplicates using default style
+writeData(wb, "Duplicates", sample(LETTERS[1:15], size = 10, replace = TRUE))
+conditionalFormatting(wb, "Duplicates", cols = 1, rows = 1:10, type = "duplicates")
+
+## cells containing text
+fn <- function(x) paste(sample(LETTERS, 10), collapse = "-")
+writeData(wb, "containsText", sapply(1:10, fn))
+conditionalFormatting(wb, "containsText", cols = 1, rows = 1:10, type = "contains", rule = "A")
+
+## Databars
+writeData(wb, "databar", -5:5)
+conditionalFormatting(wb, "databar", cols = 1, rows = 1:12, type = "databar") ## Default colours
+
+saveWorkbook(wb, "conditionalFormattingExample.xlsx", TRUE)
+
+openXL(wb)
+
+
+
 
 #setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
 
