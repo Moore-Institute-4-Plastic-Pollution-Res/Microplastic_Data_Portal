@@ -34,15 +34,16 @@ sheet_num <- 1
 col_num <- 2
 rule_test <- data_validation$rules[[sheet_num]][[col_num]]
 wb <- createWorkbook()
-negStyle <- createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE")
+#negStyle <- createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE")
 posStyle <- createStyle(fontColour = "#006100", bgFill = "#C6EFCE")
 sheet_name <- data_validation$data_names[sheet_num]
 addWorksheet(wb, sheet_name)
 column_name <- as.character(expression[2])
-data.frame(paste0(column_name) = character(1000))
-writeData(wb, sheet = sheet_name, x = column_name)
+df <- as_tibble(rep("", 1000))
+names(df) <- column_name
+writeData(wb, sheet = sheet_name, x = df, startCol = col_num)
 values <- unlist(strsplit(gsub('(")|(\\))|(c\\()', "", as.character(expression[3])), ", "))
-conditionalFormatting(wb, sheet_name, cols = col_num, rows = 1:1000, type = "contains", rule = values[1])
+conditionalFormatting(wb, sheet_name, cols = col_num, rows = 1:1000, type = "contains", rule = values[1], style = posStyle)
 saveWorkbook(wb, "conditionalFormattingExample.xlsx", TRUE)
 openXL(wb)
 
@@ -63,6 +64,12 @@ addWorksheet(wb, "Duplicates")
 addWorksheet(wb, "containsText")
 addWorksheet(wb, "colourScale", zoom = 30)
 addWorksheet(wb, "databar")
+
+## cells containing text
+fn <- function(x) paste(sample(LETTERS, 10), collapse = "-")
+writeData(wb, "containsText", sapply(1:10, fn))
+conditionalFormatting(wb, "containsText", cols = 1, rows = 1:10, type = "contains", rule = "A")
+
 
 negStyle <- createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE")
 posStyle <- createStyle(fontColour = "#006100", bgFill = "#C6EFCE")
