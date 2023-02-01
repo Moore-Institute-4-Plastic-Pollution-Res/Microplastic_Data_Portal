@@ -43,7 +43,9 @@ df <- as_tibble(rep("", 1000))
 names(df) <- column_name
 writeData(wb, sheet = sheet_name, x = df, startCol = col_num)
 values <- unlist(strsplit(gsub('(")|(\\))|(c\\()', "", as.character(expression[3])), ", "))
-conditionalFormatting(wb, sheet_name, cols = col_num, rows = 1:1000, type = "contains", rule = values[1], style = posStyle)
+for(value in values){
+    conditionalFormatting(wb, sheet_name, cols = col_num, rows = 1:1000, type = "contains", rule = value, style = posStyle)
+}
 saveWorkbook(wb, "conditionalFormattingExample.xlsx", TRUE)
 openXL(wb)
 
