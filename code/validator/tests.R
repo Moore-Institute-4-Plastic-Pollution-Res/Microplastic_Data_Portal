@@ -19,20 +19,63 @@ broken <- rules_broken(results = data_validation$results[[1]], show_decision = T
                 select(description, status, expression, name) %>%
                 mutate(description = as.factor(description))
 
+#https://gamagroundwater.waterboards.ca.gov/gama/datadownload
 #Excel spreadsheet creation. 
 data_validation$rules[[2]]
-#initiate first
-create_valid_excel <- function(data_validation, 
+create_valid_excel <- function(file_rules, 
                                negStyle  = createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE"),
                                posStyle  = createStyle(fontColour = "#006100", bgFill = "#C6EFCE"),
                                row_num   = 1000,
                                file_name = "conditionalFormattingExample.xlsx"){
+    #Reads the rules file.
+    if(grepl("(\\.csv$)", ignore.case = T, as.character(file_rules))){
+        rules <- read.csv(file_rules)
+    }
+    
+    if(grepl("(\\.xlsx$)", ignore.case = T, as.character(file_rules))){
+        rules <- read_excel(file_rules)
+    }
+    
+    #Grab the names of the datasets.
+    data_names <- if("dataset" %in% names(rules)){
+        unique(rules$dataset)
+    } 
+    else{
+        name <- gsub("(.*/)|(\\..*)", "", file_rules)
+        rules$dataset <- name
+        name
+    }
+    
+    #Circle back to add logic for multiple dfs
+    #Check for special character "___" which is for assessing every column. 
+    
+    do_to_all <- rules %>%
+        filter(grepl("___", rule))
+    
+    if(nrow(do_to_all) > 0){
+        rules <- lapply(data_names, function(x){
+            rules_sub <- do_to_all %>% filter(dataset == x)
+            rules_sub_variables <- variables(validator(.data=rules_sub))
+            lapply(rules_sub_variables, function(new_name){
+                rules_sub %>%
+                    mutate(rule = gsub("___", new_name, rule)) %>%
+                    mutate(name = paste0(new_name, "_", name))
+            }) %>%
+                rbindlist(.)
+        }) %>%
+            rbindlist(.) %>%
+            bind_rows(rules %>% filter(!grepl("___", rule)))
+    }
+    
+    rules <- rules %>%
+        filter(!grepl("is_foreign_key(.*)", rule))
+    
     lookup_column_index <- 1
     wb <- createWorkbook()
-    for(sheet_num in 1:length(data_validation$data_names)){ #Sheet level for loop
-        rules_all <- data_validation$rules[[sheet_num]]
+    for(sheet_num in 1:length(data_names)){ #Sheet level for loop
+        rules_all <- validator(.data = rules %>% filter(dataset == data_names[sheet_num]))
         rule_variables <- variables(rules_all)
-        sheet_name <- data_validation$data_names[sheet_num]
+        sheet_name <- data_names[sheet_num]
         addWorksheet(wb, sheet_name)
         freezePane(wb, sheet_name, firstRow = TRUE) ## shortcut to freeze first row for every table.
         for(col_name in rule_variables){#Setup the column names with empty rows. 
@@ -65,7 +108,7 @@ create_valid_excel <- function(data_validation,
                                value = paste0("Lookup!$", lookup_col, "$2:$", lookup_col, "$", length(values) +1))  
                 lookup_column_index = lookup_column_index + 1
             }
-            if(any(grepl("is_unique", expression))){
+            if(any(grepl("is_unique\\(.*\\)", expression))){
                 conditionalFormatting(wb, 
                                       sheet_name, 
                                       cols = column_index, 
@@ -73,7 +116,7 @@ create_valid_excel <- function(data_validation,
                                       type = "duplicates", 
                                       style = negStyle)
             }
-            if(any(grepl("!is.na", expression))){ #Not working yet.
+            if(any(grepl("!is.na\\(.*\\)", expression))){ #Not working yet.
                 dataValidation(wb, 
                                       sheet_name, 
                                       cols = column_index, 
@@ -83,25 +126,26 @@ create_valid_excel <- function(data_validation,
                                       value = "1",
                                       allowBlank = F)
             }
-            if(any(grepl("in_range(.*)", expression))){
+            if(any(grepl("in_range\\(.*\\)", expression))){
                 dataValidation(wb, 
                                sheet_name, 
                                cols = column_index, 
                                rows = 2:row_num, 
                                type = "decimal", 
                                operator = "between",
-                               value = c(as.numeric(as.character(expression)[grepl("^[0-9]+$", as.character(expression))][1]), as.numeric(as.character(expression)[grepl("^[0-9]+$", as.character(expression))][2])))
+                               value = c(as.numeric(as.character(expression)[grepl("^-|[0-9]+$", as.character(expression))][1]), 
+                                         as.numeric(as.character(expression)[grepl("^-|[0-9]+$", as.character(expression))][2])))
             }
-            if(any(grepl("gsub", expression))){ #Also not working yet. 
+            if(any(grepl("grepl(.*)", expression))){ #could be improved with begins with and ends with logic.  
                 good_conditions <- unlist(strsplit(gsub('(\\[[0-9]*-[0-9]*\\])|(\\])|(\\[)|(\\\\)|(\\^)|(\\$)|(\\))|(\\()', "",  as.character(expression)[2]), split = "\\|"))
                 for(contain_condition in good_conditions){
                     conditionalFormatting(wb, 
                                           sheet_name, 
                                           cols = column_index, 
                                           rows = 2:row_num, 
-                                          type = "notcontains",
+                                          type = "contains",
                                           rule = contain_condition,
-                                          style = negStyle)
+                                          style = posStyle)
                 }
             }
             if(any(grepl("(%vin%)|(%in%)", expression))){
@@ -118,7 +162,7 @@ create_valid_excel <- function(data_validation,
     wb
 }
 
-wb <- create_valid_excel(data_validation = data_validation)
+wb <- create_valid_excel(file_rules = file_rules)
 
 openXL(wb)
 

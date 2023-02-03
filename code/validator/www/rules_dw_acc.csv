@@ -45,7 +45,7 @@ Height,Third particle dimension (um),particles,100,error,"in_range(as.numeric(He
 Mass,Particle mass (mg),particles,0.1,error,"in_range(as.numeric(Mass), min =  0.0001, max = 10000)"
 SurfaceArea,Particle projected surface area (um^3),particles,31415.93,error,"in_range(as.numeric(SurfaceArea), min = 0.0001, max = 10000)"
 Volume,Particle projected volume,particles,10000,error,"in_range(as.numeric(Volume), min = 0.0001, max = 10^12)"
-Tactile,Particle tactile features,particles,ridgid,error,"grepl(""^Ridgid$|^Rubbery$|^Squishy$"", Tactile, ignore.case = TRUE)"
+Tactile,Particle tactile features,particles,ridgid,error," Tactile %in% c(""Ridgid"", ""Rubbery"", ""Squishy"")"
 sample_SampleID_fk,"Unique ID for Sample, values must be unique and non missing in this table",samples,23jreh334,error,is_foreign_key(SampleID)
 sample_SampleID,"Unique ID for Sample, values must be unique and non missing in this table",samples,23jreh334,error,is_unique(SampleID)
 sample_SampleID_blank,"Unique ID for Sample, values must be unique and non missing in this table",samples,23jreh334,error,!is.na(SampleID)
