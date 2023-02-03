@@ -34,6 +34,7 @@ create_valid_excel <- function(data_validation,
         rule_variables <- variables(rules_all)
         sheet_name <- data_validation$data_names[sheet_num]
         addWorksheet(wb, sheet_name)
+        freezePane(wb, sheet_name, firstRow = TRUE) ## shortcut to freeze first row for every table.
         for(col_name in rule_variables){#Setup the column names with empty rows. 
             df <- as_tibble(rep("", row_num))
             names(df) <- col_name
@@ -63,7 +64,6 @@ create_valid_excel <- function(data_validation,
                                type = "list", 
                                value = paste0("Lookup!$", lookup_col, "$2:$", lookup_col, "$", length(values) +1))  
                 lookup_column_index = lookup_column_index + 1
-                
             }
             if(any(grepl("is_unique", expression))){
                 conditionalFormatting(wb, 
@@ -73,7 +73,7 @@ create_valid_excel <- function(data_validation,
                                       type = "duplicates", 
                                       style = negStyle)
             }
-            if(any(grepl("!is.na", expression))){ #Not working yet
+            if(any(grepl("!is.na", expression))){ #Not working yet.
                 dataValidation(wb, 
                                       sheet_name, 
                                       cols = column_index, 
@@ -92,7 +92,7 @@ create_valid_excel <- function(data_validation,
                                operator = "between",
                                value = c(as.numeric(as.character(expression)[grepl("^[0-9]+$", as.character(expression))][1]), as.numeric(as.character(expression)[grepl("^[0-9]+$", as.character(expression))][2])))
             }
-            if(any(grepl("gsub", expression))){
+            if(any(grepl("gsub", expression))){ #Also not working yet. 
                 good_conditions <- unlist(strsplit(gsub('(\\[[0-9]*-[0-9]*\\])|(\\])|(\\[)|(\\\\)|(\\^)|(\\$)|(\\))|(\\()', "",  as.character(expression)[2]), split = "\\|"))
                 for(contain_condition in good_conditions){
                     conditionalFormatting(wb, 
@@ -104,6 +104,13 @@ create_valid_excel <- function(data_validation,
                                           style = negStyle)
                 }
             }
+            if(any(grepl("(%vin%)|(%in%)", expression))){
+                protectWorksheet(
+                    wb,
+                    "Lookup",
+                    protect = TRUE) #Protects the lookup table without a password just to prevent accidents.
+            }
+            #Need better way to deal with foreign keys, currently not working well. 
             
         }
     }
