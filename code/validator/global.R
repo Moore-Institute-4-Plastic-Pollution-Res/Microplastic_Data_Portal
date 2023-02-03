@@ -15,6 +15,7 @@ library(sentimentr)
 library(listviewer)
 library(RCurl)
 library(readxl)
+library(stringr)
 
 #Note for logic using outside functions in the calls. 
 #https://github.com/data-cleaning/validate/issues/45

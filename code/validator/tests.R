@@ -34,7 +34,7 @@ create_valid_excel <- function(data_validation,
         rule_variables <- variables(rules_all)
         sheet_name <- data_validation$data_names[sheet_num]
         addWorksheet(wb, sheet_name)
-        for(col_name in rule_variables){
+        for(col_name in rule_variables){#Setup the column names with empty rows. 
             df <- as_tibble(rep("", row_num))
             names(df) <- col_name
             column_index_startup <- which(rule_variables == col_name)
@@ -44,14 +44,14 @@ create_valid_excel <- function(data_validation,
             rule_test <- rules_all[[col_num]]
             expression <- rule_test@expr
             column_index <- which(rule_variables == variables(rule_test))
-            if(any(grepl("%vin%", expression))){
+            if(any(grepl("(%vin%)|(%in%)", expression))){
                 if(lookup_column_index == 1){
                     addWorksheet(wb, "Lookup")
                 }
-                values <- unlist(strsplit(gsub('(")|(\\))|(c\\()', "", as.character(expression[3])), ", "))
+                values <- unlist(strsplit(gsub('(")|(\\))|(.*c\\()', "", as.character(expression[3])), ", "))
                 lookup_col <- LETTERS[lookup_column_index] 
                 df_lookup <- tibble(values)
-                names(df_lookup) <- paste0(column_name, "_lookup")
+                names(df_lookup) <- paste0(variables(rule_test), "_lookup")
                 writeData(wb, 
                           sheet = "Lookup", 
                           x = df_lookup, 
@@ -73,6 +73,38 @@ create_valid_excel <- function(data_validation,
                                       type = "duplicates", 
                                       style = negStyle)
             }
+            if(any(grepl("!is.na", expression))){ #Not working yet
+                dataValidation(wb, 
+                                      sheet_name, 
+                                      cols = column_index, 
+                                      rows = 2:row_num, 
+                                      type = "textLength", 
+                                      operator = "greaterThanOrEqual",
+                                      value = "1",
+                                      allowBlank = F)
+            }
+            if(any(grepl("in_range(.*)", expression))){
+                dataValidation(wb, 
+                               sheet_name, 
+                               cols = column_index, 
+                               rows = 2:row_num, 
+                               type = "decimal", 
+                               operator = "between",
+                               value = c(as.numeric(as.character(expression)[grepl("^[0-9]+$", as.character(expression))][1]), as.numeric(as.character(expression)[grepl("^[0-9]+$", as.character(expression))][2])))
+            }
+            if(any(grepl("gsub", expression))){
+                good_conditions <- unlist(strsplit(gsub('(\\[[0-9]*-[0-9]*\\])|(\\])|(\\[)|(\\\\)|(\\^)|(\\$)|(\\))|(\\()', "",  as.character(expression)[2]), split = "\\|"))
+                for(contain_condition in good_conditions){
+                    conditionalFormatting(wb, 
+                                          sheet_name, 
+                                          cols = column_index, 
+                                          rows = 2:row_num, 
+                                          type = "notcontains",
+                                          rule = contain_condition,
+                                          style = negStyle)
+                }
+            }
+            
         }
     }
     saveWorkbook(wb, file_name, TRUE)
@@ -80,12 +112,7 @@ create_valid_excel <- function(data_validation,
 }
 
 wb <- create_valid_excel(data_validation = data_validation)
-conditionalFormatting(wb, 
-                      "methodology", 
-                      cols = "is.na(MatIDSoftware)", 
-                      rows = 2:1000, 
-                      type = "duplicates", 
-                      style = negStyle)
+
 openXL(wb)
 
 
