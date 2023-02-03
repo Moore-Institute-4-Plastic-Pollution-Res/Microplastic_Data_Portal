@@ -2,6 +2,7 @@
 dashboardPage(
     fullscreen = T,
     help = T,
+    #options = list(skin = "blue"),
     dashboardHeader(title = "Data Validator"),
     dashboardSidebar(
         sidebarUserPanel(
