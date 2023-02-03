@@ -30,17 +30,20 @@ create_valid_excel <- function(data_validation,
     lookup_column_index <- 1
     wb <- createWorkbook()
     for(sheet_num in 1:length(data_validation$data_names)){ #Sheet level for loop
-        column_index <- 1
         rules_all <- data_validation$rules[[sheet_num]]
+        rule_variables <- variables(rules_all)
         sheet_name <- data_validation$data_names[sheet_num]
         addWorksheet(wb, sheet_name)
+        for(col_name in rule_variables){
+            df <- as_tibble(rep("", row_num))
+            names(df) <- col_name
+            column_index_startup <- which(rule_variables == col_name)
+            writeData(wb, sheet = sheet_name, x = df, startCol = column_index_startup)
+        }
         for(col_num in 1:length(rules_all)){
             rule_test <- rules_all[[col_num]]
             expression <- rule_test@expr
-            column_name <- as.character(expression[2]) #Name of the column but Needs to be set to 2 to grab the data
-            df <- as_tibble(rep("", row_num))
-            names(df) <- column_name
-            writeData(wb, sheet = sheet_name, x = df, startCol = column_index)
+            column_index <- which(rule_variables == variables(rule_test))
             if(any(grepl("%vin%", expression))){
                 if(lookup_column_index == 1){
                     addWorksheet(wb, "Lookup")
@@ -70,7 +73,6 @@ create_valid_excel <- function(data_validation,
                                       type = "duplicates", 
                                       style = negStyle)
             }
-            column_index = column_index + 1
         }
     }
     saveWorkbook(wb, file_name, TRUE)
@@ -78,16 +80,25 @@ create_valid_excel <- function(data_validation,
 }
 
 wb <- create_valid_excel(data_validation = data_validation)
+conditionalFormatting(wb, 
+                      "methodology", 
+                      cols = "is.na(MatIDSoftware)", 
+                      rows = 2:1000, 
+                      type = "duplicates", 
+                      style = negStyle)
 openXL(wb)
 
+
+rules_all <- data_validation$rules[[1]]
+sheet_name <- data_validation$data_names[sheet_num]
+rule_test <- rules_all[[col_num]]
+expression <- rule_test@expr
 
 for(value in values){
     conditionalFormatting(wb, sheet_name, cols = col_num, rows = 1:1000, type = "contains", rule = value, style = posStyle)
 }
 
-create_conditional_excel <- function(rules){
-    if(grepl("%vin%", rule_test@expr))
-}
+
 
 variables(rule_test)
 data_validation$results[[1]]
