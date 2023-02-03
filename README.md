@@ -20,6 +20,7 @@ Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/).
 Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
 ### Meeting Videos
+- [Check in: February 3, 2023](https://drive.google.com/file/d/14ofOmJ59_SPuySvWltITe5iy-0mb0x7V/view?usp=sharing)
 - [Check in: January 20, 2023](https://drive.google.com/file/d/135xeiMmsis7Ya0WY5j44zpQNqMicUqiW/view?usp=sharing)
 - [3 Month Update: January 6, 2023](https://drive.google.com/file/d/15o4KYY_YAMX31JN5AKH9afxHSOFH9N9D/view?usp=sharing)
 - [Upcoming conference practice and app updates: October 28, 2022](https://drive.google.com/file/d/1Go_Vwl1bhNezcOBgfivsruRF1YT8VYjf/view?usp=sharing)
