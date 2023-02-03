@@ -122,10 +122,8 @@ dashboardPage(
                     column(1,
                            uiOutput(outputId = "rules_upload")
                     ),
-                    column(1
-                           #     type = "info",
-                           #     size = "medium", rounded = TRUE
-                           # )
+                    column(1, 
+                           downloadButton("download_rules_excel", "Download Excel Template", style = "background-color: #2a9fd6;")
                     ),
                     column(7, uiOutput("certificate"), uiOutput("alert"))),
                 #fluidRow(

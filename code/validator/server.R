@@ -207,6 +207,11 @@ function(input, output, session) {
                                             file, row.names = F)}
     )
     
+    output$download_rules_excel <- downloadHandler(
+        filename = function() {"rules.xlsx"},
+        content = function(file) {saveWorkbook(create_valid_excel(file_rules = input$file_rules), file, TRUE)}
+    )
+    
     output$download_rules <- downloadHandler( 
         filename = function() {"rules.csv"},
         content = function(file) {write.csv(rules_example, file, row.names = F)}
