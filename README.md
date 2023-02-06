@@ -32,8 +32,149 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 ## Installation
 ### Data
 Download the .xlsx files we have created to begin developing the database schema and visualizations in [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data). 
-#### Proposed Schema for Database
 
+#### Definitions for terms in manuscript database [LINK](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/data/README.md)
+
+### Software
+Coming Soon
+```bash
+  ....
+```
+
+## Roadmap
+```mermaid
+gantt
+    title Project Timeline
+    dateFormat  YYYY-MM-DD
+    section Innovation
+    Community Engagement           :2022-06-01, 2022-08-31
+    Minimum Viable Product     :2022-08-01 , 2023-01-31
+    Beta Testing     :2023-01-01 , 2023-06-30
+    Data Portal Finalization and Publishing     :2023-06-01 , 2023-12-31
+    section Research
+    Policy Research Scoping      :2022-06-01  , 2022-08-31
+    Data Collection      : 2022-06-01  , 2024-06-01
+    Software Manuscript      : 2023-06-01  , 2024-06-01
+    Policy Manuscript      : 2023-06-01  , 2024-06-01
+```
+
+### Community Engagement (June 1, 2022 - August 31, 2022)
+* [ ] Engage with open source community
+  * [x] Water Data Challenge, [Started Meetup](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#meeting-videos)
+  * [ ] Presentation at Code for America Groups (waiting until after beta version)
+* [x] Stakeholder Meetings
+  * [x] Presentation to Trash Monitoring Workgroup
+  * [x] Presentation at SoCal SETAC
+  * [x] Presentation at SoCal Academy of Sciences
+  * [x] Presentation to Water Data Science Symposium
+  * [x] Meetings with drinking water regulators
+  * [x] Meetings with drinking water facilities
+  * [x] Meetings with environmental justice organizations
+  * [x] Meetings with open source policy creators
+  * [x] Meetings with government coders and database managers
+
+### Policy Research Scoping (June 1, 2022 - August 31, 2022)
+* [x] Meetings with drinking water regulators
+* [x] Meetings with drinking water facilities
+* [x] Meetings with environmental justice organizations
+* [x] Meetings with open source policy creators
+* [x] Meetings with government coders and database managers
+
+### Data Collection (June 1, 2022 - June 1, 2024)
+* [x] [Github Data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal)
+* [x] Presentation and Workshop Notes
+* [x] Media Feedback 
+	* [x] Made it into [policy handbook](https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/docs/2022/mp-hndbk.pdf).  
+		* [ ] Searching for related press releases relevant to the data portal. 
+* [x] [Security Reports in Logs](https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates)
+	* [ ] Customize tooling. 
+
+### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
+* [x] [Innitial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
+* [x] Web Application Development
+	* [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
+    		* [x] Standardize data format for uploads. (Leah is helping)
+    		* [x] Standardize data validation rules for upload. (Leah is helping with this)
+    	* [x] Data Visualization analysis download
+    		* [x] Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R) 
+ 		* [x] Image Explorer
+			* [x] Website online [microplastics image explorer](https://wincowger.shinyapps.io/microplastic_image_explorer/)
+			* [x] Coauthor collaboration started with ~10 other researchers.
+			* [x] Publication (Laura working on)
+	* [x] Database
+		* [x] API keys, got keys to [this](https://data.ca.gov/)
+		* [x] Schema definitions
+			* [x] Definition created for manuscript data
+   		* [x] Integrate back end for upload
+			* [x] Connection made
+			* [x] Add data from manuscripts to data.ca.gov. 
+			* [x] Add api keys so only certain users with permissions can upload. 
+		* [x] Integrate back end for download
+			* [x] Standardize data from manuscripts. 
+		* [x] Taxonomy
+			* [x] Hannah made rough draft of the taxonomies. 
+			* [x] Integrate into data base queries
+			* [x] Integrate into wikidata. 
+### Policy  (August 1, 2022 - June 31, 2023)
+* [ ] Collaborations and knowlege sharing with stakeholders in long term future of data portal.  
+	* [x] Submitted to Water Data Challenge. 
+	* [x] Created press release for policy post. 
+* [ ] [Waterboard Github](https://github.com/CAWaterBoardDataCenter) Collaboration FAQ
+* [ ] [California Open Data Portal](https://data.ca.gov/) Integration Notes and Framework
+* [ ] Open Source Portal Policy Brief [similar too](https://handbook.data.ca.gov/) and [based on](https://codecagov-playbook.readthedocs.io/en/latest/policy/) 
+* [ ] Get Waterboard Repo on code.ca.gov
+
+### Beta Testing of Portal (January 1, 2023 - June 30, 2023)
+* [ ] Meetings with Trash Monitoring Workgroup
+* [ ] Meetings with Water Data Science Symposium
+* [ ] Meetings with drinking water regulators
+* [ ] Meetings with drinking water facilities
+* [ ] Meetings with environmental justice organizations
+* [ ] Meetings with open source policy creators
+* [ ] Meetings with government coders and database managers
+
+### Data Portal Finalization and Publishing (June 1, 2023 - December 31, 2023)
+* [ ] Link all tools together in one application? (not sure if necessary, likely different endpoints for different services, maybe one for data analysis / download and one for upload)
+* [ ] Data Vis App
+	* [ ] Turn into a web application for data vis from ckan. 
+	* [ ] Pull down and visualize data from manuscripts.  
+	* [ ] Download formatting setup from CKAN
+* [ ] Integration of beta testers feedback
+* [ ] Handoff project to Waterboard staff for long term management
+* [ ] [Wikidata integration](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#knowledge-graph-representation)
+
+
+### Software Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
+* [ ] Identify coauthors on manuscript
+* [ ] Outline Manuscript and Share with Coauthors
+* [ ] First Draft of Manuscript and Share with Coauthors
+* [ ] Final Draft of Manuscript and share with Coauthors
+
+### Policy Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
+* [ ] Identify coauthors on manuscript
+* [ ] Outline Manuscript and Share with Coauthors
+* [ ] First Draft of Manuscript and Share with Coauthors
+* [ ] Final Draft of Manuscript and share with Coauthors
+
+## Helpful Resources
+* [California Microplastics Policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
+* [California Open Data Portal Sharing](https://data.ca.gov/pages/open-data-publisher-guide-contents)
+* [Califonia Open Source Policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/)
+* [California Open Data Policy](https://data.ca.gov/pages/california-open-data-policy)
+* [Success Story Cal DMV](https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0)
+* [California Open Source Code](code.ca.gov)
+* [Overview of Government Open Source Software](https://www.newamerica.org/digital-impact-governance-initiative/reports/building-and-reusing-open-source-tools-government/section-one-an-overview-of-open-source/)
+* [Government on Github](https://government.github.com/)
+* [Open Source Institute](https://opensi.net/)
+* [Best Practices for Government Open Source](https://playbook.cio.gov/)
+* [CKAN Data Portal Framework](https://github.com/ckan/ckan)
+* [HUBKIT Data Portal Framework](https://github.com/internetofwater/HubKit)
+
+# Extra Resources
+### Knowledge graph representation
+![image](https://user-images.githubusercontent.com/26821843/180331100-1c067439-d5ca-41c4-a2fb-2fa539e1e261.png)
+
+#### Proposed Schema for Database
 ```mermaid
 erDiagram
     METHODOLOGY ||--|| SAMPLES : RELATES
@@ -109,22 +250,8 @@ erDiagram
         string Morphology PK "Particle morphology"
         string Parent "Parent Category of the morphology"
     }   
-    
-  
-    
 ```
 
-#### Definitions for terms in manuscript database [LINK](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/data/README.md)
-
-### Knowledge graph representation
-![image](https://user-images.githubusercontent.com/26821843/180331100-1c067439-d5ca-41c4-a2fb-2fa539e1e261.png)
-
-
-### Software
-Coming Soon
-```bash
-  ....
-```
 #### Proposed Framework for Software Development
 ```mermaid
 graph LR
@@ -189,131 +316,3 @@ graph LR
     - https://github.com/cagov
     - https://github.com/CAWaterBoardDataCenter
     - https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0
-
-
-## Roadmap
-```mermaid
-gantt
-    title Project Timeline
-    dateFormat  YYYY-MM-DD
-    section Innovation
-    Community Engagement           :2022-06-01, 2022-08-31
-    Minimum Viable Product     :2022-08-01 , 2023-01-31
-    Beta Testing     :2023-01-01 , 2023-06-30
-    Data Portal Finalization and Publishing     :2023-06-01 , 2023-12-31
-    section Research
-    Policy Research Scoping      :2022-06-01  , 2022-08-31
-    Data Collection      : 2022-06-01  , 2024-06-01
-    Software Manuscript      : 2023-06-01  , 2024-06-01
-    Policy Manuscript      : 2023-06-01  , 2024-06-01
-```
-
-### Community Engagement (June 1, 2022 - August 31, 2022)
-* [ ] Engage with open source community
-  * [x] Water Data Challenge, [Started Meetup](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#meeting-videos)
-  * [ ] Presentation at Code for America Groups (waiting until after beta version)
-* [x] Stakeholder Meetings
-  * [x] Presentation to Trash Monitoring Workgroup
-  * [x] Presentation at SoCal SETAC
-  * [x] Presentation at SoCal Academy of Sciences
-  * [x] Presentation to Water Data Science Symposium
-  * [x] Meetings with drinking water regulators
-  * [x] Meetings with drinking water facilities
-  * [x] Meetings with environmental justice organizations
-  * [x] Meetings with open source policy creators
-  * [x] Meetings with government coders and database managers
-
-### Policy Research Scoping (June 1, 2022 - August 31, 2022)
-* [x] Meetings with drinking water regulators
-* [x] Meetings with drinking water facilities
-* [x] Meetings with environmental justice organizations
-* [x] Meetings with open source policy creators
-* [x] Meetings with government coders and database managers
-
-### Data Collection (June 1, 2022 - June 1, 2024)
-* [x] [Github Data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal)
-* [x] Presentation and Workshop Notes
-* [x] Media Feedback 
-	* [x] Made it into [policy handbook](https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/docs/2022/mp-hndbk.pdf).  
-		* [ ] Searching for related press releases relevant to the data portal. 
-* [x] [Security Reports in Logs](https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates)
-	* [ ] Customize tooling. 
-
-### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
-* [x] [Innitial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
-* [ ] Web Application Development
-	* [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
-    		* [ ] Standardize data format for uploads. (Leah is helping)
-    		* [ ] Standardize data validation rules for upload. (Leah is helping with this)
-    	* [x] Data Visualization analysis download
-    		* [x] Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R) 
-    			* [ ] Turn into a web application for data vis from ckan. 
- 			* [ ] Pull down and visualize data from manuscripts.  
- 		* [ ] Image Explorer
-			* [x] Website online [microplastics image explorer](https://wincowger.shinyapps.io/microplastic_image_explorer/)
-			* [x] Coauthor collaboration started with ~10 other researchers.
-			* [ ] Publication (Laura working on)
-		* [ ] Download formatting setup from CKAN
-			* [ ] Public CKAN interface. 
-	* [ ] Database
-		* [x] API keys, got keys to [this](https://data.ca.gov/)
-		* [ ] Schema definitions
-			* [x] Definition created for manuscript data
-   		* [ ] Integrate back end for upload
-			* [x] Connection made
-			* [ ] Add data from manuscripts to data.ca.gov. 
-			* [ ] Add api keys so only certain users with permissions can upload. 
-		* [ ] Integrate back end for download
-			* [ ] Standardize data from manuscripts. 
-		* [ ] Taxonomy
-			* [x] Hannah made rough draft of the taxonomies. 
-			* [ ] Integrate into data base queries
-			* [ ] Integrate into wikidata. 
-    * [ ] Link all tools together in one application? (not sure if necessary, likely different endpoints for different services, maybe one for data analysis / download and one for upload)
-
-### Policy  (August 1, 2022 - June 31, 2023)
-* [ ] [Waterboard Github](https://github.com/CAWaterBoardDataCenter) Collaboration FAQ
-* [ ] [California Open Data Portal](https://data.ca.gov/) Integration Notes and Framework
-* [ ] Open Source Portal Policy Brief [similar too](https://handbook.data.ca.gov/) and [based on](https://codecagov-playbook.readthedocs.io/en/latest/policy/) 
-* [ ] Get Waterboard Repo on code.ca.gov
-
-### Beta Testing of Portal (January 1, 2023 - June 30, 2023)
-* [ ] Meetings with Trash Monitoring Workgroup
-* [ ] Meetings with Water Data Science Symposium
-* [ ] Meetings with drinking water regulators
-* [ ] Meetings with drinking water facilities
-* [ ] Meetings with environmental justice organizations
-* [ ] Meetings with open source policy creators
-* [ ] Meetings with government coders and database managers
-
-### Data Portal Finalization and Publishing (June 1, 2023 - December 31, 2023)
-* [ ] Integration of beta testers feedback
-* [ ] Handoff project to Waterboard staff for long term management
-* [ ] [Wikidata integration](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#knowledge-graph-representation)
-
-
-### Software Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
-* [ ] Identify coauthors on manuscript
-* [ ] Outline Manuscript and Share with Coauthors
-* [ ] First Draft of Manuscript and Share with Coauthors
-* [ ] Final Draft of Manuscript and share with Coauthors
-
-### Policy Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
-* [ ] Identify coauthors on manuscript
-* [ ] Outline Manuscript and Share with Coauthors
-* [ ] First Draft of Manuscript and Share with Coauthors
-* [ ] Final Draft of Manuscript and share with Coauthors
-
-## Helpful Resources
-* [California Microplastics Policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
-* [California Open Data Portal Sharing](https://data.ca.gov/pages/open-data-publisher-guide-contents)
-* [Califonia Open Source Policy](https://codecagov-playbook.readthedocs.io/en/latest/policy/)
-* [California Open Data Policy](https://data.ca.gov/pages/california-open-data-policy)
-* [Success Story Cal DMV](https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0)
-* [California Open Source Code](code.ca.gov)
-* [Overview of Government Open Source Software](https://www.newamerica.org/digital-impact-governance-initiative/reports/building-and-reusing-open-source-tools-government/section-one-an-overview-of-open-source/)
-* [Government on Github](https://government.github.com/)
-* [Open Source Institute](https://opensi.net/)
-* [Best Practices for Government Open Source](https://playbook.cio.gov/)
-* [CKAN Data Portal Framework](https://github.com/ckan/ckan)
-* [HUBKIT Data Portal Framework](https://github.com/internetofwater/HubKit)
