@@ -28,7 +28,7 @@ if(droptoken) library(aws.s3)
 #https://github.com/data-cleaning/validate/issues/45
 
 if(db) {
-    database <- mongo(url = readLines(".db_url"))
+    database <- mongo(url = readLines("secrets/.db_url"))
 } 
 
 certificate_df <- function(x){
@@ -44,7 +44,7 @@ certificate_df <- function(x){
 }
 
 if(droptoken) {
-    creds <- read.csv("s3_cred.csv")
+    creds <- read.csv("secrets/s3_cred.csv")
     
     Sys.setenv(
         "AWS_ACCESS_KEY_ID" = creds$Access.key.ID,
@@ -333,6 +333,7 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
 
 
 remote_share <- function(data_formatted, verified, api, rules, results){
+    
     if(any(results$status == "error")){
         return(list(
             message = data.table(
@@ -340,7 +341,8 @@ remote_share <- function(data_formatted, verified, api, rules, results){
             text = "There are errors in the dataset that persist. Until all errors are remedied, the data cannot be uploaded to the remote repository.",
             type = "error"), status = "error"))
     }
-    if(!any(digest(as.data.frame(rules) %>% select(-created)) %in% api$VALID_RULES)){
+    
+    if(!any(digest(as.data.frame(rules)) %in% api$VALID_RULES)){
         return(list(
             message = data.table(
             title = "Rules file is not valid",
@@ -357,7 +359,7 @@ remote_share <- function(data_formatted, verified, api, rules, results){
     }
     
     api_info <- api %>%
-        dplyr::filter(VALID_KEY == verified & VALID_RULES == digest(as.data.frame(rules) %>% select(-created)))
+        dplyr::filter(VALID_KEY == verified & VALID_RULES == digest(as.data.frame(rules)))
     
     if(nrow(api_info) != 1){
         return(list(
@@ -368,19 +370,22 @@ remote_share <- function(data_formatted, verified, api, rules, results){
     }
     
     ckanr_setup(url = api_info$URL, key = api_info$KEY)
-    hashed_data <- digest(data_formatted)
-    #hashed_rules <- digest(rules)
-    #package_version <- packageVersion("validate")
-    file <- tempfile(pattern = "data", fileext = ".csv")
-    write.csv(data_formatted, file, row.names = F)
-    creation <- resource_create(package_id = api_info$PACKAGE,
-                                        description = "validated raw data upload to microplastic data portal",
-                                        name = paste0("data_", hashed_data),
-                                        upload = file)
-    return(list(creation = creation, 
-                status = "success", 
+    
+    for(dataset in 1:length(data_formatted)){
+        hashed_data <- digest(data_formatted[dataset])
+        #hashed_rules <- digest(rules)
+        #package_version <- packageVersion("validate")
+        file <- tempfile(pattern = "data", fileext = ".csv")
+        write.csv(data_formatted[dataset], file, row.names = F)
+        resource_create(package_id = api_info$PACKAGE,
+                                    description = "validated raw data upload to microplastic data portal",
+                                    name = paste0("data_", hashed_data),
+                                    upload = file)    
+    }
+    
+    return(list(status = "success", 
                 message = data.table(title = "Data Upload Successful", 
-                                     text = paste0("Data was successfully sent to the state data portal at ", creation$url), 
+                                     text = paste0("Data was successfully sent to the state data portal at ", api_info$URL_TO_SEND), 
                                      type = "success")))
 }
 

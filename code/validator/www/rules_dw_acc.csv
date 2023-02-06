@@ -43,9 +43,9 @@ Length,Particle size longest dimension (um),particles,100,error,"in_range(as.num
 Width,Particle size shortest dimension (um),particles,100,error,"in_range(as.numeric(Width), min = 1, max = 10000)"
 Height,Third particle dimension (um),particles,100,error,"in_range(as.numeric(Height), min = 1, max = 10000)"
 Mass,Particle mass (mg),particles,0.1,error,"in_range(as.numeric(Mass), min =  0.0001, max = 10000)"
-SurfaceArea,Particle projected surface area (um^3),particles,31415.93,error,"in_range(as.numeric(SurfaceArea), min = 0.0001, max = 10000)"
+SurfaceArea,Particle projected surface area (um^3),particles,31415.93,error,"in_range(as.numeric(SurfaceArea), min = 0.0001, max = 1000000)"
 Volume,Particle projected volume,particles,10000,error,"in_range(as.numeric(Volume), min = 0.0001, max = 10^12)"
-Tactile,Particle tactile features,particles,ridgid,error," Tactile %in% c(""Ridgid"", ""Rubbery"", ""Squishy"")"
+Tactile,Particle tactile features,particles,ridgid,error,"Tactile %in% c(""Ridgid"", ""Rubbery"", ""Squishy"")"
 sample_SampleID_fk,"Unique ID for Sample, values must be unique and non missing in this table",samples,23jreh334,error,is_foreign_key(SampleID)
 sample_SampleID,"Unique ID for Sample, values must be unique and non missing in this table",samples,23jreh334,error,is_unique(SampleID)
 sample_SampleID_blank,"Unique ID for Sample, values must be unique and non missing in this table",samples,23jreh334,error,!is.na(SampleID)
@@ -56,6 +56,6 @@ Latitude,Latitude of sample in decimal degrees,samples,33.746974,error,"in_range
 Latitude_blank,Latitude of sample in decimal degrees cannot be blank,samples,33.746974,error,!is.na(Latitude)
 Longitude,Longitude of sample in decimal degrees,samples,-118.115372,error,"in_range(as.numeric(Longitude), min = -180, max =  180)"
 Longitude_blank,Longitude of sample in decimal degrees,samples,-118.115372,error,!is.na(Longitude)
-CollectionDate,Sample Collection Date in Year-Month-Day format,samples,1/30/2023,error,"!is.na(CollectionDate) & !is.na(as.Date(CollectionDate, format = ""%Y-%m-%d""))"
+CollectionDate,Sample Collection Date in Year-Month-Day format,samples,1/30/2023,error,"!is.na(CollectionDate) & !is.na(as.Date(CollectionDate, tryFormats = c(""%Y-%m-%d"", ""%m/%d/%Y"")))"
 SampleVolume,"Volume of sample (L), must be between 1 and 1,000,000",samples,100,error,"in_range(as.numeric(SampleVolume), min = 1, max = 1000000)"
 SampleVolume_blank,"Volume of sample (L), must be between 1 and 1,000,000 and cannot be blank",samples,100,error,!is.na(SampleVolume)

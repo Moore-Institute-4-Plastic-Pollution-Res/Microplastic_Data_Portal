@@ -164,15 +164,17 @@ function(input, output, session) {
         #req("KEY" %in% names(validation()$data_formatted))
         req(vals$key)
         api <- read.csv("secrets/ckan.csv")
-        put_object(
-            file = file.path(as.character(input$file$datapath)),
-            object = paste0(validation()$data_formatted, "_", as.character(input$file$name)),
-            bucket = "validator"
-        )
+        for(file in 1:length(input$file$datapath)){
+            put_object(
+                file = file.path(input$file$datapath[file]),
+                object = paste0(digest(validation()$data_formatted), "_", gsub(".*/", "", as.character(input$file$name[file]))),
+                bucket = "microplasticdataportal"
+            )
+        }
         remote_share(data_formatted = validation()$data_formatted, 
                      verified = vals$key,
                      api = api, 
-                     rules = validation()$rules, 
+                     rules = read.csv(rules()), 
                      results = validation()$results)
     })
     
@@ -257,7 +259,7 @@ function(input, output, session) {
             textInput("secret", "Input Key"),
             span('Inputting a valid key and pressing OK indicates that you want to share the uploaded data to the database. If you do not have a key then contact wincowger@gmail.com for one.'),
             if (failed)
-                div(tags$b("Invalid key please try again or contact Win for help.", style = "color: red;")),
+                div(tags$b("Invalid key-rules pair please try again or contact Win for help.", style = "color: red;")),
             footer = tagList(
                 modalButton("Cancel"),
                 actionButton("ok", "OK")
@@ -274,7 +276,9 @@ function(input, output, session) {
     # message.
     observeEvent(input$ok, {
         # Check that data object exists and is data frame.
-        if (!is.null(input$secret) && input$secret %in% read.csv("secrets/ckan.csv")$VALID_KEY && input$ok < 4) {
+        test_valid <- read.csv("secrets/ckan.csv") %>%
+            filter(VALID_KEY == input$secret & VALID_RULES == digest(read.csv(rules())))
+        if (!is.null(input$secret) && nrow(test_valid >= 1) && input$ok < 4){
             vals$key <- input$secret
             removeModal()
             show_alert(
@@ -288,29 +292,46 @@ function(input, output, session) {
     
     output$verified <- renderUI({
         req(isTRUE(!any(validation()$issues)))
-        fluidRow(
-            column(6, 
-                actionButton(
-                    inputId = "login",
-                    label = "Login",
-                    #icon = "icon-signout",
-                    width = NULL,
-                    status = NULL,
-                    gradient = FALSE,
-                    outline = FALSE,
-                    size = NULL,
-                    flat = FALSE
-                )
-            ),
-            column(6,
-                   if(vals$key){
+        
+        if(!is.null(vals$key)){
+            fluidRow(
+                column(6, 
+                       actionButton(
+                           inputId = "login",
+                           label = "Login",
+                           #icon = "icon-signout",
+                           width = NULL,
+                           status = NULL,
+                           gradient = FALSE,
+                           outline = FALSE,
+                           size = NULL,
+                           flat = FALSE
+                       )
+                ),
+                column(6, 
                        icon("check")
-                   }
-                   else{
-                       NULL
-                   }
+                       )
             )
-        )
+                    }
+                    else{
+                        fluidRow(
+                            column(6, 
+                                   actionButton(
+                                       inputId = "login",
+                                       label = "Login",
+                                       #icon = "icon-signout",
+                                       width = NULL,
+                                       status = NULL,
+                                       gradient = FALSE,
+                                       outline = FALSE,
+                                       size = NULL,
+                                       flat = FALSE
+                                   )
+                            )
+                        )
+                    }
+        
+        
     })
     
     #Diagnosis ----
