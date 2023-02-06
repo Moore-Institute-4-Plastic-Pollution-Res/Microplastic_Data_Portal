@@ -1,23 +1,26 @@
 function(input, output, session) {
 
-    validation <- reactive({
-        req(input$file)
+    rules <- reactive({
         #req(input$file_rules | input$rules_selection == "Microplastic Acc. DW.")
         if(input$rules_selection == "Microplastic Acc. DW."){
             file_rules = "www/rules_dw_acc.csv"
         }
-        if(input$rules_selection == "Water PACT"){
+        else if(input$rules_selection == "Water PACT"){
             file_rules = "www/rules_waterpact.csv"
         }
-        if(input$rules_selection == "Manual"){
+        else if(input$rules_selection == "Manual"){
             file_rules = input$file_rules$datapath
         }
-        if(isTruthy(file_rules)){
-            validate_data(files_data = input$file$datapath, data_names = input$file$name, file_rules = file_rules)
-        }
         else{
-            NULL
+            file_rule = NULL
         }
+        file_rules
+    })
+    
+    validation <- reactive({
+        req(input$file)
+        req(rules())
+        validate_data(files_data = input$file$datapath, data_names = input$file$name, file_rules = rules())
     })
     
     output$rules_upload <- renderUI({
@@ -209,7 +212,7 @@ function(input, output, session) {
     
     output$download_rules_excel <- downloadHandler(
         filename = function() {"rules.xlsx"},
-        content = function(file) {saveWorkbook(create_valid_excel(file_rules = input$file_rules), file, TRUE)}
+        content = function(file) {saveWorkbook(create_valid_excel(file_rules = rules()), file, TRUE)}
     )
     
     output$download_rules <- downloadHandler( 

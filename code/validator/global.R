@@ -16,6 +16,7 @@ library(listviewer)
 library(RCurl)
 library(readxl)
 library(stringr)
+library(openxlsx)
 
 #Note for logic using outside functions in the calls. 
 #https://github.com/data-cleaning/validate/issues/45
