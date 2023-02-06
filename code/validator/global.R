@@ -35,7 +35,7 @@ certificate_df <- function(x){
     df <-  data.frame(time = Sys.time(), 
                       data = digest(x$data_formatted), 
                       rules = digest(x$rules), 
-                      package_version = packageVersion("validate"), 
+                      package_version = paste(unlist(packageVersion("validate")), collapse = ".", sep = ""), 
                       web_hash = digest(paste(sessionInfo(), 
                                               Sys.time(), 
                                               Sys.info())))
