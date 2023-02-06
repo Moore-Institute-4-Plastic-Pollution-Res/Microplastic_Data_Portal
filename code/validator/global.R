@@ -66,7 +66,6 @@ success_example <- read.csv("www/data_success.csv")
 
 # Functions ----
 
-
 validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     
     #Accepts three fields, files data is the data set we are validating. data_names is optional and can be used to specify the names of the datasets. file_rules is the rules file. 
