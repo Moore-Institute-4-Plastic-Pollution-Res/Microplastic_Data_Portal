@@ -370,16 +370,22 @@ remote_share <- function(data_formatted, verified, api, rules, results){
     }
     
     ckanr_setup(url = api_info$URL, key = api_info$KEY)
+    hashed_data <- digest(data_formatted)
     
     for(dataset in 1:length(data_formatted)){
-        hashed_data <- digest(data_formatted[dataset])
+        data_name <- names(data_formatted[dataset])
         #hashed_rules <- digest(rules)
         #package_version <- packageVersion("validate")
         file <- tempfile(pattern = "data", fileext = ".csv")
         write.csv(data_formatted[dataset], file, row.names = F)
+        put_object(
+                file = file,
+                object = paste0(hashed_data, "_", data_name, ".csv"),
+                bucket = "microplasticdataportal"
+            )
         resource_create(package_id = api_info$PACKAGE,
                                     description = "validated raw data upload to microplastic data portal",
-                                    name = paste0("data_", hashed_data),
+                                    name = paste0(hashed_data, "_", data_name),
                                     upload = file)    
     }
     

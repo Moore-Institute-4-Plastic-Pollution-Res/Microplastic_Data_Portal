@@ -164,13 +164,6 @@ function(input, output, session) {
         #req("KEY" %in% names(validation()$data_formatted))
         req(vals$key)
         api <- read.csv("secrets/ckan.csv")
-        for(file in 1:length(input$file$datapath)){
-            put_object(
-                file = file.path(input$file$datapath[file]),
-                object = paste0(digest(validation()$data_formatted), "_", gsub(".*/", "", as.character(input$file$name[file]))),
-                bucket = "microplasticdataportal"
-            )
-        }
         remote_share(data_formatted = validation()$data_formatted, 
                      verified = vals$key,
                      api = api, 
