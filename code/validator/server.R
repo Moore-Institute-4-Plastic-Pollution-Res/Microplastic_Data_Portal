@@ -253,7 +253,7 @@ function(input, output, session) {
     dataModal <- function(failed = FALSE) {
         modalDialog(
             textInput("secret", "Input Key"),
-            span('If you do not have a key then contact wincowger@gmail.com for one.'),
+            span('Inputting a valid key and pressing OK indicates that you want to share the uploaded data to the database. If you do not have a key then contact wincowger@gmail.com for one.'),
             if (failed)
                 div(tags$b("Invalid key please try again or contact Win for help.", style = "color: red;")),
             footer = tagList(
@@ -285,8 +285,30 @@ function(input, output, session) {
     })
     
     output$verified <- renderUI({
-        req(vals$key)
-        icon("check")
+        req(isTRUE(!any(validation()$issues)))
+        fluidRow(
+            column(6, 
+                actionButton(
+                    inputId = "login",
+                    label = "Login",
+                    #icon = "icon-signout",
+                    width = NULL,
+                    status = NULL,
+                    gradient = FALSE,
+                    outline = FALSE,
+                    size = NULL,
+                    flat = FALSE
+                )
+            ),
+            column(6,
+                   if(vals$key){
+                       icon("check")
+                   }
+                   else{
+                       NULL
+                   }
+            )
+        )
     })
     
     #Diagnosis ----

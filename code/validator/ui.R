@@ -28,8 +28,6 @@ dashboardPage(
                 icon = icon("question")
             )
         )
-
-
     ),
     dashboardBody(
         shinyjs::useShinyjs(),
@@ -101,12 +99,6 @@ dashboardPage(
                 tabName = "item2",
                 fluidRow(
                     column(2,
-                         selectInput(inputId = "rules_selection",
-                                     label = "Rules Options",
-                                     choices = c("Microplastic Acc. DW.", "Water PACT", "Manual")
-                                    )
-                    ),
-                    column(1,
                            popover(
                                fileInput("file", NULL,
                                          placeholder = ".csv",
@@ -119,11 +111,14 @@ dashboardPage(
                                content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file."),
                            #      size = "medium", rounded = TRUE
                     ),
+                    column(2,
+                           selectInput(inputId = "rules_selection",
+                                       label = downloadButton("download_rules_excel", "Rules Template", style = "background-color: #28a745; padding-top: 1px;"),
+                                       choices = c("Microplastic Acc. DW.", "Water PACT", "Manual")
+                           )
+                    ),
                     column(1,
                            uiOutput(outputId = "rules_upload")
-                    ),
-                    column(1, 
-                           downloadButton("download_rules_excel", "Download Excel Template", style = "background-color: #2a9fd6;")
                     ),
                     column(7, uiOutput("certificate"), uiOutput("alert"))),
                 #fluidRow(
@@ -172,23 +167,7 @@ dashboardPage(
     footer = dashboardFooter(left = fluidRow(column(1,a(href = "https://twitter.com/Win_OpenData", icon('twitter'))),
                                              column(1,a(href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator", icon('github'))),
                                              column(1,a(href = "https://creativecommons.org/licenses/by/4.0/", img(src= "CC.png", width= 18, height= 18)))),
-                            right = fluidRow(
-                                column(6, actionButton(
-                                inputId = "login",
-                                label = "Login",
-                                #icon = "icon-signout",
-                                width = NULL,
-                                status = NULL,
-                                gradient = FALSE,
-                                outline = FALSE,
-                                size = NULL,
-                                flat = FALSE
-                                        )
-                                    ),
-                            column(6,
-                                   uiOutput("verified")
-                                   )
-                            )
+                            right = uiOutput("verified")
     )
 
 
