@@ -313,9 +313,6 @@ function(input, output, session) {
         )
     })
     
-    #Logging
-
-    
     #Diagnosis ----
     output$validation_out <- renderJsonedit({
         jsonedit(validation())
