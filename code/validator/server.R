@@ -165,8 +165,8 @@ function(input, output, session) {
         req(vals$key)
         api <- read.csv("secrets/ckan.csv")
         put_object(
-            file = file.path(as.character(input$file1$datapath)),
-            object = paste0("users/", "/", session_id, "/", digest(rout), "/", gsub(".*/", "", as.character(file$name))),
+            file = file.path(as.character(input$file$datapath)),
+            object = paste0(validation()$data_formatted, "_", as.character(input$file$name)),
             bucket = "validator"
         )
         remote_share(data_formatted = validation()$data_formatted, 

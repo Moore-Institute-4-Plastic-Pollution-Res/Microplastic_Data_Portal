@@ -1,3 +1,7 @@
+#Data checks ----
+droptoken <- file.exists("secrets/s3_cred.csv") #file.exists("data/droptoken.rds") #remove for prototyping with maps
+db <- file.exists("secrets/.db_url") #reminder, this will break if you login to a new wifi network even with the token.
+
 # Libraries ----
 library(shiny)
 library(dplyr)
@@ -23,9 +27,6 @@ if(droptoken) library(aws.s3)
 #Note for logic using outside functions in the calls. 
 #https://github.com/data-cleaning/validate/issues/45
 
-droptoken <- file.exists("s3_cred.csv") #file.exists("data/droptoken.rds") #remove for prototyping with maps
-db <- file.exists(".db_url") #reminder, this will break if you login to a new wifi network even with the token.
-
 if(db) {
     database <- mongo(url = readLines(".db_url"))
 } 
@@ -40,6 +41,16 @@ certificate_df <- function(x){
                                               Sys.info())))
     database$insert(df)
     df
+}
+
+if(droptoken) {
+    creds <- read.csv("s3_cred.csv")
+    
+    Sys.setenv(
+        "AWS_ACCESS_KEY_ID" = creds$Access.key.ID,
+        "AWS_SECRET_ACCESS_KEY" = creds$Secret.access.key,
+        "AWS_DEFAULT_REGION" = "us-east-2"
+    )
 }
 
 # Options ----
