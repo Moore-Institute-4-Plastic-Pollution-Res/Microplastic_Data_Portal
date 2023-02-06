@@ -164,12 +164,18 @@ function(input, output, session) {
         #req("KEY" %in% names(validation()$data_formatted))
         req(vals$key)
         api <- read.csv("secrets/ckan.csv")
+        put_object(
+            file = file.path(as.character(input$file1$datapath)),
+            object = paste0("users/", "/", session_id, "/", digest(rout), "/", gsub(".*/", "", as.character(file$name))),
+            bucket = "validator"
+        )
         remote_share(data_formatted = validation()$data_formatted, 
                      verified = vals$key,
                      api = api, 
                      rules = validation()$rules, 
                      results = validation()$results)
     })
+    
     
     output$certificate <- renderUI({
         req(validation()$data_formatted)
@@ -181,6 +187,7 @@ function(input, output, session) {
         }
     })
     
+
     output$alert <- renderUI({
         #req(input$file)
         #req(input$file_rules)
@@ -199,15 +206,10 @@ function(input, output, session) {
     #Downloads ----
     output$download_certificate <- downloadHandler(
         filename = function() {"certificate.csv"},
-        content = function(file) {write.csv(data.frame(time = Sys.time(), 
-                                                       data = digest(validation()$data_formatted), 
-                                                       #link = if(isTruthy(remote())){remote()$creation$url} else{NA}, #Buggy 
-                                                       rules = digest(validation()$rules), 
-                                                       package_version = packageVersion("validate"), 
-                                                       web_hash = digest(paste(sessionInfo(), 
-                                                                               Sys.time(), 
-                                                                               Sys.info()))), 
-                                            file, row.names = F)}
+        content = function(file) {write.csv(
+                                        certificate_df(x = validation()), 
+                                                        file, 
+                                                        row.names = F)}
     )
     
     output$download_rules_excel <- downloadHandler(
@@ -310,6 +312,9 @@ function(input, output, session) {
             )
         )
     })
+    
+    #Logging
+
     
     #Diagnosis ----
     output$validation_out <- renderJsonedit({

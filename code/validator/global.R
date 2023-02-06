@@ -17,9 +17,30 @@ library(RCurl)
 library(readxl)
 library(stringr)
 library(openxlsx)
+library(mongolite)
+if(droptoken) library(aws.s3)
 
 #Note for logic using outside functions in the calls. 
 #https://github.com/data-cleaning/validate/issues/45
+
+droptoken <- file.exists("s3_cred.csv") #file.exists("data/droptoken.rds") #remove for prototyping with maps
+db <- file.exists(".db_url") #reminder, this will break if you login to a new wifi network even with the token.
+
+if(db) {
+    database <- mongo(url = readLines(".db_url"))
+} 
+
+certificate_df <- function(x){
+    df <-  data.frame(time = Sys.time(), 
+                      data = digest(x$data_formatted), 
+                      rules = digest(x$rules), 
+                      package_version = packageVersion("validate"), 
+                      web_hash = digest(paste(sessionInfo(), 
+                                              Sys.time(), 
+                                              Sys.info())))
+    database$insert(df)
+    df
+}
 
 # Options ----
 options(shiny.maxRequestSize = 30*1024^2)
