@@ -8,7 +8,11 @@ library(tidyverse)
 library(leaflet)
 
 # Restore the object
-Samples_Map <- readRDS(file = "data/Samples_Map.rds")
+Samples_Map <- read.csv(file = "https://data.ca.gov/dataset/e7624fce-c058-4fa1-a29f-2594d8f8f160/resource/b027a5ef-d42e-415c-b9b9-257c1bd5ae89/download/samples_merged.csv") %>%
+    filter(!is.na(Approximate_Lattitude) & !is.na(Approximate_Longitude)) %>% 
+    st_as_sf(coords = c("Approximate_Longitude", "Approximate_Lattitude"), crs = 4326, remove = FALSE) %>%
+    select(DOI:Concentration_Units)
+
 # Generate map of microplastics sample data
 World <- data(worldMapEnv)
 
