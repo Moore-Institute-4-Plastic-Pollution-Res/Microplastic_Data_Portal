@@ -164,7 +164,8 @@ function(input, output, session) {
         #req("KEY" %in% names(validation()$data_formatted))
         req(vals$key)
         api <- read.csv("secrets/ckan.csv")
-        remote_share(data_formatted = validation()$data_formatted, 
+        remote_share(validation = validation(),
+                     data_formatted = validation()$data_formatted, 
                      verified = vals$key,
                      api = api, 
                      rules = read.csv(rules()), 
