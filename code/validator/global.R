@@ -323,7 +323,8 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     #Returns all the results for everything in a formatted list. 
     return(list(data_formatted = lapply(data_formatted, function(x){
                     x %>%
-                    mutate(across(everything(), check_images))}),
+                    mutate(across(everything(), check_images)) %>%
+                    mutate(across(everything(), check_other_hyperlinks))}),
                 data_names = data_names,
                 report = report, 
                 results = results, 
@@ -456,6 +457,12 @@ checkLuhn <- function(number) {
 check_images <- function(x){
     ifelse(grepl("https://.*\\.png|https://.*\\.jpg", x), 
            paste0('<img src ="', x, '" height = "50"></img>'), 
+           x)
+}
+
+check_other_hyperlinks <- function(x){
+    ifelse(grepl("https://", x) & !grepl("https://.*\\.png|https://.*\\.jpg", x), 
+           paste0('<a href ="', x, '">', x, '</a>'), 
            x)
 }
 
