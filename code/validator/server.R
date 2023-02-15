@@ -86,6 +86,7 @@ function(input, output, session) {
                 #req(nrow(selected) > 0)
                 datatable({rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]), rows = input[[paste0("show_report", x, "_rows_selected")]]) },
                           rownames = FALSE,
+                          escape = FALSE,
                           filter = "top", 
                           extensions = 'Buttons',
                           options = list(

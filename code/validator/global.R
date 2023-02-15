@@ -318,9 +318,12 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     rules_list_formatted <- tryCatch(lapply(data_names, function(x){validator(.data=rules %>% filter(dataset == x))}), 
                                 warning = function(w) {w}, 
                                 error = function(e) {e})
+
     
     #Returns all the results for everything in a formatted list. 
-    return(list(data_formatted = data_formatted,
+    return(list(data_formatted = lapply(data_formatted, function(x){
+                    x %>%
+                    mutate(across(everything(), check_images))}),
                 data_names = data_names,
                 report = report, 
                 results = results, 
@@ -450,6 +453,11 @@ checkLuhn <- function(number) {
     ((sum(digits) %% 10) == 0)
 }
 
+check_images <- function(x){
+    ifelse(grepl("https://.*\\.png|https://.*\\.jpg", x), 
+           paste0('<img src ="', x, '" height = "50"></img>'), 
+           x)
+}
 
 test_profanity <- function(x){
     bad_words <- unique(tolower(c(lexicon::profanity_alvarez, 
