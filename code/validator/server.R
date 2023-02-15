@@ -72,7 +72,7 @@ function(input, output, session) {
                             buttons = c('copy', 'csv', 'excel', 'pdf')),
                         rownames = FALSE,
                         filter = "top", 
-                        style = "bootstrap", 
+                        #style = "bootstrap", 
                         selection = list(mode = "single", color = "red", selected = c(1))) %>%
                     formatStyle(
                         'status',
@@ -100,8 +100,8 @@ function(input, output, session) {
                               ordering = TRUE,
                               dom = 'Bfrtip',
                               buttons = c('copy', 'csv', 'excel', 'pdf')),
-                          class = "display",
-                          style = "bootstrap") %>% 
+                          #style = "bootstrap",
+                          class = "display") %>% 
                     formatStyle(
                         if(any(validation()$results[[x]]$status == "error")){
                             variables(validation()$rules[[x]][rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]])[input[[paste0("show_report", x, "_rows_selected")]], "name"]])  
@@ -156,6 +156,33 @@ function(input, output, session) {
             #)
             }
         )
+    })
+    
+    output$rules_dt <- DT::renderDataTable({
+        if(grepl("(\\.csv$)", ignore.case = T, as.character(rules()))){
+            rules <- read.csv(rules())
+        }
+        
+        if(grepl("(\\.xlsx$)", ignore.case = T, as.character(rules()))){
+            rules <- read_excel(rules())
+        }
+        datatable({rules},
+                extensions = 'Buttons',
+                options = list(
+                    searchHighlight = TRUE,
+                    scrollX = TRUE,
+                    lengthChange = FALSE, 
+                    pageLength = 5,
+                    paging = TRUE,
+                    searching = TRUE,
+                    fixedColumns = TRUE,
+                    autoWidth = TRUE,
+                    ordering = TRUE,
+                    dom = 'Bfrtip',
+                    buttons = c('copy', 'csv', 'excel', 'pdf')),
+                rownames = FALSE,
+                filter = "top", 
+                style = "bootstrap")
     })
     
     remote <- reactive({

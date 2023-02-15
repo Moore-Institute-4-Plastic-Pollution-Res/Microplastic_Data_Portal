@@ -122,10 +122,20 @@ dashboardPage(
                            uiOutput(outputId = "rules_upload")
                     ),
                     column(7, uiOutput("certificate"), uiOutput("alert"))),
-                #fluidRow(
                     uiOutput("error_query"),
-
-                #),
+                fluidRow(
+                    popover(
+                        box(
+                            title = "Rules File",
+                            collapsed = T,
+                            width = 12,
+                            DT::dataTableOutput("rules_dt"),
+                            style = 'overflow-x: scroll'
+                        ),
+                        title = "Rules File",
+                        placement = "bottom",
+                        content = "Backend file of rules currently in use.")
+                ),
                 fluidRow(
                     popover(
                       box(
