@@ -2,11 +2,12 @@
 dashboardPage(
     fullscreen = T,
     help = T,
-    dashboardHeader(title = "Data Validator",
+    dashboardHeader(title = config$portal_name,
                     includeCSS("www/datatable.css")),
     dashboardSidebar(
         sidebarUserPanel(
-            name = "Welcome!"
+            name = config$portal_funder_name,
+            image = config$portal_funder
         ),
         sidebarMenu(
             id = "sidebarmenu",
@@ -137,6 +138,5 @@ dashboardPage(
     footer = dashboardFooter(left = fluidRow(column(1,a(href = config$twitter, icon('twitter'))),
                                              column(1,a(href = config$github, icon('github'))),
                                              column(1,a(href = config$license, img(src= "CC.png", width= 18, height= 18))))
-                            
     )
 )

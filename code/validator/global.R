@@ -43,6 +43,11 @@ if(isTruthy(config$s3_secret_key)) {
     )
 }
 
+# Options ----
+options(shiny.maxRequestSize = 30*1024^2)
+
+# Functions ----
+
 certificate_df <- function(x){
     df <-  data.frame(time = Sys.time(), 
                       data = digest(x$data_formatted), 
@@ -54,20 +59,6 @@ certificate_df <- function(x){
     database$insert(df)
     df
 }
-
-
-# Options ----
-options(shiny.maxRequestSize = 30*1024^2)
-
-# Files ----
-
-rules_example <- read.csv("www/rules.csv")
-
-invalid_example <- read.csv("www/invalid_data.csv")
-
-success_example <- read.csv("www/data_success.csv")
-
-# Functions ----
 
 validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     
