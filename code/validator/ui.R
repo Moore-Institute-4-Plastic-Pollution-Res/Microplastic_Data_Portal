@@ -78,20 +78,7 @@ dashboardPage(
                         type = "columns",
                         #title = "The Team",
                         #collapsed = T,
-                        boxProfile(image = "https://i0.wp.com/mooreplasticresearch.org/wp-content/uploads/2022/03/20220321_104726_2.jpg?resize=1200%2C1600&ssl=1", title = "Win Cowger", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE),
-                        boxProfile(image = "https://i0.wp.com/mooreplasticresearch.org/wp-content/uploads/2022/03/20220307_110138-1.jpg?resize=1188%2C1536&ssl=1", title = "Shelly Moore", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE),
-                        boxProfile(image = "https://envisci.ucr.edu/sites/default/files/styles/profile_card_118_x_118/public/Hannah%20Hapich.jpg?h=cbdac610&itok=fjGpJ7uI", title = "Hannah Hapich", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE),
-                        boxProfile(image = "https://scholar.googleusercontent.com/citations?view_op=view_photo&user=RS6imBYAAAAJ&citpid=2", title = "Scott Coffin", subtitle = "State Water Resources Control Board", bordered = FALSE),
-                        boxProfile(image = "https://www.sfei.org/sites/default/files/styles/image_responsive/public/pictures/picture-32-1442945160.jpg?itok=mvmG2ydF", title = "Tony Hale", subtitle = "San Francisco Estuary Institute", bordered = FALSE),
-                        boxProfile(image = "https://www.sfei.org/sites/default/files/styles/image_responsive/public/pictures/picture-553-1487880891.jpg?itok=Cj8_Csm5", title = "Diana Lin", subtitle = "San Francisco Estuary Institute", bordered = FALSE),
-                        boxProfile(image = "https://www.sfei.org/sites/default/files/styles/image_responsive/public/pictures/picture-119-1436289327.jpg?itok=y2mzKV24", title = "Rebecca Sutton", subtitle = "San Francisco Estuary Institute", bordered = FALSE),
-                        boxProfile(image = "https://media.licdn.com/dms/image/C5603AQEiefNJhW36QQ/profile-displayphoto-shrink_400_400/0/1517424516334?e=1678924800&v=beta&t=92DMrsU_rWgFFwxy9YFOqVY1NuJGTC5FKN3rmS7EU3g", title = "Gabriel Daiess", subtitle = NULL, bordered = FALSE),
-                        boxProfile(image = "https://www.sccwrp.org/wp/wp-content/uploads/2020/03/Leah-Thomas-Hampton-SCCWRP-bkg-WebAR.jpg", title = "Leah Thornton Hampton", subtitle = "Southern California Coastal Water Research Project", bordered = FALSE),
-                        boxProfile(image = "", title = "Richard Nelson", subtitle = "California State Water Resources Control Board", bordered = FALSE),
-                        boxProfile(image = "https://media.licdn.com/dms/image/C5603AQHVTKQR_Xmm8g/profile-displayphoto-shrink_400_400/0/1654033306784?e=1678924800&v=beta&t=6LRkyHUOIo7MkUlmrRmDR5Ft55rSyC0KMnLec4qW3Jk", title = "Haig Jack Minasian", subtitle = "CSU Long Beach", bordered = FALSE),
-                        boxProfile(image = "https://media.licdn.com/dms/image/C5603AQHLq0Iv-e9SGg/profile-displayphoto-shrink_400_400/0/1588630989428?e=1678924800&v=beta&t=suBzVjL4nwHZzOEUSHDRHwlfGZiccL4aqAKEYudN4jc", title = "Holden Ford", subtitle = "CSU Long Beach", bordered = FALSE),
-                        boxProfile(image = "", title = "Anja Oca", subtitle = "CSU Long Beach", bordered = FALSE),
-                        boxProfile(image = "https://photos.smugmug.com/photos/i-V6hDWm7/0/c09dd854/X2/i-V6hDWm7-X2.jpg", title = "Libby Heeren", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE)
+                        lapply(config$contributors, function(x){x})
                     ),
                     width = 12
                 )
@@ -107,7 +94,6 @@ dashboardPage(
                                          multiple = T,
                                          accept=c("text/csv",
                                                   "text/comma-separated-values,text/plain")), #%>%
-
                                title = "Upload CSV to validate",
                                content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file."),
                            #      size = "medium", rounded = TRUE
