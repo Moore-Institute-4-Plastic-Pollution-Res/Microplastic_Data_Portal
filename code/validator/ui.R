@@ -160,7 +160,7 @@ dashboardPage(
                 box(
                     title = "Contact Us",
                     p("Have any additional questions or concerns? Email us using the link below:"),
-                    HTML('<a class="btn btn-info" href = "mailto:win@mooreplasticresearch.org" role = "button" >Contact Us</a>'),
+                    HTML(paste0('<a class="btn btn-info" href = "mailto:', config$contact, '" role = "button" >Contact Us</a>')),
                     p("Please include in your email:"),
                     p ("(1) What should the app be doing?"),
                     p ("(2) What is the app doing instead?"),
@@ -172,9 +172,9 @@ dashboardPage(
 
     ),
 
-    footer = dashboardFooter(left = fluidRow(column(1,a(href = "https://twitter.com/Win_OpenData", icon('twitter'))),
-                                             column(1,a(href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator", icon('github'))),
-                                             column(1,a(href = "https://creativecommons.org/licenses/by/4.0/", img(src= "CC.png", width= 18, height= 18))))
+    footer = dashboardFooter(left = fluidRow(column(1,a(href = config$twitter, icon('twitter'))),
+                                             column(1,a(href = config$github, icon('github'))),
+                                             column(1,a(href = config$license, img(src= "CC.png", width= 18, height= 18))))
                             
     )
 

@@ -299,9 +299,9 @@ function(input, output, session) {
     dataModal <- function(failed = FALSE) {
         modalDialog(
             textInput("secret", "Input Key"),
-            span('To share the uploaded data to the database you need to provide a key shared with you by Win Cowger.'),
+            span('To share the uploaded data to the database you need to provide a key shared with you by', config$contact, '.'),
             if (failed)
-                div(tags$b("Invalid key-rules pair please try again or contact Win for help.", style = "color: red;")),
+                div(tags$b("Invalid key-rules pair please try again or contact", config$contact, "for help.", style = "color: red;")),
             footer = tagList(
                 modalButton("Cancel"),
                 actionButton("ok", "OK")
