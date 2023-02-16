@@ -64,8 +64,13 @@ dashboardPage(
                     br(),
                     tags$ol(
                         tags$li("Uploaded the data and rules file on the validator tab."),
-                        tags$li("You will either recieve a certificate that your data is valid (which you may download), or notification of any issue(s) found."),
+                        tags$image(src = "upload.png", width = "50%"),
+                        tags$li("If your data is valid a popup will appear that allows you to upload to a remote repository if you have a key."),
+                        tags$image(src = "popup.png", width = "50%"),
+                        tags$li("If your data is valid you may download a certificate, this is saved on our end too to prove the event occured."),
+                        tags$image(src = "download.png", width = "50%"),
                         tags$li("In the event of invalid data, the description of the issue(s) to be resolved and severity will be displayed in the 'Issues Raised' panel."),
+                        tags$image(src = "error.png", width = "50%"),
                         tags$li("You can click on any of the descriptions to display the rows where the issue was found in the 'Issues Selected' panel."),
                         tags$li("The 'Issues Raised' and 'Issue Selected' data sheets may be copied, or downloaded as CSV, Excel, or PDF.")
                     ),
