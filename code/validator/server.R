@@ -1,7 +1,6 @@
 function(input, output, session) {
 
     rules <- reactive({
-        #req(input$file_rules | input$rules_selection == "Microplastic Acc. DW.")
         if(!isTruthy(config$rules)){
             file_rules = input$file_rules$datapath
         }
@@ -44,10 +43,6 @@ function(input, output, session) {
         req(validation()$results)
         
         lapply(1:length(validation()$data_formatted), function(x){
-            
-            #Tables calculations ----
-            #selected <- rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]), rows = input[[paste0("show_report", x, "_rows_selected")]]) 
-            #overview_table <- rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]])
             #Report tables to view ----
             output[[paste0("show_report", x)]] <- DT::renderDataTable({
                 #req(nrow(overview_table) > 0)
@@ -78,9 +73,6 @@ function(input, output, session) {
             })
             
             output[[paste0("report_selected", x)]] <- DT::renderDataTable({
-                #req(input[[paste0("show_report", x, "_rows_selected")]])
-                #req(any(validation()$results[[x]]$status == "error"))
-                #req(nrow(selected) > 0)
                 if(isTruthy(input[[paste0("show_report", x, "_rows_selected")]])){
                     datatable({rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]), rows = input[[paste0("show_report", x, "_rows_selected")]]) },
                               rownames = FALSE,
@@ -163,19 +155,6 @@ function(input, output, session) {
                     ),
                 width = 12
             )
-                #popover(
-                #    box(title = "Issue Selected",
-                #        id = paste0("issue_selected", x),
-                #        DT::dataTableOutput(paste0("report_selected", x)),
-                #        style = 'overflow-x: scroll',
-                #        maximizable = T,
-                #        width = 8
-                #    ),
-                #    title = "Issue Selected",
-                #    placement = "left",
-                #    content = "This is where the selection in the issues raised box will show up. Whatever rule is selected will query the dataset and show any rows that violate the rule and show any problematic columns in red."
-                #)
-            #)
             }
         )
     })
@@ -210,7 +189,6 @@ function(input, output, session) {
     remote <- reactive({
         req(validation()$data_formatted)
         req(isTRUE(!any(validation()$issues)))
-        #req("KEY" %in% names(validation()$data_formatted))
         req(vals$key)
         remote_share(validation = validation(),
                      data_formatted = validation()$data_formatted, 
@@ -231,10 +209,39 @@ function(input, output, session) {
         }
     })
     
+    output$dev_options <- renderUI({
+        req(config$dev)
+        tagList(
+            fluidRow(
+                popover(
+                    box(
+                        title = "Rules File",
+                        collapsed = T,
+                        width = 12,
+                        DT::dataTableOutput("rules_dt"),
+                        style = 'overflow-x: scroll'
+                    ),
+                    title = "Rules File",
+                    placement = "bottom",
+                    content = "Backend file of rules currently in use.")
+            ),    
+            fluidRow(
+                popover(
+                    box(
+                        title = "Diagnose",
+                        collapsed = T,
+                        width = 12,
+                        jsoneditOutput("remote_out"),
+                        jsoneditOutput("validation_out")#,
+                    ),
+                    title = "Diagnose",
+                    placement = "bottom",
+                    content = "For Developmental & Debugging Purposes")
+            )
+        )
+    })
 
     output$alert <- renderUI({
-        #req(input$file)
-        #req(input$file_rules)
         req(validation()$results)
         if(isTRUE(!any(validation()$issues))){
             HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')

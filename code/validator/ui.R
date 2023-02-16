@@ -2,16 +2,13 @@
 dashboardPage(
     fullscreen = T,
     help = T,
-    #options = list(skin = "blue"),
     dashboardHeader(title = "Data Validator"),
     dashboardSidebar(
         sidebarUserPanel(
-            #image = "https://drive.google.com/file/d/13iCjC10dV3giFhCCoir_8mnbwtHM1rMA/view?usp=sharing",
             name = "Welcome!"
         ),
         sidebarMenu(
             id = "sidebarmenu",
-            #sidebarHeader("Header 1"),
             menuItem(
                 "About",
                 tabName = "item1",
@@ -42,8 +39,7 @@ dashboardPage(
                 ),
                 box(
                     title = "Instructions and Examples",
-                    collapsed = T,
-                    p("Both the data and rules files must be in .csv format. Examples for how to structure and query the data and rules can be found below:"),
+                    p("Both the data and rules files must be in .csv or .xlsx format. Examples for how to structure and query the data and rules can be found below:"),
                         popover(
                             downloadButton("download_rules", "Download Sample Rules", style = "background-color: #2a9fd6;"),
                             title = "Download rules file",
@@ -60,8 +56,7 @@ dashboardPage(
                             content = "This is an example file that can be used in tandem with the example rules file to test out the tool for its performance with a dataset that is 100% validated."
                         ),
                         popover(
-                            downloadButton("download_sample", "Download Invalid Sample Data", style = "background-color: #dc3545;"), #%>%
-
+                            downloadButton("download_sample", "Download Invalid Sample Data", style = "background-color: #dc3545;"), 
                             title = "Download invalid example data",
                             content = "This is an example file that can be used in tandem with the example rules file to test out the tool for its performance with a dataset that isn't 100% validated."
                         ),
@@ -81,8 +76,6 @@ dashboardPage(
                     HTML(paste0('<a class="btn btn-info" href = "', config$github,'" role = "button" >Github</a>')),
                     boxLayout(
                         type = "columns",
-                        #title = "The Team",
-                        #collapsed = T,
                         lapply(config$contributors, function(x){x})
                     ),
                     width = 12
@@ -101,39 +94,13 @@ dashboardPage(
                                                   "text/comma-separated-values,text/plain")), #%>%
                                title = "Upload CSV to validate",
                                content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file.")
-                           #      size = "medium", rounded = TRUE
                     ),
                     column(2,
-                           uiOutput(outputId = "rules_upload")
+                           uiOutput(outputId = "rules_upload"), uiOutput("alert") 
                     ),
-                    column(8, uiOutput("certificate"), uiOutput("alert"))),
+                    column(8, uiOutput("certificate"))),
                     uiOutput("error_query"),
-                fluidRow(
-                    popover(
-                        box(
-                            title = "Rules File",
-                            collapsed = T,
-                            width = 12,
-                            DT::dataTableOutput("rules_dt"),
-                            style = 'overflow-x: scroll'
-                        ),
-                        title = "Rules File",
-                        placement = "bottom",
-                        content = "Backend file of rules currently in use.")
-                ),
-                fluidRow(
-                    popover(
-                      box(
-                        title = "Diagnose",
-                        collapsed = T,
-                        width = 12,
-                        jsoneditOutput("remote_out"),
-                        jsoneditOutput("validation_out")#,
-                    ),
-                    title = "Diagnose",
-                    placement = "bottom",
-                    content = "For Developmental & Debugging Purposes")
-                )
+                    uiOutput("dev_options")
             ),
             tabItem(
                 tabName = "item3",
