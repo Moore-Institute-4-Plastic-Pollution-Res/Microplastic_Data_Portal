@@ -303,7 +303,7 @@ function(input, output, session) {
     dataModal <- function(failed = FALSE) {
         modalDialog(
             textInput("secret", "Input Key"),
-            span('Inputting a valid key and pressing OK indicates that you want to share the uploaded data to the database. If you do not have a key then contact wincowger@gmail.com for one.'),
+            span('To share the uploaded data to the database you need to provide a key shared with you by Win Cowger.'),
             if (failed)
                 div(tags$b("Invalid key-rules pair please try again or contact Win for help.", style = "color: red;")),
             footer = tagList(
@@ -313,7 +313,7 @@ function(input, output, session) {
         )
     }
     
-    observeEvent(input$login, {
+    observeEvent(req(isTRUE(!any(validation()$issues))), {
         showModal(dataModal())
     })
     
@@ -334,50 +334,6 @@ function(input, output, session) {
         } else {
             showModal(dataModal(failed = TRUE))
         }
-    })
-    
-    output$verified <- renderUI({
-        req(isTRUE(!any(validation()$issues)))
-        
-        if(!is.null(vals$key)){
-            fluidRow(
-                column(6, 
-                       actionButton(
-                           inputId = "login",
-                           label = "Login",
-                           #icon = "icon-signout",
-                           width = NULL,
-                           status = NULL,
-                           gradient = FALSE,
-                           outline = FALSE,
-                           size = NULL,
-                           flat = FALSE
-                       )
-                ),
-                column(6, 
-                       icon("check")
-                       )
-            )
-                    }
-                    else{
-                        fluidRow(
-                            column(6, 
-                                   actionButton(
-                                       inputId = "login",
-                                       label = "Login",
-                                       #icon = "icon-signout",
-                                       width = NULL,
-                                       status = NULL,
-                                       gradient = FALSE,
-                                       outline = FALSE,
-                                       size = NULL,
-                                       flat = FALSE
-                                   )
-                            )
-                        )
-                    }
-        
-        
     })
     
     #Diagnosis ----

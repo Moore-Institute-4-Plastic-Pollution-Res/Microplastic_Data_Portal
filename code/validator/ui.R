@@ -177,8 +177,8 @@ dashboardPage(
 
     footer = dashboardFooter(left = fluidRow(column(1,a(href = "https://twitter.com/Win_OpenData", icon('twitter'))),
                                              column(1,a(href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator", icon('github'))),
-                                             column(1,a(href = "https://creativecommons.org/licenses/by/4.0/", img(src= "CC.png", width= 18, height= 18)))),
-                            right = uiOutput("verified")
+                                             column(1,a(href = "https://creativecommons.org/licenses/by/4.0/", img(src= "CC.png", width= 18, height= 18))))
+                            
     )
 
 
