@@ -113,10 +113,7 @@ dashboardPage(
                            #      size = "medium", rounded = TRUE
                     ),
                     column(2,
-                           selectInput(inputId = "rules_selection",
-                                       label = downloadButton("download_rules_excel", "Rules Template", style = "background-color: #28a745; padding-top: 1px;"),
-                                       choices = c("Microplastic Acc. DW.", "Water PACT", "Manual")
-                           )
+                           downloadButton("download_rules_excel", "Rules Template", style = "background-color: #28a745; padding-top: 1px;")
                     ),
                     column(1,
                            uiOutput(outputId = "rules_upload")

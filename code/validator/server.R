@@ -2,14 +2,11 @@ function(input, output, session) {
 
     rules <- reactive({
         #req(input$file_rules | input$rules_selection == "Microplastic Acc. DW.")
-        if(input$rules_selection == "Microplastic Acc. DW."){
-            file_rules = "www/rules_dw_acc.csv"
-        }
-        else if(input$rules_selection == "Water PACT"){
-            file_rules = "www/rules_waterpact.csv"
-        }
-        else if(input$rules_selection == "Manual"){
+        if(!isTruthy(config$rules)){
             file_rules = input$file_rules$datapath
+        }
+        else if(length(config$rules) == 1){
+            file_rules = config$rules
         }
         else{
             file_rule = NULL
@@ -24,7 +21,7 @@ function(input, output, session) {
     })
     
     output$rules_upload <- renderUI({
-        if(input$rules_selection == "Manual"){
+        if(!isTruthy(config$rules)){
             popover(
                 fileInput("file_rules", NULL,
                           placeholder = ".csv",
