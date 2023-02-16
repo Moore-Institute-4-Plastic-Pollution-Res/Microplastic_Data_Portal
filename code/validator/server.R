@@ -263,17 +263,21 @@ function(input, output, session) {
     
     output$download_rules <- downloadHandler( 
         filename = function() {"rules.csv"},
-        content = function(file) {write.csv(rules_example, file, row.names = F)}
+        content = function(file) {write.csv(config$rules_example, file, row.names = F)}
     )
     
     output$download_sample <- downloadHandler(
-        filename = function() {"invalid_data.csv"},
-        content = function(file) {write.csv(invalid_example, file, row.names = F)}
+        filename = function() {"invalid_data.zip"},
+        content = function(file) {
+            zip(file, unzip(config$invalid_data_example))
+            }
     )
     
     output$download_good_sample <- downloadHandler(
-        filename = function() {"valid_data.csv"},
-        content = function(file) {write.csv(success_example, file, row.names = F)}
+        filename = function() {"valid_data.zip"},
+        content = function(file) {
+            zip(file, unzip(config$valid_data_example))
+            }
     )
     
     #Alerts ----
@@ -318,8 +322,8 @@ function(input, output, session) {
     # message.
     observeEvent(input$ok, {
         # Check that data object exists and is data frame.
-        test_valid <- read.csv("secrets/ckan.csv") %>%
-            filter(VALID_KEY == input$secret & VALID_RULES == digest(read.csv(rules())))
+        test_valid <- config$ckan %>%
+            filter(ckan_valid_key == input$secret & ckan_valid_rules == digest(read.csv(rules())))
         if (!is.null(input$secret) && nrow(test_valid >= 1) && input$ok < 4){
             vals$key <- input$secret
             removeModal()
