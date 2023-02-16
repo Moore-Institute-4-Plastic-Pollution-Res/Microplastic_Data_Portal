@@ -2,7 +2,8 @@
 dashboardPage(
     fullscreen = T,
     help = T,
-    dashboardHeader(title = "Data Validator"),
+    dashboardHeader(title = "Data Validator",
+                    includeCSS("www/datatable.css")),
     dashboardSidebar(
         sidebarUserPanel(
             name = "Welcome!"
@@ -46,7 +47,7 @@ dashboardPage(
                             content = "This is an example file that can be used in tandem with the valid or invalid data files to test out the tool."
                         ),
                         popover(
-                            downloadButton("download_rules_excel", "Rules Template", style = "background-color: #28a745;"),
+                            downloadButton("download_rules_excel", "Rules Template", style = "background-color: #ffffff;"),
                             title = "Download rules template file",
                             content = "This is an file that can be used as a template when collecting data so that it conforms to most of the rules tested in this portal."
                         ),    
@@ -60,6 +61,7 @@ dashboardPage(
                             title = "Download invalid example data",
                             content = "This is an example file that can be used in tandem with the example rules file to test out the tool for its performance with a dataset that isn't 100% validated."
                         ),
+                    br(),
                     tags$ol(
                         tags$li("Uploaded the data and rules file on the validator tab."),
                         tags$li("You will either recieve a certificate that your data is valid (which you may download), or notification of any issue(s) found."),

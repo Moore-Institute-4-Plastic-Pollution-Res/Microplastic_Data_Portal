@@ -131,6 +131,7 @@ function(input, output, session) {
                 fluidRow(
                     box(title = "Issues Raised",
                         id = paste0("issues_raised", x),
+                        background = "white",
                         dropdownMenu = boxDropdown(
                             boxDropdownItem(
                                 prettySwitch(paste0("show_decision", x),
@@ -147,6 +148,7 @@ function(input, output, session) {
                     ), 
                     box(title = "Issue Selected",
                             id = paste0("issue_selected", x),
+                            background = "white",
                             DT::dataTableOutput(paste0("report_selected", x)),
                             style = 'overflow-x: scroll',
                             maximizable = T,
