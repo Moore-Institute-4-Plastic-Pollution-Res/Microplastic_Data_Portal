@@ -1,6 +1,3 @@
-#Data checks ----
-droptoken <- file.exists("secrets/s3_cred.csv") #file.exists("data/droptoken.rds") #remove for prototyping with maps
-db <- file.exists("secrets/.db_url") #reminder, this will break if you login to a new wifi network even with the token.
 
 # Libraries ----
 library(shiny)
@@ -22,14 +19,29 @@ library(readxl)
 library(stringr)
 library(openxlsx)
 library(mongolite)
-if(droptoken) library(aws.s3)
+library(config)
 
 #Note for logic using outside functions in the calls. 
 #https://github.com/data-cleaning/validate/issues/45
 
-if(db) {
-    database <- mongo(url = readLines("secrets/.db_url"))
+config <- config::get()
+if(droptoken) library(aws.s3)
+
+#Data checks ----
+
+
+if(isTruthy(config$mongo_key)) {
+    database <- mongo(url = config$mongo_key)
 } 
+
+
+if(isTruthy(config$s3_secret_key)) {
+    Sys.setenv(
+        "AWS_ACCESS_KEY_ID" = config$s3_key_id,
+        "AWS_SECRET_ACCESS_KEY" = config$s3_secret_key,
+        "AWS_DEFAULT_REGION" = config$s3_region
+    )
+}
 
 certificate_df <- function(x){
     df <-  data.frame(time = Sys.time(), 
@@ -43,15 +55,6 @@ certificate_df <- function(x){
     df
 }
 
-if(droptoken) {
-    creds <- read.csv("secrets/s3_cred.csv")
-    
-    Sys.setenv(
-        "AWS_ACCESS_KEY_ID" = creds$Access.key.ID,
-        "AWS_SECRET_ACCESS_KEY" = creds$Secret.access.key,
-        "AWS_DEFAULT_REGION" = "us-east-2"
-    )
-}
 
 # Options ----
 options(shiny.maxRequestSize = 30*1024^2)
@@ -345,7 +348,7 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
             type = "error"), status = "error"))
     }
     
-    if(!any(digest(as.data.frame(rules)) %in% api$VALID_RULES)){
+    if(!any(digest(as.data.frame(rules)) %in% api$ckan_valid_rules)){
         return(list(
             message = data.table(
             title = "Rules file is not valid",
@@ -353,7 +356,7 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
             type = "error"), status = "error"))
     }
     
-    if(!any(verified %in% api$VALID_KEY)){
+    if(!any(verified %in% api$ckan_valid_key)){
         return(list(
             message = data.table(
                 title = "Secret Key is not valid",
@@ -362,7 +365,7 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
     }
     
     api_info <- api %>%
-        dplyr::filter(VALID_KEY == verified & VALID_RULES == digest(as.data.frame(rules)))
+        dplyr::filter(ckan_valid_key == verified & ckan_valid_rules == digest(as.data.frame(rules)))
     
     if(nrow(api_info) != 1){
         return(list(
@@ -372,7 +375,7 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
             type = "error"), status = "error"))
     }
     
-    ckanr_setup(url = api_info$URL, key = api_info$KEY)
+    ckanr_setup(url = api_info$ckan_url, key = api_info$ckan_key)
     hashed_data <- digest(data_formatted)
     
     for(dataset in 1:length(data_formatted)){
@@ -386,7 +389,7 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
                 object = paste0(hashed_data, "_", data_name, ".csv"),
                 bucket = "microplasticdataportal"
             )
-        resource_create(package_id = api_info$PACKAGE,
+        resource_create(package_id = api_info$ckan_package,
                                     description = "validated raw data upload to microplastic data portal",
                                     name = paste0(hashed_data, "_", data_name),
                                     upload = file)
@@ -399,14 +402,14 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
         object = paste0(hashed_data, "_", "certificate.csv"),
         bucket = "microplasticdataportal"
     )
-    resource_create(package_id = api_info$PACKAGE,
+    resource_create(package_id = api_info$ckan_package,
                     description = "validated raw data upload to microplastic data portal",
                     name = paste0(hashed_data, "_certificate"),
                     upload = file)
     
     return(list(status = "success", 
                 message = data.table(title = "Data Upload Successful", 
-                                     text = paste0("Data was successfully sent to the state data portal at ", api_info$URL_TO_SEND), 
+                                     text = paste0("Data was successfully sent to the state data portal at ", api_info$ckan_url_to_send), 
                                      type = "success")))
 }
 
