@@ -73,7 +73,7 @@ function(input, output, session) {
                         rownames = FALSE,
                         filter = "top", 
                         #style = "bootstrap", 
-                        selection = list(mode = "single", color = "red", selected = c(1))) %>%
+                        selection = list(mode = "single", color = "red")) %>%
                     formatStyle(
                         'status',
                         target = 'row',
@@ -81,35 +81,59 @@ function(input, output, session) {
             })
             
             output[[paste0("report_selected", x)]] <- DT::renderDataTable({
-                req(input[[paste0("show_report", x, "_rows_selected")]])
-                req(any(validation()$results[[x]]$status == "error"))
+                #req(input[[paste0("show_report", x, "_rows_selected")]])
+                #req(any(validation()$results[[x]]$status == "error"))
                 #req(nrow(selected) > 0)
-                datatable({rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]), rows = input[[paste0("show_report", x, "_rows_selected")]]) },
-                          rownames = FALSE,
-                          escape = FALSE,
-                          filter = "top", 
-                          extensions = 'Buttons',
-                          options = list(
-                              searchHighlight = TRUE,
-                              scrollX = TRUE,
-                              lengthChange = FALSE, 
-                              pageLength = 5,
-                              paging = TRUE,
-                              searching = TRUE,
-                              fixedColumns = TRUE,
-                              autoWidth = TRUE,
-                              ordering = TRUE,
-                              dom = 'Bfrtip',
-                              buttons = c('copy', 'csv', 'excel', 'pdf')),
-                          #style = "bootstrap",
-                          class = "display") %>% 
-                    formatStyle(
-                        if(any(validation()$results[[x]]$status == "error")){
-                            variables(validation()$rules[[x]][rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]])[input[[paste0("show_report", x, "_rows_selected")]], "name"]])  
-                        }
-                        else{NULL},
-                        backgroundColor =  'red'
-                    )
+                if(isTruthy(input[[paste0("show_report", x, "_rows_selected")]])){
+                    datatable({rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]), rows = input[[paste0("show_report", x, "_rows_selected")]]) },
+                              rownames = FALSE,
+                              escape = FALSE,
+                              filter = "top", 
+                              extensions = 'Buttons',
+                              options = list(
+                                  searchHighlight = TRUE,
+                                  scrollX = TRUE,
+                                  lengthChange = FALSE, 
+                                  pageLength = 5,
+                                  paging = TRUE,
+                                  searching = TRUE,
+                                  fixedColumns = TRUE,
+                                  autoWidth = TRUE,
+                                  ordering = TRUE,
+                                  dom = 'Bfrtip',
+                                  buttons = c('copy', 'csv', 'excel', 'pdf')),
+                              #style = "bootstrap",
+                              class = "display") %>% 
+                        formatStyle(
+                            if(any(validation()$results[[x]]$status == "error")){
+                                variables(validation()$rules[[x]][rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]])[input[[paste0("show_report", x, "_rows_selected")]], "name"]])  
+                            }
+                            else{NULL},
+                            backgroundColor =  'red'
+                        )
+                }
+                else{
+                    datatable({validation()$data_formatted[[x]]},
+                              rownames = FALSE,
+                              escape = FALSE,
+                              filter = "top", 
+                              extensions = 'Buttons',
+                              options = list(
+                                  searchHighlight = TRUE,
+                                  scrollX = TRUE,
+                                  lengthChange = FALSE, 
+                                  pageLength = 5,
+                                  paging = TRUE,
+                                  searching = TRUE,
+                                  fixedColumns = TRUE,
+                                  autoWidth = TRUE,
+                                  ordering = TRUE,
+                                  dom = 'Bfrtip',
+                                  buttons = c('copy', 'csv', 'excel', 'pdf')),
+                              #style = "bootstrap",
+                              class = "display")
+                }
+                
             })
             box(title = paste0(validation()$data_names[[x]]),
                 id = paste0(validation()$data_names[[x]]),

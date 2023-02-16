@@ -10,22 +10,18 @@ files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_D
 sheets <- readxl::excel_sheets(file_rules)
 all <- readxl::read_excel(file_rules, sheet = sheets)
 
-files_data = paste0("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/", "particles.csv")
+files_data = paste0("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/", c("samples.csv", "particles.csv", "methodology.csv"))
 file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/rules_dw_acc.csv"
 
 data_validation <- validate_data(files_data = files_data, file_rules = file_rules)
 
-broken <- rules_broken(results = data_validation$results[[1]], show_decision = T) %>%
+broken <- rules_broken(results = data_validation$results[[2]], show_decision = T) %>%
                 select(description, status, expression, name) %>%
                 mutate(description = as.factor(description))
 
-#check for images
-
-rules <- read.csv(file_rules)
-data <- read.csv(files_data)
-
-check_other_hyperlinks(data)
-
+rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]) %>%
+    select(description, status, expression, name) %>%
+    mutate(description = as.factor(description))
 #https://gamagroundwater.waterboards.ca.gov/gama/datadownload
 #Excel spreadsheet creation. 
 data_validation$rules[[2]]
