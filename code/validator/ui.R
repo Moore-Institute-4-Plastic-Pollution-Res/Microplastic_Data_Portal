@@ -50,6 +50,11 @@ dashboardPage(
                             content = "This is an example file that can be used in tandem with the valid or invalid data files to test out the tool."
                         ),
                         popover(
+                            downloadButton("download_rules_excel", "Rules Template", style = "background-color: #28a745;"),
+                            title = "Download rules template file",
+                            content = "This is an file that can be used as a template when collecting data so that it conforms to most of the rules tested in this portal."
+                        ),    
+                        popover(
                             downloadButton("download_good_sample", "Download Valid Sample Data", style = "background-color: #28a745;"),
                             title = "Download valid example data",
                             content = "This is an example file that can be used in tandem with the example rules file to test out the tool for its performance with a dataset that is 100% validated."
@@ -65,7 +70,7 @@ dashboardPage(
                         tags$li("You will either recieve a certificate that your data is valid (which you may download), or notification of any issue(s) found."),
                         tags$li("In the event of invalid data, the description of the issue(s) to be resolved and severity will be displayed in the 'Issues Raised' panel."),
                         tags$li("You can click on any of the descriptions to display the rows where the issue was found in the 'Issues Selected' panel."),
-                        tags$li("The 'Issues Raised' and 'Issue Selected' data sheets may be copied, or downloaded as CSV, Excel, or PDF."),
+                        tags$li("The 'Issues Raised' and 'Issue Selected' data sheets may be copied, or downloaded as CSV, Excel, or PDF.")
                     ),
                     width = 12
                 ),
@@ -73,7 +78,7 @@ dashboardPage(
                     title = "Contribute",
                     collapsed = F,
                     p("Join our team to build this tool!"),
-                    HTML('<a class="btn btn-info" href = "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal" role = "button" >Github</a>'),
+                    HTML(paste0('<a class="btn btn-info" href = "', config$github,'" role = "button" >Github</a>')),
                     boxLayout(
                         type = "columns",
                         #title = "The Team",
@@ -95,16 +100,13 @@ dashboardPage(
                                          accept=c("text/csv",
                                                   "text/comma-separated-values,text/plain")), #%>%
                                title = "Upload CSV to validate",
-                               content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file."),
+                               content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file.")
                            #      size = "medium", rounded = TRUE
                     ),
                     column(2,
-                           downloadButton("download_rules_excel", "Rules Template", style = "background-color: #28a745; padding-top: 1px;")
-                    ),
-                    column(1,
                            uiOutput(outputId = "rules_upload")
                     ),
-                    column(7, uiOutput("certificate"), uiOutput("alert"))),
+                    column(8, uiOutput("certificate"), uiOutput("alert"))),
                     uiOutput("error_query"),
                 fluidRow(
                     popover(
@@ -163,6 +165,4 @@ dashboardPage(
                                              column(1,a(href = config$license, img(src= "CC.png", width= 18, height= 18))))
                             
     )
-
-
 )
