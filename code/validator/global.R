@@ -20,12 +20,12 @@ library(stringr)
 library(openxlsx)
 library(mongolite)
 library(config)
+library(aws.s3)
 
 #Note for logic using outside functions in the calls. 
 #https://github.com/data-cleaning/validate/issues/45
 
 config <- config::get()
-if(droptoken) library(aws.s3)
 
 #Data checks ----
 

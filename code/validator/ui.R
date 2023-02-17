@@ -48,7 +48,7 @@ dashboardPage(
                             content = "This is an example file that can be used in tandem with the valid or invalid data files to test out the tool."
                         ),
                         popover(
-                            downloadButton("download_rules_excel", "Rules Template", style = "background-color: #ffffff;"),
+                            downloadButton("download_rules_excel", "Rules Template", style = "background-color: #e83e8c;"),
                             title = "Download rules template file",
                             content = "This is an file that can be used as a template when collecting data so that it conforms to most of the rules tested in this portal."
                         ),    
