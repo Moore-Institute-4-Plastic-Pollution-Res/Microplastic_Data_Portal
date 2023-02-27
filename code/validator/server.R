@@ -197,7 +197,8 @@ function(input, output, session) {
                      verified = vals$key,
                      api = config$ckan, 
                      rules = read.csv(rules()), 
-                     results = validation()$results)
+                     results = validation()$results,
+                     old_cert = input$old_certificate$datapath)
     })
     
     output$dev_options <- renderUI({
@@ -306,6 +307,13 @@ function(input, output, session) {
             span('To share the uploaded data to the database you need to provide a key shared with you by', config$contact, '.'),
             if (failed)
                 div(tags$b("Invalid key-rules pair please try again or contact", config$contact, "for help.", style = "color: red;")),
+            p(),
+            box(title = "Is this an update to a previous submission?", 
+                id = "update_submission",
+                width = 12,
+                collapsed = T,
+                fileInput(inputId = "old_certificate", label = "Upload previous certificate.")
+            ),
             footer = tagList(
                 modalButton("Cancel"),
                 actionButton("ok", "OK")

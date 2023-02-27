@@ -329,7 +329,7 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
 }
 
 
-remote_share <- function(validation, data_formatted, verified, api, rules, results){
+remote_share <- function(validation, data_formatted, verified, api, rules, results, old_cert = NULL){
     
     if(any(results$status == "error")){
         return(list(
@@ -397,7 +397,17 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
                     description = "validated raw data upload to microplastic data portal",
                     name = paste0(hashed_data, "_certificate"),
                     upload = file)
-    
+    if(isTruthy(old_cert)){
+        put_object(
+            file = old_cert,
+            object = paste0(hashed_data, "_", "old_certificate.csv"),
+            bucket = "microplasticdataportal"
+        )
+        resource_create(package_id = api_info$ckan_package,
+                        description = "validated raw data upload to microplastic data portal",
+                        name = paste0(hashed_data, "old_certificate"),
+                        upload = old_cert)
+    }
     return(list(status = "success", 
                 message = data.table(title = "Data Upload Successful", 
                                      text = paste0("Data was successfully sent to the state data portal at ", api_info$ckan_url_to_send), 
