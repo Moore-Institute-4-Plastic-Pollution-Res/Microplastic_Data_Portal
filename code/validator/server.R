@@ -236,7 +236,7 @@ function(input, output, session) {
     output$alert <- renderUI({
         req(validation()$results)
         if(isTRUE(!any(validation()$issues))){
-            downloadButton("download_certificate", "SUCCESS", style = "background-color: #42ba96; width: 100%;")
+            downloadButton("download_certificate", "SUCCESS", style = "background-color: #28a745; width: 100%;")
             
             #HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }
@@ -264,7 +264,7 @@ function(input, output, session) {
     
     output$download_rules <- downloadHandler( 
         filename = function() {"rules.csv"},
-        content = function(file) {write.csv(config$rules_example, file, row.names = F)}
+        content = function(file) {write.csv(read.csv(config$rules_example), file, row.names = F)}
     )
     
     output$download_sample <- downloadHandler(

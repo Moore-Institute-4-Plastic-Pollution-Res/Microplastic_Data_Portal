@@ -458,6 +458,26 @@ checkLuhn <- function(number) {
     ((sum(digits) %% 10) == 0)
 }
 
+check_uploadable <- function(url){
+    hash_url <- digest(url)
+    file_type <- gsub(".*\\.", "", url)
+    file_name <- paste0(hash_url, ".", file_type)
+    filedest <- paste0(tempfile(), file_name)
+    test <- tryCatch(download.file(url = url, 
+                                   destfile = filedest, 
+                                   quiet = T,
+                                   mode = "wb"), #The wb is for windows, need to be changed for remote deployment.,
+                     warning = function(w) {w}, error = function(e) {e})
+    if(length(class(test)) != 1 || class(test) != "integer"){
+        return(FALSE)
+    }
+    put_object(
+        file = filedest,
+        object = file_name,
+        bucket = "microplasticdataportal"
+    )
+}
+
 check_images <- function(x){
     ifelse(grepl("https://.*\\.png|https://.*\\.jpg", x), 
            paste0('<img src ="', x, '" height = "50"></img>'), 

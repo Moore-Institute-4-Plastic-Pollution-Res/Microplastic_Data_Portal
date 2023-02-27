@@ -16,7 +16,40 @@ all <- readxl::read_excel(file_rules, sheet = sheets)
 files_data = paste0("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/", c("samples.csv", "particles.csv", "methodology.csv"))
 file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/rules_dw_acc.csv"
 
+digest(read.csv(file_rules))
+
 data_validation <- validate_data(files_data = files_data, file_rules = file_rules)
+
+data_validation$data_formatted$particles$MethodologyID
+
+filedest <- "C:/Users/winco/OneDrive/Documents/test.pdf"
+
+check_uploadable <- function(url){
+    hash_url <- digest(url)
+    file_type <- gsub(".*\\.", "", url)
+    file_name <- paste0(hash_url, ".", file_type)
+    filedest <- paste0(tempfile(), file_name)
+    test <- tryCatch(download.file(url = url, 
+                                   destfile = filedest, 
+                                   mode = "wb"), #The wb is for windows, need to be changed for remote deployment.,
+                              warning = function(w) {w}, error = function(e) {e})
+    if(length(class(test)) != 1 || class(test) != "integer"){
+        return(FALSE)
+    }
+    put_object(
+        file = filedest,
+        object = file_name,
+        bucket = "microplasticdataportal"
+    )
+}
+
+check <- check_uploadable(url = "https://edd.ca.gov/siteassets/files/pdf_pub_ctr/de4.pdf")
+
+test <- put_object(
+    file = "dfd",
+    object = "test_remote_upload.pdf",
+    bucket = "microplasticdataportal"
+)
 
 broken <- rules_broken(results = data_validation$results[[2]], show_decision = T) %>%
                 select(description, status, expression, name) %>%
