@@ -200,17 +200,6 @@ function(input, output, session) {
                      results = validation()$results)
     })
     
-    
-    output$certificate <- renderUI({
-        req(validation()$data_formatted)
-        if(isTRUE(all(!validation()$issues))){
-            downloadButton("download_certificate", "Download Certificate", style = "background-color: #2a9fd6; width: 100%;")
-        }
-        else{
-            NULL
-        }
-    })
-    
     output$dev_options <- renderUI({
         req(config$dev)
         tagList(
@@ -246,7 +235,9 @@ function(input, output, session) {
     output$alert <- renderUI({
         req(validation()$results)
         if(isTRUE(!any(validation()$issues))){
-            HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
+            downloadButton("download_certificate", "SUCCESS", style = "background-color: #42ba96; width: 100%;")
+            
+            #HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }
         else if(isTRUE(any(validation()$issues))){
             HTML('<button type="button" class="btn btn-danger btn-lg btn-block">ERROR</button>')

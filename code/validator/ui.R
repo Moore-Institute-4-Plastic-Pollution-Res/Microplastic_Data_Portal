@@ -105,8 +105,7 @@ dashboardPage(
                     ),
                     column(2,
                            uiOutput(outputId = "rules_upload"), uiOutput("alert") 
-                    ),
-                    column(8, uiOutput("certificate"))),
+                    )),
                     uiOutput("error_query"),
                     uiOutput("dev_options")
             ),
