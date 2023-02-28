@@ -321,7 +321,7 @@ function(input, output, session) {
         )
     }
     
-    observeEvent(req(isTRUE(!any(validation()$issues))), {
+    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted), {
         showModal(dataModal())
     })
     
