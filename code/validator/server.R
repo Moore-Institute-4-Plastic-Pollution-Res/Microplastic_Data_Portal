@@ -19,6 +19,19 @@ function(input, output, session) {
         validate_data(files_data = input$file$datapath, data_names = input$file$name, file_rules = rules())
     })
     
+    output$data_upload <- renderUI({
+            div(class = if(isTruthy(input$file)){} else{"glow-file"},
+                popover(
+                    fileInput("file", NULL,
+                              placeholder = if(isTruthy(input$file)){"Data Loaded"} else{"Start Here"},
+                              buttonLabel = "Data...",
+                              multiple = T,
+                              accept=c("text/csv",
+                                       "text/comma-separated-values,text/plain")), #%>%
+                    title = "Upload CSV to validate",
+                    content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file.")
+            )
+    })
     output$rules_upload <- renderUI({
         if(!isTruthy(config$rules)){
             popover(

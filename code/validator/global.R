@@ -329,7 +329,7 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
 }
 
 
-remote_share <- function(validation, data_formatted, verified, api, rules, results, old_cert = NULL){
+remote_share <- function(validation, data_formatted, verified, api, rules, results, bucket = config$s3_bucket, old_cert = NULL){
     
     if(any(results$status == "error")){
         return(list(
@@ -378,7 +378,7 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
         put_object(
                 file = file,
                 object = paste0(hashed_data, "_", data_name, ".csv"),
-                bucket = "microplasticdataportal"
+                bucket = bucket
             )
         resource_create(package_id = api_info$ckan_package,
                                     description = "validated raw data upload to microplastic data portal",
@@ -391,7 +391,7 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
     put_object(
         file = file,
         object = paste0(hashed_data, "_", "certificate.csv"),
-        bucket = "microplasticdataportal"
+        bucket = bucket
     )
     resource_create(package_id = api_info$ckan_package,
                     description = "validated raw data upload to microplastic data portal",
@@ -458,7 +458,7 @@ checkLuhn <- function(number) {
     ((sum(digits) %% 10) == 0)
 }
 
-check_uploadable <- function(url){
+check_uploadable <- function(url, bucket = config$s3_bucket){
     hash_url <- digest(url)
     file_type <- gsub(".*\\.", "", url)
     file_name <- paste0(hash_url, ".", file_type)
@@ -474,7 +474,7 @@ check_uploadable <- function(url){
     put_object(
         file = filedest,
         object = file_name,
-        bucket = "microplasticdataportal"
+        bucket = bucket
     )
 }
 

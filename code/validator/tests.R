@@ -4,6 +4,9 @@
 library(readxl)
 library(openxlsx)
 
+#Create a new key. 
+digest(runif(5), algo = 'sha256')
+
 file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/rules.xlsx"
 files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/data_success.xlsx"
 
