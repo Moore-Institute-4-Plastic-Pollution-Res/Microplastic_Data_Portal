@@ -12,7 +12,6 @@ files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_D
 
 url.exists("https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Microplastic.jpg/1920px-Microplastic.jpg")
 
-
 sheets <- readxl::excel_sheets(file_rules)
 all <- readxl::read_excel(file_rules, sheet = sheets)
 
