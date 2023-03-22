@@ -1,11 +1,11 @@
 function(input, output, session) {
 
     rules <- reactive({
-        if(!isTruthy(config$rules)){
+        if(!isTruthy(config$rules_to_use)){
             file_rules = input$file_rules$datapath
         }
-        else if(length(config$rules) == 1){
-            file_rules = config$rules
+        else if(length(config$rules_to_use) == 1){
+            file_rules = config$rules_to_use
         }
         else{
             file_rule = NULL
@@ -18,38 +18,7 @@ function(input, output, session) {
         req(rules())
         validate_data(files_data = input$file$datapath, data_names = input$file$name, file_rules = rules())
     })
-    
-    output$data_upload <- renderUI({
-            div(class = if(isTruthy(input$file)){} else{"glow-file"},
-                popover(
-                    fileInput("file", NULL,
-                              placeholder = if(isTruthy(input$file)){"Data Loaded"} else{"Start Here"},
-                              buttonLabel = "Upload Data",
-                              multiple = T,
-                              accept=c("text/csv",
-                                       "text/comma-separated-values,text/plain")), #%>%
-                    title = "Upload CSV to validate",
-                    content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file.")
-            )
-    })
-    output$rules_upload <- renderUI({
-        if(!isTruthy(config$rules)){
-            popover(
-                fileInput("file_rules", NULL,
-                          placeholder = ".csv",
-                          buttonLabel = "Rules...",
-                          width = "100%",
-                          accept=c("text/csv",
-                                   "text/comma-separated-values,text/plain")),
-                title = "Upload rules",
-                content = "Upload the rules csv to use to validate the data csv"
-            )    
-        }
-        else{
-            NULL
-        }
-    })
-    
+
     output$error_query <- renderUI({
         req(input$file)
         req(validation()$data_formatted)
@@ -337,7 +306,7 @@ function(input, output, session) {
         )
     }
     
-    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted), {
+    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted, config$ckan, config$s3_secret_key, config$mongo_key), {
         showModal(dataModal())
     })
     

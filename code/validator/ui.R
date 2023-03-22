@@ -7,7 +7,7 @@ dashboardPage(
     dashboardSidebar(
         sidebarUserPanel(
             name = config$portal_funder_name,
-            image = config$portal_funder
+            image = config$portal_funder_link
         ),
         sidebarMenu(
             id = "sidebarmenu",
@@ -54,13 +54,34 @@ dashboardPage(
             tabItem(
                 tabName = "item2",
                 fluidRow(
-                    column(3,
-                           uiOutput(outputId = "data_upload")
+                    column(4,
+                           popover(
+                               fileInput("file", NULL,
+                                         placeholder = "Start Here",
+                                         buttonLabel = "Upload Data",
+                                         width = "100%",
+                                         multiple = T,
+                                         accept=c("text/csv",
+                                                  "text/comma-separated-values,text/plain")), #%>%
+                               title = "Upload CSV to validate",
+                               content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file.")
                     ),
-                    column(2,
-                           uiOutput(outputId = "rules_upload"), 
-                           uiOutput("alert") 
-                    )),
+                    column(4,
+                           if(!isTruthy(config$rules_to_use)){
+                               popover(
+                                   fileInput("file_rules", NULL,
+                                             placeholder = ".csv",
+                                             buttonLabel = "Rules...",
+                                             width = "100%",
+                                             accept=c("text/csv",
+                                                      "text/comma-separated-values,text/plain")),
+                                   title = "Upload rules",
+                                   content = "Upload the rules csv to use to validate the data csv"
+                               ) 
+                           }
+                    ), 
+                    column(4, 
+                           uiOutput("alert"))),
                     uiOutput("error_query"),
                     uiOutput("dev_options")
             ),

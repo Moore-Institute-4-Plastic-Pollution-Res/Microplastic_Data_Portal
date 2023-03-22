@@ -48,7 +48,7 @@ options(shiny.maxRequestSize = 30*1024^2)
 
 # Functions ----
 
-certificate_df <- function(x, database = database){
+certificate_df <- function(x, database_true = isTruthy(config$mongo_key)){
     df <-  data.frame(time = Sys.time(), 
                       data = digest(x$data_formatted), 
                       rules = digest(x$rules), 
@@ -56,7 +56,7 @@ certificate_df <- function(x, database = database){
                       web_hash = digest(paste(sessionInfo(), 
                                               Sys.time(), 
                                               Sys.info())))
-    if(isTruthy(database)){
+    if(database_true){
         database$insert(df)
     }
     df
