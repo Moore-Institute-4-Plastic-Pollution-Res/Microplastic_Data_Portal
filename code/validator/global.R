@@ -35,7 +35,7 @@ if(isTruthy(config$mongo_key)) {
 } 
 
 
-if(isTruthy(config$s3_secret_key)) {
+if(isTruthy(config$s3_secret_key)){
     Sys.setenv(
         "AWS_ACCESS_KEY_ID" = config$s3_key_id,
         "AWS_SECRET_ACCESS_KEY" = config$s3_secret_key,
@@ -48,7 +48,7 @@ options(shiny.maxRequestSize = 30*1024^2)
 
 # Functions ----
 
-certificate_df <- function(x){
+certificate_df <- function(x, database = database){
     df <-  data.frame(time = Sys.time(), 
                       data = digest(x$data_formatted), 
                       rules = digest(x$rules), 
@@ -56,7 +56,9 @@ certificate_df <- function(x){
                       web_hash = digest(paste(sessionInfo(), 
                                               Sys.time(), 
                                               Sys.info())))
-    database$insert(df)
+    if(isTruthy(database)){
+        database$insert(df)
+    }
     df
 }
 
@@ -466,16 +468,18 @@ check_uploadable <- function(url, bucket = config$s3_bucket){
     test <- tryCatch(download.file(url = url, 
                                    destfile = filedest, 
                                    quiet = T,
-                                   mode = "wb"), #The wb is for windows, need to be changed for remote deployment.,
+                                   mode = "wb"), #The wb is for windows, need to be changed for remote deployment.
                      warning = function(w) {w}, error = function(e) {e})
     if(length(class(test)) != 1 || class(test) != "integer"){
         return(FALSE)
     }
-    put_object(
-        file = filedest,
-        object = file_name,
-        bucket = bucket
-    )
+    if(isTruthy(config$s3_bucket)){
+        put_object(
+            file = filedest,
+            object = file_name,
+            bucket = bucket
+        )   
+    }
 }
 
 check_images <- function(x){

@@ -24,7 +24,7 @@ function(input, output, session) {
                 popover(
                     fileInput("file", NULL,
                               placeholder = if(isTruthy(input$file)){"Data Loaded"} else{"Start Here"},
-                              buttonLabel = "Data...",
+                              buttonLabel = "Upload Data",
                               multiple = T,
                               accept=c("text/csv",
                                        "text/comma-separated-values,text/plain")), #%>%
@@ -205,6 +205,9 @@ function(input, output, session) {
         req(validation()$data_formatted)
         req(isTRUE(!any(validation()$issues)))
         req(vals$key)
+        req(config$s3_secret_key)
+        req(config$mongo_key)
+        req(config$ckan)
         remote_share(validation = validation(),
                      data_formatted = validation()$data_formatted, 
                      verified = vals$key,

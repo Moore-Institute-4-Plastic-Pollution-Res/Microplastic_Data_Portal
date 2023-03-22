@@ -54,7 +54,7 @@ dashboardPage(
             tabItem(
                 tabName = "item2",
                 fluidRow(
-                    column(2,
+                    column(3,
                            uiOutput(outputId = "data_upload")
                     ),
                     column(2,
