@@ -331,7 +331,19 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
 }
 
 
-remote_share <- function(validation, data_formatted, verified, api, rules, results, bucket = config$s3_bucket, old_cert = NULL){
+remote_share <- function(validation, data_formatted, verified, valid_rules, valid_key, ckan_url, ckan_key, ckan_package, url_to_send, rules, results, bucket, mongo_key, old_cert = NULL){
+    
+    use_ckan <- isTruthy(ckan_url) & isTruthy(ckan_key) & isTruthy(ckan_package)
+    use_mongo <- isTruthy(mongo_key)
+    use_s3 <- isTruthy(bucket)  
+    
+    if(!(use_ckan | use_mongo | use_s3)){
+        return(list(
+            message = data.table(
+                title = "No upload methods available",
+                text = "This feature will not work because no upload methods are specified.",
+                type = "error"), status = "error"))
+    }
     
     if(any(results$status == "error")){
         return(list(
@@ -341,7 +353,7 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
             type = "error"), status = "error"))
     }
     
-    if(!any(digest(as.data.frame(rules)) %in% api$ckan_valid_rules)){
+    if(!any(digest(as.data.frame(rules)) %in% valid_rules)){
         return(list(
             message = data.table(
             title = "Rules file is not valid",
@@ -349,70 +361,81 @@ remote_share <- function(validation, data_formatted, verified, api, rules, resul
             type = "error"), status = "error"))
     }
     
-    if(!any(verified %in% api$ckan_valid_key)){
+    if(!any(verified %in% valid_key)){
         return(list(
             message = data.table(
                 title = "Secret Key is not valid",
-                text = "Any column labeled KEY is considered a secret key and should have a valid pair in our internal database.",
+                text = "You must have a valid key provided by the portal maintainer to use this feature.",
                 type = "error"), status = "error"))
     }
-    
-    api_info <- api %>%
-        dplyr::filter(ckan_valid_key == verified & ckan_valid_rules == digest(as.data.frame(rules)))
-    
-    if(nrow(api_info) != 1){
-        return(list(
-            message = data.table(
-            title = "Mismatched rules file and KEY column",
-            text = "The secret key and rules file must be exact matches to one another. One secret key is for one rules file.",
-            type = "error"), status = "error"))
-    }
-    
-    ckanr_setup(url = api_info$ckan_url, key = api_info$ckan_key)
+
     hashed_data <- digest(data_formatted)
     
-    for(dataset in 1:length(data_formatted)){
-        data_name <- names(data_formatted[dataset])
-        #hashed_rules <- digest(rules)
-        #package_version <- packageVersion("validate")
-        file <- tempfile(pattern = "data", fileext = ".csv")
-        write.csv(data_formatted[dataset], file, row.names = F)
-        put_object(
-                file = file,
-                object = paste0(hashed_data, "_", data_name, ".csv"),
-                bucket = bucket
-            )
-        resource_create(package_id = api_info$ckan_package,
-                                    description = "validated raw data upload to microplastic data portal",
-                                    name = paste0(hashed_data, "_", data_name),
-                                    upload = file)
-    }
-    certificate <- certificate_df(validation)
+    if(use_ckan){
+        ckanr_setup(url = ckan_url, key = ckan_key)
+    }    
+    
+        for(dataset in 1:length(data_formatted)){
+            data_name <- names(data_formatted[dataset])
+            #hashed_rules <- digest(rules)
+            #package_version <- packageVersion("validate")
+            file <- tempfile(pattern = "data", fileext = ".csv")
+            write.csv(data_formatted[dataset], file, row.names = F)
+            if(use_s3){
+                put_object(
+                    file = file,
+                    object = paste0(hashed_data, "_", data_name, ".csv"),
+                    bucket = bucket
+                )    
+            }
+            if(use_ckan){
+                resource_create(package_id = ckan_package,
+                                description = "validated raw data upload to microplastic data portal",
+                                name = paste0(hashed_data, "_", data_name),
+                                upload = file)
+            }
+            if(use_mongo){
+                database$insert(data_formatted[dataset])
+            }
+        }        
+
+    certificate <- certificate_df(validation, database_true = use_mongo)
     file <- tempfile(pattern = "data", fileext = ".csv")
     write.csv(certificate, file, row.names = F)
-    put_object(
+    if(use_s3){
+       put_object(
         file = file,
         object = paste0(hashed_data, "_", "certificate.csv"),
         bucket = bucket
-    )
-    resource_create(package_id = api_info$ckan_package,
-                    description = "validated raw data upload to microplastic data portal",
-                    name = paste0(hashed_data, "_certificate"),
-                    upload = file)
+    ) 
+    }
+    if(use_ckan){
+        resource_create(package_id = ckan_package,
+                        description = "validated raw data upload to microplastic data portal",
+                        name = paste0(hashed_data, "_certificate"),
+                        upload = file)    
+    }
     if(isTruthy(old_cert)){
-        put_object(
-            file = old_cert,
-            object = paste0(hashed_data, "_", "old_certificate.csv"),
-            bucket = "microplasticdataportal"
-        )
-        resource_create(package_id = api_info$ckan_package,
+        if(use_mongo){
+            database$insert(read.csv(old_cert))
+        }
+        if(use_s3){
+            put_object(
+                file = old_cert,
+                object = paste0(hashed_data, "_", "old_certificate.csv"),
+                bucket = bucket
+            )    
+        }
+        if(use_ckan){
+            resource_create(package_id = ckan_package,
                         description = "validated raw data upload to microplastic data portal",
                         name = paste0(hashed_data, "old_certificate"),
                         upload = old_cert)
+        }
     }
     return(list(status = "success", 
                 message = data.table(title = "Data Upload Successful", 
-                                     text = paste0("Data was successfully sent to the state data portal at ", api_info$ckan_url_to_send), 
+                                     text = paste0("Data was successfully sent to the data portal at ", url_to_send), 
                                      type = "success")))
 }
 

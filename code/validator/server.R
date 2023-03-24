@@ -176,13 +176,21 @@ function(input, output, session) {
         req(vals$key)
         req(config$s3_secret_key)
         req(config$mongo_key)
-        req(config$ckan)
+        req(config$ckan_key)
+        
         remote_share(validation = validation(),
                      data_formatted = validation()$data_formatted, 
-                     verified = vals$key,
-                     api = config$ckan, 
+                     verified = vals$key, 
+                     valid_rules = config$valid_rules, 
+                     valid_key = config$valid_key, 
+                     ckan_url = config$ckan_url, 
+                     ckan_key = config$ckan_key, 
+                     ckan_package = config$ckan_package, 
+                     url_to_send = config$url_to_send, 
                      rules = read.csv(rules()), 
-                     results = validation()$results,
+                     results = validation()$results, 
+                     bucket = config$s3_bucket, 
+                     mongo_key = config$mongo_key, 
                      old_cert = input$old_certificate$datapath)
     })
     
