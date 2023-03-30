@@ -3,9 +3,9 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/MoorePlasticRes?style=social)](https://twitter.com/MoorePlasticRes)
 [![Join the chat at https://gitter.im/Microplastic_Data_Portal/community](https://badges.gitter.im/Microplastic_Data_Portal/community.svg)](https://gitter.im/Microplastic_Data_Portal/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-We are innovating what government open data can be by creating an open source data portal where all aspects of data ingestion, analysis, visualization, and sharing are transparent and collaboratable by the open source community. This project is a collaboration with [California Water Boards](https://www.waterboards.ca.gov/), [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/), [The Gray Lab @ UCR](https://www.thegraylab.org/), [San Francisco Estuary Institue](https://www.sfei.org/), [California 100](https://california100.org/), [Possibility Lab](https://possibilitylab.berkeley.edu/) and the open source community at large. 
+We are innovating what government open data can be by creating an open source data portal where all aspects of data ingestion, analysis, visualization, and sharing are transparent and collaboratable by the open source community. This project is a collaboration with [California Water Boards](https://www.waterboards.ca.gov/), [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/), [The Gray Lab @ UCR](https://www.thegraylab.org/), [San Francisco Estuary Institue](https://www.sfei.org/), [California 100](https://california100.org/), [Possibility Lab](https://possibilitylab.berkeley.edu/) and the open source community at large.
 
-This data portal supports the implementation of Senate Bill No. 1422 which mandates sharing of microplastic data from drinking water, policy SAM 5160 which mandates that state data be open access, and policy SAM 4984 which mandates that software be open by default. Our vision is to use this project as a framework for future open software development by state agencies in the California. All engagement on this open repo will be the subject of future policy research on how government and open source communities can better collaborate on software development projects. 
+This data portal supports the implementation of Senate Bill No. 1422 which mandates sharing of microplastic data from drinking water, policy SAM 5160 which mandates that state data be open access, and policy SAM 4984 which mandates that software be open by default. Our vision is to use this project as a framework for future open software development by state agencies in the California. All engagement on this open repo will be the subject of future policy research on how government and open source communities can better collaborate on software development projects.
 
 ## Connect
 If you want to discuss anything with the community you can start a conversation on [Gitter](https://gitter.im/Microplastic_Data_Portal/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -13,9 +13,9 @@ If you want to discuss anything with the community you can start a conversation 
 ## Contributing
 Contributions of all kinds are welcome!
 
-We have meetings every two weeks at 3PM California Time on Thursday for anyone interested in being involved. Contact wincowger@gmail.com to get added to the virtual meeting invite. 
+We have meetings every two weeks at 3PM California Time on Thursday for anyone interested in being involved. Contact wincowger@gmail.com to get added to the virtual meeting invite.
 
-Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/). 
+Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/).
 
 Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
@@ -32,7 +32,7 @@ Please adhere to this project's [Code of Conduct](https://www.contributor-covena
 
 ## Installation
 ### Data
-Download the .xlsx files we have created to begin developing the database schema and visualizations in [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data). 
+Download the .xlsx files we have created to begin developing the database schema and visualizations in [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data).
 
 #### Definitions for terms in manuscript database [LINK](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/data/README.md)
 
@@ -84,20 +84,20 @@ gantt
 ### Data Collection (June 1, 2022 - June 1, 2024)
 * [x] [Github Data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal)
 * [x] Presentation and Workshop Notes
-* [x] Media Feedback 
+* [x] Media Feedback
 	* [x] Made it into [policy handbook](https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/docs/2022/mp-hndbk.pdf).  
-		* [ ] Searching for related press releases relevant to the data portal. 
+		* [ ] Searching for related press releases relevant to the data portal.
 * [x] [Security Reports in Logs](https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates)
-	* [ ] Customize tooling. 
+	* [ ] Customize tooling.
 
 ### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
-* [x] [Innitial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
+* [x] [Initial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
 * [x] Web Application Development
 	* [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
     		* [x] Standardize data format for uploads. (Leah is helping)
     		* [x] Standardize data validation rules for upload. (Leah is helping with this)
     	* [x] Data Visualization analysis download
-    		* [x] Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R) 
+    		* [x] Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R)
  		* [x] Image Explorer
 			* [x] Website online [microplastics image explorer](https://wincowger.shinyapps.io/microplastic_image_explorer/)
 			* [x] Coauthor collaboration started with ~10 other researchers.
@@ -108,21 +108,21 @@ gantt
 			* [x] Definition created for manuscript data
    		* [x] Integrate back end for upload
 			* [x] Connection made
-			* [x] Add data from manuscripts to data.ca.gov. 
-			* [x] Add api keys so only certain users with permissions can upload. 
+			* [x] Add data from manuscripts to data.ca.gov.
+			* [x] Add api keys so only certain users with permissions can upload.
 		* [x] Integrate back end for download
-			* [x] Standardize data from manuscripts. 
+			* [x] Standardize data from manuscripts.
 		* [x] Taxonomy
-			* [x] Hannah made rough draft of the taxonomies. 
+			* [x] Hannah made rough draft of the taxonomies.
 			* [x] Integrate into data base queries
-			* [x] Integrate into wikidata. 
+			* [x] Integrate into wikidata.
 ### Policy  (August 1, 2022 - June 31, 2023)
 * [ ] Collaborations and knowlege sharing with stakeholders in long term future of data portal.  
-	* [x] Submitted to Water Data Challenge. 
-	* [x] Created press release for policy post. 
+	* [x] Submitted to Water Data Challenge.
+	* [x] Created press release for policy post.
 * [ ] [Waterboard Github](https://github.com/CAWaterBoardDataCenter) Collaboration FAQ
 * [ ] [California Open Data Portal](https://data.ca.gov/) Integration Notes and Framework
-* [ ] Open Source Portal Policy Brief [similar too](https://handbook.data.ca.gov/) and [based on](https://codecagov-playbook.readthedocs.io/en/latest/policy/) 
+* [ ] Open Source Portal Policy Brief [similar too](https://handbook.data.ca.gov/) and [based on](https://codecagov-playbook.readthedocs.io/en/latest/policy/)
 * [ ] Get Waterboard Repo on code.ca.gov
 
 ### Beta Testing of Portal (January 1, 2023 - June 30, 2023)
@@ -137,7 +137,7 @@ gantt
 ### Data Portal Finalization and Publishing (June 1, 2023 - December 31, 2023)
 * [ ] Link all tools together in one application? (not sure if necessary, likely different endpoints for different services, maybe one for data analysis / download and one for upload)
 * [ ] Data Vis App
-	* [ ] Turn into a web application for data vis from ckan. 
+	* [ ] Turn into a web application for data vis from ckan.
 	* [ ] Pull down and visualize data from manuscripts.  
 	* [ ] Download formatting setup from CKAN
 * [ ] Integration of beta testers feedback
@@ -185,7 +185,7 @@ erDiagram
     PARTICLES ||--|| MORPHOLOGY_HIERARCHY : RELATES
 
     SAMPLES {
-        string SampleID PK "Unique ID for Sample" 
+        string SampleID PK "Unique ID for Sample"
         string Methodology FK "Online identifier for methodology"
 	string SubmissionID "Unique ID for each submission"
         string OwnerOrganization "Unique ID for organization who owns the sample"
@@ -203,11 +203,11 @@ erDiagram
         numeric ColorX "A value for the proportion of particles of color X"
         numeric TactileX "A value for the proportion of particles of tactile feature X"
     }
-    
+
     PARTICLES {
-        string ParticleID PK "Unique ID for each particle" 
+        string ParticleID PK "Unique ID for each particle"
         string Methodology FK "Online identifier for methodology"
-        string SampleID FK "Unique ID for sample" 
+        string SampleID FK "Unique ID for sample"
 	string PhotoID "URL address for photo of particle"
 	string ImageTime "Time image was taken"
 	string Comments "Any comments about the particle analysis"
@@ -222,7 +222,7 @@ erDiagram
         string Color "Particle color"
         string Tactile "Particle tactile features"
     }
-    
+
     METHODOLOGY {
         string Methodology PK "Online identifier for methodology"
         string SamplingDevice "Device used to collect sample and dimensions"
@@ -241,12 +241,12 @@ erDiagram
 	string Magnification "40x"
         string MatIDMethod "Material identification method e.g. pygcms, raman, ftir"
 	string MatIDSoftware "Material ID software used"
-    } 
+    }
       POLYMER_HIERARCHY {
         string Polymer PK "Polymer name"
         string Parent "Parent Category of the Polymer"
     }   
-    
+
     MORPHOLOGY_HIERARCHY {
         string Morphology PK "Particle morphology"
         string Parent "Parent Category of the morphology"
@@ -299,7 +299,7 @@ graph LR
 - 2018 Require developing methods for microplastics in drinking water [policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
     -  https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/microplastics/mcrplstcs_ir.pdf
 ### Open Data Policy
-- 2019 Establishes Open Data Portal for Whole State [policy](https://cdt.ca.gov/wp-content/uploads/2018/05/TL-18-02-OSCodeReuse_2018-0419.pdf) 
+- 2019 Establishes Open Data Portal for Whole State [policy](https://cdt.ca.gov/wp-content/uploads/2018/05/TL-18-02-OSCodeReuse_2018-0419.pdf)
     - https://data.ca.gov/
     - https://fastdemocracy.com/bill-search/ca/20192020/bills/CAB00017185/
     - https://handbook.data.ca.gov/introduction/
