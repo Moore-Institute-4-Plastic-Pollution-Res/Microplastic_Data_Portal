@@ -1,191 +1,33 @@
+library(testthat)
 
-#Tests ----
-
-library(readxl)
-library(openxlsx)
-
-#Create a new key. 
-digest(runif(5), algo = 'sha256')
-
-file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/rules.xlsx"
-files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/data_success.xlsx"
-
-url.exists("https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Microplastic.jpg/1920px-Microplastic.jpg")
-
-sheets <- readxl::excel_sheets(file_rules)
-all <- readxl::read_excel(file_rules, sheet = sheets)
-
-files_data = paste0("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/", c("samples.csv", "particles.csv", "methodology.csv"))
-file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/www/rules_dw_acc.csv"
-
-digest(read.csv(file_rules))
-
-data_validation <- validate_data(files_data = files_data, file_rules = file_rules)
-
-data_validation$data_formatted$particles$MethodologyID
-
-filedest <- "C:/Users/winco/OneDrive/Documents/test.pdf"
-
-check_uploadable <- function(url){
-    hash_url <- digest(url)
-    file_type <- gsub(".*\\.", "", url)
-    file_name <- paste0(hash_url, ".", file_type)
-    filedest <- paste0(tempfile(), file_name)
-    test <- tryCatch(download.file(url = url, 
-                                   destfile = filedest, 
-                                   mode = "wb"), #The wb is for windows, need to be changed for remote deployment.,
-                              warning = function(w) {w}, error = function(e) {e})
-    if(length(class(test)) != 1 || class(test) != "integer"){
-        return(FALSE)
-    }
-    put_object(
-        file = filedest,
-        object = file_name,
-        bucket = "microplasticdataportal"
-    )
+# Define a mock database function that captures the input
+mock_database <- function(df) {
+    assign("database_input", df, envir = .GlobalEnv)
 }
 
-check <- check_uploadable(url = "https://edd.ca.gov/siteassets/files/pdf_pub_ctr/de4.pdf")
+# Define the test case
+test_that("certificate_df creates a data frame with the correct columns", {
+    # Call the function with sample input
+    x <- list(data_formatted = "example data", rules = "example rules")
+    df <- certificate_df(x, database_true = FALSE)
+    
+    # Check if the output is a data frame with the correct columns
+    expect_is(df, "data.frame")
+    expect_equal(names(df), c("time", "data", "rules", "package_version", "web_hash"))
+    
+    # Check if the "data" and "rules" columns contain the expected values
+    expect_equal(df$data, digest("example data"))
+    expect_equal(df$rules, digest("example rules"))
+})
 
-test <- put_object(
-    file = "dfd",
-    object = "test_remote_upload.pdf",
-    bucket = "microplasticdataportal"
-)
-
-broken <- rules_broken(results = data_validation$results[[2]], show_decision = T) %>%
-                select(description, status, expression, name) %>%
-                mutate(description = as.factor(description))
-
-rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]) %>%
-    select(description, status, expression, name) %>%
-    mutate(description = as.factor(description))
-#https://gamagroundwater.waterboards.ca.gov/gama/datadownload
-#Excel spreadsheet creation. 
-data_validation$rules[[2]]
-
-wb <- create_valid_excel(file_rules = file_rules)
-
-openXL(wb)
-
-
-rules_all <- data_validation$rules[[1]]
-sheet_name <- data_validation$data_names[sheet_num]
-rule_test <- rules_all[[col_num]]
-expression <- rule_test@expr
-
-for(value in values){
-    conditionalFormatting(wb, sheet_name, cols = col_num, rows = 1:1000, type = "contains", rule = value, style = posStyle)
-}
-
-
-
-variables(rule_test)
-data_validation$results[[1]]
-
-wb <- createWorkbook()
-addWorksheet(wb, "cellIs")
-addWorksheet(wb, "Moving Row")
-addWorksheet(wb, "Moving Col")
-addWorksheet(wb, "Dependent on 1")
-addWorksheet(wb, "Duplicates")
-addWorksheet(wb, "containsText")
-addWorksheet(wb, "colourScale", zoom = 30)
-addWorksheet(wb, "databar")
-
-## cells containing text
-fn <- function(x) paste(sample(LETTERS, 10), collapse = "-")
-writeData(wb, "containsText", sapply(1:10, fn))
-conditionalFormatting(wb, "containsText", cols = 1, rows = 1:10, type = "contains", rule = "A")
-
-
-negStyle <- createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE")
-posStyle <- createStyle(fontColour = "#006100", bgFill = "#C6EFCE")
-
-## rule applies to all each cell in range
-writeData(wb, "cellIs", -5:5)
-writeData(wb, "cellIs", LETTERS[1:11], startCol=2)
-conditionalFormatting(wb, "cellIs", cols=1, rows=1:11, rule="!=0", style = negStyle)
-conditionalFormatting(wb, "cellIs", cols=1, rows=1:11, rule="==0", style = posStyle)
-
-## highlight row dependent on first cell in row
-writeData(wb, "Moving Row", -5:5)
-writeData(wb, "Moving Row", LETTERS[1:11], startCol=2)
-conditionalFormatting(wb, "Moving Row", cols=1:2, rows=1:11, rule="$A1<0", style = negStyle)
-conditionalFormatting(wb, "Moving Row", cols=1:2, rows=1:11, rule="$A1>0", style = posStyle)
-
-## highlight column dependent on first cell in column
-writeData(wb, "Moving Col", -5:5)
-writeData(wb, "Moving Col", LETTERS[1:11], startCol=2)
-conditionalFormatting(wb, "Moving Col", cols=1:2, rows=1:11, rule="A$1<0", style = negStyle)
-conditionalFormatting(wb, "Moving Col", cols=1:2, rows=1:11, rule="A$1>0", style = posStyle)
-
-## highlight entire range cols X rows dependent only on cell A1
-writeData(wb, "Dependent on 1", -5:5)
-writeData(wb, "Dependent on 1", LETTERS[1:11], startCol=2)
-conditionalFormatting(wb, "Dependent on 1", cols=1:2, rows=1:11, rule="$A$1<0", style = negStyle)
-conditionalFormatting(wb, "Dependent on 1", cols=1:2, rows=1:11, rule="$A$1>0", style = posStyle)
-
-## highlight duplicates using default style
-writeData(wb, "Duplicates", sample(LETTERS[1:15], size = 10, replace = TRUE))
-conditionalFormatting(wb, "Duplicates", cols = 1, rows = 1:10, type = "duplicates")
-
-## cells containing text
-fn <- function(x) paste(sample(LETTERS, 10), collapse = "-")
-writeData(wb, "containsText", sapply(1:10, fn))
-conditionalFormatting(wb, "containsText", cols = 1, rows = 1:10, type = "contains", rule = "A")
-
-## Databars
-writeData(wb, "databar", -5:5)
-conditionalFormatting(wb, "databar", cols = 1, rows = 1:12, type = "databar") ## Default colours
-
-saveWorkbook(wb, "conditionalFormattingExample.xlsx", TRUE)
-
-openXL(wb)
-
-
-
-
-#setwd("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets")
-
-#Material_PA <= 1| Material_PA %vin% c("N/A") | Material_PA %vin% ("Present")
-#api <- read.csv("ckan.csv")
-#files_data = c("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/particles.csv", "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/methodology.csv", "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/samples.csv")
-#file_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/AccreditedLabs/rules_all.csv"
-#files_data = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/data_success_secret.csv"
-#files_rules = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/validator/secrets/rules_secret.csv"
-
-
-#list_complaints <- lapply(1:nrow(files_rules), function(x){
-#    tryCatch(validator(.data=files_rules[x,]), 
-#             warning = function(w) {w}, 
-#             error = function(e) {e})
-#})
-
-#rules_formatted <- tryCatch(validator(.data=rules), 
-#                            warning = function(w) {w}, 
-#                            error = function(e) {e})
-
-#test_rules <- validate_rules(files_rules)
-
-#test_data <- validate_data(files_data = files_data, file_rules = file_rules)
-
-#req(all(test_data$results$status == "success"))
-#req("KEY" %in% names(validation()$data_formatted))
-
-#api <- read.csv("secrets/ckan.csv")
-
-
-#variables(test_rules$rules)[variables(test_rules$rules) != "DOI"]
-#(test_data$data_formatted$Approximate_Lattitude == "N/A" | suppressWarnings(as.numeric(test_data$data_formatted$Approximate_Lattitude) > -90 & as.numeric(test_data$data_formatted$Approximate_Lattitude) < 90)) & !is.na(test_data$data_formatted$Approximate_Lattitude)
-#test_rules$message
-#test_data$status
-#test_data$results
-#test_data$data_formatted$Approximate_Lattitude
-#test_bad_rules <- validate_rules("rules.txt")
-#test_remote <- remote_share(data_formatted = test_data$data_formatted, api = api, rules = test_rules$rules, results = test_data$results)
-#test_rules_2 <- validate_rules("C:/Users/winco/Downloads/rules (14).csv")
-#test_invalid <- validate_data(files_data = "C:/Users/winco/Downloads/invalid_data (3).csv", rules = test_rules_2$rules)
-#test_rules_broken <- rules_broken(results = test_invalid$results, show_decision = T)
-#test_rows <- rows_for_rules(data_formatted = test_invalid$data_formatted, report = test_invalid$report, broken_rules = test_rules_broken, rows = 1)
-#RIP LIL PEEP TEST BY GABRIEL
+# Define another test case for database functionality
+test_that("certificate_df inserts the data frame into a database when requested", {
+    # Set up a mock database and call the function with database_true = TRUE
+    assign("database", list(insert = mock_database), envir = .GlobalEnv)
+    x <- list(data_formatted = "example data", rules = "example rules")
+    df <- certificate_df(x, database_true = TRUE)
+    
+    # Check if the mock database captured the input
+    expect_is(database_input, "data.frame")
+    expect_equal(database_input, df)
+})
