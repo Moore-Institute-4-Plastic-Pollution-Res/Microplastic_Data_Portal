@@ -31,3 +31,74 @@ test_that("certificate_df inserts the data frame into a database when requested"
     expect_is(database_input, "data.frame")
     expect_equal(database_input, df)
 })
+
+
+#Test the validate data function. 
+
+
+# Test that validate_data correctly identifies valid file types
+test_that("validate_data correctly identifies valid file types", {
+    result <- validate_data("example.csv", file_rules = "rules.csv")
+    expect_equal(result$status, NULL)
+})
+
+# Test that validate_data returns an error when given an invalid file type
+test_that("validate_data returns an error when given an invalid file type", {
+    result <- validate_data("example.txt", file_rules = "rules.csv")
+    expect_equal(result$status, "error")
+    expect_equal(result$message$title, "Data type not supported!")
+    expect_match(result$message$text, "Uploaded data type is not currently supported")
+})
+
+# Test that validate_data correctly reads a valid CSV rules file
+test_that("validate_data correctly reads a valid CSV rules file", {
+    result <- validate_data("example.csv", file_rules = "rules.csv")
+    expect_equal(result$status, NULL)
+})
+
+# Test that validate_data returns an error when given an invalid CSV rules file
+test_that("validate_data returns an error when given an invalid CSV rules file", {
+    result <- validate_data("example.csv", file_rules = "invalid_rules.csv")
+    expect_equal(result$status, "error")
+    expect_equal(result$message$title, "Data type not supported!")
+    expect_match(result$message$text, "Uploaded rules format is not currently supported")
+})
+
+# Test that validate_data correctly reads a valid XLSX rules file
+test_that("validate_data correctly reads a valid XLSX rules file", {
+    result <- validate_data("example.csv", file_rules = "rules.xlsx")
+    expect_equal(result$status, NULL)
+})
+
+# Test that validate_data returns an error when given an invalid XLSX rules file
+test_that("validate_data returns an error when given an invalid XLSX rules file", {
+    result <- validate_data("example.csv", file_rules = "invalid_rules.xlsx")
+    expect_equal(result$status, "error")
+    expect_equal(result$message$title, "Data type not supported!")
+    expect_match(result$message$text, "Uploaded rules format is not currently supported")
+})
+
+# Test that validate_data correctly identifies malicious rules
+test_that("validate_data correctly identifies malicious rules", {
+    malicious_rules <- data.frame(name = "Malicious Rule", description = "This rule contains the word 'config'", severity = "High", rule = "This rule contains the word 'config'")
+    result <- validate_data("example.csv", file_rules = malicious_rules)
+    expect_equal(result$status, "error")
+    expect_equal(result$message$title, "Rule not supported!")
+    expect_match(result$message$text, "unable to support any rules with the words config or secret in them")
+})
+
+# Test that validate_data correctly identifies invalid rules
+test_that("validate_data correctly identifies invalid rules", {
+    invalid_rules <- data.frame(name = "Invalid Rule", description = "This rule has an invalid column name", severity = "Low", invalid_column_name = "This rule has an invalid column name")
+    result <- validate_data("example.csv", file_rules = invalid_rules)
+    expect_equal(result$status, "error")
+    expect_equal(result$message$title, "Data type not supported!")
+    expect_match(result$message$text, "provide a rules file with column names, \"name\", \"description\", \"severity\", \"rule\"")
+})
+
+# Test that validate_data correctly identifies mixed data types
+test_that("validate_data correctly identifies mixed data types", {
+    result <- validate_data(c("example.csv", "example.xlsx"), file_rules = "rules.csv")
+    expect_equal(result$status, "error")
+    expect_equal(result$message$title, "Mixed Data Types")
+})
