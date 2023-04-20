@@ -47,7 +47,20 @@ if(isTruthy(config$s3_secret_key)){
 options(shiny.maxRequestSize = 30*1024^2)
 
 # Functions ----
-
+#' Generate a data frame with certificate information
+#'
+#' This function creates a data frame with certificate information including the current time,
+#' data and rule hashes, package version, and web hash.
+#'
+#' @param x A list containing `data_formatted` and `rules` elements.
+#' @param database_true A logical value (default: `isTruthy(config$mongo_key)`). If TRUE, the generated
+#'   data frame will be inserted into the database.
+#' @return A data frame with certificate information.
+#' @importFrom digest digest
+#' @importFrom data.table data.frame
+#' @importFrom base Sys.time Sys.info
+#' @importFrom utils packageVersion
+#' @export
 certificate_df <- function(x, database_true = isTruthy(config$mongo_key)){
     df <-  data.frame(time = Sys.time(), 
                       data = digest(x$data_formatted), 
@@ -62,6 +75,29 @@ certificate_df <- function(x, database_true = isTruthy(config$mongo_key)){
     df
 }
 
+#' Validate_data: Validate data based on specified rules.
+#'
+#' @param files_data A list of file paths for the datasets to be validated.
+#' @param data_names (Optional) A character vector of names for the datasets. If not provided, names will be extracted from the file paths.
+#' @param file_rules A file path for the rules file, either in .csv or .xlsx format.
+#'
+#' @return A list containing the following elements:
+#'   - data_formatted: A list of data frames with the validated data.
+#'   - data_names: A character vector of dataset names.
+#'   - report: A list of validation report objects for each dataset.
+#'   - results: A list of validation result data frames for each dataset.
+#'   - rules: A list of validator objects for each dataset.
+#'   - status: A character string indicating the overall validation status ("success" or "error").
+#'   - issues: A logical vector indicating if there are any issues in the validation results.
+#'   - message: A data.table containing information about any issues encountered.
+#'
+#' @examples
+#' # Validate data with specified rules
+#' result <- validate_data(files_data = list("data1.csv", "data2.csv"),
+#'                         data_names = c("Dataset1", "Dataset2"),
+#'                         file_rules = "rules.csv")
+#'
+#' @export
 validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
     
     #Accepts three fields, files data is the data set we are validating. data_names is optional and can be used to specify the names of the datasets. file_rules is the rules file. 
@@ -330,7 +366,33 @@ validate_data <- function(files_data, data_names = NULL, file_rules = NULL){
                 message = if(exists("warning_2")){warning_2} else{NULL}))
 }
 
-
+#' Remote Share Function
+#'
+#' This function uploads validated data to specified remote repositories,
+#' such as CKAN, MongoDB, and/or Amazon S3.
+#'
+#' @param validation A list containing validation information.
+#' @param data_formatted A list containing formatted data.
+#' @param verified The secret key provided by the portal maintainer.
+#' @param valid_rules A list of valid rules for the dataset.
+#' @param valid_key A list of valid keys.
+#' @param ckan_url The URL of the CKAN instance.
+#' @param ckan_key The API key for the CKAN instance.
+#' @param ckan_package The CKAN package to which the data will be uploaded.
+#' @param url_to_send The URL to send the data.
+#' @param rules A set of rules used for validation.
+#' @param results A list containing results of the validation.
+#' @param bucket The name of the Amazon S3 bucket.
+#' @param mongo_key The API key for the MongoDB instance.
+#' @param old_cert (Optional) An old certificate to be uploaded alongside the new one.
+#'
+#' @return A list containing the status and message of the operation.
+#' @export
+#'
+#' @examples
+#' remote_share(validation, data_formatted, verified, valid_rules, valid_key,
+#'              ckan_url, ckan_key, ckan_package, url_to_send, rules, results,
+#'              bucket, mongo_key, old_cert = NULL)
 remote_share <- function(validation, data_formatted, verified, valid_rules, valid_key, ckan_url, ckan_key, ckan_package, url_to_send, rules, results, bucket, mongo_key, old_cert = NULL){
     
     use_ckan <- isTruthy(ckan_url) & isTruthy(ckan_key) & isTruthy(ckan_package)
@@ -439,18 +501,80 @@ remote_share <- function(validation, data_formatted, verified, valid_rules, vali
                                      type = "success")))
 }
 
-
+#' rules_broken
+#'
+#' Filter the results of validation to show only broken rules, optionally including successful decisions.
+#'
+#' @param results A data frame with validation results.
+#' @param show_decision A logical value to indicate if successful decisions should be included in the output.
+#'
+#' @return A data frame with the filtered results.
+#' @export
+#'
+#' @examples
+#' # Sample validation results data frame
+#' sample_results <- data.frame(
+#'   description = c("Rule 1", "Rule 2", "Rule 3"),
+#'   status = c("error", "success", "error"),
+#'   name = c("rule1", "rule2", "rule3"),
+#'   expression = c("col1 > 0", "col2 <= 5", "col3 != 10"),
+#'   stringsAsFactors = FALSE
+#' )
+#'
+#' # Show only broken rules
+#' broken_rules <- rules_broken(sample_results, show_decision = FALSE)
 rules_broken <- function(results, show_decision){
     results %>%
         dplyr::filter(if(show_decision){status == "error"} else{status %in% c("error", "success")}) %>%
         select(description, status, name, expression, everything())
 }
 
+#' rows_for_rules
+#'
+#' Get the rows in the data that violate the specified rules.
+#'
+#' @param data_formatted A formatted data frame.
+#' @param report A validation report generated by the 'validate' function.
+#' @param broken_rules A data frame with broken rules information.
+#' @param rows A vector of row indices specifying which rules to check for violations.
+#'
+#' @return A data frame with rows in the data that violate the specified rules.
+#' @export
+#'
+#' @examples
+#' # Sample data
+#' sample_data <- data.frame(
+#'   col1 = c(1, -2, 3, -4, 5),
+#'   col2 = c(6, 7, 8, 9, 10)
+#' )
+#'
+#' # Validation rules
+#' rules <- validator(
+#'   col1 > 0,
+#'   col2 <= 5
+#' )
+#'
+#' # Generate a validation report
+#' report <- confront(sample_data, rules)
+#'
+#' # Find the broken rules
+#' broken_rules <- rules_broken(report, show_decision = FALSE)
+#'
+#' # Get rows for the specified rules
+#' violating_rows <- rows_for_rules(sample_data, report, broken_rules, c(1, 2))
 rows_for_rules <- function(data_formatted, report, broken_rules, rows){
     violating(data_formatted, report[broken_rules[rows, "name"]])
 }
 
 #acknowledgement https://github.com/adamjdeacon/checkLuhn/blob/master/R/checkLuhn.R
+#' Check if a number passes the Luhn algorithm
+#'
+#' This function checks if a given number passes the Luhn algorithm. It is commonly used to validate credit card numbers.
+#' @param number A character string of the number to check against the Luhn algorithm.
+#' @return A logical value indicating whether the number passes the Luhn algorithm (TRUE) or not (FALSE).
+#' @examples
+#' checkLuhn("4532015112830366") # TRUE
+#' checkLuhn("4532015112830367") # FALSE
 checkLuhn <- function(number) {
     # must have at least 2 digits
     if(nchar(number) <= 2) {
@@ -483,6 +607,15 @@ checkLuhn <- function(number) {
     ((sum(digits) %% 10) == 0)
 }
 
+#' Check if a file can be uploaded to an S3 bucket
+#'
+#' This function checks if a file located at a given URL can be downloaded and uploaded to an S3 bucket.
+#' @param url A character string representing the URL of the file to download.
+#' @param bucket A character string representing the S3 bucket name where the file will be uploaded. Defaults to 'config$s3_bucket'.
+#' @return A logical value indicating whether the file can be uploaded (TRUE) or not (FALSE).
+#' @examples
+#' # Note: The example assumes you have valid AWS credentials and an S3 bucket available
+#' check_uploadable("https://example.com/file.csv", bucket = "your-s3-bucket-name")
 check_uploadable <- function(url, bucket = config$s3_bucket){
     hash_url <- digest(url)
     file_type <- gsub(".*\\.", "", url)
@@ -505,30 +638,72 @@ check_uploadable <- function(url, bucket = config$s3_bucket){
     }
 }
 
+
+#' Check and format image URLs
+#'
+#' This function checks if the input string contains an image URL (PNG or JPG) and formats it as an HTML img tag with a specified height.
+#' @param x A character string to check for image URLs.
+#' @return A character string with the HTML img tag if an image URL is found, otherwise the input string.
+#' @examples
+#' check_images("https://example.com/image.png")
+#' check_images("https://example.com/image.jpg")
+#' check_images("https://example.com/text")
 check_images <- function(x){
     ifelse(grepl("https://.*\\.png|https://.*\\.jpg", x), 
            paste0('<img src ="', x, '" height = "50"></img>'), 
            x)
 }
 
+
+#' Check and format non-image hyperlinks
+#'
+#' This function checks if the input string contains a non-image hyperlink and formats it as an HTML anchor tag.
+#' @param x A character string to check for non-image hyperlinks.
+#' @return A character string with the HTML anchor tag if a non-image hyperlink is found, otherwise the input string.
+#' @examples
+#' check_other_hyperlinks("https://example.com/page")
+#' check_other_hyperlinks("https://example.com/image.png")
+#' check_other_hyperlinks("https://example.com/image.jpg")
 check_other_hyperlinks <- function(x){
     ifelse(grepl("https://", x) & !grepl("https://.*\\.png|https://.*\\.jpg", x), 
            paste0('<a href ="', x, '">', x, '</a>'), 
            x)
 }
 
+#' Test for profanity in a string
+#'
+#' This function checks if the input string contains any profane words.
+#' @param x A character string to check for profanity.
+#' @return A logical value indicating whether the input string contains no profane words.
+#' @examples
+#' test_profanity("This is a clean sentence.")
+#' test_profanity("This sentence contains a badword.")
 test_profanity <- function(x){
-    bad_words <- unique(tolower(c(lexicon::profanity_alvarez, 
-                                  lexicon::profanity_arr_bad, 
-                                  lexicon::profanity_banned, 
-                                  lexicon::profanity_zac_anger, 
-                                  lexicon::profanity_racist, 
-                                  "test")))
-    profanity(x, bad_words)$profanity_count == 0
+    bad_words <- unique(tolower(c(#lexicon::profanity_alvarez, 
+                                  #lexicon::profanity_arr_bad, 
+                                  lexicon::profanity_banned#, 
+                                  #lexicon::profanity_zac_anger#, 
+                                  #lexicon::profanity_racist
+                                  )))
+    vapply(bad_words, function(y){
+        !grepl(y, x, ignore.case = T)
+    }, FUN.VALUE = T) |>
+        all()
 }
 
 #Rules to excel
-
+#' Create a formatted Excel file based on validation rules
+#'
+#' This function creates an Excel file with conditional formatting and data validation
+#' based on the given validation rules in a CSV or Excel file.
+#' @param file_rules A CSV or Excel file containing validation rules.
+#' @param negStyle Style to apply for negative conditions (default is red text on a pink background).
+#' @param posStyle Style to apply for positive conditions (default is green text on a light green background).
+#' @param row_num Number of rows to create in the output file (default is 1000).
+#' @param file_name Name of the output Excel file (default is "conditionalFormattingExample.xlsx").
+#' @return A workbook object containing the formatted Excel file.
+#' @examples
+#' create_valid_excel(file_rules = "validation_rules.csv")
 create_valid_excel <- function(file_rules, 
                                negStyle  = createStyle(fontColour = "#9C0006", bgFill = "#FFC7CE"),
                                posStyle  = createStyle(fontColour = "#006100", bgFill = "#C6EFCE"),
