@@ -1,7 +1,7 @@
 # Microplastics Data Portal
 [![Twitter Follow](https://img.shields.io/twitter/follow/ThePlastiverse?style=social)](https://twitter.com/ThePlastiverse)
 [![Twitter Follow](https://img.shields.io/twitter/follow/MoorePlasticRes?style=social)](https://twitter.com/MoorePlasticRes)
-[![Join the chat at https://gitter.im/Microplastic_Data_Portal/community](https://badges.gitter.im/Microplastic_Data_Portal/community.svg)](https://gitter.im/Microplastic_Data_Portal/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 We are innovating what government open data can be by creating an open source data portal where all aspects of data ingestion, analysis, visualization, and sharing are transparent and collaboratable by the open source community. This project is a collaboration with [California Water Boards](https://www.waterboards.ca.gov/), [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/), [The Gray Lab @ UCR](https://www.thegraylab.org/), [San Francisco Estuary Institue](https://www.sfei.org/), [California 100](https://california100.org/), [Possibility Lab](https://possibilitylab.berkeley.edu/) and the open source community at large.
 
