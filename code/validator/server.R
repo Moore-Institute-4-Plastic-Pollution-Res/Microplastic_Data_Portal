@@ -53,9 +53,9 @@ function(input, output, session) {
     validation <- reactive({
         req(input$file)
         req(rules())
-        validate_data(files_data = input$file$datapath[!grepl(".zip$", input$file$datapath)], 
+        validate_data(files_data = gsub("\\\\", "/", input$file$datapath[!grepl(".zip$", input$file$datapath)]), 
                       data_names = input$file$name[!grepl(".zip$", input$file$name)],
-                      zip_data = input$file$datapath[grepl(".zip$", input$file$datapath)], 
+                      zip_data = gsub("\\\\", "/",input$file$datapath[grepl(".zip$", input$file$datapath)]), 
                       file_rules = rules())
     })
 
@@ -238,6 +238,20 @@ function(input, output, session) {
                      old_cert = input$old_certificate$datapath)
     })
     
+    output$file_info <- renderPrint({
+        files_data <- input$file$datapath[!grepl(".zip$", input$file$datapath)]
+        data_names <- input$file$name[!grepl(".zip$", input$file$name)]
+        zip_data <- input$file$datapath[grepl(".zip$", input$file$datapath)]
+        file_rules <- rules()  # Assuming rules() is a function defined in your global environment
+        
+        # Printing the values
+        cat("files_data: ", files_data, "\n")
+        cat("data_names: ", data_names, "\n")
+        cat("zip_data: ", zip_data, "\n")
+        cat("file_rules: ", file_rules, "\n")
+    })
+    
+    
     output$dev_options <- renderUI({
         req(config$dev)
         tagList(
@@ -260,6 +274,7 @@ function(input, output, session) {
                         title = "Diagnose",
                         collapsed = T,
                         width = 12,
+                        verbatimTextOutput("file_info"),
                         jsoneditOutput("remote_out"),
                         jsoneditOutput("validation_out")#,
                     ),
