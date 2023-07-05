@@ -72,14 +72,14 @@ function(input, output, session) {
             return(validate_function())
         }, error = function(e) {
             shinyWidgets::show_alert(
-                title = "Error During validation", 
+                title = "Error During Validation", 
                 type = "error", 
                 text = paste0("Error: ", e$message)
             )
             return(NULL)
         }, message = function(m) {
             shinyWidgets::show_alert(
-                title = "Message During validation", 
+                title = "Message During Validation", 
                 type = "info", 
                 text = paste0("Message: ", m$message)
             )
