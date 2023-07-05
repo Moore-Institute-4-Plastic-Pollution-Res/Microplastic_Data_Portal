@@ -246,16 +246,11 @@ function(input, output, session) {
                 style = "bootstrap")
     })
     
-    remote <- reactive({
-        #req(validation()$data_formatted)
-        #req(isTRUE(!any(validation()$issues)))
-        req(vals$key)
-        #req(config$s3_secret_key)
-        #req(config$ckan_key)
+    observeEvent(req(validation()$data_formatted, !any(validation()$issues), vals$key, config$s3_secret_key, config$ckan_key), {
         tryCatch({
             remote_share(validation = validation(), 
                          data_formatted = validation()$data_formatted, 
-                         files = input$file$datapath,
+                         files = gsub("\\\\", "/", input$file$datapath),
                          verified = vals$key, 
                          valid_key = config$valid_key, 
                          valid_rules = config$valid_rules, 
@@ -274,33 +269,35 @@ function(input, output, session) {
             shinyWidgets::show_alert(title = "Warning During Remote Sharing", 
                                      type = "warning", 
                                      text = paste0("Warning: ", w$message))
-            return(NULL)
         }, error = function(e) {
             shinyWidgets::show_alert(title = "Error During Remote Sharing", 
                                      type = "error", 
                                      text = paste0("Error: ", e$message))
-            return(NULL)
         }, message = function(m) {
             shinyWidgets::show_alert(title = "Message During Remote Sharing", 
                                      type = "info", 
                                      text = paste0("Message: ", m$message))
         })
-        
-       
     })
     
     
+    
     output$file_info <- renderPrint({
-        files_data <- input$file$datapath[!grepl(".zip$", input$file$datapath)]
-        data_names <- input$file$name[!grepl(".zip$", input$file$name)]
-        zip_data <- input$file$datapath[grepl(".zip$", input$file$datapath)]
-        file_rules <- rules()  # Assuming rules() is a function defined in your global environment
-        
-        # Printing the values
-        cat("files_data: ", files_data, "\n")
-        cat("data_names: ", data_names, "\n")
-        cat("zip_data: ", zip_data, "\n")
-        cat("file_rules: ", file_rules, "\n")
+        str(validation())
+        cat("files: ", input$file$datapath, "\n")
+        cat("verified: ", vals$key, "\n")
+        cat("valid_key: ", config$valid_key, "\n")
+        cat("valid_rules: ", config$valid_rules, "\n")
+        cat("ckan_url: ", config$ckan_url, "\n")
+        cat("ckan_key: ", config$ckan_key, "\n")
+        cat("ckan_package: ", config$ckan_package, "\n")
+        cat("url_to_send: ", config$ckan_url_to_send, "\n")
+        print(paste("rules: ", read.csv(rules()), sep = "\n"))
+        cat("s3_key_id: ", config$s3_key_id, "\n")
+        cat("s3_secret_key: ", config$s3_secret_key, "\n")
+        cat("s3_region: ", config$s3_region, "\n")
+        cat("s3_bucket: ", config$s3_bucket, "\n")
+        #str(remote())
     })
     
     
@@ -433,12 +430,13 @@ function(input, output, session) {
     })
     
     #Diagnosis ----
-    output$validation_out <- renderJsonedit({
-        jsonedit(validation())
-    })
-    output$remote_out <- renderJsonedit({
-        jsonedit(input$file)
-    })
+    #output$validation_out <- renderJsonedit({
+    #    jsonedit(validation())
+    #})
+    
+    #output$remote_out <- renderJsonedit({
+    #    jsonedit(input$file)
+    #})
     
     
 }
