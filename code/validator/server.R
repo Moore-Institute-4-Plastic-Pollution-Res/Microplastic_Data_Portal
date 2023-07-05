@@ -53,11 +53,41 @@ function(input, output, session) {
     validation <- reactive({
         req(input$file)
         req(rules())
-        validate_data(files_data = gsub("\\\\", "/", input$file$datapath[!grepl(".zip$", input$file$datapath)]), 
-                      data_names = input$file$name[!grepl(".zip$", input$file$name)],
-                      zip_data = gsub("\\\\", "/",input$file$datapath[grepl(".zip$", input$file$datapath)]), 
-                      file_rules = rules())
+        validate_function <- function(){
+            validate_data(
+                files_data = gsub("\\\\", "/", input$file$datapath[!grepl(".zip$", input$file$datapath)]), 
+                data_names = input$file$name[!grepl(".zip$", input$file$name)],
+                zip_data = gsub("\\\\", "/",input$file$datapath[grepl(".zip$", input$file$datapath)]), 
+                file_rules = rules()
+            )
+        }
+        tryCatch({
+            validate_function()
+        }, warning = function(w) {
+            shinyWidgets::show_alert(
+                title = "Warning During Validation", 
+                type = "warning", 
+                text = paste0("Warning: ", w$message)
+            )
+            return(validate_function())
+        }, error = function(e) {
+            shinyWidgets::show_alert(
+                title = "Error During validation", 
+                type = "error", 
+                text = paste0("Error: ", e$message)
+            )
+            return(NULL)
+        }, message = function(m) {
+            shinyWidgets::show_alert(
+                title = "Message During validation", 
+                type = "info", 
+                text = paste0("Message: ", m$message)
+            )
+            return(validate_function())
+        })
     })
+    
+    
 
     output$error_query <- renderUI({
         req(input$file)
