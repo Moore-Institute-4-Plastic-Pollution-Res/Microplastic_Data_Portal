@@ -19,6 +19,8 @@ library(openxlsx)
 library(config)
 library(aws.s3)
 library(One4All)
+#might need to run this each time before deploying to shinyapps.io
+#devtools::install_github("Moore-Institute-4-Plastic-Pollution-Res/One4All")
 
 config <- config::get(file = "config_pl.yml")
 
