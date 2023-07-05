@@ -253,20 +253,42 @@ function(input, output, session) {
         req(config$s3_secret_key)
         req(config$ckan_key)
         
-        remote_share(validation = validation(),
-                     data_formatted = validation()$data_formatted, 
-                     verified = vals$key, 
-                     valid_rules = config$valid_rules, 
-                     valid_key = config$valid_key, 
-                     ckan_url = config$ckan_url, 
-                     ckan_key = config$ckan_key, 
-                     ckan_package = config$ckan_package, 
-                     url_to_send = config$url_to_send, 
-                     rules = read.csv(rules()), 
-                     results = validation()$results, 
-                     bucket = config$s3_bucket, 
-                     old_cert = input$old_certificate$datapath)
+        remote_function <- function() {
+            remote_share(validation = validation(),
+                         data_formatted = validation()$data_formatted, 
+                         verified = vals$key, 
+                         valid_rules = config$valid_rules, 
+                         valid_key = config$valid_key, 
+                         ckan_url = config$ckan_url, 
+                         ckan_key = config$ckan_key, 
+                         ckan_package = config$ckan_package, 
+                         url_to_send = config$url_to_send, 
+                         rules = read.csv(rules()), 
+                         results = validation()$results, 
+                         bucket = config$s3_bucket, 
+                         old_cert = input$old_certificate$datapath)
+        }
+        
+        tryCatch({
+            remote_function()
+        }, warning = function(w) {
+            shinyWidgets::show_alert(title = "Warning During Remote Sharing", 
+                                     type = "warning", 
+                                     text = paste0("Warning: ", w$message))
+            return(remote_function())
+        }, error = function(e) {
+            shinyWidgets::show_alert(title = "Error During Remote Sharing", 
+                                     type = "error", 
+                                     text = paste0("Error: ", e$message))
+            return(NULL)
+        }, message = function(m) {
+            shinyWidgets::show_alert(title = "Message During Remote Sharing", 
+                                     type = "info", 
+                                     text = paste0("Message: ", m$message))
+            return(remote_function())
+        })
     })
+    
     
     output$file_info <- renderPrint({
         files_data <- input$file$datapath[!grepl(".zip$", input$file$datapath)]
@@ -362,22 +384,6 @@ function(input, output, session) {
             zip(file, unzip(config$valid_data_example))
             }
     )
-    
-    #Alerts ----
-    #observe({
-    #    if(is.list(validation())){
-    #        show_alert(
-    #            title = validation()$message$title,
-    #            text  = validation()$message$text,
-    #            type  = validation()$message$type)
-    #    }
-    #    if(is.list(remote()$message)){
-    #        show_alert(
-    #            title = remote()$message$title,
-    #            text  = remote()$message$text,
-    #            type  = remote()$message$type)
-    #    }
-    #})
     
     # reactiveValues object for storing current data set.
     vals <- reactiveValues(key = NULL)
