@@ -53,8 +53,9 @@ function(input, output, session) {
     validation <- reactive({
         req(input$file)
         req(rules())
-        validate_data(files_data = input$file$datapath, 
-                      data_names = input$file$name[!grepl(".zip$", input$file$name)], 
+        validate_data(files_data = input$file$datapath[!grepl(".zip$", input$file$datapath)], 
+                      data_names = input$file$name[!grepl(".zip$", input$file$name)],
+                      zip_data = input$file$datapath[grepl(".zip$", input$file$datapath)], 
                       file_rules = rules())
     })
 
@@ -318,20 +319,20 @@ function(input, output, session) {
     )
     
     #Alerts ----
-    observe({
-        if(is.list(validation())){
-            show_alert(
-                title = validation()$message$title,
-                text  = validation()$message$text,
-                type  = validation()$message$type)
-        }
-        if(is.list(remote()$message)){
-            show_alert(
-                title = remote()$message$title,
-                text  = remote()$message$text,
-                type  = remote()$message$type)
-        }
-    })
+    #observe({
+    #    if(is.list(validation())){
+    #        show_alert(
+    #            title = validation()$message$title,
+    #            text  = validation()$message$text,
+    #            type  = validation()$message$type)
+    #    }
+    #    if(is.list(remote()$message)){
+    #        show_alert(
+    #            title = remote()$message$title,
+    #            text  = remote()$message$text,
+    #            type  = remote()$message$type)
+    #    }
+    #})
     
     # reactiveValues object for storing current data set.
     vals <- reactiveValues(key = NULL)
