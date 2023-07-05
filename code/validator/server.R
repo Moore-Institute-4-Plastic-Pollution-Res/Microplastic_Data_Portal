@@ -1,3 +1,40 @@
+library(shiny)
+library(dplyr)
+library(DT)
+library(shinythemes)
+library(shinyWidgets)
+library(validate)
+library(digest)
+library(data.table)
+library(bs4Dash)
+library(ckanr)
+library(purrr)
+library(shinyjs)
+library(sentimentr)
+library(listviewer)
+library(RCurl)
+library(readxl)
+library(stringr)
+library(openxlsx)
+library(config)
+library(aws.s3)
+library(One4All)
+
+config <- config::get(file = "example_config.yml")
+
+#Data checks ----
+
+if(isTruthy(config$s3_secret_key)){
+    Sys.setenv(
+        "AWS_ACCESS_KEY_ID" = config$s3_key_id,
+        "AWS_SECRET_ACCESS_KEY" = config$s3_secret_key,
+        "AWS_DEFAULT_REGION" = config$s3_region
+    )
+}
+
+# Options ----
+options(shiny.maxRequestSize = 30*1024^2)
+
 function(input, output, session) {
 
     rules <- reactive({
@@ -16,7 +53,9 @@ function(input, output, session) {
     validation <- reactive({
         req(input$file)
         req(rules())
-        validate_data(files_data = input$file$datapath, data_names = input$file$name, file_rules = rules())
+        validate_data(files_data = input$file$datapath, 
+                      data_names = input$file$name[!grepl(".zip$", input$file$name)], 
+                      file_rules = rules())
     })
 
     output$error_query <- renderUI({
@@ -56,7 +95,13 @@ function(input, output, session) {
             
             output[[paste0("report_selected", x)]] <- DT::renderDataTable({
                 if(isTruthy(input[[paste0("show_report", x, "_rows_selected")]])){
-                    datatable({rows_for_rules(data_formatted = validation()$data_formatted[[x]], report = validation()$report[[x]], broken_rules = rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]]), rows = input[[paste0("show_report", x, "_rows_selected")]]) },
+                    datatable({rows_for_rules(data_formatted = validation()$data_formatted[[x]], 
+                                              report = validation()$report[[x]], 
+                                              broken_rules = rules_broken(results = validation()$results[[x]], 
+                                                                          show_decision = input[[paste0("show_decision", x)]]), 
+                                              rows = input[[paste0("show_report", x, "_rows_selected")]]) |>
+                                              mutate(across(everything(), check_images)) |>
+                                              mutate(across(everything(), check_other_hyperlinks))},
                               rownames = FALSE,
                               escape = FALSE,
                               filter = "top", 
@@ -175,7 +220,6 @@ function(input, output, session) {
         req(isTRUE(!any(validation()$issues)))
         req(vals$key)
         req(config$s3_secret_key)
-        req(config$mongo_key)
         req(config$ckan_key)
         
         remote_share(validation = validation(),
@@ -190,7 +234,6 @@ function(input, output, session) {
                      rules = read.csv(rules()), 
                      results = validation()$results, 
                      bucket = config$s3_bucket, 
-                     mongo_key = config$mongo_key, 
                      old_cert = input$old_certificate$datapath)
     })
     
@@ -276,7 +319,7 @@ function(input, output, session) {
     
     #Alerts ----
     observe({
-        if(is.list(validation()$message)){
+        if(is.list(validation())){
             show_alert(
                 title = validation()$message$title,
                 text  = validation()$message$text,
@@ -314,7 +357,7 @@ function(input, output, session) {
         )
     }
     
-    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted, config$ckan, config$s3_secret_key, config$mongo_key), {
+    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted, config$ckan, config$s3_secret_key), {
         showModal(dataModal())
     })
     

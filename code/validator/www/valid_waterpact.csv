@@ -1,0 +1,3 @@
+station_id,latitude,longitude,event_id,sample_type,replicate_id,recorder,collection_date,start_time,end_time,sample_width_m,total_stream_width_m,sample_depth_m,total_stream_depth_m,deployment_strategy,flow_meter_start,flow_meter_end,number_containers,comments,sample_collection_device,aperature_width_m,aperature_height_m,net_mesh_um
+1234,50.7426,-118.1056,Medium,Underground,5,John Doe,2025-01-01,21:30:00,22:30:00,1500.0,1000.0,101.0,100.0,Train,12000,11000,21,Too many issues,Shovel,10.1,11.0,500
+RIVE_10,35.8425,-115.4065,Low,Mid Column Net,2,Jane Smith,2023-10-10,09:00:00,10:00:00,800.0,850.0,2.0,6.0,Boat,2500,2700,1,Smooth process,D84 Grab Sampler,2.0,1.0,350

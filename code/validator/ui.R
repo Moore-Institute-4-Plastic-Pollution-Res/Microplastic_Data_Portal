@@ -1,3 +1,26 @@
+library(shiny)
+library(dplyr)
+library(DT)
+library(shinythemes)
+library(shinyWidgets)
+library(validate)
+library(digest)
+library(data.table)
+library(bs4Dash)
+library(ckanr)
+library(purrr)
+library(shinyjs)
+library(sentimentr)
+library(listviewer)
+library(RCurl)
+library(readxl)
+library(stringr)
+library(openxlsx)
+library(config)
+library(aws.s3)
+library(One4All)
+
+config <- config::get(file = "example_config.yml")
 
 dashboardPage(
     fullscreen = T,
@@ -62,7 +85,8 @@ dashboardPage(
                                          width = "100%",
                                          multiple = T,
                                          accept=c("text/csv",
-                                                  "text/comma-separated-values,text/plain")), #%>%
+                                                  "text/comma-separated-values,text/plain",
+                                                  ".zip")), #%>%
                                title = "Upload CSV to validate",
                                content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file.")
                     ),

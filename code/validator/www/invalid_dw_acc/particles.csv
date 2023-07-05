@@ -1,0 +1,2 @@
+ParticleID,MethodologyID,SampleID,PhotoID,SpectraID,FinalAnalysisDate,Comments,Polymer,Morphology,Color,Length,Width,Height,Mass,SurfaceArea,Volume,Tactile
+1_23jreh334,https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/microplastics/mcrplsts_plcy_drft.pdf,23jreh334,https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Microplastic.jpg/1920px-Microplastic.jpg,https://github.com/wincowgerDEV/OpenSpecy-package/blob/main/inst/extdata/fitr_nitrocellulose.jdx,2/10/2023,Spectra noisy,Polyethylene,Sphere,White,100,100,100,0.1,31415.93,1000000,ridgid
