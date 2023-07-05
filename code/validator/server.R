@@ -19,10 +19,15 @@ library(openxlsx)
 library(config)
 library(aws.s3)
 library(One4All)
+library(mongolite)
 
 config <- config::get(file = "config_pl.yml")
 
 #Data checks ----
+
+if(isTruthy(config$mongo_key)) {
+    database <- mongo(url = config$mongo_key)
+} 
 
 if(isTruthy(config$s3_secret_key)){
     Sys.setenv(
@@ -247,6 +252,11 @@ function(input, output, session) {
     })
     
     observeEvent(req(validation()$data_formatted, !any(validation()$issues), vals$key, config$s3_secret_key, config$ckan_key), {
+        database$insert(data.frame(time = Sys.time(), 
+                   data = digest(validation()$data_formatted), 
+                   rules = digest(read.csv(rules())), 
+                   user = digest(vals$key), 
+                   package_version = paste(unlist(packageVersion("validate")), collapse = ".", sep = "")))
         tryCatch({
             remote_share(validation = validation(), 
                          data_formatted = validation()$data_formatted, 
@@ -274,13 +284,12 @@ function(input, output, session) {
                                      type = "error", 
                                      text = paste0("Error: ", e$message))
         }, message = function(m) {
-            shinyWidgets::show_alert(title = "Message During Remote Sharing", 
-                                     type = "info", 
-                                     text = paste0("Message: ", m$message))
+            shinyWidgets::show_alert(title = "Successful Remote Data Sharing", 
+                                     type = "success", 
+                                     text = paste0(m$message, "We recommend downloading a copy of your certificate in the top righthand corner of the screen for your records."))
+            return(TRUE)
         })
     })
-    
-    
     
     output$file_info <- renderPrint({
         str(validation())
@@ -421,9 +430,9 @@ function(input, output, session) {
             vals$key <- input$secret
             removeModal()
             show_alert(
-                title = "Success Logging In",
-                text  = "Your key is valid and you are now logged in.",
-                type  = "success")
+                title = "Valid Key",
+                text  = "Your key is valid, you are now logged in and we are sending your data to the remote repository, please wait for a success message before closing this window.",
+                type  = "info")
         } else {
             showModal(dataModal(failed = TRUE))
         }

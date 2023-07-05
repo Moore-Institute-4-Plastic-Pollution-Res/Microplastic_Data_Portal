@@ -35,14 +35,14 @@ dashboardPage(
         sidebarMenu(
             id = "sidebarmenu",
             menuItem(
-                "About",
-                tabName = "item1",
-                icon = icon("sliders-h")
-            ),
-            menuItem(
                 "Validator",
                 tabName = "item2",
                 icon = icon("check")
+            ),
+            menuItem(
+                "About",
+                tabName = "item1",
+                icon = icon("sliders-h")
             ),
             menuItem(
                 "Help",
@@ -88,7 +88,7 @@ dashboardPage(
                                                   "text/comma-separated-values,text/plain",
                                                   ".zip")), #%>%
                                title = "Upload CSV to validate",
-                               content = "This can only be uploaded after the rules file. This is where you upload the csv file that you want to validate using the rules file.")
+                               content = "This is where you upload the csv file that you want to validate.")
                     ),
                     column(4,
                            if(!isTruthy(config$rules_to_use)){
