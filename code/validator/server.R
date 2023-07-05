@@ -20,7 +20,7 @@ library(config)
 library(aws.s3)
 library(One4All)
 
-config <- config::get(file = "example_config.yml")
+config <- config::get(file = "config_pl.yml")
 
 #Data checks ----
 
@@ -247,35 +247,34 @@ function(input, output, session) {
     })
     
     remote <- reactive({
-        req(validation()$data_formatted)
-        req(isTRUE(!any(validation()$issues)))
+        #req(validation()$data_formatted)
+        #req(isTRUE(!any(validation()$issues)))
         req(vals$key)
-        req(config$s3_secret_key)
-        req(config$ckan_key)
-        
-        remote_function <- function() {
-            remote_share(validation = validation(),
+        #req(config$s3_secret_key)
+        #req(config$ckan_key)
+        tryCatch({
+            remote_share(validation = validation(), 
                          data_formatted = validation()$data_formatted, 
+                         files = input$file$datapath,
                          verified = vals$key, 
-                         valid_rules = config$valid_rules, 
                          valid_key = config$valid_key, 
+                         valid_rules = config$valid_rules, 
                          ckan_url = config$ckan_url, 
                          ckan_key = config$ckan_key, 
                          ckan_package = config$ckan_package, 
-                         url_to_send = config$url_to_send, 
+                         url_to_send = config$ckan_url_to_send, 
                          rules = read.csv(rules()), 
                          results = validation()$results, 
-                         bucket = config$s3_bucket, 
+                         s3_key_id = config$s3_key_id, 
+                         s3_secret_key = config$s3_secret_key, 
+                         s3_region = config$s3_region, 
+                         s3_bucket = config$s3_bucket, 
                          old_cert = input$old_certificate$datapath)
-        }
-        
-        tryCatch({
-            remote_function()
         }, warning = function(w) {
             shinyWidgets::show_alert(title = "Warning During Remote Sharing", 
                                      type = "warning", 
                                      text = paste0("Warning: ", w$message))
-            return(remote_function())
+            return(NULL)
         }, error = function(e) {
             shinyWidgets::show_alert(title = "Error During Remote Sharing", 
                                      type = "error", 
@@ -285,8 +284,9 @@ function(input, output, session) {
             shinyWidgets::show_alert(title = "Message During Remote Sharing", 
                                      type = "info", 
                                      text = paste0("Message: ", m$message))
-            return(remote_function())
         })
+        
+       
     })
     
     
@@ -409,7 +409,7 @@ function(input, output, session) {
         )
     }
     
-    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted, config$ckan, config$s3_secret_key), {
+    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted, config$ckan_key, config$s3_secret_key), {
         showModal(dataModal())
     })
     
@@ -418,9 +418,9 @@ function(input, output, session) {
     # message.
     observeEvent(input$ok, {
         # Check that data object exists and is data frame.
-        test_valid <- config$ckan %>%
-            filter(ckan_valid_key == input$secret & ckan_valid_rules == digest(read.csv(rules())))
-        if (!is.null(input$secret) && nrow(test_valid >= 1) && input$ok < 4){
+        test_valid <- config$valid_key == input$secret & config$valid_rules == digest(read.csv(rules()))
+        
+        if (!is.null(input$secret) && test_valid && input$ok < 4){
             vals$key <- input$secret
             removeModal()
             show_alert(

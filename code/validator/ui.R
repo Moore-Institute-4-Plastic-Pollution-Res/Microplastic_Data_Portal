@@ -20,7 +20,7 @@ library(config)
 library(aws.s3)
 library(One4All)
 
-config <- config::get(file = "example_config.yml")
+config <- config::get(file = "config_pl.yml")
 
 dashboardPage(
     fullscreen = T,
