@@ -38,7 +38,7 @@ if(isTruthy(config$s3_secret_key)){
 }
 
 # Options ----
-options(shiny.maxRequestSize = 30*1024^2)
+options(shiny.maxRequestSize = 1000*1024^2)
 
 function(input, output, session) {
 
