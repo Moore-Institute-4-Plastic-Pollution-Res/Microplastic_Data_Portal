@@ -157,7 +157,7 @@ function(input, output, session) {
                               #style = "bootstrap",
                               class = "display") %>% 
                         formatStyle(
-                            if(any(validation()$results[[x]]$status == c("error", "warning"))){
+                            if(any(validation()$results[[x]]$status %in% c("error", "warning"))){
                                 variables(validation()$rules[[x]][rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]])[input[[paste0("show_report", x, "_rows_selected")]], "name"]])  
                             }
                             else{NULL},
