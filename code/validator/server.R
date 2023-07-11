@@ -126,7 +126,7 @@ function(input, output, session) {
                     formatStyle(
                         'status',
                         target = 'row',
-                        backgroundColor = styleEqual(c("error", "success"), c('red', 'green')))
+                        backgroundColor = styleEqual(c("error", "warning", "success"), c('red', 'yellow', 'green')))
             })
             
             output[[paste0("report_selected", x)]] <- DT::renderDataTable({
@@ -157,7 +157,7 @@ function(input, output, session) {
                               #style = "bootstrap",
                               class = "display") %>% 
                         formatStyle(
-                            if(any(validation()$results[[x]]$status == "error")){
+                            if(any(validation()$results[[x]]$status == c("error", "warning"))){
                                 variables(validation()$rules[[x]][rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]])[input[[paste0("show_report", x, "_rows_selected")]], "name"]])  
                             }
                             else{NULL},
@@ -187,7 +187,7 @@ function(input, output, session) {
                 }
                 
             })
-            box(title = paste0(validation()$data_names[[x]]),
+            box(title = div(validation()$data_names[[x]], ": ", icon("circle-check", style = "color:green;"), sum(validation()$results[[x]][["status"]] == "success"), ", ", icon("circle-exclamation", style = "color:yellow;"), sum(validation()$results[[x]][["status"]] == "warning"), ",", icon("circle-xmark", style = "color:red;"), sum(validation()$results[[x]][["status"]] == "error")),
                 id = paste0(validation()$data_names[[x]]),
                 collapsed = T,
                 background = if(validation()$issues[[x]]){"danger"}else{"success"},
@@ -346,7 +346,11 @@ function(input, output, session) {
     output$alert <- renderUI({
         req(validation()$results)
         if(isTRUE(!any(validation()$issues))){
-            downloadButton("download_certificate", "SUCCESS", style = "background-color: #28a745; width: 100%;")
+            popover(
+                downloadButton("download_certificate", "Download Certificate", style = "background-color: #28a745; width: 100%;"),
+                title = "Certificate of Valid Data",
+                placement = "bottom",
+                content = "Downloading this certificate will provide a verifiable record that you had a validated dataset at the time of certificate download. This certificate will also be shared with a remote repository for verification purposes.")
             
             #HTML('<button type="button" class="btn btn-success btn-lg btn-block">SUCCESS</button>')
         }

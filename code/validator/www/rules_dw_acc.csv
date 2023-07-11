@@ -57,6 +57,14 @@ Latitude,Latitude of sample in decimal degrees,samples,33.746974,error,"in_range
 Latitude_blank,Latitude of sample in decimal degrees cannot be blank,samples,33.746974,error,!is.na(Latitude)
 Longitude,Longitude of sample in decimal degrees,samples,-118.115372,error,"in_range(as.numeric(Longitude), min = -180, max =  180)"
 Longitude_blank,Longitude of sample in decimal degrees,samples,-118.115372,error,!is.na(Longitude)
-CollectionDate,Sample Collection Date in Year-Month-Day format,samples,1/30/2023,error,"!is.na(CollectionDate) & !is.na(as.Date(CollectionDate, tryFormats = c(""%Y-%m-%d"", ""%m/%d/%Y"")))"
+CollectionStartDateTime,Sample Collection Start Date Time in Year-Month-Day 24hr format,samples,1/30/2023,error,!is.na(CollectionStartDateTime)
+CollectionEndDateTime,Sample Collection End Date Time in Year-Month-Day 24hr format,samples,1/30/2023,error,!is.na(CollectionEndDateTime)
 SampleVolume,"Volume of sample (L), must be between 1 and 1,000,000",samples,100,error,"in_range(as.numeric(SampleVolume), min = 1, max = 1000000)"
 SampleVolume_blank,"Volume of sample (L), must be between 1 and 1,000,000 and cannot be blank",samples,100,error,!is.na(SampleVolume)
+SampleType,"SampleType must be one of Blank, Spike, or Environmental",samples,Environmental,error,"SampleType %in% c(""Blank"", ""Spike"", ""Environmental"")"
+Matrix,Matrix must be one of the allowed values,samples,Drinking Water,error,"Matrix %in% c(""Drinking Water"", ""River Water"", ""Source Water"")"
+SiteName,SiteName should describe the site with a name relevant to the project and should not be NA,samples,Riverside County Water Municipality,error,!is.na(SiteName)
+MatIDThreshold,MatIDThreshold should describe the hit quality threshold used to determine whether or not an id is certain.,methodology,0.7,error,MatIDThreshold > 0
+SpikedRecovery,SpikedRecovery should describe the percentage of particles recovered using spiked recovery experiments from 1-100,methodology,80,error,"in_range(SpikedRecovery, min = 1, max = 100)"
+Sample_spatial,Spatial file for where the samples were collected should be a geojson file.,samples,points.kml,warning,check_exists_in_zip(SpatialFile)
+Blank_contamination,BlankContamination should describe the number of particles which contaminate each blank sample collected with this methodology on average.,methodology,10,error,BlankContamination >= 0
