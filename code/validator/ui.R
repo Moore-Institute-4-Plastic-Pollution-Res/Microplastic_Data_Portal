@@ -1,30 +1,5 @@
-library(shiny)
-library(dplyr)
-library(DT)
-library(shinythemes)
-library(shinyWidgets)
-library(validate)
-library(digest)
-library(data.table)
-library(bs4Dash)
-library(ckanr)
-library(purrr)
-library(shinyjs)
-library(sentimentr)
-library(listviewer)
-library(RCurl)
-library(readxl)
-library(stringr)
-library(openxlsx)
-library(config)
-library(aws.s3)
-library(One4All)
-#might need to run this each time before deploying to shinyapps.io
-#devtools::install_github("Moore-Institute-4-Plastic-Pollution-Res/One4All")
-
-config <- config::get(file = "config_pl.yml")
-
-dashboardPage(
+function(request) {
+    dashboardPage(
     fullscreen = T,
     help = T,
     dashboardHeader(title = config$portal_name,
@@ -38,17 +13,17 @@ dashboardPage(
             id = "sidebarmenu",
             menuItem(
                 "Validator",
-                tabName = "item2",
+                tabName = "validator",
                 icon = icon("check")
             ),
             menuItem(
                 "About",
-                tabName = "item1",
+                tabName = "about",
                 icon = icon("sliders-h")
             ),
             menuItem(
                 "Help",
-                tabName = "item3",
+                tabName = "help",
                 icon = icon("question")
             )
         )
@@ -57,7 +32,7 @@ dashboardPage(
         shinyjs::useShinyjs(),
         tabItems(
             tabItem(
-                tabName = "item1",
+                tabName = "about",
                 box(
                     title = "Overview",
                     p("Welcome to the Data Validator webpage. This tool allows you to validate data interactively by uploading a dataset and rules file. To get started, go to the validator tab on the left."),
@@ -77,7 +52,7 @@ dashboardPage(
                 )
             ),
             tabItem(
-                tabName = "item2",
+                tabName = "validator",
                 fluidRow(
                     column(4,
                            popover(
@@ -88,9 +63,10 @@ dashboardPage(
                                          multiple = T,
                                          accept=c("text/csv",
                                                   "text/comma-separated-values,text/plain",
+                                                  ".xlsx",
                                                   ".zip")), #%>%
                                title = "Upload CSV to validate",
-                               content = "This is where you upload the csv file that you want to validate.")
+                               content = "This is where you upload the csv, zip, and/or xlsx files file that you want to validate.")
                     ),
                     column(4,
                            if(!isTruthy(config$rules_to_use)){
@@ -104,7 +80,12 @@ dashboardPage(
                                    title = "Upload rules",
                                    content = "Upload the rules csv to use to validate the data csv"
                                ) 
-                           }
+                           },
+                           popover(
+                               downloadButton("download_rules_excel", "Data Template", style = "background-color: #e83e8c;"),
+                               title = "Download rules template file",
+                               content = "This is an file that can be used as a template when collecting data so that it conforms to most of the rules tested in this portal."
+                           )
                     ), 
                     column(4, 
                            uiOutput("alert"))),
@@ -112,7 +93,7 @@ dashboardPage(
                     uiOutput("dev_options")
             ),
             tabItem(
-                tabName = "item3",
+                tabName = "help",
                 box(
                     title = "Tutorial",
                     p("Welcome to the Data Validator webpage. This tool allows you to validate data interactively by uploading a dataset and rules file. To get started, go to the validator tab on the left."),
@@ -127,11 +108,6 @@ dashboardPage(
                         title = "Download rules file",
                         content = "This is an example file that can be used in tandem with the valid or invalid data files to test out the tool."
                     ),
-                    popover(
-                        downloadButton("download_rules_excel", "Rules Template", style = "background-color: #e83e8c;"),
-                        title = "Download rules template file",
-                        content = "This is an file that can be used as a template when collecting data so that it conforms to most of the rules tested in this portal."
-                    ),    
                     popover(
                         downloadButton("download_good_sample", "Download Valid Sample Data", style = "background-color: #28a745;"),
                         title = "Download valid example data",
@@ -185,3 +161,4 @@ dashboardPage(
                                              column(1,a(href = config$license, img(src= "CC.png", width= 18, height= 18))))
     )
 )
+}
