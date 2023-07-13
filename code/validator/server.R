@@ -339,6 +339,20 @@ function(input, output, session) {
                                                         row.names = F)}
     )
     
+    output$remote_downloader <- downloadHandler(
+        filename = function() {"download.rds"},
+        content = function(file) {
+            downloaded_file <- remote_download(hashed_zip = input$download_id, 
+                                                ckan_url = config$ckan_url, 
+                                                ckan_key = config$ckan_key, 
+                                                ckan_package = config$ckan_package, 
+                                                s3_key_id = config$s3_key_id, 
+                                                s3_secret_key = config$s3_secret_key, 
+                                                s3_region = config$s3_region, 
+                                                s3_bucket = config$s3_bucket)
+            save(downloaded_file, file = file)}
+    )
+    
     output$download_rules_excel <- downloadHandler(
         filename = function() {"rules.xlsx"},
         content = function(file) {saveWorkbook(create_valid_excel(file_rules = rules()), file, TRUE)}

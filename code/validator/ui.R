@@ -12,9 +12,14 @@ function(request) {
         sidebarMenu(
             id = "sidebarmenu",
             menuItem(
-                "Validator",
+                "Uploader",
                 tabName = "validator",
-                icon = icon("check")
+                icon = icon("upload")
+            ),
+            menuItem(
+                "Downloader",
+                tabName = "downloader",
+                icon = icon("download")
             ),
             menuItem(
                 "About",
@@ -91,6 +96,11 @@ function(request) {
                            uiOutput("alert"))),
                     uiOutput("error_query"),
                     uiOutput("dev_options")
+            ),
+            tabItem(
+                tabName = "downloader",
+                textInput(inputId = "download_id", label = "All or A Dataset ID"),
+                downloadButton(outputId = "remote_downloader")
             ),
             tabItem(
                 tabName = "help",
