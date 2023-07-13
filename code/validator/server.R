@@ -340,17 +340,14 @@ function(input, output, session) {
     )
     
     output$remote_downloader <- downloadHandler(
-        filename = function() {"download.rds"},
+        filename = function() {paste0(input$download_id, ".rds")},
         content = function(file) {
-            downloaded_file <- remote_download(hashed_data = input$download_id, 
-                                                #ckan_url = config$ckan_url, 
-                                                #ckan_key = config$ckan_key, 
-                                                #ckan_package = config$ckan_package, 
-                                                s3_key_id = config$s3_key_id, 
-                                                s3_secret_key = config$s3_secret_key, 
-                                                s3_region = config$s3_region, 
-                                                s3_bucket = config$s3_bucket)
-            save(downloaded_file, file = file)}
+            remote_raw_download(hashed_data = input$download_id,
+                                                   file_path = file,
+                                                   s3_key_id = config$s3_key_id, 
+                                                   s3_secret_key = config$s3_secret_key, 
+                                                   s3_region = config$s3_region, 
+                                                   s3_bucket = config$s3_bucket)}
     )
     
     output$download_rules_excel <- downloadHandler(
