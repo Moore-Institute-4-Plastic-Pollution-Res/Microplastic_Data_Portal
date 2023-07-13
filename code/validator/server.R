@@ -340,7 +340,7 @@ function(input, output, session) {
     )
     
     output$remote_downloader <- downloadHandler(
-        filename = function() {paste0(input$download_id, ".rds")},
+        filename = function() {paste0(input$download_id, ".zip")},
         content = function(file) {
             remote_raw_download(hashed_data = input$download_id,
                                                    file_path = file,
