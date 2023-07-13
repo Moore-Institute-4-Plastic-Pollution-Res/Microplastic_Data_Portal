@@ -99,7 +99,7 @@ function(request) {
             ),
             tabItem(
                 tabName = "downloader",
-                textInput(inputId = "download_id", label = "All or A Dataset ID"),
+                textInput(inputId = "download_id", label = "A Dataset ID"),
                 downloadButton(outputId = "remote_downloader")
             ),
             tabItem(
