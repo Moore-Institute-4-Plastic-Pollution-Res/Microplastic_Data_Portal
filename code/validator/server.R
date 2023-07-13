@@ -343,9 +343,9 @@ function(input, output, session) {
         filename = function() {"download.rds"},
         content = function(file) {
             downloaded_file <- remote_download(hashed_data = input$download_id, 
-                                                ckan_url = config$ckan_url, 
-                                                ckan_key = config$ckan_key, 
-                                                ckan_package = config$ckan_package, 
+                                                #ckan_url = config$ckan_url, 
+                                                #ckan_key = config$ckan_key, 
+                                                #ckan_package = config$ckan_package, 
                                                 s3_key_id = config$s3_key_id, 
                                                 s3_secret_key = config$s3_secret_key, 
                                                 s3_region = config$s3_region, 
