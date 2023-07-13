@@ -342,7 +342,7 @@ function(input, output, session) {
     output$remote_downloader <- downloadHandler(
         filename = function() {"download.rds"},
         content = function(file) {
-            downloaded_file <- remote_download(hashed_zip = input$download_id, 
+            downloaded_file <- remote_download(hashed_data = input$download_id, 
                                                 ckan_url = config$ckan_url, 
                                                 ckan_key = config$ckan_key, 
                                                 ckan_package = config$ckan_package, 
