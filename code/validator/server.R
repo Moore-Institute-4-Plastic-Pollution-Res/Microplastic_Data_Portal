@@ -21,7 +21,7 @@ library(aws.s3)
 library(One4All)
 library(mongolite)
 
-config <- config::get(file = "config_pl.yml")
+config <- config::get(file = "example_config.yml")
 
 #Data checks ----
 

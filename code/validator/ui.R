@@ -22,7 +22,7 @@ library(One4All)
 #might need to run this each time before deploying to shinyapps.io
 #devtools::install_github("Moore-Institute-4-Plastic-Pollution-Res/One4All")
 
-config <- config::get(file = "config_pl.yml")
+config <- config::get(file = "example_config.yml")
 
 dashboardPage(
     fullscreen = T,
@@ -45,6 +45,11 @@ dashboardPage(
                 "About",
                 tabName = "item1",
                 icon = icon("sliders-h")
+            ),
+            menuItem(
+              "Submission Guidelines",
+              tabName = "item4",
+              icon = icon("chalkboard")
             ),
             menuItem(
                 "Help",
@@ -110,6 +115,9 @@ dashboardPage(
                            uiOutput("alert"))),
                     uiOutput("error_query"),
                     uiOutput("dev_options")
+            ),
+            tabItem(tabName = "item4",
+                    includeMarkdown("www/datainstructions.md")
             ),
             tabItem(
                 tabName = "item3",
