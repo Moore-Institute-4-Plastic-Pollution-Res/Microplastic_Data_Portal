@@ -1,72 +1,589 @@
-library(shiny)
 library(bs4Dash)
-library(shinyWidgets)
+library(leaflet)
+library(DT)
+library(plotly)
+library(readr)
+library(dplyr)
+library(tidyverse)
+library(readxl)
+library(tidygeocoder)
 library(sf)  
 library(mapview)
 library(mapdata)
-library(tidyverse)
-library(leaflet)
+library(data.table)
+library(shiny)
+library(ggdist)
+library(ggthemes)
+library(ggplot2)
+library(rlang)
+library(PupillometryR)
+library(gridExtra)
+library(networkD3)
+library(tidyr)
 
-# Restore the object
-Samples_Map <- read.csv(file = "https://data.ca.gov/dataset/e7624fce-c058-4fa1-a29f-2594d8f8f160/resource/b027a5ef-d42e-415c-b9b9-257c1bd5ae89/download/samples_merged.csv") %>%
-    filter(!is.na(Approximate_Lattitude) & !is.na(Approximate_Longitude)) %>% 
-    st_as_sf(coords = c("Approximate_Longitude", "Approximate_Lattitude"), crs = 4326, remove = FALSE) %>%
-    select(DOI:Concentration_Units)
+Samples_Geocoded <- read_csv("~/Documents/Week3RShiny/Week3RShiny/Week3RShiny/Week3RShiny3/Samples_Geocoded.csv", locale = locale(encoding = "latin1"))
 
-# Generate map of microplastics sample data
-World <- data(worldMapEnv)
+Location_choices <- unique(Samples_Geocoded$Location)
+Country_choices <- unique(Samples_Geocoded$Countries)
 
-ui <- dashboardPage(
-    dashboardHeader(title = "Microplastic Data Analysis"),
-    dashboardSidebar(
-        sidebarUserPanel(
-            name = "Welcome!"
-        ),
-        
-        sidebarMenu(
-            id = "sidebarmenu",
-            menuItem(
-                "About",
-                tabName = "item1",
-                icon = icon("sliders-h")
-            ),
-            menuItem(
-                "Data Analysis",
-                tabName = "item2",
-                icon = icon("chart-bar")
-            )
-        )
-    ),
-    dashboardBody(
-        tabItems(
-            tabItem(
-                tabName = "item1",
-                box(
-                    title = "Overview",
-                    h3("Welcome to the microplastic data analysis page, this is a place to visualize and analyze microplastics data from the microplastics data portal."),
-                    width = 12
-                    )
-            ),
-            tabItem(
-                tabName = "item2",
-                box(
-                    tags$style(type = "text/css", "#mapplot {height: calc(100vh - 80px) !important;}"),
-                    leafletOutput("mapplot"),
-                    width = 12,
-                    #height = "100vh",
-                    maximizable = T
-                )
-            )
-        )
+ui <- bs4DashPage(
+  bs4DashNavbar(
+    title = "Drinking Water Plastics",
+    tags$style(
+      HTML(".navbar { background-color: #78909C; }")
     )
+  ),
+  bs4DashSidebar(
+    tags$style(
+      HTML(".sidebar { background-color: #78909C; 
+           color: #273746;
+           }")
+    ),
+    sidebarMenu(
+      menuItem("Raw Data And Map", tabName = "RawDataAndMap"),
+      menuItem("Map By Countries", tabName = "MapByCountries"),
+      menuItem("Other Visuals", tabName = "sankeyPlot")
+    )
+  ),
+  bs4DashBody(
+    tags$style(
+      HTML(".content-wrapper {
+           background-color: #F2F3F4;
+           }")
+    ),
+    tabItems(
+      tabItem(
+        tabName = "RawDataAndMap",
+        fluidRow(
+          column(
+            width = 12,
+            HTML("<h2>Drinking Water Plastics</h2>
+            <p>This app uses microplastics sample data from the California Open Data Portal.</p>
+            <p>Below is a map that allows you to select multiple locations, and the popup markers present overview information about the plastics at those sites.</p>
+            <p>The concentration and source of plastics of the selected locations are then displayed in a rain cloud plot below.</p>
+            <p>The table directly generates the data from the Open Data Portal, and shows additional information regarding the characteristics of the plastics.</p>")
+          ),
+          column(
+            width = 12,
+            selectInput("Location", "Location", choices = Location_choices, multiple = TRUE)
+          )
+        ),
+        fluidRow(
+          column(
+            width = 12,
+            leafletOutput("mapLocation")
+          )
+        ),
+        fluidRow(
+          column(
+            width = 12,
+            HTML("<br>")
+          )
+        ),
+        column(
+          width = 12,
+          box(
+            title = "Drinking Water Plastics Plot by Location",
+            plotOutput("plotLocation"),
+            width = 12
+          )
+        ),
+        column(
+          width = 12,
+          box(
+            title = "Drinking Water Plastics Table by Location",
+            style = "overflow-x: auto;",
+            DT::dataTableOutput("tableLocation"), 
+            width = 12
+          )
+        )
+      ),
+      tabItem(
+        tabName = "MapByCountries",
+        fluidRow(
+          column(
+            width = 12,
+            selectInput("Country", "Country", choices = Country_choices, multiple = TRUE)
+          )
+        ),
+        fluidRow(
+          column(
+            width = 12,
+            leafletOutput("mapCountries")
+          )
+        ),
+        fluidRow(
+          column(
+            width = 12,
+            HTML("<br>")
+          )
+        ),
+        column(
+          width = 12,
+          box(
+            title = "Drinking Water Plastics Plot by Country",
+            plotOutput("plotCountries"),
+            width = 12
+          )
+        ),
+        column(
+          width = 12,
+          box(
+            title = "Drinking Water Plastics Table by Country",
+            style = "overflow-x: auto;",
+            DT::dataTableOutput("tableCountries"), 
+            width = 12
+          )
+        )
+      ),
+      tabItem(
+        tabName = "sankeyPlot",
+        column(
+          width = 12,
+          HTML("<h2>Other Visuals</h2>
+              <p>Sankey plots are a useful way to visualize the relationship and flow between variables.</p>
+              <p>The drop down allows users to look at four different characteristic relationships from the Open Data Portal.")
+        ),
+        br(),
+        column(
+          width = 12,
+          selectInput("sankeyPlotSelection", "Select Sankey Plot:",
+                      choices = c("Morphology, Color, Material",
+                                  "Color and Material",
+                                  "Morphology and Color",
+                                  "Morphology and Material"),
+                      selected = "Morphology, Color, Material"),
+          box(
+            title = "Comparing Characteristics with Sankey Plot",
+            sankeyNetworkOutput("SankeyMorphColorMat"),
+            width = 12
+          )
+        )
+      )
+    )
+  )
 )
 
-
-
 server <- function(input, output) {
-    output$mapplot <- renderLeaflet({
-        mapview(Samples_Map, zcol = 'Concentration', legend = FALSE)@map
-    })
+  filtered_data <- reactive({
+    samples_location <- Samples_Geocoded[Samples_Geocoded$Location %in% input$Location, ]
+    samples_country <- Samples_Geocoded[Samples_Geocoded$Countries %in% input$Country, ]
+    return(list(samples_location = samples_location, samples_country = samples_country))
+  })
+  
+  output$mapLocation <- renderLeaflet({
+    data_location <- filtered_data()$samples_location
+    leaflet() %>%
+      addProviderTiles("CartoDB.Voyager", options = tileOptions(minZoom = 2)) %>%
+      addCircleMarkers(
+        data = data_location,
+        lat = ~Approximate_Latitude, 
+        lng = ~Approximate_Longitude,
+        group = ~Location,
+        clusterOptions = markerClusterOptions(),
+        popup = paste0(
+          "<div class='custom-popup'>",
+          "<h4>Location Details</h4>",
+          "<p><strong>Latitude:</strong> ", data_location$Approximate_Latitude, "</p>",
+          "<p><strong>Longitude:</strong> ", data_location$Approximate_Longitude, "</p>",
+          "<p><strong>Source:</strong> ", data_location$Source, "</p>",
+          "<p><strong>Concentration:</strong> ", data_location$Concentration, "</p>",
+          "</div>"
+        ),
+        color = "#01579B"
+      ) %>%
+      addLegend(position = "bottomright", colors = "#01579B", labels = "Location")
+  })
+  
+  output$mapCountries <- renderLeaflet({
+    data_country <- filtered_data()$samples_country
+    leaflet() %>%
+      addProviderTiles("CartoDB.Voyager", options = tileOptions(minZoom = 2)) %>%
+      addCircleMarkers(
+        data = data_country,
+        lat = ~Approximate_Latitude,
+        lng = ~Approximate_Longitude,
+        group = ~Countries,
+        clusterOptions = markerClusterOptions(),
+        popup = paste0(
+          "<div class='custom-popup'>",
+          "<h4>Location Details</h4>",
+          "<p><strong>Latitude:</strong> ", data_country$Approximate_Latitude, "</p>",
+          "<p><strong>Longitude:</strong> ", data_country$Approximate_Longitude, "</p>",
+          "<p><strong>Source:</strong> ", data_country$Source, "</p>",
+          "<p><strong>Concentration:</strong> ", data_country$Concentration, "</p>",
+          "</div>"
+        ),
+        color = "#01579B"
+      ) %>%
+      addLegend(position = "bottomright", colors = "#01579B", labels = "Location")
+  })
+  
+  output$tableLocation <- DT::renderDataTable({
+    data_location <- filtered_data()$samples_location
+    data_location$Concentration <- as.numeric(gsub("[^0-9.]", "", data_location$Concentration))
+    data_location <- data_location[!is.na(data_location$Concentration), ]
+    data_location <- data_location[order(data_location$Concentration), ]
+    DT::datatable(data_location, style = "bootstrap", class = "cell-border stripe")
+  })
+  
+  output$tableCountries <- DT::renderDataTable({
+    data_country <- filtered_data()$samples_country
+    data_country$Concentration <- as.numeric(gsub("[^0-9.]", "", data_country$Concentration))
+    data_country <- data_country[!is.na(data_country$Concentration), ]
+    data_country <- data_country[order(data_country$Concentration), ]
+    DT::datatable(data_country, style = "bootstrap", class = "cell-border stripe")
+  })
+  
+  output$plotLocation <- renderPlot({
+    data_location <- filtered_data()$samples_location
+    data_location$Concentration <- as.numeric(as.character(data_location$Concentration))
+    ggplot(data_location, aes(x = Source, y = Concentration, fill = factor(Source))) +
+      geom_flat_violin(
+        position = position_nudge(x = 0.1),
+        alpha = 0.5,
+        scale = "width",
+        trim = FALSE,
+        width = 0.8,
+        lwd = 1,
+      ) +
+      geom_boxplot(
+        width = 0.12,
+        outlier.shape = 8,
+        outlier.color = "navy",
+        alpha = 1
+      ) +
+      stat_dots(
+        position = position_jitterdodge(jitter.width = 1, dodge.width = 0.4, jitter.height = 10),
+        dotsize = 15,
+        side = "left",
+        justification = 1.1,
+        binwidth = 0.08,
+        alpha = 1.0
+      ) +
+      scale_fill_manual(values = c("#87CEEB", "#4C9900")) +
+      labs(
+        title = "Plastics by Source and Concentration",
+        x = "Source",
+        y = "Concentration (particles/L)",
+        fill = "Source"
+      ) +
+      coord_flip() +
+      theme_bw() +
+      theme(
+        axis.text = element_text(size = 15),
+        axis.title = element_text(size = 18),
+        plot.title = element_text(size = 18)
+      )
+  })
+  
+  output$plotCountries <- renderPlot({
+    data_country <- filtered_data()$samples_country
+    data_country$Concentration <- as.numeric(gsub("[^0-9.]", "", data_country$Concentration))
+    data_country <- data_country[!is.na(data_country$Concentration), ]
+    
+    if (length(input$Country) == 0) {
+      default_plot <- ggplot() +
+        geom_blank() +
+        labs(
+          title = "Plastics by Source and Concentration",
+          x = "Source",
+          y = "Concentration (particles/L)",
+          fill = "Source"
+        ) +
+        coord_flip() +
+        theme_bw() +
+        theme(
+          axis.text = element_text(size = 15),
+          axis.title = element_text(size = 18),
+          plot.title = element_text(size = 18)
+        )
+      
+      print(default_plot)
+    } else {
+      country_plots <- list()
+      
+      for (country in input$Country) {
+        country_data <- data_country[data_country$Countries == country, ]
+        
+        if (nrow(country_data) > 0) {
+          p <- ggplot(country_data, aes(x = factor(Source), y = Concentration, fill = factor(Source))) +
+            geom_flat_violin(
+              position = position_nudge(x = 0.1),
+              alpha = 0.5,
+              scale = "width",
+              trim = FALSE,
+              width = 0.8,
+              lwd = 1,
+            ) +
+            geom_boxplot(
+              width = 0.12,
+              outlier.shape = 8,
+              outlier.color = "navy",
+              alpha = 1
+            ) +
+            stat_dots(
+              position = position_jitterdodge(jitter.width = 1, dodge.width = 0.4, jitter.height = 10),
+              dotsize = 10,
+              side = "left",
+              justification = 1.1,
+              binwidth = 0.08,
+              alpha = 1.0
+            ) +
+            scale_fill_manual(values = c("#87CEEB", "#4C9900")) +
+            labs(
+              title = paste("Plastics by Source and Concentration -", country),
+              x = "Source",
+              y = "Concentration (particles/L)",
+              fill = "Source"
+            ) +
+            coord_flip() +
+            theme_bw() +
+            theme(
+              axis.text = element_text(size = 15),
+              axis.title = element_text(size = 18),
+              plot.title = element_text(size = 18)
+            )
+          
+          country_plots[[country]] <- p
+        }
+      }
+      
+      if(length(country_plots) > 0) {
+        combined_plot <- do.call(grid.arrange, country_plots)
+        print(combined_plot)
+      }
+    }
+  })
+  
+  output$SankeyMorphColorMat <- renderSankeyNetwork({
+    data_sankey <- read.csv("~/Documents/Week3RShiny/Week3RShiny/Week3RShiny/Week3RShiny3/Samples_Geocoded.csv")
+    
+    if(input$sankeyPlotSelection == "Morphology, Color, Material") {
+      morphologyData <- data_sankey %>%
+        select(starts_with("Morphology_")) %>%
+        pivot_longer(cols = everything(), names_to = "Morphology_Type", values_to = "Morphology_Values") %>%
+        filter(!is.na(Morphology_Values)) %>%
+        distinct(Morphology_Type, Morphology_Values)
+      
+      colorsData <- data_sankey %>%
+        select(starts_with("Color_")) %>%
+        mutate_all(as.character) %>%
+        pivot_longer(cols = everything(), names_to = "Color_Type", values_to = "Color_Values") %>%
+        filter(!is.na(Color_Values)) %>%
+        distinct(Color_Type, Color_Values)
+      
+      materialData <- data_sankey %>%
+        select(starts_with("Material_")) %>%
+        mutate_all(as.character) %>%
+        pivot_longer(cols = everything(), names_to = "Material_Type", values_to = "Material_Values") %>%
+        filter(!is.na(Material_Values)) %>%
+        distinct(Material_Type, Material_Values)
+      
+      source_color <- c(colorsData$Color_Type)
+      target_morphology <- c(morphologyData$Morphology_Type)
+      target_material <- c(materialData$Material_Type)
+      concentration <- c(data_sankey$Concentration)
+      
+      max_length <- max(length(source_color), length(target_morphology), length(target_material), length(concentration))
+      
+      if (length(source_color) < max_length) {
+        source_color[(length(source_color) + 1):max_length] <- NA
+      }
+      if (length(target_morphology) < max_length) {
+        target_morphology[(length(target_morphology) + 1):max_length] <- NA
+      }
+      if (length(target_material) < max_length) {
+        target_material[(length(target_material) + 1):max_length] <- NA
+      }
+      if (length(concentration) < max_length) {
+        concentration[(length(concentration) + 1):max_length] <- NA
+      }
+      
+      links <- data.frame(
+        source = c(source_color, rep(source_color, length(target_material))),
+        target = c(target_morphology, target_material),
+        value = c(concentration, concentration)
+      )
+      
+      links <- links %>%
+        mutate(value = as.numeric(value)) %>%
+        group_by(source, target) %>%
+        summarise(value = mean(value, na.rm = TRUE)) %>%
+        filter(!is.nan(value) & !is.na(source))
+      
+      nodes <- data.frame(
+        name = c(as.character(links$source), as.character(links$target)) %>% unique()
+      )
+      
+      links$source <- match(links$source, nodes$name) - 1
+      links$target <- match(links$target, nodes$name) - 1
+      
+      p <- sankeyNetwork(
+        Links = links, Nodes = nodes,
+        Source = "source", Target = "target",
+        Value = "value", NodeID = "name",
+        fontSize = 10, nodeWidth = 50
+      )
+      
+    } else if (input$sankeyPlotSelection == "Color and Material") {
+      data_sankey <- read.csv("~/Documents/Week3RShiny/Week3RShiny/Week3RShiny/Week3RShiny3/Samples_Geocoded.csv")
+      
+      colorsData <- data_sankey %>%
+        select(starts_with("Color_")) %>%
+        mutate_all(as.character) %>%
+        pivot_longer(cols = everything(), names_to = "Color_Type", values_to = "Color_Values") %>%
+        filter(!is.na(Color_Values)) %>%
+        distinct(Color_Type, Color_Values)
+      
+      materialData <- data_sankey %>%
+        select(starts_with("Material_")) %>%
+        mutate_all(as.character) %>%
+        pivot_longer(cols = everything(), names_to = "Material_Type", values_to = "Material_Values") %>%
+        filter(!is.na(Material_Values)) %>%
+        distinct(Material_Type, Material_Values)
+      
+      source_color <- c(colorsData$Color_Type)
+      target_material <- c(materialData$Material_Type)
+      concentration <- c(data_sankey$Concentration)
+      
+      min_length <- min(length(source_color), length(target_material), length(concentration))
+      
+      source_color <- head(source_color, min_length)
+      target_material <- head(target_material, min_length)
+      concentration <- head(concentration, min_length)
+      
+      links <- data.frame(
+        source = c(source_color),
+        target = c(target_material),
+        value = c(concentration)
+      )
+      
+      links <- links %>%
+        mutate(value = as.numeric(value)) %>%
+        group_by(source, target) %>%
+        summarise(value = mean(value, na.rm = TRUE)) %>%
+        filter(!is.nan(value) & !is.na(source))
+      
+      nodes <- data.frame(
+        name = c(as.character(links$source), as.character(links$target)) %>% unique()
+      )
+      
+      links$source <- match(links$source, nodes$name) - 1
+      links$target <- match(links$target, nodes$name) - 1
+      
+      p <- sankeyNetwork(
+        Links = links, Nodes = nodes,
+        Source = "source", Target = "target",
+        Value = "value", NodeID = "name",
+        fontSize = 10, nodeWidth = 50
+      )
+      
+    } else if (input$sankeyPlotSelection == "Morphology and Color") {
+      data_sankey <- read.csv("~/Documents/Week3RShiny/Week3RShiny/Week3RShiny/Week3RShiny3/Samples_Geocoded.csv")
+      
+      morphologyData <- data_sankey %>%
+        select(starts_with("Morphology_")) %>%
+        pivot_longer(cols = everything(), names_to = "Morphology_Type", values_to = "Morphology_Values") %>%
+        filter(!is.na(Morphology_Values)) %>%
+        distinct(Morphology_Type, Morphology_Values)
+      
+      colorsData <- data_sankey %>%
+        select(starts_with("Color_")) %>%
+        mutate_all(as.character) %>%
+        pivot_longer(cols = everything(), names_to = "Color_Type", values_to = "Color_Values") %>%
+        filter(!is.na(Color_Values)) %>%
+        distinct(Color_Type, Color_Values)
+      
+      source_color <- c(colorsData$Color_Type)
+      target_morphology <- c(morphologyData$Morphology_Type)
+      concentration <- c(data_sankey$Concentration)
+      
+      min_length <- min(length(source_color), length(target_morphology), length(concentration))
+      
+      source_color <- head(source_color, min_length)
+      target_morphology <- head(target_morphology, min_length)
+      concentration <- head(concentration, min_length)
+      
+      links <- data.frame(
+        source = c(source_color),
+        target = c(target_morphology),
+        value = c(concentration)
+      )
+      
+      links <- links %>%
+        mutate(value = as.numeric(value)) %>%
+        group_by(source, target) %>%
+        summarise(value = mean(value, na.rm = TRUE)) %>%
+        filter(!is.nan(value) & !is.na(source))
+      
+      nodes <- data.frame(
+        name = c(as.character(links$source), as.character(links$target)) %>% unique()
+      )
+      
+      links$source <- match(links$source, nodes$name) - 1
+      links$target <- match(links$target, nodes$name) - 1
+      
+      p <- sankeyNetwork(
+        Links = links, Nodes = nodes,
+        Source = "source", Target = "target",
+        Value = "value", NodeID = "name",
+        fontSize = 10, nodeWidth = 50
+      )
+      
+    } else if (input$sankeyPlotSelection == "Morphology and Material") {
+      data_sankey <- read.csv("~/Documents/Week3RShiny/Week3RShiny/Week3RShiny/Week3RShiny3/Samples_Geocoded.csv")
+      
+      morphologyData <- data_sankey %>%
+        select(starts_with("Morphology_")) %>%
+        pivot_longer(cols = everything(), names_to = "Morphology_Type", values_to = "Morphology_Values") %>%
+        filter(!is.na(Morphology_Values)) %>%
+        distinct(Morphology_Type, Morphology_Values)
+      
+      materialData <- data_sankey %>%
+        select(starts_with("Material_")) %>%
+        mutate_all(as.character) %>%
+        pivot_longer(cols = everything(), names_to = "Material_Type", values_to = "Material_Values") %>%
+        filter(!is.na(Material_Values)) %>%
+        distinct(Material_Type, Material_Values)
+      
+      source_morphology <- c(morphologyData$Morphology_Type)
+      target_material <- c(materialData$Material_Type)
+      concentration <- c(data_sankey$Concentration)
+      
+      min_length <- min(length(source_morphology), length(target_material), length(concentration))
+      
+      source_morphology <- head(source_morphology, min_length)
+      target_material <- head(target_material, min_length)
+      concentration <- head(concentration, min_length)
+      
+      links <- data.frame(
+        source = c(source_morphology),
+        target = c(target_material),
+        value = c(concentration)
+      )
+      
+      links <- links %>%
+        mutate(value = as.numeric(value)) %>%
+        group_by(source, target) %>%
+        summarise(value = mean(value, na.rm = TRUE)) %>%
+        filter(!is.nan(value) & !is.na(source))
+      
+      nodes <- data.frame(
+        name = c(as.character(links$source), as.character(links$target)) %>% unique()
+      )
+      
+      links$source <- match(links$source, nodes$name) - 1
+      links$target <- match(links$target, nodes$name) - 1
+      
+      p <- sankeyNetwork(
+        Links = links, Nodes = nodes,
+        Source = "source", Target = "target",
+        Value = "value", NodeID = "name",
+        fontSize = 10, nodeWidth = 50
+      )
+    }
+    p
+  })
 }
-
 shinyApp(ui, server)
