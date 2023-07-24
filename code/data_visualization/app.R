@@ -360,58 +360,47 @@ server <- function(input, output) {
   output$SankeyMorphColorMat <- renderSankeyNetwork({
     data_sankey <- Samples_Geocoded
     
+    sankify <- function(x, starts){
+        x %>%
+            mutate(across(starts_with(starts), ~as.character(.))) %>%
+            select(starts_with(starts), Sample_ID, Subsample_ID) %>%
+            # Using rowwise() to handle row operations
+            rowwise() %>%
+            # Check if all values in a row are NA
+            filter(any(!is.na(c_across(starts_with(starts))))) %>%
+            ungroup() %>%
+            mutate(across(starts_with(starts), ~ifelse(is.na(.), "0", .))) %>%
+            mutate(across(starts_with(starts), ~ifelse(. == "Present", 
+                                                if(any(!. %in% c("Present", "0"))){
+                                                    sample(.[!. %in% c("Present", "0")], size = 1)
+                                                } else { 
+                                                    as.character(runif(n = 1))
+                                                },
+                                                .))) %>%
+            mutate(across(starts_with(starts), ~as.numeric(.))) %>%
+            rowwise() %>%
+            mutate(across(starts_with(starts), ~./sum(c_across(starts_with(starts))))) %>%
+            ungroup() %>%
+            pivot_longer(cols = starts_with(starts), names_to = "type", values_to = "proportion")
+    }
+    
     if(input$sankeyPlotSelection == "Morphology, Color, Material") {
-      morphologyData <- data_sankey %>%
-        select(starts_with("Morphology_")) %>%
-        pivot_longer(cols = everything(), names_to = "Morphology_Type", values_to = "Morphology_Values") %>%
-        filter(!is.na(Morphology_Values)) %>%
-        distinct(Morphology_Type, Morphology_Values)
       
-      colorsData <- data_sankey %>%
-        select(starts_with("Color_")) %>%
-        mutate_all(as.character) %>%
-        pivot_longer(cols = everything(), names_to = "Color_Type", values_to = "Color_Values") %>%
-        filter(!is.na(Color_Values)) %>%
-        distinct(Color_Type, Color_Values)
+    all <- lapply(c("Morphology_", "Color_", "Material_"), function(x){
+          sankify(x = data_sankey, starts = x)
+      })
+    
+    joined <- inner_join(all[[1]], all[[2]], by = c("Sample_ID", "Subsample_ID")) %>%
+        mutate(mean_prop = (proportion.x + proportion.y)/2) %>%
+        group_by(type.x, type.y) %>%
+        summarise(mean_prop = mean(mean_prop)) %>%
+        ungroup()
+        
       
-      materialData <- data_sankey %>%
-        select(starts_with("Material_")) %>%
-        mutate_all(as.character) %>%
-        pivot_longer(cols = everything(), names_to = "Material_Type", values_to = "Material_Values") %>%
-        filter(!is.na(Material_Values)) %>%
-        distinct(Material_Type, Material_Values)
-      
-      source_color <- c(colorsData$Color_Type)
-      target_morphology <- c(morphologyData$Morphology_Type)
-      target_material <- c(materialData$Material_Type)
-      concentration <- c(data_sankey$Concentration)
-      
-      max_length <- max(length(source_color), length(target_morphology), length(target_material), length(concentration))
-      
-      if (length(source_color) < max_length) {
-        source_color[(length(source_color) + 1):max_length] <- NA
-      }
-      if (length(target_morphology) < max_length) {
-        target_morphology[(length(target_morphology) + 1):max_length] <- NA
-      }
-      if (length(target_material) < max_length) {
-        target_material[(length(target_material) + 1):max_length] <- NA
-      }
-      if (length(concentration) < max_length) {
-        concentration[(length(concentration) + 1):max_length] <- NA
-      }
-      
-      links <- data.frame(
-        source = c(source_color, rep(source_color, length(target_material))),
-        target = c(target_morphology, target_material),
-        value = c(concentration, concentration)
-      )
-      
-      links <- links %>%
-        mutate(value = as.numeric(value)) %>%
-        group_by(source, target) %>%
-        summarise(value = mean(value, na.rm = TRUE)) %>%
-        filter(!is.nan(value) & !is.na(source))
+      links <- joined %>%
+        rename(source = type.x,
+               target = type.y, 
+               value = mean_prop)
       
       nodes <- data.frame(
         name = c(as.character(links$source), as.character(links$target)) %>% unique()
