@@ -149,11 +149,10 @@ ui <- bs4DashPage(
         column(
           width = 12,
           selectInput("sankeyPlotSelection", "Select Sankey Plot:",
-                      choices = c("Morphology, Color, Material",
-                                  "Color and Material",
+                      choices = c("Color and Material",
                                   "Morphology and Color",
                                   "Morphology and Material"),
-                      selected = "Morphology, Color, Material"),
+                      selected = "Morphology and Color"),
           box(
             title = "Comparing Characteristics with Sankey Plot",
             sankeyNetworkOutput("SankeyMorphColorMat"),
@@ -384,194 +383,94 @@ server <- function(input, output) {
             pivot_longer(cols = starts_with(starts), names_to = "type", values_to = "proportion")
     }
     
-    if(input$sankeyPlotSelection == "Morphology, Color, Material") {
-      
     all <- lapply(c("Morphology_", "Color_", "Material_"), function(x){
           sankify(x = data_sankey, starts = x)
       })
     
-    joined <- inner_join(all[[1]], all[[2]], by = c("Sample_ID", "Subsample_ID")) %>%
-        mutate(mean_prop = (proportion.x + proportion.y)/2) %>%
-        group_by(type.x, type.y) %>%
-        summarise(mean_prop = mean(mean_prop)) %>%
-        ungroup()
+  if (input$sankeyPlotSelection == "Color and Material") {
+
+        joined <- inner_join(all[[2]], all[[3]], by = c("Sample_ID", "Subsample_ID")) %>%
+            mutate(mean_prop = (proportion.x + proportion.y)/2) %>%
+            group_by(type.x, type.y) %>%
+            summarise(mean_prop = mean(mean_prop)) %>%
+            ungroup() %>%
+            filter(mean_prop > 0.1)
         
-      
-      links <- joined %>%
-        rename(source = type.x,
-               target = type.y, 
-               value = mean_prop)
-      
-      nodes <- data.frame(
-        name = c(as.character(links$source), as.character(links$target)) %>% unique()
-      )
-      
-      links$source <- match(links$source, nodes$name) - 1
-      links$target <- match(links$target, nodes$name) - 1
-      
-      p <- sankeyNetwork(
-        Links = links, Nodes = nodes,
-        Source = "source", Target = "target",
-        Value = "value", NodeID = "name",
-        fontSize = 10, nodeWidth = 50
-      )
-      
-    } else if (input$sankeyPlotSelection == "Color and Material") {
-      data_sankey <- Samples_Geocoded
-      
-      colorsData <- data_sankey %>%
-        select(starts_with("Color_")) %>%
-        mutate_all(as.character) %>%
-        pivot_longer(cols = everything(), names_to = "Color_Type", values_to = "Color_Values") %>%
-        filter(!is.na(Color_Values)) %>%
-        distinct(Color_Type, Color_Values)
-      
-      materialData <- data_sankey %>%
-        select(starts_with("Material_")) %>%
-        mutate_all(as.character) %>%
-        pivot_longer(cols = everything(), names_to = "Material_Type", values_to = "Material_Values") %>%
-        filter(!is.na(Material_Values)) %>%
-        distinct(Material_Type, Material_Values)
-      
-      source_color <- c(colorsData$Color_Type)
-      target_material <- c(materialData$Material_Type)
-      concentration <- c(data_sankey$Concentration)
-      
-      min_length <- min(length(source_color), length(target_material), length(concentration))
-      
-      source_color <- head(source_color, min_length)
-      target_material <- head(target_material, min_length)
-      concentration <- head(concentration, min_length)
-      
-      links <- data.frame(
-        source = c(source_color),
-        target = c(target_material),
-        value = c(concentration)
-      )
-      
-      links <- links %>%
-        mutate(value = as.numeric(value)) %>%
-        group_by(source, target) %>%
-        summarise(value = mean(value, na.rm = TRUE)) %>%
-        filter(!is.nan(value) & !is.na(source))
-      
-      nodes <- data.frame(
-        name = c(as.character(links$source), as.character(links$target)) %>% unique()
-      )
-      
-      links$source <- match(links$source, nodes$name) - 1
-      links$target <- match(links$target, nodes$name) - 1
-      
-      p <- sankeyNetwork(
-        Links = links, Nodes = nodes,
-        Source = "source", Target = "target",
-        Value = "value", NodeID = "name",
-        fontSize = 10, nodeWidth = 50
-      )
+        
+        links <- joined %>%
+            rename(source = type.x,
+                   target = type.y, 
+                   value = mean_prop)
+        
+        nodes <- data.frame(
+            name = c(as.character(links$source), as.character(links$target)) %>% unique()
+        )
+        
+        links$source <- match(links$source, nodes$name) - 1
+        links$target <- match(links$target, nodes$name) - 1
+        
+        p <- sankeyNetwork(
+            Links = links, Nodes = nodes,
+            Source = "source", Target = "target",
+            Value = "value", NodeID = "name",
+            fontSize = 10, nodeWidth = 50
+        )
       
     } else if (input$sankeyPlotSelection == "Morphology and Color") {
-      data_sankey <- Samples_Geocoded
-      
-      morphologyData <- data_sankey %>%
-        select(starts_with("Morphology_")) %>%
-        pivot_longer(cols = everything(), names_to = "Morphology_Type", values_to = "Morphology_Values") %>%
-        filter(!is.na(Morphology_Values)) %>%
-        distinct(Morphology_Type, Morphology_Values)
-      
-      colorsData <- data_sankey %>%
-        select(starts_with("Color_")) %>%
-        mutate_all(as.character) %>%
-        pivot_longer(cols = everything(), names_to = "Color_Type", values_to = "Color_Values") %>%
-        filter(!is.na(Color_Values)) %>%
-        distinct(Color_Type, Color_Values)
-      
-      source_color <- c(colorsData$Color_Type)
-      target_morphology <- c(morphologyData$Morphology_Type)
-      concentration <- c(data_sankey$Concentration)
-      
-      min_length <- min(length(source_color), length(target_morphology), length(concentration))
-      
-      source_color <- head(source_color, min_length)
-      target_morphology <- head(target_morphology, min_length)
-      concentration <- head(concentration, min_length)
-      
-      links <- data.frame(
-        source = c(source_color),
-        target = c(target_morphology),
-        value = c(concentration)
-      )
-      
-      links <- links %>%
-        mutate(value = as.numeric(value)) %>%
-        group_by(source, target) %>%
-        summarise(value = mean(value, na.rm = TRUE)) %>%
-        filter(!is.nan(value) & !is.na(source))
-      
-      nodes <- data.frame(
-        name = c(as.character(links$source), as.character(links$target)) %>% unique()
-      )
-      
-      links$source <- match(links$source, nodes$name) - 1
-      links$target <- match(links$target, nodes$name) - 1
-      
-      p <- sankeyNetwork(
-        Links = links, Nodes = nodes,
-        Source = "source", Target = "target",
-        Value = "value", NodeID = "name",
-        fontSize = 10, nodeWidth = 50
-      )
+        joined <- inner_join(all[[1]], all[[2]], by = c("Sample_ID", "Subsample_ID")) %>%
+            mutate(mean_prop = (proportion.x + proportion.y)/2) %>%
+            group_by(type.x, type.y) %>%
+            summarise(mean_prop = mean(mean_prop)) %>%
+            ungroup() %>%
+            filter(mean_prop > 0.1)
+        
+        
+        links <- joined %>%
+            rename(source = type.x,
+                   target = type.y, 
+                   value = mean_prop)
+        
+        nodes <- data.frame(
+            name = c(as.character(links$source), as.character(links$target)) %>% unique()
+        )
+        
+        links$source <- match(links$source, nodes$name) - 1
+        links$target <- match(links$target, nodes$name) - 1
+        
+        p <- sankeyNetwork(
+            Links = links, Nodes = nodes,
+            Source = "source", Target = "target",
+            Value = "value", NodeID = "name",
+            fontSize = 10, nodeWidth = 50
+        )
       
     } else if (input$sankeyPlotSelection == "Morphology and Material") {
-      data_sankey <- Samples_Geocoded
-      
-      morphologyData <- data_sankey %>%
-        select(starts_with("Morphology_")) %>%
-        pivot_longer(cols = everything(), names_to = "Morphology_Type", values_to = "Morphology_Values") %>%
-        filter(!is.na(Morphology_Values)) %>%
-        distinct(Morphology_Type, Morphology_Values)
-      
-      materialData <- data_sankey %>%
-        select(starts_with("Material_")) %>%
-        mutate_all(as.character) %>%
-        pivot_longer(cols = everything(), names_to = "Material_Type", values_to = "Material_Values") %>%
-        filter(!is.na(Material_Values)) %>%
-        distinct(Material_Type, Material_Values)
-      
-      source_morphology <- c(morphologyData$Morphology_Type)
-      target_material <- c(materialData$Material_Type)
-      concentration <- c(data_sankey$Concentration)
-      
-      min_length <- min(length(source_morphology), length(target_material), length(concentration))
-      
-      source_morphology <- head(source_morphology, min_length)
-      target_material <- head(target_material, min_length)
-      concentration <- head(concentration, min_length)
-      
-      links <- data.frame(
-        source = c(source_morphology),
-        target = c(target_material),
-        value = c(concentration)
-      )
-      
-      links <- links %>%
-        mutate(value = as.numeric(value)) %>%
-        group_by(source, target) %>%
-        summarise(value = mean(value, na.rm = TRUE)) %>%
-        filter(!is.nan(value) & !is.na(source))
-      
-      nodes <- data.frame(
-        name = c(as.character(links$source), as.character(links$target)) %>% unique()
-      )
-      
-      links$source <- match(links$source, nodes$name) - 1
-      links$target <- match(links$target, nodes$name) - 1
-      
-      p <- sankeyNetwork(
-        Links = links, Nodes = nodes,
-        Source = "source", Target = "target",
-        Value = "value", NodeID = "name",
-        fontSize = 10, nodeWidth = 50
-      )
+        joined <- inner_join(all[[1]], all[[3]], by = c("Sample_ID", "Subsample_ID")) %>%
+            mutate(mean_prop = (proportion.x + proportion.y)/2) %>%
+            group_by(type.x, type.y) %>%
+            summarise(mean_prop = mean(mean_prop)) %>%
+            ungroup() %>%
+            filter(mean_prop > 0.1)
+        
+        
+        links <- joined %>%
+            rename(source = type.x,
+                   target = type.y, 
+                   value = mean_prop)
+        
+        nodes <- data.frame(
+            name = c(as.character(links$source), as.character(links$target)) %>% unique()
+        )
+        
+        links$source <- match(links$source, nodes$name) - 1
+        links$target <- match(links$target, nodes$name) - 1
+        
+        p <- sankeyNetwork(
+            Links = links, Nodes = nodes,
+            Source = "source", Target = "target",
+            Value = "value", NodeID = "name",
+            fontSize = 10, nodeWidth = 50
+        )
     }
     p
   })
