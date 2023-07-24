@@ -21,7 +21,8 @@ library(gridExtra)
 library(networkD3)
 library(tidyr)
 
-Samples_Geocoded <- read_csv("~/Documents/Week3RShiny/Week3RShiny/Week3RShiny/Week3RShiny3/Samples_Geocoded.csv", locale = locale(encoding = "latin1"))
+#full file path to data
+Samples_Geocoded <- read_csv("~/Documents/MooreResearchRepository/Microplastic_Data_Portal/data/Samples_Geocoded.csv", locale = locale(encoding = "latin1"))
 
 Location_choices <- unique(Samples_Geocoded$Location)
 Country_choices <- unique(Samples_Geocoded$Countries)
@@ -357,7 +358,7 @@ server <- function(input, output) {
   })
   
   output$SankeyMorphColorMat <- renderSankeyNetwork({
-    data_sankey <- read.csv("~/Documents/Week3RShiny/Week3RShiny/Week3RShiny/Week3RShiny3/Samples_Geocoded.csv")
+    data_sankey <- read_csv("~/Documents/MooreResearchRepository/Microplastic_Data_Portal/data/Samples_Geocoded.csv")
     
     if(input$sankeyPlotSelection == "Morphology, Color, Material") {
       morphologyData <- data_sankey %>%
@@ -427,7 +428,7 @@ server <- function(input, output) {
       )
       
     } else if (input$sankeyPlotSelection == "Color and Material") {
-      data_sankey <- read.csv("~/Documents/Week3RShiny/Week3RShiny/Week3RShiny/Week3RShiny3/Samples_Geocoded.csv")
+      data_sankey <- read_csv("~/Documents/MooreResearchRepository/Microplastic_Data_Portal/data/Samples_Geocoded.csv")
       
       colorsData <- data_sankey %>%
         select(starts_with("Color_")) %>%
@@ -480,7 +481,7 @@ server <- function(input, output) {
       )
       
     } else if (input$sankeyPlotSelection == "Morphology and Color") {
-      data_sankey <- read.csv("~/Documents/Week3RShiny/Week3RShiny/Week3RShiny/Week3RShiny3/Samples_Geocoded.csv")
+      data_sankey <- read_csv("~/Documents/MooreResearchRepository/Microplastic_Data_Portal/data/Samples_Geocoded.csv")
       
       morphologyData <- data_sankey %>%
         select(starts_with("Morphology_")) %>%
@@ -532,7 +533,7 @@ server <- function(input, output) {
       )
       
     } else if (input$sankeyPlotSelection == "Morphology and Material") {
-      data_sankey <- read.csv("~/Documents/Week3RShiny/Week3RShiny/Week3RShiny/Week3RShiny3/Samples_Geocoded.csv")
+      data_sankey <- read_csv("~/Documents/MooreResearchRepository/Microplastic_Data_Portal/data/Samples_Geocoded.csv")
       
       morphologyData <- data_sankey %>%
         select(starts_with("Morphology_")) %>%
