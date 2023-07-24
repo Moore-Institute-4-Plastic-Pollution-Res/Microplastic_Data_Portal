@@ -27,6 +27,35 @@ Samples_Geocoded <- read_csv("data/Samples_Geocoded.csv", locale = locale(encodi
 Location_choices <- unique(Samples_Geocoded$Location)
 Country_choices <- unique(Samples_Geocoded$Countries)
 
+#TODO: should preallocate this and the dataset below because it is slow to start up.  
+sankify <- function(x, starts){
+    x %>%
+        mutate(across(starts_with(starts), ~as.character(.))) %>%
+        select(starts_with(starts), Sample_ID, Subsample_ID) %>%
+        # Using rowwise() to handle row operations
+        rowwise() %>%
+        # Check if all values in a row are NA
+        filter(any(!is.na(c_across(starts_with(starts))))) %>%
+        ungroup() %>%
+        mutate(across(starts_with(starts), ~ifelse(is.na(.), "0", .))) %>%
+        mutate(across(starts_with(starts), ~ifelse(. == "Present", 
+                                                   if(any(!. %in% c("Present", "0"))){
+                                                       sample(.[!. %in% c("Present", "0")], size = 1)
+                                                   } else { 
+                                                       as.character(runif(n = 1))
+                                                   },
+                                                   .))) %>%
+        mutate(across(starts_with(starts), ~as.numeric(.))) %>%
+        rowwise() %>%
+        mutate(across(starts_with(starts), ~./sum(c_across(starts_with(starts))))) %>%
+        ungroup() %>%
+        pivot_longer(cols = starts_with(starts), names_to = "type", values_to = "proportion")
+}
+
+all <- lapply(c("Morphology_", "Color_", "Material_"), function(x){
+    sankify(x = Samples_Geocoded, starts = x)
+})
+
 ui <- bs4DashPage(
   bs4DashNavbar(
     title = "Drinking Water Plastics",
@@ -357,35 +386,6 @@ server <- function(input, output) {
   })
   
   output$SankeyMorphColorMat <- renderSankeyNetwork({
-    data_sankey <- Samples_Geocoded
-    
-    sankify <- function(x, starts){
-        x %>%
-            mutate(across(starts_with(starts), ~as.character(.))) %>%
-            select(starts_with(starts), Sample_ID, Subsample_ID) %>%
-            # Using rowwise() to handle row operations
-            rowwise() %>%
-            # Check if all values in a row are NA
-            filter(any(!is.na(c_across(starts_with(starts))))) %>%
-            ungroup() %>%
-            mutate(across(starts_with(starts), ~ifelse(is.na(.), "0", .))) %>%
-            mutate(across(starts_with(starts), ~ifelse(. == "Present", 
-                                                if(any(!. %in% c("Present", "0"))){
-                                                    sample(.[!. %in% c("Present", "0")], size = 1)
-                                                } else { 
-                                                    as.character(runif(n = 1))
-                                                },
-                                                .))) %>%
-            mutate(across(starts_with(starts), ~as.numeric(.))) %>%
-            rowwise() %>%
-            mutate(across(starts_with(starts), ~./sum(c_across(starts_with(starts))))) %>%
-            ungroup() %>%
-            pivot_longer(cols = starts_with(starts), names_to = "type", values_to = "proportion")
-    }
-    
-    all <- lapply(c("Morphology_", "Color_", "Material_"), function(x){
-          sankify(x = data_sankey, starts = x)
-      })
     
   if (input$sankeyPlotSelection == "Color and Material") {
 
