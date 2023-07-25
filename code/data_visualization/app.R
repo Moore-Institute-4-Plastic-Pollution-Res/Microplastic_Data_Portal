@@ -49,7 +49,8 @@ sankify <- function(x, starts){
         rowwise() %>%
         mutate(across(starts_with(starts), ~./sum(c_across(starts_with(starts))))) %>%
         ungroup() %>%
-        pivot_longer(cols = starts_with(starts), names_to = "type", values_to = "proportion")
+        pivot_longer(cols = starts_with(starts), names_to = "type", values_to = "proportion") %>%
+        mutate(proportion = proportion * 100)
 }
 
 all <- lapply(c("Morphology_", "Color_", "Material_"), function(x){
@@ -394,7 +395,7 @@ server <- function(input, output) {
             group_by(type.x, type.y) %>%
             summarise(mean_prop = mean(mean_prop)) %>%
             ungroup() %>%
-            filter(mean_prop > 0.1)
+            filter(mean_prop > 10)
         
         
         links <- joined %>%
@@ -422,7 +423,7 @@ server <- function(input, output) {
             group_by(type.x, type.y) %>%
             summarise(mean_prop = mean(mean_prop)) %>%
             ungroup() %>%
-            filter(mean_prop > 0.1)
+            filter(mean_prop > 10)
         
         
         links <- joined %>%
@@ -450,7 +451,7 @@ server <- function(input, output) {
             group_by(type.x, type.y) %>%
             summarise(mean_prop = mean(mean_prop)) %>%
             ungroup() %>%
-            filter(mean_prop > 0.1)
+            filter(mean_prop > 10)
         
         
         links <- joined %>%
