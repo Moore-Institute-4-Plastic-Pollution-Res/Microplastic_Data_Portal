@@ -363,14 +363,14 @@ function(input, output, session) {
     output$download_sample <- downloadHandler(
         filename = function() {"invalid_data.zip"},
         content = function(file) {
-            zip(file, unzip(config$invalid_data_example))
+            zip(file, config$invalid_data_example)
             }
     )
     
     output$download_good_sample <- downloadHandler(
         filename = function() {"valid_data.zip"},
         content = function(file) {
-            zip(file, unzip(config$valid_data_example))
+            zip(file, config$valid_data_example)
             }
     )
     
