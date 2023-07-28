@@ -1,0 +1,29 @@
+default:
+    portal_name: "Microplastic Image Sharing"
+    portal_funder_name: !expr shiny::tags$a(href = "https://possibilitylab.berkeley.edu/", "pb Possibility Lab")
+    portal_funder_link: "https://pbs.twimg.com/profile_images/1540022027288924160/bn2627cY_400x400.jpg"
+    rules_example: "www/rules_dw_acc.csv"
+    valid_data_example: "www/valid_dw_acc.zip"
+    invalid_data_example: "www/invalid_dw_acc.zip"
+    twitter: "https://twitter.com/Win_OpenData"
+    github:  "https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator"
+    license: "https://creativecommons.org/licenses/by/4.0/"
+    contact: "win@mooreplasticresearch.org"
+    dev: TRUE
+    tutorial: "https://www.youtube.com/embed/GKsoNega7CY"
+    overview: "https://www.youtube.com/embed/GKsoNega7CY"
+    contributors:
+        p1: !expr bs4Dash::boxProfile(image = "https://i0.wp.com/mooreplasticresearch.org/wp-content/uploads/2022/03/20220321_104726_2.jpg?resize=1200%2C1600&ssl=1", title = "Win Cowger", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE)
+        p2: !expr bs4Dash::boxProfile(image = "https://i0.wp.com/mooreplasticresearch.org/wp-content/uploads/2022/03/20220307_110138-1.jpg?resize=1188%2C1536&ssl=1", title = "Shelly Moore", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE)
+        p3: !expr bs4Dash::boxProfile(image = "https://envisci.ucr.edu/sites/default/files/styles/profile_card_118_x_118/public/Hannah%20Hapich.jpg?h=cbdac610&itok=fjGpJ7uI", title = "Hannah Hapich", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE)
+        p4: !expr bs4Dash::boxProfile(image = "https://scholar.googleusercontent.com/citations?view_op=view_photo&user=RS6imBYAAAAJ&citpid=2", title = "Scott Coffin", subtitle = "State Water Resources Control Board", bordered = FALSE)
+        p5: !expr bs4Dash::boxProfile(image = "https://www.sfei.org/sites/default/files/styles/image_responsive/public/pictures/picture-32-1442945160.jpg?itok=mvmG2ydF", title = "Tony Hale", subtitle = "San Francisco Estuary Institute", bordered = FALSE)
+        p6: !expr bs4Dash::boxProfile(image = "https://www.sfei.org/sites/default/files/styles/image_responsive/public/pictures/picture-553-1487880891.jpg?itok=Cj8_Csm5", title = "Diana Lin", subtitle = "San Francisco Estuary Institute", bordered = FALSE)
+        p7: !expr bs4Dash::boxProfile(image = "https://www.sfei.org/sites/default/files/styles/image_responsive/public/pictures/picture-119-1436289327.jpg?itok=y2mzKV24", title = "Rebecca Sutton", subtitle = "San Francisco Estuary Institute", bordered = FALSE)
+        p8: !expr bs4Dash::boxProfile(image = "https://media.licdn.com/dms/image/C5603AQEiefNJhW36QQ/profile-displayphoto-shrink_400_400/0/1517424516334?e=1678924800&v=beta&t=92DMrsU_rWgFFwxy9YFOqVY1NuJGTC5FKN3rmS7EU3g", title = "Gabriel Daiess", subtitle = NULL, bordered = FALSE)
+        p9: !expr bs4Dash::boxProfile(image = "https://www.sccwrp.org/wp/wp-content/uploads/2020/03/Leah-Thomas-Hampton-SCCWRP-bkg-WebAR.jpg", title = "Leah Thornton Hampton", subtitle = "Southern California Coastal Water Research Project", bordered = FALSE)
+        p10: !expr bs4Dash::boxProfile(image = "", title = "Richard Nelson", subtitle = "California State Water Resources Control Board", bordered = FALSE)
+        p11: !expr bs4Dash::boxProfile(image = "https://media.licdn.com/dms/image/C5603AQHVTKQR_Xmm8g/profile-displayphoto-shrink_400_400/0/1654033306784?e=1678924800&v=beta&t=6LRkyHUOIo7MkUlmrRmDR5Ft55rSyC0KMnLec4qW3Jk", title = "Haig Jack Minasian", subtitle = "CSU Long Beach", bordered = FALSE)
+        p12: !expr bs4Dash::boxProfile(image = "https://media.licdn.com/dms/image/C5603AQHLq0Iv-e9SGg/profile-displayphoto-shrink_400_400/0/1588630989428?e=1678924800&v=beta&t=suBzVjL4nwHZzOEUSHDRHwlfGZiccL4aqAKEYudN4jc", title = "Holden Ford", subtitle = "CSU Long Beach", bordered = FALSE)
+        p13: !expr bs4Dash::boxProfile(image = "", title = "Anja Oca", subtitle = "CSU Long Beach", bordered = FALSE)
+        p14: !expr bs4Dash::boxProfile(image = "https://photos.smugmug.com/photos/i-V6hDWm7/0/c09dd854/X2/i-V6hDWm7-X2.jpg", title = "Libby Heeren", subtitle = "Moore Institute for Plastic Pollution Research", bordered = FALSE)
