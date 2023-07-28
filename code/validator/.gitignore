@@ -1,5 +1,5 @@
 config_pl.yml
 config*
-*.DS
+.DS_Store
 tests.R
 config_pl_for_tests.yml
