@@ -219,7 +219,7 @@ function(input, output, session) {
                 style = "bootstrap")
     })
     
-    observeEvent(req(validation()$data_formatted, !any(validation()$issues), vals$key, config$s3_secret_key, config$ckan_key), {
+    observeEvent(req(validation()$data_formatted, !any(validation()$issues), vals$key), {
         database$insert(data.frame(time = Sys.time(), 
                    data = digest(validation()$data_formatted), 
                    rules = digest(read.csv(rules())), 
@@ -398,7 +398,7 @@ function(input, output, session) {
         )
     }
     
-    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted, config$ckan_key, config$s3_secret_key), {
+    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted, config$valid_key), {
         showModal(dataModal())
     })
     
