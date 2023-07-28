@@ -1,4 +1,5 @@
 config_pl.yml
-config.yml
+config*
+*.DS
 tests.R
 config_pl_for_tests.yml
