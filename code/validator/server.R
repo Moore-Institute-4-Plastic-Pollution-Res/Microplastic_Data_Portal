@@ -378,48 +378,92 @@ function(input, output, session) {
     vals <- reactiveValues(key = NULL)
     
     #Secret Key Input ----
-    dataModal <- function(failed = FALSE) {
-        modalDialog(
-            textInput("secret", "Input Key"),
-            span('To share the uploaded data to the database you need to provide a key shared with you by', config$contact, '.'),
-            if (failed)
-                div(tags$b("Invalid key-rules pair please try again or contact", config$contact, "for help.", style = "color: red;")),
-            p(),
-            box(title = "Is this an update to a previous submission?", 
-                id = "update_submission",
-                width = 12,
-                collapsed = T,
-                fileInput(inputId = "old_certificate", label = "Upload previous certificate.")
-            ),
-            footer = tagList(
-                modalButton("Cancel"),
-                actionButton("ok", "OK")
-            )
+    NoKeyModal <- function() {
+      modalDialog(
+        span('Would you like to share your uploaded data? Proceed with OK or click Cancel to simply test your data.'),
+        p(),
+        span('If this is a previous submission, enter it below:'),
+        p(),
+        box(
+          title = "Is this an update to a previous submission?", 
+          id = "update_submission",
+          width = 12,
+          collapsed = T,
+          fileInput(inputId = "old_certificate", label = "Upload previous certificate.")
+          ),
+        footer = tagList(
+          modalButton("Cancel"),
+          actionButton("next_button", "Next")
         )
+      )
     }
     
-    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted, config$valid_key), {
-        showModal(dataModal())
-    })
+    YesKeyModal <- function(failed = FALSE) {
+      modalDialog(
+        textInput("secret", "Input Key"),
+        span('Would you like to share your uploaded data? Proceed with OK and enter your input key provided by', config$contact, 'or click Cancel to simply test your data.'),
+        if (failed)
+          div(tags$b("Invalid key-rules pair please try again or contact", config$contact, "for help.", style = "color: red;")),
+        p(),
+        box(
+          title = "Is this an update to a previous submission?", 
+          id = "update_submission",
+          width = 12,
+          collapsed = T,
+          fileInput(inputId = "old_certificate", label = "Upload previous certificate.")
+        ),
+        footer = tagList(
+          modalButton("Cancel"),
+          actionButton("ok", "OK")
+        )
+      )
+    }
+    
+    observeEvent(req(isTRUE(!any(validation()$issues)), validation()$data_formatted), {
+      if (config$valid_key) {
+        showModal(YesKeyModal())
+        } else {
+          showModal(NoKeyModal())
+          }
+      })
     
     # When OK button is pressed, attempt to load the data set. If successful,
     # remove the modal. If not show another modal, but this time with a failure
     # message.
-    observeEvent(input$ok, {
-        # Check that data object exists and is data frame.
-        test_valid <- config$valid_key == input$secret & config$valid_rules == digest(read.csv(rules()))
-        
-        if (!is.null(input$secret) && test_valid && input$ok < 4){
-            vals$key <- input$secret
-            removeModal()
-            show_alert(
-                title = "Valid Key",
-                text  = "Your key is valid, you are now logged in and we are sending your data to the remote repository, please wait for a success message before closing this window.",
-                type  = "info")
+    observeEvent(input$next_button, {
+      removeModal()
+      if (config$valid_key) {
+        showModal(YesKeyModal())
         } else {
-            showModal(dataModal(failed = TRUE))
+          showModal(NoKeyModal())
+          }
+      })
+    
+    observeEvent(input$ok, {
+      if(config$valid_key) {
+      # Check that data object exists and is data frame.
+      test_valid <- config$valid_key == input$secret & config$valid_rules == digest(read.csv(rules()))
+      
+      if (!is.null(input$secret) && test_valid && input$ok < 4) {
+        vals$key <- input$secret
+        removeModal()
+        show_alert(
+          title = "Valid Key",
+          text  = "Your key is valid, you are now logged in and we are sending your data to the remote repository, please wait for a success message before closing this window.",
+          type  = "info"
+          )
+        } else {
+          showModal(YesKeyModal(failed = TRUE))
+          }
+      } else {
+        removeModal()
+        show_alert(
+          title = "No Key Required",
+          text = "You are now logged in and we are sending your data to the remote repository, please wait for a success message before closing this window.",
+          type = "info"
+          )
         }
-    })
+      })
     
     #Diagnosis ----
     #output$validation_out <- renderJsonedit({
