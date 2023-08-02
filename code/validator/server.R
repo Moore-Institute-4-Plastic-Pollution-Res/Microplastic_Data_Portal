@@ -378,7 +378,7 @@ function(input, output, session) {
     vals <- reactiveValues(key = NULL)
     
     #Secret Key Input ----
-    NoKeyModal <- function(failed = FALSE) {
+    NoKeyModal <- function() {
       modalDialog(
         span('Would you like to share your uploaded data? Proceed with OK or click Cancel to simply test your data.'),
         p(),
@@ -436,9 +436,9 @@ function(input, output, session) {
       vals$key <- NULL
       removeModal()
       show_alert(
-        title = "Valid Key",
-        text = "No key required, you are now logged in and we are sending your data to the remote repository, please wait for a success message before closing this window.",
-        type = "info")
+        title = "Success",
+        text = "Your data has been uploaded to the remote repository",
+        type = "success")
     })
     
     observeEvent(input$ok_with_key, {
@@ -446,7 +446,7 @@ function(input, output, session) {
       if (is.null(config$valid_key)) {
         vals$key <- NULL
       } else {
-      if (!is.null(input$secret) && input$ok_with_key < 4){
+      if (!is.null(input$secret) && input$ok_with_key < 4 && input$secret == config$valid_key){
         vals$key <- input$secret
         removeModal()
         show_alert(
