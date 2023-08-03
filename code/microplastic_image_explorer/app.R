@@ -212,6 +212,7 @@ server <- function(input, output, session) {
   })
   
   images_per_page <- 30
+  items_per_row <- 3
   current_page <- reactiveVal(1)
   
   observe({
@@ -230,9 +231,9 @@ server <- function(input, output, session) {
   
   output$images <- renderUI({
     req(paged_data())
-    boxLayout(
-      type = "group",
-      lapply(1:nrow(paged_data()), function(x) {
+    rows <- lapply(1:nrow(paged_data()), function(x) {
+      div(
+        class = "col-sm-4",
         box(
           id = paste0("box", x),
           title = paged_data()$`Researcher Name`[x],
@@ -246,11 +247,11 @@ server <- function(input, output, session) {
             )
           ),
           maximizable = TRUE,
-          style = 'width: 25vw; height: 300px;',
           width = NULL
         )
-      })
-    )
+      )
+    })
+    fluidRow(tags$div(class = "row", rows))
   })
   
   observeEvent(input$prev_btn, {
