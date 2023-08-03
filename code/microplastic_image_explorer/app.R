@@ -212,7 +212,6 @@ server <- function(input, output, session) {
   })
   
   images_per_page <- 30
-  items_per_row <- 3
   current_page <- reactiveVal(1)
   
   observe({
