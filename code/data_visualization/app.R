@@ -53,8 +53,9 @@ sankify <- function(x, starts){
         mutate(proportion = proportion * 100)
 }
 
-all <- lapply(c("Morphology_", "Color_", "Material_"), function(x){
-    sankify(x = Samples_Geocoded, starts = x)
+all <- vector("list", length = 3)
+all <- lapply(1:3, function(i){
+    sankify(x = Samples_Geocoded, starts = c("Morphology_", "Color_", "Material_")[i])
 })
 
 ui <- bs4DashPage(
@@ -66,34 +67,52 @@ ui <- bs4DashPage(
   ),
   bs4DashSidebar(
     tags$style(
-      HTML(".sidebar { background-color: #78909C; 
-           color: #273746;
-           }")
+      HTML(".sidebar { background-color: #78909C; }")
     ),
     sidebarMenu(
-      menuItem("Raw Data And Map", tabName = "RawDataAndMap"),
-      menuItem("Map By Countries", tabName = "MapByCountries"),
-      menuItem("Other Visuals", tabName = "sankeyPlot")
+      menuItem("Map By Raw Data", tabName = "MapByRawData", icon = icon("map")),
+      menuItem("Map By Countries", tabName = "MapByCountries", icon = icon("map")),
+      menuItem("Other Visuals", tabName = "sankeyPlot", icon = icon("sliders-h"))
     )
   ),
   bs4DashBody(
-    tags$style(
-      HTML(".content-wrapper {
-           background-color: #F2F3F4;
-           }")
-    ),
+    tags$style(HTML("
+    .content-wrapper { background-color: #F4F6F6; }
+
+    .about-box-content h3 {
+      font-size: 18px;
+    }
+    
+    .sankey-box-content h3 {
+      font-size: 18px;
+    }
+  ")),
     tabItems(
       tabItem(
-        tabName = "RawDataAndMap",
+        tabName = "MapByRawData",
         fluidRow(
-          column(
-            width = 12,
-            HTML("<h2>Drinking Water Plastics</h2>
-            <p>This app uses microplastics sample data from the California Open Data Portal.</p>
-            <p>Below is a map that allows you to select multiple locations, and the popup markers present overview information about the plastics at those sites.</p>
-            <p>The concentration and source of plastics of the selected locations are then displayed in a rain cloud plot below.</p>
-            <p>The table directly generates the data from the Open Data Portal, and shows additional information regarding the characteristics of the plastics.</p>")
-          ),
+          box(
+            title = "About",
+            h3(
+              tags$div(
+                "Welcome to the data visualization portal!",
+                br(),
+                br(),
+                "This app uses microplastics sample data from the California Open Data Portal.",
+                br(),
+                br(),
+                "Below is a map that allows you to select multiple locations, and the popup markers present overview information about the plastics at those sites.",
+                br(),
+                br(),
+                "The concentration and source of plastics of the selected locations are then displayed in a rain cloud plot below.",
+                br(),
+                br(),
+                "The table directly generates the data from the Open Data Portal, and shows additional information regarding the characteristics of the plastics."
+              )
+            ),
+            class = "about-box-content",
+            width = 12
+            ),
           column(
             width = 12,
             selectInput("Location", "Location", choices = Location_choices, multiple = TRUE)
@@ -169,12 +188,21 @@ ui <- bs4DashPage(
       ),
       tabItem(
         tabName = "sankeyPlot",
-        column(
-          width = 12,
-          HTML("<h2>Other Visuals</h2>
-              <p>Sankey plots are a useful way to visualize the relationship and flow between variables.</p>
-              <p>The drop down allows users to look at four different characteristic relationships from the Open Data Portal.")
-        ),
+        fluidRow(
+          box(
+            title = "Other Visuals",
+            h3(
+              tags$div(
+                "Sankey plots are a useful way to visualize the relationship and flow between variables.",
+                br(),
+                br(),
+                "The drop down allows users to look at the relationships of three different microplastic characteristics from the Open Data Portal."
+              )
+            ),
+            class = "sankey-box-content",
+            width = 12
+          )
+          ),
         br(),
         column(
           width = 12,
@@ -185,8 +213,9 @@ ui <- bs4DashPage(
                       selected = "Morphology and Color"),
           box(
             title = "Comparing Characteristics with Sankey Plot",
-            sankeyNetworkOutput("SankeyMorphColorMat"),
-            width = 12
+            sankeyNetworkOutput("SankeyMorphColorMat", height = "700px"),
+            width = 12,
+            height = "900px"
           )
         )
       )
