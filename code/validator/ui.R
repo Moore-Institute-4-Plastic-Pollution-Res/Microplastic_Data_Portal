@@ -65,7 +65,6 @@ function(request) {
                 tabName = "validator",
                 fluidRow(
                     column(4,
-                           popover(
                                fileInput("file", NULL,
                                          placeholder = "Start Here",
                                          buttonLabel = "Upload Data",
@@ -74,7 +73,8 @@ function(request) {
                                          accept=c("text/csv",
                                                   "text/comma-separated-values,text/plain",
                                                   ".xlsx",
-                                                  ".zip")), #%>%
+                                                  ".zip")) %>%
+                               popover(
                                title = "Upload CSV to validate",
                                content = "This is where you upload the csv, zip, and/or xlsx files file that you want to validate.")
                     ),
