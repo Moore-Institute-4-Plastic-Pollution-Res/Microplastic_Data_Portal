@@ -70,6 +70,12 @@ ui <- dashboardPage(
               border-width: 5px;
               background-color: #C1DAD6;
            }
+           .overview-box-content h3 {
+              font-size: 20px;
+           }
+           .contribute-box-content h3 {
+              font-size: 20px;
+           }
         ")
     ),
     tags$script(HTML('
@@ -93,9 +99,9 @@ ui <- dashboardPage(
                 br(),
                 br(),
                 "Go to the image query tab below to get started querying our database of microplastic images by color, morphology, and polymer types.",
-                style = "font-size: 20px;"
               )
             ),
+            class = "overview-box-content",
             width = 12
           )
         ),
@@ -153,12 +159,11 @@ ui <- dashboardPage(
           box(
             title = "Contribute",
             collapsed = F,
-            h3("You can help us build this database of microplastic imagery by filling out this form if you have a few images to share:",
-               style = "font-size: 20px;"),
+            h3("You can help us build this database of microplastic imagery by filling out this form if you have a few images to share:"),
             HTML('<a class="btn btn-info" href = "https://forms.gle/kA4ynuHsbu7VWkZm7" role = "button" >Form</a>'),
             h3("If you have over 50 images, please contact wincowger@gmail.com to share a zip folder instead. All we need is a folder with images that have unique names and a spreadsheet that lists the name of the image and relevant metadata following the google form information.",
-               style = "font-size: 20px;"
             ),
+            class = "contribute-box-content",
             width = 12
           )
         )
@@ -230,9 +235,9 @@ server <- function(input, output, session) {
   
   output$images <- renderUI({
     req(paged_data())
-    boxLayout(
-      type = "group",
-      lapply(1:nrow(paged_data()), function(x) {
+    rows <- lapply(1:nrow(paged_data()), function(x) {
+      div(
+        class = "col-sm-4",
         box(
           id = paste0("box", x),
           title = paged_data()$`Researcher Name`[x],
@@ -246,11 +251,15 @@ server <- function(input, output, session) {
             )
           ),
           maximizable = TRUE,
-          style = 'width: 25vw; height: 300px;',
           width = NULL
         )
-      })
-    )
+      )
+    })
+    
+    page_numbers <- paste("Page", current_page(), "of", total_pages())
+    page_numbers_div <- tags$div(class = "col-sm-12", style = "text-align: center;", page_numbers)
+    
+    fluidRow(tags$div(class = "row", rows), page_numbers_div)
   })
   
   observeEvent(input$prev_btn, {

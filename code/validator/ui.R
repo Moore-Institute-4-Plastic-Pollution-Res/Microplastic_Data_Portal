@@ -94,7 +94,7 @@ function(request) {
                            popover(
                                downloadButton("download_rules_excel", "Data Template", style = "background-color: #e83e8c;"),
                                title = "Download rules template file",
-                               content = "This is an file that can be used as a template when collecting data so that it conforms to most of the rules tested in this portal."
+                               content = "This is a file that can be used as a template when collecting data so that it conforms to most of the rules tested in this portal."
                            )
                     ), 
                     column(4, 
