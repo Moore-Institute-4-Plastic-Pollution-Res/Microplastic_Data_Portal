@@ -351,7 +351,7 @@ function(input, output, session) {
     )
     
     output$download_rules_excel <- downloadHandler(
-        filename = function() {"rules.xlsx"},
+        filename = function() {"data_template.xlsx"},
         content = function(file) {saveWorkbook(create_valid_excel(file_rules = rules()), file, TRUE)}
     )
     
