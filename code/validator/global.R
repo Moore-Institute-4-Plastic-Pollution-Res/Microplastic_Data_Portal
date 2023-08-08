@@ -20,6 +20,7 @@ library(config)
 library(aws.s3)
 library(One4All)
 library(mongolite)
+library(markdown)
 
 config <- config::get(file = "config_pl.yml")
 
