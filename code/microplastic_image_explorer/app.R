@@ -52,11 +52,6 @@ ui <- dashboardPage(
         "Image Query",
         tabName = "item1",
         icon = icon("camera")
-      ),
-      menuItem(
-        "Contribute",
-        tabName = "item2",
-        icon = icon("sliders-h")
       )
     )
   ),
@@ -151,21 +146,6 @@ ui <- dashboardPage(
         fluidRow(
           column(6, align = "center", actionButton("prev_btn", "Previous")),
           column(6, align = "center", actionButton("next_btn", "Next"))
-        )
-      ),
-      tabItem(
-        tabName = "item2",
-        fluidRow(
-          box(
-            title = "Contribute",
-            collapsed = F,
-            h3("You can help us build this database of microplastic imagery by filling out this form if you have a few images to share:"),
-            HTML('<a class="btn btn-info" href = "https://forms.gle/kA4ynuHsbu7VWkZm7" role = "button" >Form</a>'),
-            h3("If you have over 50 images, please contact wincowger@gmail.com to share a zip folder instead. All we need is a folder with images that have unique names and a spreadsheet that lists the name of the image and relevant metadata following the google form information.",
-            ),
-            class = "contribute-box-content",
-            width = 12
-          )
         )
       )
     )
