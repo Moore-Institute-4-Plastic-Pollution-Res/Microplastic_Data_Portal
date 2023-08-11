@@ -216,12 +216,12 @@ ui <- bs4DashPage(
             sankeyNetworkOutput("SankeyMorphColorMat", height = "700px"),
             width = 12,
             height = "900px"
+            )
           )
         )
-      )
+      ) 
     )
   )
-)
 
 server <- function(input, output) {
   filtered_data <- reactive({
@@ -230,6 +230,7 @@ server <- function(input, output) {
     return(list(samples_location = samples_location, samples_country = samples_country))
   })
   
+  # Location tab
   output$mapLocation <- renderLeaflet({
     data_location <- filtered_data()$samples_location
     leaflet() %>%
@@ -254,6 +255,7 @@ server <- function(input, output) {
       addLegend(position = "bottomright", colors = "#01579B", labels = "Location")
   })
   
+  # Countries tab
   output$mapCountries <- renderLeaflet({
     data_country <- filtered_data()$samples_country
     leaflet() %>%
@@ -278,6 +280,7 @@ server <- function(input, output) {
       addLegend(position = "bottomright", colors = "#01579B", labels = "Location")
   })
   
+  # Location tab
   output$tableLocation <- DT::renderDataTable({
     data_location <- filtered_data()$samples_location
     data_location$Concentration <- as.numeric(gsub("[^0-9.]", "", data_location$Concentration))
@@ -286,6 +289,7 @@ server <- function(input, output) {
     DT::datatable(data_location, style = "bootstrap", class = "cell-border stripe")
   })
   
+  # Countries tab
   output$tableCountries <- DT::renderDataTable({
     data_country <- filtered_data()$samples_country
     data_country$Concentration <- as.numeric(gsub("[^0-9.]", "", data_country$Concentration))
@@ -294,6 +298,7 @@ server <- function(input, output) {
     DT::datatable(data_country, style = "bootstrap", class = "cell-border stripe")
   })
   
+  # Location tab
   output$plotLocation <- renderPlot({
     data_location <- filtered_data()$samples_location
     data_location$Concentration <- as.numeric(as.character(data_location$Concentration))
@@ -336,6 +341,7 @@ server <- function(input, output) {
       )
   })
   
+  # Countries tab
   output$plotCountries <- renderPlot({
     data_country <- filtered_data()$samples_country
     data_country$Concentration <- as.numeric(gsub("[^0-9.]", "", data_country$Concentration))
@@ -416,9 +422,7 @@ server <- function(input, output) {
   })
   
   output$SankeyMorphColorMat <- renderSankeyNetwork({
-    
-  if (input$sankeyPlotSelection == "Color and Material") {
-
+    if(input$sankeyPlotSelection == "Color and Material") {
         joined <- inner_join(all[[2]], all[[3]], by = c("Sample_ID", "Subsample_ID")) %>%
             mutate(mean_prop = (proportion.x + proportion.y)/2) %>%
             group_by(type.x, type.y) %>%
