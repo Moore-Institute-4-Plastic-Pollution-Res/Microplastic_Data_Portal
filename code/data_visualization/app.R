@@ -206,21 +206,25 @@ ui <- bs4DashPage(
         br(),
         column(
           width = 12,
-          selectInput("sankeyPlotSelection", "Select Sankey Plot:",
+          selectInput("sankeyPlotSelection", "Select Sankey Plot",
                       choices = c("Color and Material",
                                   "Morphology and Color",
                                   "Morphology and Material"),
-                      selected = "Morphology and Color"),
-          box(
-            title = "Comparing Characteristics with Sankey Plot",
-            sankeyNetworkOutput("SankeyMorphColorMat", height = "700px"),
-            width = 12,
-            height = "900px"
-            )
+                      selected = "Morphology and Color")
+        ),
+        column(
+          width = 12,
+          selectInput("Location", "Location", choices = Location_choices, multiple = TRUE)
+        ),
+        box(
+          title = "Comparing Characteristics with Sankey Plot",
+          sankeyNetworkOutput("SankeyMorphColorMat", height = "700px"),
+          width = 12,
+          height = "900px"
           )
         )
-      ) 
-    )
+      )
+    ) 
   )
 
 server <- function(input, output) {
@@ -422,6 +426,8 @@ server <- function(input, output) {
   })
   
   output$SankeyMorphColorMat <- renderSankeyNetwork({
+    data_location <- filtered_data()$samples_location
+    
     if(input$sankeyPlotSelection == "Color and Material") {
         joined <- inner_join(all[[2]], all[[3]], by = c("Sample_ID", "Subsample_ID")) %>%
             mutate(mean_prop = (proportion.x + proportion.y)/2) %>%
