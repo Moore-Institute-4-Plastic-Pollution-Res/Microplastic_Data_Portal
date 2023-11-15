@@ -1,0 +1,64 @@
+﻿name,description,valid_example,severity,rule
+ParticleName,Online identifier for particle,1_23jreh334,warning,is.character(ParticleName)
+IDParticles,IDParticles is part of Particle_name so must match the same row,1,warning,is.numeric(IDParticles)
+Amount,"If there are two or more identical particles (in every aspect), upload it once and indicate the number of identical particles here as a whole number",2,warning,Amount > 0
+Color,Particle color must be a character,White,warning,is.character(Color)
+Polymer,Particle polymer must be a character,Polyethylene,warning,is.character(Polymer)
+Shape,Particle shape/morphology must be a character,Sphere,warning,is.character(Shape)
+PhotoID,"Images must be .png, .jpg, or .jpeg",ALGALITA_CW_3_above500_30.jpeg,warning,"grepl(""(\\.jpg$)|(\\.png$)|(\\.jpeg$)"", PhotoID, ignore.case = TRUE) "
+ParticleComments,Additional comments about the particle,Spectra noisy,warning,!is.na(ParticleComments) | is.na(ParticleComments)
+PlasticType,"Plastic type should be either 'Microplastic'(s), 'Macroplastic'(s), or both",Microplastic,warning,is.character(PlasticType)
+Length,Particle size longest dimension; ,100,warning,is.numeric(Length) | is.character(Length)
+Width,Particle size shortest dimension,100,warning,is.numeric(Width)
+Height,Third particle dimension,100,warning,is.numeric(Height)
+Units,Evaluated size range units,um,warning,is.character(Units)
+Mass,Particle mass (mg),0.1,warning,Mass > 0
+SurfaceArea,Particle projected surface area (um^3),31415.93,warning,"in_range(as.numeric(SurfaceArea), min = 0.1, max = 1000000)"
+SizeDimension,The name of the size used to describe the plastic rather than the exact dimensions,Nominal,warning,"SizeDimension %in% c(""Nominal"", ""nominal"", ""ferret diameter"", ""longest length"") & !is.na(SizeDimension)"
+Volume,Particle projected volume,10000,warning,"in_range(as.numeric(Volume), min = 0.0001, max = 10^12)"
+Tactile,"Particle tactile features (Ridgid, Rubbery, Squishy)",Ridgid,warning,"Tactile %in% c(""Ridgid"", ""Rubbery"", ""Squishy"")"
+ArrivalDate,The date the particle arrived for analysis,2023-01-01,warning,"!is.na(ArrivalDate) & !is.na(as.Date(ArrivalDate, format = ""%Y-%m-%d""))"
+AnalysisDate,The date the analysis for the particle was finalized,2023-02-10,warning,"!is.na(AnalysisDate) & !is.na(as.Date(AnalysisDate, format = ""%Y-%m-%d""))"
+MethodName,Online identifier for methodology,https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/microplastics/mcrplsts_plcy_drft.pdf,warning,is.character(MethodName)
+IDMethod,IDMethod is part of Method_name so must match the same row,1,warning,is.numeric(IDMethod)
+MatIDMethod,"Material identification method (ex. Raman, ftir)",FTIR,warning,"MatIDMethod %in% c(""FTIR"", ""Raman"", ""PyGCMS"")"
+Equipment,The name of the instrument used for analysis,Nikon SMZ1270,warning,!is.na(Equipment)
+Magnification,Magnification of the instrument during analysis,10,warning,"in_range(as.numeric(Magnification), min = 1, max = 1000)"
+MethodComments,Additional comments about the method,N/A,warning,!is.na(MethodComments) | is.na(MethodComments)
+Protocols,"List any protocols that were taken to reduce contamination (ex. Airfiltration type, clothing policy, etc)",Airfiltration system in lab (Honeywell) and synthetic clothing is restricted from lab,warning,!is.na(Protocols) | is.na(Protocols)
+Deployment,Deployment method; Grab or Net,Grab,warning,"toupper(Deployment) %in% c(""GRAB"", ""NET"") | is.na(Deployment) | Deployment == """""
+SamplingDevice,Device used to collect sample and dimensions,10 L Glass Jar,warning,!is.na(SamplingDevice)
+SmallestParticle,Smallest particle size measured (um),45,warning,is.numeric(SmallestParticle)
+TopParticle,Top particle size measured (um),9600,warning,is.numeric(TopParticle)
+FilterType,Filter material type,gold coated polycarbonate,warning,!is.na(FilterType)
+FilterDiameter,Diameter of filter in mm; must not be NA,45,warning,!is.na(FilterDiameter)
+FilterPoreSize,Filter pore size in um,10,warning,is.numeric(FilterPoreSize) | is.na(FilterPoreSize)
+ImageFile,File name needs to be unique,photo.jpg,warning,is_unique(ImageFile)
+ImageType,"Image type should be SEM, Visual, or Fluorescence",SEM,warning,"ImageType %in% c(""SEM"", ""Visual"", ""Fluorescence"") & !is.na(ImageType)"
+SampleName,Online identifier for sample,23jreh334,warning,is.character(SampleName)
+IDSample,IDSample is part of Sample_name so must match the same row,1,warning,is.numeric(IDSample)
+SampleSize,The number of particles in the sample,714,warning,is.numeric(SampleSize)
+Project,The name of the project the sample is a part of and should not be NA,Microplastics Image Explorer,warning,!is.na(Project)
+Affiliation,The name of the institute where the researcher is from; must not be NA,Moore Institute for Plastic Pollution Research,warning,!is.na(Affiliation)
+Citation,The citation for the sample collected; must not be NA,"Lattin and Moore 2020, Interlab Comparison Study Data, Moore Institute for Plastic Pollution Research",warning,!is.na(Citation)
+OwnerContributor,The name of the person/people who owns the sample,Moore Institute for Plastic Pollution Research,warning,!is.na(OwnerContributor)
+AnalysisContributor,The name of the person/people who analyzed the sample; is in charge of the quality of the data entry,Moore Institute for Plastic Pollution Research,warning,!is.na(AnalysisContributor)
+ReportingContributor,The name of the person/people who reported the sample results,Moore Institute for Plastic Pollution Research,warning,!is.na(ReportingContributor)
+SiteName,The name of the site that the sample was collected at and should not be NA,Riverside County Water Municipality,warning,!is.na(SiteName)
+Location,The name of the location the sample was collected at and should not be NA,"Long Beach, CA, USA",warning,!is.na(Location)
+Compartment,Sample type of environment must be valid (ex. Fresh water surface),Fresh water surface,warning,is.character(Compartment)
+SampleComments,Additional comments about the sample,internal standard particles,warning,!is.na(SampleComments) | is.na(SampleComments)
+SamplingDepth,"The depth layer the sample was taken (in m); biota and sediment samples = water depth, soil and beach samples = depth from surface if not surface",100,warning,!is.na(SamplingDepth)
+SamplingVolume,The volume of the matrix sampled (in m3),100,warning,!is.na(SamplingVolume)
+SamplingWeight,The weight of the sample (in kg)- apart from biota it always refers to dry weight,100,warning,!is.na(SamplingWeight)
+BlankContamination,The number of particles which contaminate each blank sample collected with this methodology on average,10,warning,BlankContamination >= 0
+Latitude,Latitude of sample in decimal degrees up to eight places,33.74697,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", Latitude)"
+Longitude,Longitude of sample in decimal degrees up to eight places,-118.11537,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", Longitude)"
+Matrix,"The sample type; ex. 'Drinking Water', 'River Water', or 'Source Water'",Drinking Water,warning,is.character(Matrix)
+CollectionStartDateTime,Sample collection start date time (yyyy-mm-dd hh:mm),2023-01-03 10:30,warning,"(!is.na(CollectionStartDateTime) & !is.na(as.Date(CollectionStartDateTime, format = ""%Y-%m-%d %H:%M""))) | is.na(CollectionStartDateTime) | CollectionStartDateTime == """""
+CollectionEndDateTime,Sample collection end date time (yyyy-mm-dd hh:mm),2023-01-03 17:30,warning,"(!is.na(CollectionEndDateTime) & !is.na(as.Date(CollectionEndDateTime, format = ""%Y-%m-%d %H:%M""))) | is.na(CollectionEndDateTime) | CollectionEndDateTime == """""
+SpatialFile,Spatial file name (.kml),Bacon_Rind_1A|doi.org/10.1016/j.watres.2018.10.013.kml,warning,is.character(SpatialFile)
+Concentration,The concentration of plastics in a sample,0.8,warning,is.numeric(Concentration)
+ConcentrationUnits,The unit for the concentration of plastics per sample,particles/L,warning,is.character(ConcentrationUnits)
+StandardizedConcentration,"If concentration is standardized, indicate here",800,warning,is.numeric(StandardizedConcentration)
+StandardizedConcentrationUnits,The unit for the standardized concentration,ppm3,warning,is.character(StandardizedConcentrationUnits)

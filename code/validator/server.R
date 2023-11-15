@@ -220,43 +220,51 @@ function(input, output, session) {
     })
     
     observeEvent(req(validation()$data_formatted, !any(validation()$issues), vals$key), {
-        database$insert(data.frame(time = Sys.time(), 
-                   data = digest(validation()$data_formatted), 
-                   rules = digest(read.csv(rules())), 
-                   user = digest(vals$key), 
-                   package_version = paste(unlist(packageVersion("validate")), collapse = ".", sep = "")))
-        tryCatch({
-            remote_share(validation = validation(), 
-                         data_formatted = validation()$data_formatted, 
-                         files = gsub("\\\\", "/", input$file$datapath),
-                         verified = vals$key, 
-                         valid_key = config$valid_key, 
-                         valid_rules = config$valid_rules, 
-                         ckan_url = config$ckan_url, 
-                         ckan_key = config$ckan_key, 
-                         ckan_package = config$ckan_package, 
-                         url_to_send = config$ckan_url_to_send, 
-                         rules = read.csv(rules()), 
-                         results = validation()$results, 
-                         s3_key_id = config$s3_key_id, 
-                         s3_secret_key = config$s3_secret_key, 
-                         s3_region = config$s3_region, 
-                         s3_bucket = config$s3_bucket, 
-                         old_cert = input$old_certificate$datapath)
-        }, warning = function(w) {
-            shinyWidgets::show_alert(title = "Warning During Remote Sharing", 
-                                     type = "warning", 
-                                     text = paste0("Warning: ", w$message))
-        }, error = function(e) {
-            shinyWidgets::show_alert(title = "Error During Remote Sharing", 
-                                     type = "error", 
-                                     text = paste0("Error: ", e$message))
-        }, message = function(m) {
-            shinyWidgets::show_alert(title = "Successful Remote Data Sharing", 
-                                     type = "success", 
-                                     text = paste0(m$message, "We recommend downloading a copy of your certificate in the top righthand corner of the screen for your records."))
-            return(TRUE)
-        })
+      # Insert data into MongoDB after modifying the format
+      modified_mongo_data <- modifyMongoDB(mongo_collection = config$mongo_collection, mongo_key = config$mongo_key)
+      
+      # Insert the modified MongoDB data
+      database$insert(data.frame(time = Sys.time(), 
+                                 data = digest(validation()$data_formatted), 
+                                 rules = digest(read.csv(rules())), 
+                                 user = digest(vals$key), 
+                                 package_version = paste(unlist(packageVersion("validate")), collapse = ".", sep = "")),
+                      mongo_data = modified_mongo_data$merged_document)  # Add modified MongoDB data here
+      
+      tryCatch({
+        remote_share(validation = validation(), 
+                     data_formatted = validation()$data_formatted, 
+                     files = gsub("\\\\", "/", input$file$datapath),
+                     verified = vals$key, 
+                     valid_key = config$valid_key, 
+                     valid_rules = config$valid_rules, 
+                     ckan_url = config$ckan_url, 
+                     ckan_key = config$ckan_key, 
+                     ckan_package = config$ckan_package, 
+                     url_to_send = config$ckan_url_to_send, 
+                     rules = read.csv(rules()), 
+                     results = validation()$results, 
+                     s3_key_id = config$s3_key_id, 
+                     s3_secret_key = config$s3_secret_key, 
+                     s3_region = config$s3_region, 
+                     s3_bucket = config$s3_bucket, 
+                     mongo_key = config$mongo_key,
+                     mongo_collection = config$mongo_collection,
+                     old_cert = input$old_certificate$datapath)
+      }, warning = function(w) {
+        shinyWidgets::show_alert(title = "Warning During Remote Sharing", 
+                                 type = "warning", 
+                                 text = paste0("Warning: ", w$message))
+      }, error = function(e) {
+        shinyWidgets::show_alert(title = "Error During Remote Sharing", 
+                                 type = "error", 
+                                 text = paste0("Error: ", e$message))
+      }, message = function(m) {
+        shinyWidgets::show_alert(title = "Successful Remote Data Sharing", 
+                                 type = "success", 
+                                 text = paste0(m$message, "We recommend downloading a copy of your certificate in the top righthand corner of the screen for your records."))
+        return(TRUE)
+      })
     })
     
     output$file_info <- renderPrint({
@@ -274,6 +282,8 @@ function(input, output, session) {
         cat("s3_secret_key: ", config$s3_secret_key, "\n")
         cat("s3_region: ", config$s3_region, "\n")
         cat("s3_bucket: ", config$s3_bucket, "\n")
+        cat("mongo_key: ", config$mongo_key, "\n")
+        cat("mongo_collection: ", config$mongo_collection,"\n")
         #str(remote())
     })
     
@@ -378,25 +388,27 @@ function(input, output, session) {
     vals <- reactiveValues(key = NULL)
     
     #Secret Key Input ----
-    NoKeyModal <- function() {
-      modalDialog(
-        span('Would you like to share your uploaded data? Proceed with OK or click Cancel to simply test your data.'),
-        p(),
-        span('If this is a previous submission, enter it below:'),
-        p(),
-        box(
-          title = "Is this an update to a previous submission?", 
-          id = "update_submission",
-          width = 12,
-          collapsed = T,
-          fileInput(inputId = "old_certificate", label = "Upload previous certificate.")
-          ),
-        footer = tagList(
-          modalButton("Cancel"),
-          actionButton("ok_no_key", "OK")
-        )
-      )
-    }
+NoKeyModal <- function() {
+  modalDialog(
+    span('Would you like to share your uploaded data? Proceed with OK or click Cancel to simply test your data.'),
+    p(),
+    span('If this is a previous submission, enter it below:'),
+    p(),
+    box(
+      title = "Is this an update to a previous submission?", 
+      id = "update_submission",
+      width = 12,
+      collapsed = T,
+      fileInput(inputId = "old_certificate", label = "Upload previous certificate.")
+    ),
+    footer = tagList(
+      modalButton("Cancel"),
+      actionButton("ok_no_key", "OK")
+    )
+  )
+}
+
+
     
     YesKeyModal <- function(failed = FALSE) {
       modalDialog(
