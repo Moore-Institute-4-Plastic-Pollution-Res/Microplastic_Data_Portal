@@ -1,53 +1,53 @@
 ﻿name,description,dataset,valid_example,severity,rule
 ParticleID,Online identifier for particle; should be unique,particles,1_23jreh334,warning,is_unique(ParticleID) & !is.na(ParticleID)
-Amount,"If there are two or more identical particles (in every aspect), upload it once and indicate the number of identical particles here as a whole number",particles,2,warning,Amount >= 2
+Amount,"If there are two or more identical particles (in every aspect), upload it once and indicate the number of identical particles here as a whole number",particles,2,warning,Amount >= 2 | is.na(Amount)
 Color,Particle color must be a character,particles,White,warning,is.character(Color)
 Polymer,Particle polymer must be a character,particles,Polyethylene,warning,is.character(Polymer)
 Shape,Particle shape/morphology must be a character,particles,Sphere,warning,is.character(Shape)
 PhotoID,"Images must be .png, .jpg, or .jpeg",particles,ALGALITA_CW_3_above500_30.jpeg,warning,"grepl(""(\\.jpg$)|(\\.png$)|(\\.jpeg$)"", PhotoID, ignore.case = TRUE) & is_unique(PhotoID)"
 ParticleComments,Additional comments about the particle,particles,Spectra noisy,warning,!is.na(ParticleComments) | is.na(ParticleComments)
-PlasticType,"Plastic type should be either 'Microplastic'(s), 'Macroplastic'(s), or both",particles,Microplastic,warning,is.character(PlasticType)
-Length,Particle size longest dimension,particles,100,warning,is.numeric(Length) | is.character(Length)
+PlasticType,"Plastic type should be either 'Microplastic'(s), 'Macroplastic'(s), or NA",particles,Microplastic,warning,"PlasticType %in% c(""Microplastic"", ""Microplastics"", ""Macroplastic"", ""Macroplastics"") | is.na(PlasticType)"
+Length,Particle size longest dimension,particles,100,warning,is.numeric(Length)
 Width,Particle size shortest dimension,particles,100,warning,is.numeric(Width)
 Height,Third particle dimension,particles,100,warning,is.numeric(Height)
 Units,Evaluated size range units,particles,um,warning,is.character(Units)
-Mass,Particle mass (mg),particles,0.1,warning,Mass > 0
-SurfaceArea,Particle projected surface area (um^3),particles,31415.93,warning,"in_range(as.numeric(SurfaceArea), min = 0.1, max = 1000000)"
-SizeDimension,The name of the size used to describe the plastic rather than the exact dimensions,particles,Nominal,warning,"SizeDimension %in% c(""Nominal"", ""nominal"", ""ferret diameter"", ""longest length"") & !is.na(SizeDimension)"
-Volume,Particle projected volume,particles,10000,warning,"in_range(as.numeric(Volume), min = 0.0001, max = 10^12)"
-Tactile,"Particle tactile features (Ridgid, Rubbery, Squishy)",particles,Ridgid,warning,"Tactile %in% c(""Ridgid"", ""Rubbery"", ""Squishy"")"
-ArrivalDate,The date the particle arrived for analysis,particles,1/1/23,warning,"!is.na(ArrivalDate) & !is.na(as.Date(ArrivalDate, format = ""%Y-%m-%d""))"
-AnalysisDate,The date the analysis for the particle was finalized,particles,2/10/23,warning,"!is.na(AnalysisDate) & !is.na(as.Date(AnalysisDate, format = ""%Y-%m-%d""))"
+Mass,Particle mass (mg),particles,0.1,warning,is.numeric(Mass)
+SurfaceArea,Particle projected surface area (um^3),particles,31415.93,warning,"in_range(is.numeric(SurfaceArea), min = 0.1, max = 1000000)"
+SizeDimension,The name of the size used to describe the plastic rather than the exact dimensions,particles,Nominal,warning,"SizeDimension %in% c(""Nominal"", ""nominal"", ""ferret diameter"", ""longest length"") | is.na(SizeDimension)"
+Volume,Particle projected volume,particles,10000,warning,is.numeric(Volume)
+Tactile,"Particle tactile features (Ridgid, Rubbery, Squishy)",particles,Ridgid,warning,"Tactile %in% c(""Ridgid"", ""Rubbery"", ""Squishy"") | is.na(Tactile)"
+ArrivalDate,The date the particle arrived for analysis,particles,yyyy-mm-dd,warning,"!is.na(ArrivalDate) & !is.na(as.Date(ArrivalDate, format = ""%Y-%m-%d""))"
+AnalysisDate,The date the analysis for the particle was finalized,particles,yyyy-mm-dd,warning,"!is.na(AnalysisDate) & !is.na(as.Date(AnalysisDate, format = ""%Y-%m-%d""))"
 MethodID,Online identifier for methodology; should be unique,methodology,https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/microplastics/mcrplsts_plcy_drft.pdf,warning,is_unique(MethodID) & !is.na(MethodID)
-MatIDMethod,"Material identification method (ex. Raman, ftir)",methodology,FTIR,warning,"MatIDMethod %in% c(""FTIR"", ""Raman"", ""PyGCMS"")"
+MatIDMethod,"Material identification method (ex. Raman, ftir)",methodology,FTIR,warning,"MatIDMethod %in% c(""FTIR"", ""Raman"", ""PyGCMS"") | is.na(MatIDMethod)"
 Equipment,The name of the instrument used for analysis,methodology,Nikon SMZ1270,warning,!is.na(Equipment)
-Magnification,Magnification of the instrument during analysis,methodology,10,warning,"in_range(as.numeric(Magnification), min = 1, max = 1000)"
+Magnification,Magnification of the instrument during analysis,methodology,10,warning,is.numeric(Magnification)
 MethodComments,Additional comments about the method,methodology,N/A,warning,!is.na(MethodComments) | is.na(MethodComments)
 Protocols,"List any protocols that were taken to reduce contamination (ex. Airfiltration type, clothing policy, etc)",methodology,Airfiltration system in lab (Honeywell) and synthetic clothing is restricted from lab,warning,!is.na(Protocols) | is.na(Protocols)
 Deployment,Deployment method; Grab or Net,methodology,Grab,warning,"toupper(Deployment) %in% c(""GRAB"", ""NET"") | is.na(Deployment) | Deployment == """""
-SamplingDevice,Device used to collect sample and dimensions,methodology,10 L Glass Jar,warning,!is.na(SamplingDevice)
+SamplingDevice,Device used to collect sample and dimensions,methodology,10 L Glass Jar,warning,is.character(SamplingDevice)
 SmallestParticle,Smallest particle size measured (um),methodology,45,warning,is.numeric(SmallestParticle)
 TopParticle,Top particle size measured (um),methodology,9600,warning,is.numeric(TopParticle)
-FilterType,Filter material type,methodology,gold coated polycarbonate,warning,!is.na(FilterType)
-FilterDiameter,Diameter of filter in mm; must not be NA,methodology,45,warning,!is.na(FilterDiameter)
-FilterPoreSize,Filter pore size in um,methodology,10,warning,is.numeric(FilterPoreSize) | is.na(FilterPoreSize)
+FilterType,Filter material type,methodology,gold coated polycarbonate,warning,is.character(FilterType)
+FilterDiameter,Diameter of filter in mm; must not be NA,methodology,45,warning,is.numeric(FilterDiameter)
+FilterPoreSize,Filter pore size in um,methodology,10,warning,is.numeric(FilterPoreSize)
 ImageFile,File name needs to be unique,methodology,photo.jpg,warning,is_unique(ImageFile)
-ImageType,"Image type should be SEM, Visual, or Fluorescence",methodology,SEM,warning,"ImageType %in% c(""SEM"", ""Visual"", ""Fluorescence"") & !is.na(ImageType)"
+ImageType,"Image type should be SEM, Visual, or Fluorescence",methodology,SEM,warning,"ImageType %in% c(""SEM"", ""Visual"", ""Fluorescence"") | is.na(ImageType)"
 SampleID,Online identifier for sample; should be unique,samples,23jreh334,warning,is_unique(SampleID) & !is.na(SampleID)
 SampleSize,The number of particles in the sample,samples,714,warning,is.numeric(SampleSize)
-Project,The name of the project the sample is a part of and should not be NA,samples,Microplastics Image Explorer,warning,!is.na(Project)
-Affiliation,The name of the institute where the researcher is from; must not be NA,samples,Moore Institute for Plastic Pollution Research,warning,!is.na(Affiliation)
-Citation,The citation for the sample collected; must not be NA,samples,"Lattin and Moore 2020, Interlab Comparison Study Data, Moore Institute for Plastic Pollution Research",warning,!is.na(Citation)
-OwnerContributor,The name of the person/people who owns the sample,samples,Moore Institute for Plastic Pollution Research,warning,!is.na(OwnerContributor)
-AnalysisContributor,The name of the person/people who analyzed the sample; is in charge of the quality of the data entry,samples,Moore Institute for Plastic Pollution Research,warning,!is.na(AnalysisContributor)
-ReportingContributor,The name of the person/people who reported the sample results,samples,Moore Institute for Plastic Pollution Research,warning,!is.na(ReportingContributor)
-SiteName,The name of the site that the sample was collected at and should not be NA,samples,Riverside County Water Municipality,warning,!is.na(SiteName)
-Location,The name of the location the sample was collected at and should not be NA,samples,"Long Beach, CA, USA",warning,!is.na(Location)
+Project,The name of the project the sample is a part of and should not be NA,samples,Microplastics Image Explorer,warning,!is.na(Project) & is.character(Project)
+Affiliation,The name of the institute where the researcher is from; must not be NA,samples,Moore Institute for Plastic Pollution Research,warning,!is.na(Affiliation) & is.character(Affiliation)
+Citation,The citation for the sample collected; must not be NA,samples,"Lattin and Moore 2020, Interlab Comparison Study Data, Moore Institute for Plastic Pollution Research",warning,!is.na(Citation) & is.character(Citation)
+OwnerContributor,The name of the person/people who owns the sample,samples,Moore Institute for Plastic Pollution Research,warning,!is.na(OwnerContributor) & is.character(OwnerContributor)
+AnalysisContributor,The name of the person/people who analyzed the sample; is in charge of the quality of the data entry,samples,Moore Institute for Plastic Pollution Research,warning,!is.na(AnalysisContributor) & is.character(AnalysisContributor)
+ReportingContributor,The name of the person/people who reported the sample results,samples,Moore Institute for Plastic Pollution Research,warning,!is.na(ReportingContributor) & is.character(ReportingContributor)
+SiteName,The name of the site that the sample was collected at and should not be NA,samples,Riverside County Water Municipality,warning,!is.na(SiteName) & is.character(SiteName)
+Location,The name of the location the sample was collected at and should not be NA,samples,"Long Beach, CA, USA",warning,!is.na(Location) & is.character(Location)
 Compartment,Sample type of environment must be valid (ex. Fresh water surface),samples,Fresh water surface,warning,is.character(Compartment)
 SampleComments,Additional comments about the sample,samples,internal standard particles,warning,!is.na(SampleComments) | is.na(SampleComments)
-SamplingDepth,"The depth layer the sample was taken (in m); biota and sediment samples = water depth, soil and beach samples = depth from surface if not surface",samples,100,warning,!is.na(SamplingDepth)
-SamplingVolume,The volume of the matrix sampled (in m3),samples,100,warning,!is.na(SamplingVolume)
-SamplingWeight,The weight of the sample (in kg)- apart from biota it always refers to dry weight,samples,100,warning,!is.na(SamplingWeight)
+SamplingDepth,"The depth layer the sample was taken (in m); biota and sediment samples = water depth, soil and beach samples = depth from surface if not surface",samples,100,warning,is.numeric(SamplingDepth)
+SamplingVolume,The volume of the matrix sampled (in m3),samples,100,warning,is.numeric(SamplingVolume)
+SamplingWeight,The weight of the sample (in kg)- apart from biota it always refers to dry weight,samples,100,warning,is.numeric(SamplingWeight)
 BlankContamination,The number of particles which contaminate each blank sample collected with this methodology on average,samples,10,warning,BlankContamination >= 0
 Latitude,Latitude of sample in decimal degrees up to eight places,samples,33.74697,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", Latitude)"
 Longitude,Longitude of sample in decimal degrees up to eight places,samples,-118.11537,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", Longitude)"
