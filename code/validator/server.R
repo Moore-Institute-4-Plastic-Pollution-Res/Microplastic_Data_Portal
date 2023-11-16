@@ -220,17 +220,6 @@ function(input, output, session) {
     })
     
     observeEvent(req(validation()$data_formatted, !any(validation()$issues), vals$key), {
-      # Insert data into MongoDB after modifying the format
-      modified_mongo_data <- modifyMongoDB(mongo_collection = config$mongo_collection, mongo_key = config$mongo_key)
-      
-      # Insert the modified MongoDB data
-      database$insert(data.frame(time = Sys.time(), 
-                                 data = digest(validation()$data_formatted), 
-                                 rules = digest(read.csv(rules())), 
-                                 user = digest(vals$key), 
-                                 package_version = paste(unlist(packageVersion("validate")), collapse = ".", sep = "")),
-                      mongo_data = modified_mongo_data$merged_document)  # Add modified MongoDB data here
-      
       tryCatch({
         remote_share(validation = validation(), 
                      data_formatted = validation()$data_formatted, 
