@@ -88,7 +88,7 @@ function(input, output, session) {
                     formatStyle(
                         'status',
                         target = 'row',
-                        backgroundColor = styleEqual(c("error", "warning", "success"), c('red', 'yellow', 'green')))
+                        backgroundColor = styleEqual(c("error", "warning", "success"), c('red', 'yellow', 'white')))
             })
             
             output[[paste0("report_selected", x)]] <- DT::renderDataTable({
@@ -153,7 +153,7 @@ function(input, output, session) {
                 }
                 
             })
-            box(title = div(validation()$data_names[[x]], ": ", icon("circle-check", style = "color:green;"), sum(validation()$results[[x]][["status"]] == "success"), ", ", icon("circle-exclamation", style = "color:yellow;"), sum(validation()$results[[x]][["status"]] == "warning"), ",", icon("circle-xmark", style = "color:red;"), sum(validation()$results[[x]][["status"]] == "error")),
+            box(title = div(validation()$data_names[[x]], ": ", icon("circle-check", style = "color:black;"), sum(validation()$results[[x]][["status"]] == "success"), ", ", icon("circle-exclamation", style = "color:yellow;"), sum(validation()$results[[x]][["status"]] == "warning"), ",", icon("circle-xmark", style = "color:red;"), sum(validation()$results[[x]][["status"]] == "error")),
                 id = paste0(validation()$data_names[[x]]),
                 collapsed = T,
                 background = if(validation()$issues[[x]]){"danger"}else{"success"},
@@ -175,7 +175,7 @@ function(input, output, session) {
                         maximizable = T,
                         width = 6
                     ), 
-                    box(title = "Issue Selected",
+                    box(title = "Issues Selected",
                             id = paste0("issue_selected", x),
                             background = "white",
                             DT::dataTableOutput(paste0("report_selected", x)),
@@ -314,7 +314,7 @@ function(input, output, session) {
         req(validation()$results)
         if(isTRUE(!any(validation()$issues))){
             popover(
-                downloadButton("download_certificate", "Download Certificate", style = "background-color: #28a745; width: 100%;"),
+                downloadButton("download_certificate", "Download Certificate", style = "background-color: #ffffff; width: 100%;"),
                 title = "Certificate of Valid Data",
                 placement = "bottom",
                 content = "Downloading this certificate will provide a verifiable record that you had a validated dataset at the time of certificate download. This certificate will also be shared with a remote repository for verification purposes.")
