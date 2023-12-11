@@ -153,10 +153,16 @@ function(input, output, session) {
                 }
                 
             })
-            box(title = div(validation()$data_names[[x]], ": ", icon("circle-check", style = "color:black;"), sum(validation()$results[[x]][["status"]] == "success"), ", ", icon("circle-exclamation", style = "color:yellow;"), sum(validation()$results[[x]][["status"]] == "warning"), ",", icon("circle-xmark", style = "color:red;"), sum(validation()$results[[x]][["status"]] == "error")),
+            box(title = div(validation()$data_names[[x]], ": ", 
+                            icon("circle-check", style = "color:black;"), 
+                            sum(validation()$results[[x]][["status"]] == "success"), ", ", 
+                            icon("circle-question", style = "color:#FFD700;"),
+                            sum(validation()$results[[x]][["status"]] == "warning"), ",", 
+                            icon("circle-xmark", style = "color:red;"), 
+                            sum(validation()$results[[x]][["status"]] == "error")),
                 id = paste0(validation()$data_names[[x]]),
                 collapsed = T,
-                background = if(validation()$issues[[x]]){"danger"}else{"success"},
+                background = if(validation()$issues[[x]]){"danger"}else{"white"},
                 fluidRow(
                     box(title = "Issues Raised",
                         id = paste0("issues_raised", x),
