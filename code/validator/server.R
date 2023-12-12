@@ -88,7 +88,7 @@ function(input, output, session) {
                     formatStyle(
                         'status',
                         target = 'row',
-                        backgroundColor = styleEqual(c("error", "warning", "success"), c('red', 'yellow', 'green')))
+                        backgroundColor = styleEqual(c("error", "warning", "success"), c('red', 'yellow', 'white')))
             })
             
             output[[paste0("report_selected", x)]] <- DT::renderDataTable({
@@ -153,10 +153,16 @@ function(input, output, session) {
                 }
                 
             })
-            box(title = div(validation()$data_names[[x]], ": ", icon("circle-check", style = "color:green;"), sum(validation()$results[[x]][["status"]] == "success"), ", ", icon("circle-exclamation", style = "color:yellow;"), sum(validation()$results[[x]][["status"]] == "warning"), ",", icon("circle-xmark", style = "color:red;"), sum(validation()$results[[x]][["status"]] == "error")),
+            box(title = div(validation()$data_names[[x]], ": ", 
+                            icon("circle-check", style = "color:black;"), 
+                            sum(validation()$results[[x]][["status"]] == "success"), ", ", 
+                            icon("circle-question", style = "color:#FFD700;"),
+                            sum(validation()$results[[x]][["status"]] == "warning"), ",", 
+                            icon("circle-xmark", style = "color:red;"), 
+                            sum(validation()$results[[x]][["status"]] == "error")),
                 id = paste0(validation()$data_names[[x]]),
                 collapsed = T,
-                background = if(validation()$issues[[x]]){"danger"}else{"success"},
+                background = if(validation()$issues[[x]]){"danger"}else{"white"},
                 fluidRow(
                     box(title = "Issues Raised",
                         id = paste0("issues_raised", x),
@@ -175,7 +181,7 @@ function(input, output, session) {
                         maximizable = T,
                         width = 6
                     ), 
-                    box(title = "Issue Selected",
+                    box(title = "Issues Selected",
                             id = paste0("issue_selected", x),
                             background = "white",
                             DT::dataTableOutput(paste0("report_selected", x)),
@@ -220,43 +226,40 @@ function(input, output, session) {
     })
     
     observeEvent(req(validation()$data_formatted, !any(validation()$issues), vals$key), {
-        database$insert(data.frame(time = Sys.time(), 
-                   data = digest(validation()$data_formatted), 
-                   rules = digest(read.csv(rules())), 
-                   user = digest(vals$key), 
-                   package_version = paste(unlist(packageVersion("validate")), collapse = ".", sep = "")))
-        tryCatch({
-            remote_share(validation = validation(), 
-                         data_formatted = validation()$data_formatted, 
-                         files = gsub("\\\\", "/", input$file$datapath),
-                         verified = vals$key, 
-                         valid_key = config$valid_key, 
-                         valid_rules = config$valid_rules, 
-                         ckan_url = config$ckan_url, 
-                         ckan_key = config$ckan_key, 
-                         ckan_package = config$ckan_package, 
-                         url_to_send = config$ckan_url_to_send, 
-                         rules = read.csv(rules()), 
-                         results = validation()$results, 
-                         s3_key_id = config$s3_key_id, 
-                         s3_secret_key = config$s3_secret_key, 
-                         s3_region = config$s3_region, 
-                         s3_bucket = config$s3_bucket, 
-                         old_cert = input$old_certificate$datapath)
-        }, warning = function(w) {
-            shinyWidgets::show_alert(title = "Warning During Remote Sharing", 
-                                     type = "warning", 
-                                     text = paste0("Warning: ", w$message))
-        }, error = function(e) {
-            shinyWidgets::show_alert(title = "Error During Remote Sharing", 
-                                     type = "error", 
-                                     text = paste0("Error: ", e$message))
-        }, message = function(m) {
-            shinyWidgets::show_alert(title = "Successful Remote Data Sharing", 
-                                     type = "success", 
-                                     text = paste0(m$message, "We recommend downloading a copy of your certificate in the top righthand corner of the screen for your records."))
-            return(TRUE)
-        })
+      tryCatch({
+        remote_share(validation = validation(), 
+                     data_formatted = validation()$data_formatted, 
+                     files = gsub("\\\\", "/", input$file$datapath),
+                     verified = vals$key, 
+                     valid_key = config$valid_key, 
+                     valid_rules = config$valid_rules, 
+                     ckan_url = config$ckan_url, 
+                     ckan_key = config$ckan_key, 
+                     ckan_package = config$ckan_package, 
+                     url_to_send = config$ckan_url_to_send, 
+                     rules = read.csv(rules()), 
+                     results = validation()$results, 
+                     s3_key_id = config$s3_key_id, 
+                     s3_secret_key = config$s3_secret_key, 
+                     s3_region = config$s3_region, 
+                     s3_bucket = config$s3_bucket, 
+                     mongo_key = config$mongo_key,
+                     mongo_collection = config$mongo_collection,
+                     old_cert = input$old_certificate$datapath)
+      }, warning = function(w) {
+        shinyWidgets::show_alert(title = "Warning During Remote Sharing", 
+                                 type = "warning", 
+                                 text = paste0("Warning: ", w$message))
+      }, error = function(e) {
+        shinyWidgets::show_alert(title = "Error During Remote Sharing", 
+                                 type = "error", 
+                                 text = paste0("Error: ", e$message))
+      }, message = function(m) {
+        shinyWidgets::show_alert(title = "Successful Remote Data Sharing", 
+                                 type = "success", 
+                                 text = paste0(m$message, "We recommend downloading a copy of your certificate in the top righthand corner of the screen for your records."))
+        return(TRUE)
+      })
     })
     
     output$file_info <- renderPrint({
@@ -274,6 +277,8 @@ function(input, output, session) {
         cat("s3_secret_key: ", config$s3_secret_key, "\n")
         cat("s3_region: ", config$s3_region, "\n")
         cat("s3_bucket: ", config$s3_bucket, "\n")
+        cat("mongo_key: ", config$mongo_key, "\n")
+        cat("mongo_collection: ", config$mongo_collection,"\n")
         #str(remote())
     })
     
@@ -315,7 +320,7 @@ function(input, output, session) {
         req(validation()$results)
         if(isTRUE(!any(validation()$issues))){
             popover(
-                downloadButton("download_certificate", "Download Certificate", style = "background-color: #28a745; width: 100%;"),
+                downloadButton("download_certificate", "Download Certificate", style = "background-color: #ffffff; width: 100%;"),
                 title = "Certificate of Valid Data",
                 placement = "bottom",
                 content = "Downloading this certificate will provide a verifiable record that you had a validated dataset at the time of certificate download. This certificate will also be shared with a remote repository for verification purposes.")
@@ -378,25 +383,27 @@ function(input, output, session) {
     vals <- reactiveValues(key = NULL)
     
     #Secret Key Input ----
-    NoKeyModal <- function() {
-      modalDialog(
-        span('Would you like to share your uploaded data? Proceed with OK or click Cancel to simply test your data.'),
-        p(),
-        span('If this is a previous submission, enter it below:'),
-        p(),
-        box(
-          title = "Is this an update to a previous submission?", 
-          id = "update_submission",
-          width = 12,
-          collapsed = T,
-          fileInput(inputId = "old_certificate", label = "Upload previous certificate.")
-          ),
-        footer = tagList(
-          modalButton("Cancel"),
-          actionButton("ok_no_key", "OK")
-        )
-      )
-    }
+NoKeyModal <- function() {
+  modalDialog(
+    span('Would you like to share your uploaded data? Proceed with OK or click Cancel to simply test your data.'),
+    p(),
+    span('If this is a previous submission, enter it below:'),
+    p(),
+    box(
+      title = "Is this an update to a previous submission?", 
+      id = "update_submission",
+      width = 12,
+      collapsed = T,
+      fileInput(inputId = "old_certificate", label = "Upload previous certificate.")
+    ),
+    footer = tagList(
+      modalButton("Cancel"),
+      actionButton("ok_no_key", "OK")
+    )
+  )
+}
+
+
     
     YesKeyModal <- function(failed = FALSE) {
       modalDialog(
@@ -467,5 +474,7 @@ function(input, output, session) {
     #output$remote_out <- renderJsonedit({
     #    jsonedit(input$file)
     #})
+   
     
 }
+
