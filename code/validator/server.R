@@ -91,15 +91,33 @@ function(input, output, session) {
                         backgroundColor = styleEqual(c("error", "warning", "success"), c('red', 'yellow', 'white')))
             })
             
+            rows_for_rules_selected <- reactive({
+                req(validation()$report[[x]], validation()$data_formatted[[x]], input[[paste0("show_report", x, "_rows_selected")]])
+            tryCatch({
+                rows_for_rules(data_formatted = validation()$data_formatted[[x]], 
+                               report = validation()$report[[x]], 
+                               broken_rules = rules_broken(results = validation()$results[[x]], 
+                                                           show_decision = input[[paste0("show_decision", x)]]), 
+                               rows = input[[paste0("show_report", x, "_rows_selected")]]) 
+                
+               }, warning = function(w) {
+                   toast(title = "Explaination", 
+                                            body = paste0(w$message))
+                   NULL
+               }, error = function(e) {
+                   toast(title = "Explaination", 
+                                            #type = "success", 
+                                            body = paste0(e$message))
+                   NULL
+                })
+                
+               })
+            
             output[[paste0("report_selected", x)]] <- DT::renderDataTable({
-                if(isTruthy(input[[paste0("show_report", x, "_rows_selected")]])){
-                    datatable({rows_for_rules(data_formatted = validation()$data_formatted[[x]], 
-                                              report = validation()$report[[x]], 
-                                              broken_rules = rules_broken(results = validation()$results[[x]], 
-                                                                          show_decision = input[[paste0("show_decision", x)]]), 
-                                              rows = input[[paste0("show_report", x, "_rows_selected")]]) |>
-                                              mutate(across(everything(), check_images)) |>
-                                              mutate(across(everything(), check_other_hyperlinks))},
+                if(isTruthy(input[[paste0("show_report", x, "_rows_selected")]]) & !is.null(rows_for_rules_selected())){
+                    datatable({rows_for_rules_selected() |>
+                            mutate(across(everything(), check_images)) |>
+                            mutate(across(everything(), check_other_hyperlinks))},
                               rownames = FALSE,
                               escape = FALSE,
                               filter = "top", 
@@ -129,7 +147,9 @@ function(input, output, session) {
                         )
                 }
                 else{
-                    datatable({validation()$data_formatted[[x]]},
+                    datatable({validation()$data_formatted[[x]] |>
+                            mutate(across(everything(), check_images)) |>
+                            mutate(across(everything(), check_other_hyperlinks))},
                               rownames = FALSE,
                               escape = FALSE,
                               filter = "top", 
