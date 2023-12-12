@@ -388,14 +388,15 @@ function(input, output, session) {
     output$download_sample <- downloadHandler(
         filename = function() {"invalid_data.zip"},
         content = function(file) {
-            zip(file, config$invalid_data_example)
+            zip(file, config$invalid_data_example, extras = '-j')
             }
     )
     
     output$download_good_sample <- downloadHandler(
         filename = function() {"valid_data.zip"},
         content = function(file) {
-            zip(file, config$valid_data_example)
+            copy(config$valid_data_example)
+            zip(file, config$valid_data_example, extras = '-j')
             }
     )
     
