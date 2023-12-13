@@ -26,10 +26,6 @@ config <- config::get(file = "config_pl.yml")
 
 #Data checks ----
 
-if(isTruthy(config$mongo_key)) {
-    database <- mongo(url = config$mongo_key)
-} 
-
 if(isTruthy(config$s3_secret_key)){
     Sys.setenv(
         "AWS_ACCESS_KEY_ID" = config$s3_key_id,
