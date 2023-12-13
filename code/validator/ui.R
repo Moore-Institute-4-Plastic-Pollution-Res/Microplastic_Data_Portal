@@ -107,7 +107,9 @@ function(request) {
             ),
             tabItem(
                 tabName = "downloader",
-                textInput(inputId = "download_id", label = "A Dataset ID"),
+                popover(textInput(inputId = "download_id", label = "A Dataset ID"),
+                        title = "Download raw data by ID",
+                        content = "Input your raw data id from the certificate you download in the uploader."),
                 downloadButton(outputId = "remote_downloader")
             ),
             tabItem(
