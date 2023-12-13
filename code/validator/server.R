@@ -282,27 +282,6 @@ function(input, output, session) {
       })
     })
     
-    output$file_info <- renderPrint({
-        str(validation())
-        cat("files: ", input$file$datapath, "\n")
-        cat("verified: ", vals$key, "\n")
-        cat("valid_key: ", config$valid_key, "\n")
-        cat("valid_rules: ", config$valid_rules, "\n")
-        cat("ckan_url: ", config$ckan_url, "\n")
-        cat("ckan_key: ", config$ckan_key, "\n")
-        cat("ckan_package: ", config$ckan_package, "\n")
-        cat("url_to_send: ", config$ckan_url_to_send, "\n")
-        print(paste("rules: ", read.csv(rules()), sep = "\n"))
-        cat("s3_key_id: ", config$s3_key_id, "\n")
-        cat("s3_secret_key: ", config$s3_secret_key, "\n")
-        cat("s3_region: ", config$s3_region, "\n")
-        cat("s3_bucket: ", config$s3_bucket, "\n")
-        cat("mongo_key: ", config$mongo_key, "\n")
-        cat("mongo_collection: ", config$mongo_collection,"\n")
-        #str(remote())
-    })
-    
-    
     output$dev_options <- renderUI({
         req(config$dev)
         tagList(
@@ -486,15 +465,7 @@ NoKeyModal <- function() {
       }
       }
     })
-    
-    #Diagnosis ----
-    #output$validation_out <- renderJsonedit({
-    #    jsonedit(validation())
-    #})
-    
-    #output$remote_out <- renderJsonedit({
-    #    jsonedit(input$file)
-    #})
+
    
     
 }
