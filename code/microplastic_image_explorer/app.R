@@ -141,7 +141,7 @@ ui <- dashboardPage(
           column(4, actionButton(inputId = "clear_filters", label = "Clear All"))
         ),
         fluidRow(
-          column(8, uiOutput("images"))
+          column(12, uiOutput("images"))
         ),
         fluidRow(
           column(6, align = "center", actionButton("prev_btn", "Previous")),
