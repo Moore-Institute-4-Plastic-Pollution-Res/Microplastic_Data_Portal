@@ -92,7 +92,7 @@ function(request) {
                                ) 
                            },
                            popover(
-                               downloadButton("download_rules_excel", "Data Template", style = "background-color: #e83e8c;"),
+                               downloadButton("download_rules_excel", "Data Template", style = "background-color: #ed6ca7;"),
                                title = "Download rules template file",
                                content = "This is a file that can be used as a template when collecting data so that it conforms to most of the rules tested in this portal."
                            )
@@ -132,7 +132,7 @@ function(request) {
                         content = "This is an example file that can be used in tandem with the example rules file to test out the tool for its performance with a dataset that is 100% validated."
                     ),
                     popover(
-                        downloadButton("download_sample", "Download Invalid Sample Data", style = "background-color: #dc3545;"), 
+                        downloadButton("download_sample", "Download Invalid Sample Data", style = "background-color: #e4606d;"), 
                         title = "Download invalid example data",
                         content = "This is an example file that can be used in tandem with the example rules file to test out the tool for its performance with a dataset that isn't 100% validated."
                     ),
