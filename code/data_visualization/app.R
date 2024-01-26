@@ -72,7 +72,8 @@ ui <- bs4DashPage(
     sidebarMenu(
       menuItem("Map By Raw Data", tabName = "MapByRawData", icon = icon("map")),
       menuItem("Map By Countries", tabName = "MapByCountries", icon = icon("map")),
-      menuItem("Other Visuals", tabName = "sankeyPlot", icon = icon("sliders-h"))
+      menuItem("Other Visuals", tabName = "sankeyPlot", icon = icon("sliders-h")),
+      menuItem("CA Microplastic Fake Data", tabName = "FakeDataTab", icon = icon("database"))
     )
   ),
   bs4DashBody(
@@ -222,6 +223,29 @@ ui <- bs4DashPage(
           width = 12,
           height = "900px"
           )
+        ),
+      tabItem(
+        tabName = "FakeDataTab",
+        fluidRow(
+          box(
+            title = "CA Microplastic Fake Data", 
+            h3(
+              tags$div(
+                "Fake data for microplastics in drinking water facilities in California",
+                br(),
+                br(),
+                "Disclaimer: The data presented in this tab is entirely simulated for illustrative purposes and does not represent actual observations. This synthetic dataset is generated to demonstrate the functionality of the application and should not be interpreted as real-world information."
+              )
+            ),
+            width = 12
+          ),
+        ),
+        fluidRow(
+          column(
+            width = 12,
+            leafletOutput("mapCalifornia")
+            )
+          )
         )
       )
     ) 
@@ -259,30 +283,6 @@ server <- function(input, output) {
       addLegend(position = "bottomright", colors = "#01579B", labels = "Location")
   })
   
-  # Countries tab
-  output$mapCountries <- renderLeaflet({
-    data_country <- filtered_data()$samples_country
-    leaflet() %>%
-      addProviderTiles("CartoDB.Voyager", options = tileOptions(minZoom = 2)) %>%
-      addCircleMarkers(
-        data = data_country,
-        lat = ~Approximate_Latitude,
-        lng = ~Approximate_Longitude,
-        group = ~Countries,
-        clusterOptions = markerClusterOptions(),
-        popup = paste0(
-          "<div class='custom-popup'>",
-          "<h4>Location Details</h4>",
-          "<p><strong>Latitude:</strong> ", data_country$Approximate_Latitude, "</p>",
-          "<p><strong>Longitude:</strong> ", data_country$Approximate_Longitude, "</p>",
-          "<p><strong>Source:</strong> ", data_country$Source, "</p>",
-          "<p><strong>Concentration:</strong> ", data_country$Concentration, "</p>",
-          "</div>"
-        ),
-        color = "#01579B"
-      ) %>%
-      addLegend(position = "bottomright", colors = "#01579B", labels = "Location")
-  })
   
   # Location tab
   output$tableLocation <- DT::renderDataTable({
@@ -343,6 +343,13 @@ server <- function(input, output) {
         axis.title = element_text(size = 18),
         plot.title = element_text(size = 18)
       )
+  })
+  
+  # Fake Data tab
+  output$mapCalifornia <- renderLeaflet({
+    leaflet() %>%
+      addProviderTiles("CartoDB.Voyager", options = tileOptions(minZoom = 2)) %>%
+      setView(lng = -119.4179, lat = 36.7783, zoom = 6)  # Center the map on California
   })
   
   # Countries tab
@@ -512,7 +519,6 @@ server <- function(input, output) {
             fontSize = 10, nodeWidth = 50
         )
     }
-    p
   })
 }
 
