@@ -21,7 +21,8 @@ library(One4All)
 library(mongolite)
 library(markdown)
 
-config <- config::get(file = "config_pl.yml")
+config <- config::get(file = "config_pl_for_tests.yml")
+
 
 #Data checks ----
 
