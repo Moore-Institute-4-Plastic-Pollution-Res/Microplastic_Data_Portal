@@ -21,7 +21,7 @@ library(aws.s3)
 library(One4All)
 library(mongolite)
 
-config <- config::get(file = "config_microplastic_images.yml")
+config <- config::get(file = "config_pl_for_tests.yml")
 
 #Data checks ----
 
