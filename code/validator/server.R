@@ -246,6 +246,7 @@ function(input, output, session) {
                      mongo_key = config$mongo_key,
                      mongo_collection = config$mongo_collection,
                      old_cert = input$old_certificate$datapath)
+        
       }, warning = function(w) {
         shinyWidgets::show_alert(title = "Warning During Remote Sharing", 
                                  type = "warning", 
@@ -257,7 +258,7 @@ function(input, output, session) {
       }, message = function(m) {
         shinyWidgets::show_alert(title = "Successful Remote Data Sharing", 
                                  type = "success", 
-                                 text = paste0(m$message, "We recommend downloading a copy of your certificate in the top righthand corner of the screen for your records."))
+                                 text = paste0(m$message, ". We recommend downloading a copy of your certificate in the top righthand corner of the screen for your records."))
         return(TRUE)
       })
     })
