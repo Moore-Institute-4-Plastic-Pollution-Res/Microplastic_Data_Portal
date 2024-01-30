@@ -11,6 +11,7 @@ library(ckanr)
 library(purrr)
 library(shinyjs)
 library(sentimentr)
+library(listviewer)
 library(RCurl)
 library(readxl)
 library(stringr)
@@ -19,12 +20,14 @@ library(config)
 library(aws.s3)
 library(One4All)
 library(mongolite)
-library(markdown)
 
 config <- config::get(file = "config_pl_for_tests.yml")
 
-
 #Data checks ----
+
+if(isTruthy(config$mongo_key)) {
+    database <- mongo(url = config$mongo_key)
+} 
 
 if(isTruthy(config$s3_secret_key)){
     Sys.setenv(
