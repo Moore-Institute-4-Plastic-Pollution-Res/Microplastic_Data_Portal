@@ -91,15 +91,33 @@ function(input, output, session) {
                         backgroundColor = styleEqual(c("error", "warning", "success"), c('red', 'yellow', 'white')))
             })
             
+            rows_for_rules_selected <- reactive({
+                req(validation()$report[[x]], validation()$data_formatted[[x]], input[[paste0("show_report", x, "_rows_selected")]])
+            tryCatch({
+                rows_for_rules(data_formatted = validation()$data_formatted[[x]], 
+                               report = validation()$report[[x]], 
+                               broken_rules = rules_broken(results = validation()$results[[x]], 
+                                                           show_decision = input[[paste0("show_decision", x)]]), 
+                               rows = input[[paste0("show_report", x, "_rows_selected")]]) 
+                
+               }, warning = function(w) {
+                   toast(title = "Explaination", 
+                                            body = paste0(w$message))
+                   NULL
+               }, error = function(e) {
+                   toast(title = "Explaination", 
+                                            #type = "success", 
+                                            body = paste0(e$message))
+                   NULL
+                })
+                
+               })
+            
             output[[paste0("report_selected", x)]] <- DT::renderDataTable({
-                if(isTruthy(input[[paste0("show_report", x, "_rows_selected")]])){
-                    datatable({rows_for_rules(data_formatted = validation()$data_formatted[[x]], 
-                                              report = validation()$report[[x]], 
-                                              broken_rules = rules_broken(results = validation()$results[[x]], 
-                                                                          show_decision = input[[paste0("show_decision", x)]]), 
-                                              rows = input[[paste0("show_report", x, "_rows_selected")]]) |>
-                                              mutate(across(everything(), check_images)) |>
-                                              mutate(across(everything(), check_other_hyperlinks))},
+                if(isTruthy(input[[paste0("show_report", x, "_rows_selected")]]) & !is.null(rows_for_rules_selected())){
+                    datatable({rows_for_rules_selected() |>
+                            mutate(across(everything(), check_images)) |>
+                            mutate(across(everything(), check_other_hyperlinks))},
                               rownames = FALSE,
                               escape = FALSE,
                               filter = "top", 
@@ -129,7 +147,9 @@ function(input, output, session) {
                         )
                 }
                 else{
-                    datatable({validation()$data_formatted[[x]]},
+                    datatable({validation()$data_formatted[[x]] |>
+                            mutate(across(everything(), check_images)) |>
+                            mutate(across(everything(), check_other_hyperlinks))},
                               rownames = FALSE,
                               escape = FALSE,
                               filter = "top", 
@@ -263,27 +283,6 @@ function(input, output, session) {
       })
     })
     
-    output$file_info <- renderPrint({
-        str(validation())
-        cat("files: ", input$file$datapath, "\n")
-        cat("verified: ", vals$key, "\n")
-        cat("valid_key: ", config$valid_key, "\n")
-        cat("valid_rules: ", config$valid_rules, "\n")
-        cat("ckan_url: ", config$ckan_url, "\n")
-        cat("ckan_key: ", config$ckan_key, "\n")
-        cat("ckan_package: ", config$ckan_package, "\n")
-        cat("url_to_send: ", config$ckan_url_to_send, "\n")
-        print(paste("rules: ", read.csv(rules()), sep = "\n"))
-        cat("s3_key_id: ", config$s3_key_id, "\n")
-        cat("s3_secret_key: ", config$s3_secret_key, "\n")
-        cat("s3_region: ", config$s3_region, "\n")
-        cat("s3_bucket: ", config$s3_bucket, "\n")
-        cat("mongo_key: ", config$mongo_key, "\n")
-        cat("mongo_collection: ", config$mongo_collection,"\n")
-        #str(remote())
-    })
-    
-    
     output$dev_options <- renderUI({
         req(config$dev)
         tagList(
@@ -357,7 +356,7 @@ function(input, output, session) {
     )
     
     output$download_rules_excel <- downloadHandler(
-        filename = function() {"rules.xlsx"},
+        filename = function() {"data_template.xlsx"},
         content = function(file) {saveWorkbook(create_valid_excel(file_rules = rules()), file, TRUE)}
     )
     
@@ -369,14 +368,15 @@ function(input, output, session) {
     output$download_sample <- downloadHandler(
         filename = function() {"invalid_data.zip"},
         content = function(file) {
-            zip(file, config$invalid_data_example)
+            zip(file, config$invalid_data_example, extras = '-j')
             }
     )
     
     output$download_good_sample <- downloadHandler(
         filename = function() {"valid_data.zip"},
         content = function(file) {
-            zip(file, config$valid_data_example)
+            copy(config$valid_data_example)
+            zip(file, config$valid_data_example, extras = '-j')
             }
     )
     
@@ -466,15 +466,7 @@ NoKeyModal <- function() {
       }
       }
     })
-    
-    #Diagnosis ----
-    #output$validation_out <- renderJsonedit({
-    #    jsonedit(validation())
-    #})
-    
-    #output$remote_out <- renderJsonedit({
-    #    jsonedit(input$file)
-    #})
+
    
     
 }
