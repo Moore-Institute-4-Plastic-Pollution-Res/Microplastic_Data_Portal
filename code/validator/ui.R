@@ -65,7 +65,6 @@ function(request) {
                 tabName = "validator",
                 fluidRow(
                     column(4,
-                           popover(
                                fileInput("file", NULL,
                                          placeholder = "Start Here",
                                          buttonLabel = "Upload Data",
@@ -74,7 +73,8 @@ function(request) {
                                          accept=c("text/csv",
                                                   "text/comma-separated-values,text/plain",
                                                   ".xlsx",
-                                                  ".zip")), #%>%
+                                                  ".zip")) %>%
+                               popover(
                                title = "Upload CSV to validate",
                                content = "This is where you upload the csv, zip, and/or xlsx files file that you want to validate.")
                     ),
@@ -107,7 +107,9 @@ function(request) {
             ),
             tabItem(
                 tabName = "downloader",
-                textInput(inputId = "download_id", label = "A Dataset ID"),
+                popover(textInput(inputId = "download_id", label = "A Dataset ID"),
+                        title = "Download raw data by ID",
+                        content = "Input your raw data id from the certificate you download in the uploader."),
                 downloadButton(outputId = "remote_downloader")
             ),
             tabItem(
