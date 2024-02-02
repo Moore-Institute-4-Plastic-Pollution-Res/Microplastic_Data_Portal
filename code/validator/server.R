@@ -101,11 +101,11 @@ function(input, output, session) {
                                rows = input[[paste0("show_report", x, "_rows_selected")]]) 
                 
                }, warning = function(w) {
-                   toast(title = "Explaination", 
+                   toast(title = "Explanation", 
                                             body = paste0(w$message))
                    NULL
                }, error = function(e) {
-                   toast(title = "Explaination", 
+                   toast(title = "Explanation", 
                                             #type = "success", 
                                             body = paste0(e$message))
                    NULL
