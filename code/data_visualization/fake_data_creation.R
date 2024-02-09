@@ -25,8 +25,33 @@ library(RColorBrewer)
 
 DWF <- read.csv("/Users/nick_leong/Downloads/9dca2f92-4630-4bee-a9f9-69d2085b57e3.csv")
 DWF <- clean_names(DWF)
+
+# Load required libraries
+library(tidyverse)  # for data manipulation
+
+# Define a function to generate short Lorem Ipsum phrases
+generate_short_lorem_ipsum <- function() {
+  lorem_ipsum <- c(
+    "Lorem ipsum dolor sit amet",
+    "consectetur adipiscing elit",
+    "sed do eiusmod tempor incididunt",
+    "ut labore et dolore magna aliqua",
+    "ut enim ad minim veniam",
+    "quis nostrud exercitation ullamco laboris",
+    "Duis aute irure dolor in reprehenderit",
+    "in voluptate velit esse cillum dolore",
+    "eu fugiat nulla pariatur",
+    "Excepteur sint occaecat cupidatat non proident"
+  )
+  return(sample(lorem_ipsum, 1))
+}
+
+# Replace the values in the water_system_name column with short Lorem Ipsum phrases
+DWF$water_system_name <- sapply(1:nrow(DWF), function(i) generate_short_lorem_ipsum())
+
 DWF_names <- DWF %>%
   select(water_system_name)
+
 
 # Specify the correct path to your CSV file
 file_path1 <- "/Users/nick_leong/Downloads/1_Lake_coordinates_MPs_concentration.csv"
@@ -176,46 +201,43 @@ ui <- bs4DashPage(
             )
           ),
           column(
-            width = 6,
-            plotOutput("shapeBarPlot")
-          ),
-          column(
-            width = 6,
-            plotOutput("colorBarPlot")
-          ),
-          column(
-            width = 6,
-            plotOutput("polymerDistributionPlot")
-          ),
-          column(
-            width = 6,
-            plotOutput("widthBarPlot")
-          ),
-          tabItem(
-            tabName = "stackedBarTab",
-            fluidRow(
-              column(
-                width = 12,
-                uiOutput("stackedBarPlotUI")  # Add this line to include the plot in the app UI
-              )
+            width = 12,
+            box(
+              title = "Shape Distribution",
+              plotOutput("shapeBarPlot"),
+              width = 12
             )
           ),
-          # column(
-          #   width = 12,
-          #   box(
-          #     title = verbatimTextOutput("summaryText"),
-          #     style = "overflow-x: auto;",
-          #     DT::dataTableOutput("summaryTable"),
-          #     width = 12
-          #   )
-          # ),
-          tabItem(
-            tabName = "barPlotTab",
-            fluidRow(
-              column(
-                width = 12,
-                plotOutput("stackedBarPlot")
-              )
+          column(
+            width = 12,
+            box(
+              title = "Color Distribution",
+              plotOutput("colorBarPlot"),
+              width = 12
+            )
+          ),
+          column(
+            width = 12,
+            box(
+              title = "Polymer Distribution",
+              plotOutput("polymerDistributionPlot"),
+              width = 12
+            )
+          ),
+          column(
+            width = 12,
+            box(
+              title = "Width Distribution",
+              plotOutput("widthBarPlot"),
+              width = 12
+            )
+          ),
+          column(
+            width = 12,
+            box(
+              title = "Yearly Average Concentrations",
+              plotOutput("stackedBarPlot"),
+              width = 12
             )
           )
         )
@@ -234,7 +256,7 @@ server <- function(input, output, session) {
     
     ggplot(filtered_data, aes(x = shape)) +
       geom_bar(fill = "#4682B4") +
-      labs(title = "Shape Distribution", x = "Shape", y = "Count") +
+      labs(x = "Shape", y = "Count") +
       theme_minimal() +
       theme(text = element_text(size = 12, family = "Arial"))
   })
@@ -245,7 +267,7 @@ server <- function(input, output, session) {
     
     ggplot(filtered_data, aes(x = color)) +
       geom_bar(fill = "#708090") +
-      labs(title = "Color Distribution", x = "Color", y = "Count") +
+      labs(x = "Color", y = "Count") +
       theme_minimal() +
       theme(text = element_text(size = 12, family = "Arial"))
   })
@@ -258,8 +280,8 @@ server <- function(input, output, session) {
   filtered_data <- filtered_data[!is.na(filtered_data$polymer), ]
   
   ggplot(filtered_data, aes(x = polymer)) +
-    geom_bar(fill = "#708090") +
-    labs(title = "Polymer Distribution", x = "Polymer", y = "Count") +
+    geom_bar(fill = "#4682B4") +
+    labs(x = "Polymer", y = "Count") +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
     theme(text = element_text(size = 12, family = "Arial"))
@@ -277,25 +299,47 @@ server <- function(input, output, session) {
     filtered_data <- filtered_data()  # Get filtered data based on selectors
     
     ggplot(filtered_data, aes(x = width_mm)) +
-      geom_bar(fill = "#4682B4", color = "#4682B4", linewidth = 0.5) +  # Adjust fill color, outline color, and size
-      labs(title = "Width (mm) Distribution", x = "Width (mm)", y = "Count") +
+      geom_bar(fill = "#708090", color = "#708090", linewidth = 0.5) +  # Adjust fill color, outline color, and size
+      labs(x = "Width (mm)", y = "Count") +
       scale_x_log10() +  # Apply logarithmic scale to x-axis
       theme_minimal() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
       theme(text = element_text(size = 12, family = "Arial"))
   })
   
-  # Stacked Bar Plot using melted data
   output$stackedBarPlot <- renderPlot({
-    ggplot(filtered_melted_data(), aes(x = year, y = value, fill = factor(year))) +
-      geom_bar(stat = "identity") +
-      scale_fill_viridis_d() +  # Use viridis blue color palette
-      labs(title = "Microplastic Concentrations Over Years",
-           x = "Year",
-           y = "Concentration (m_ps_m3)",
-           fill = "Year") +
+    # Group the data by year and calculate the average concentration for each year
+    summary_data <- filtered_melted_data() %>%
+      group_by(year) %>%
+      summarise(avg_concentration = mean(value, na.rm = TRUE))
+    
+    # Plot the average concentration
+    p <- ggplot(summary_data, aes(x = year, y = avg_concentration)) +
+      geom_bar(stat = "identity", fill = "#4682B4") +
+      labs(x = "Year",
+           y = "Average Concentration (P/m^3)") +
       theme_minimal() +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+      theme(axis.text.x = element_text(angle = 45, hjust = 1),
+            text = element_text(size = 12, family = "Arial"))
+    
+    # Add horizontal lines at specific y-axis values with ascending colors of concern
+    p <- p + geom_hline(yintercept = c(0.0003, 0.066, 0.219, 0.859), linetype = "dashed", linewidth = 0.75, color = "#000000")  # Adjusted color to gray
+    
+    # Add text labels for each line with adjusted colors and y-axis values
+    p <- p + geom_label(aes(x = 2000, y = 0.0003, label = "Threshold 1: Investigative monitoring"), 
+                        hjust = 0, vjust = -0.1, size = 4, color = "#000000",
+                        fill = "white", label.padding = unit(0.2, "lines")) +  # Adjusted color to gray
+      geom_label(aes(x = 2000, y = 0.066, label = "Threshold 2: Discharge monitoring"), 
+                 hjust = 0, vjust = -0.5, size = 4, color = "#000000",
+                 fill = "white", label.padding = unit(0.2, "lines")) +  # Adjusted color to salmon
+      geom_label(aes(x = 2000, y = 0.219, label = "Threshold 3: Management planning"), 
+                 hjust = 0, vjust = -0.5, size = 4, color = "#000000",
+                 fill = "white", label.padding = unit(0.2, "lines")) +  # Adjusted color to blue
+      geom_label(aes(x = 2000, y = 0.859, label = "Threshold 4: Source control measures"), 
+                 hjust = 0, vjust = -0.5, size = 4, color = "#000000",
+                 fill = "white", label.padding = unit(0.2, "lines"))  # Adjusted color to green
+    
+    return(p)
   })
   
   # # Stacked Bar Plot using melted data
@@ -406,7 +450,7 @@ server <- function(input, output, session) {
         County = county,
         City = city,
         "Water System Name" = water_system_name,
-        "Concentration (m_ps_m3)" = m_ps_m3,
+        "Concentration (Particles/m^3)" = m_ps_m3,
         "Lake ID" = id_lake,
         "Sample ID" = sample_lake,
         "Slide Number" = slide_numb,
@@ -432,7 +476,7 @@ server <- function(input, output, session) {
           "<p><strong>Water System Name:</strong> ", filtered_data()$water_system_name, "</p>",
           "<p><strong>Latitude:</strong> ", filtered_data()$latitude, "</p>",
           "<p><strong>Longitude:</strong> ", filtered_data()$longitude, "</p>",
-          "<p><strong>m_ps_m3:</strong> ", filtered_data()$m_ps_m3, "</p>",
+          "<p><strong>Particles/m^3:</strong> ", filtered_data()$m_ps_m3, "</p>",
           "<p><strong>City:</strong> ", filtered_data()$city, "</p>",
           "<p><strong>County:</strong> ", filtered_data()$county, "</p>",
           "</div>"
