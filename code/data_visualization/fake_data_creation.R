@@ -121,6 +121,10 @@ merged_data <- merged_data %>%
   select(-lake, -latitude_old, -longitude_old, -row_num)
 merged_data$latitude <- merged_data$latitude_new
 merged_data$longitude <- merged_data$longitude_new
+# Add a new column called treatment_level to merged_data
+merged_data <- merged_data %>%
+  mutate(treatment_level = factor(sample(c("Primary", "Secondary", "Tertiary", "Disinfected", "Filtered"), nrow(merged_data), replace = TRUE)))
+
 
 
 set.seed(123)
@@ -154,7 +158,8 @@ ui <- bs4DashPage(
       HTML(".sidebar { background-color: #78909C; }")
     ),
     sidebarMenu(
-      menuItem("Interactive Map", tabName = "mapTab", icon = icon("map"))
+      menuItem("Interactive Map", tabName = "mapTab", icon = icon("map")),
+      menuItem("Treatment Library", tabName = "treatmentLibrary", icon = icon("flask"))
     )
   ),
   bs4DashBody(
@@ -241,6 +246,17 @@ ui <- bs4DashPage(
             )
           )
         )
+      ),
+      tabItem(
+        tabName = "treatmentLibrary",
+        fluidRow(
+          box(
+            title = "Treatment Library",
+            width = 12,
+            selectInput("treatmentSelect", "Select Treatment Level", choices = c("Primary", "Secondary", "Tertiary", "Disinfected", "Filtered"), multiple = TRUE),
+            plotOutput("boxplotTreatment")
+          )
+        )
       )
     )
   )
@@ -274,19 +290,19 @@ server <- function(input, output, session) {
   
   # Reactive expression for filtering based on county and city input
   polymer_distribution_data <- reactive({
-  filtered_data <- filtered_data()  # Get filtered data based on selectors
+    filtered_data <- filtered_data()  # Get filtered data based on selectors
+    
+    # Exclude rows with NA values in the polymer column GETTING RID OF NA VALUES, CHANGE WITH REAL DATA
+    filtered_data <- filtered_data[!is.na(filtered_data$polymer), ]
+    
+    ggplot(filtered_data, aes(x = polymer)) +
+      geom_bar(fill = "#4682B4") +
+      labs(x = "Polymer", y = "Count") +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
+      theme(text = element_text(size = 12, family = "Arial"))
+  })
   
-  # Exclude rows with NA values in the polymer column GETTING RID OF NA VALUES, CHANGE WITH REAL DATA
-  filtered_data <- filtered_data[!is.na(filtered_data$polymer), ]
-  
-  ggplot(filtered_data, aes(x = polymer)) +
-    geom_bar(fill = "#4682B4") +
-    labs(x = "Polymer", y = "Count") +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
-    theme(text = element_text(size = 12, family = "Arial"))
-})
-
   
   # Bar plot for polymer distribution within the app with reactivity
   output$polymerDistributionPlot <- renderPlot({
@@ -341,24 +357,7 @@ server <- function(input, output, session) {
     
     return(p)
   })
-  
-  # # Stacked Bar Plot using melted data
-  # output$stackedBarPlot <- renderPlot({
-  #   filtered_data <- filtered_data() %>%
-  #     select(year, starts_with("m_ps_m3_")) %>%
-  #     reshape2::melt(id.vars = "year")
-  #   
-  #   ggplot(filtered_melted_data, aes(x = year, y = value, fill = factor(year))) +
-  #     geom_bar(stat = "identity") +
-  #     labs(title = "Microplastic Concentrations Over Years",
-  #          x = "Year",
-  #          y = "Concentration (m_ps_m3)",
-  #          fill = "Year") +
-  #     theme_minimal() +
-  #     theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  # })
-  # 
-  
+
   # Clean the cities_sf_wgs84 data before Shiny app starts running
   cities_sf_wgs84 <- st_transform(cities_sf, "+proj=longlat +datum=WGS84")
   cities_sf_wgs84 <- clean_names(cities_sf_wgs84)
@@ -484,6 +483,27 @@ server <- function(input, output, session) {
         color = ~colorFactor("Set1", unique(filtered_data()$m_ps_m3))(m_ps_m3),
         fillOpacity = 0.8
       )
+  })
+  
+  # Filtered data for box plots
+  filtered_boxplot_data <- reactive({
+    # Filter data based on selected treatment levels
+    filtered_data <- merged_data_sf %>%
+      filter(treatment_level %in% input$treatmentSelect)
+    
+    filtered_data
+  })
+  
+  # Box plot for microplastic concentration based on treatment levels
+  output$boxplotTreatment <- renderPlot({
+    filtered_data <- filtered_boxplot_data()  # Get filtered data based on selected treatment levels
+    
+    # Plot box plots for microplastic concentration (m_ps_m3) based on treatment levels
+    ggplot(filtered_data, aes(x = treatment_level, y = m_ps_m3)) +
+      geom_boxplot(fill = "#4682B4") +
+      labs(x = "Treatment Level", y = "Microplastic Concentration (m_ps_m3)") +
+      theme_minimal() +
+      theme(text = element_text(size = 12, family = "Arial"))
   })
 }
 # Summary text*** COMMENTED OUT FOR NOW TO MAKE CLEANER
