@@ -23,8 +23,24 @@ library(tidyr)
 library(janitor)
 library(RColorBrewer)
 
-melted_data <- read.csv("melted_data.csv")
-merged_data_sf <- read_csv("merged_data_sf.csv")
+# Get the current working directory
+wd <- getwd()
+
+# Define the directory names
+directory_name1 <- c("code")
+directory_name2 <- c("data_visualization")
+
+# Construct the full directory path
+directory_path <- file.path(wd, directory_name1, directory_name2)
+
+# Define the file name
+file_name <- "merged_data_sf.csv"
+
+# Construct the full file path
+file_path <- file.path(directory_path, file_name)
+
+merged_data_sf <- read_csv(file_path)
+
 
 #############################
 ui <- bs4DashPage(
@@ -125,17 +141,15 @@ ui <- bs4DashPage(
               plotOutput("stackedBarPlot"),
               width = 12
             )
-          )
-        )
-      ),
-      tabItem(
-        tabName = "treatmentLibrary",
-        fluidRow(
-          box(
-            title = "Treatment Library",
+          ),
+          column(
             width = 12,
-            selectInput("treatmentSelect", "Select Treatment Level", choices = c("Primary", "Secondary", "Tertiary", "Disinfected", "Filtered"), multiple = TRUE),
-            plotOutput("boxplotTreatment")
+            box(
+              title = "Treatment Library",
+              width = 12,
+              selectInput("treatmentSelect", "Select Treatment Level", choices = c("Primary", "Secondary", "Tertiary", "Disinfected", "Filtered"), multiple = TRUE),
+              plotOutput("boxplotTreatment")
+            )
           )
         )
       )
@@ -204,41 +218,43 @@ server <- function(input, output, session) {
       theme(text = element_text(size = 12, family = "Arial"))
   })
   
+  # Bar plot for yearly microplastic concentrations
   output$stackedBarPlot <- renderPlot({
-    # Group the data by year and calculate the average concentration for each year
-    summary_data <- filtered_melted_data() %>%
-      group_by(year) %>%
-      summarise(avg_concentration = mean(value, na.rm = TRUE))
+    # Filtered data
+    data <- filtered_data()
     
-    # Plot the average concentration
-    p <- ggplot(summary_data, aes(x = year, y = avg_concentration)) +
-      geom_bar(stat = "identity", fill = "#4682B4") +
-      labs(x = "Year",
-           y = "Average Concentration (P/m^3)") +
-      theme_minimal() +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1),
-            text = element_text(size = 12, family = "Arial"))
+    # Initialize lists to store means and years
+    means <- list()
+    years <- list()
     
+    # Iterate through years 2000 to 2024
+    for (year in 2000:2024) {
+      # Get column name for the year
+      col_name <- paste0("m_ps_m3_", year)
+      
+      # Check if column exists in the data
+      if (col_name %in% names(data)) {
+        # Calculate mean concentration for the year
+        means[[col_name]] <- mean(data[[col_name]], na.rm = TRUE)
+        years[[col_name]] <- year
+      }
+    }
+    
+    # Combine means and years into single vectors
+    means <- unlist(means)
+    years <- unlist(years)
+    
+    # Plot the bar plot
+    barplot(means, names.arg = years, xlab = "Year", ylab = "Mean Microplastic Concentration (P/m^3)", col = "#4682B4", ylim = c(0, max(means) * 1.2))
     # Add horizontal lines at specific y-axis values with ascending colors of concern
-    p <- p + geom_hline(yintercept = c(0.0003, 0.066, 0.219, 0.859), linetype = "dashed", linewidth = 0.75, color = "#000000")  # Adjusted color to gray
+    abline(h = c(0.0003, 0.066, 0.219, 0.859), lty = "dashed", lwd = 0.75, col = "#000000")
     
     # Add text labels for each line with adjusted colors and y-axis values
-    p <- p + geom_label(aes(x = 2000, y = 0.0003, label = "Threshold 1: Investigative monitoring"), 
-                        hjust = 0, vjust = -0.1, size = 4, color = "#000000",
-                        fill = "white", label.padding = unit(0.2, "lines")) +  # Adjusted color to gray
-      geom_label(aes(x = 2000, y = 0.066, label = "Threshold 2: Discharge monitoring"), 
-                 hjust = 0, vjust = -0.5, size = 4, color = "#000000",
-                 fill = "white", label.padding = unit(0.2, "lines")) +  # Adjusted color to salmon
-      geom_label(aes(x = 2000, y = 0.219, label = "Threshold 3: Management planning"), 
-                 hjust = 0, vjust = -0.5, size = 4, color = "#000000",
-                 fill = "white", label.padding = unit(0.2, "lines")) +  # Adjusted color to blue
-      geom_label(aes(x = 2000, y = 0.859, label = "Threshold 4: Source control measures"), 
-                 hjust = 0, vjust = -0.5, size = 4, color = "#000000",
-                 fill = "white", label.padding = unit(0.2, "lines"))  # Adjusted color to green
-    
-    return(p)
+    text(2000, 0.0003, "Threshold 1: Investigative monitoring", adj = c(0, -0.1), cex = 0.7, col = "#000000", pos = 4)
+    text(2000, 0.066, "Threshold 2: Discharge monitoring", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
+    text(2000, 0.219, "Threshold 3: Management planning", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
+    text(2000, 0.859, "Threshold 4: Source control measures", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
   })
-
   
   
   # Populate county choices for selectInput
@@ -366,7 +382,7 @@ server <- function(input, output, session) {
     
     # Plot box plots for microplastic concentration (m_ps_m3) based on treatment levels
     ggplot(filtered_data, aes(x = treatment_level, y = m_ps_m3)) +
-      geom_boxplot(fill = "#4682B4") +
+      geom_boxplot(fill = "#708090") +
       labs(x = "Treatment Level", y = "Microplastic Concentration (m_ps_m3)") +
       theme_minimal() +
       theme(text = element_text(size = 12, family = "Arial"))
