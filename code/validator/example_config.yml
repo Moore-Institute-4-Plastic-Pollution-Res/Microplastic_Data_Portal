@@ -16,6 +16,7 @@ default:
     # s3_bucket: "your_s3_bucket"
     # mongo_key: "your_mongo_key"
     # mongo_collection: "your_mongo_collection"
+    # apiKey: "your_mongo_apikey"
     rules_to_use: "www/microplastic_images/One4AllValidator_rules.csv"
     rules_example: "www/microplastic_images/One4AllValidator_rules.csv"
     valid_data_example: "www/microplastic_images/valid_example.xlsx"
