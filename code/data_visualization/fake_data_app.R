@@ -55,8 +55,7 @@ ui <- bs4DashPage(
       HTML(".sidebar { background-color: #78909C; }")
     ),
     sidebarMenu(
-      menuItem("Interactive Map", tabName = "mapTab", icon = icon("map")),
-      menuItem("Treatment Library", tabName = "treatmentLibrary", icon = icon("flask"))
+      menuItem("Interactive Map", tabName = "mapTab", icon = icon("map"))
     )
   ),
   bs4DashBody(
@@ -65,7 +64,7 @@ ui <- bs4DashPage(
         tabName = "mapTab",
         fluidRow(
           box(
-            title = "California Microplastics in Drinking Water", 
+            title = "California Microplastics in Drinking Water",
             h3(
               tags$div(
                 "Disclaimer: The data presented in this tab is entirely simulated for illustrative purposes and does not represent actual observations. This synthetic dataset is generated to demonstrate the functionality of the application and should not be interpreted as real-world information.",
@@ -79,7 +78,7 @@ ui <- bs4DashPage(
           column(
             width = 12,
             # Add yearSelect input above the first map
-            selectInput("yearSelect", "Select Year", choices = 2000:2024, selected = 2024)
+            selectInput("yearSelect", "Select Year", choices = 2024, selected = 2024)
           ),
           column(
             width = 12,
@@ -98,7 +97,7 @@ ui <- bs4DashPage(
             box(
               title = "Plastic Data by Location",
               style = "overflow-x: auto;",
-              DT::dataTableOutput("plastictableLocation"), 
+              DT::dataTableOutput("plastictableLocation"),
               width = 12
             )
           ),
