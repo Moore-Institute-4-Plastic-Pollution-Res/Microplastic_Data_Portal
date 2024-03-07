@@ -387,42 +387,5 @@ server <- function(input, output, session) {
       theme(text = element_text(size = 12, family = "Arial"))
   })
 }
-# Summary text*** COMMENTED OUT FOR NOW TO MAKE CLEANER
-# output$summaryText <- renderText({
-#   county_label <- if (!is.null(input$countySelect) && length(input$countySelect) > 0) {
-#     paste("County:", paste(input$countySelect, collapse = ", "))
-#   } else {
-#     "County: All"
-#   }
-#   
-#   city_label <- if (!is.null(input$citySelect) && length(input$citySelect) > 0) {
-#     paste("City:", paste(input$citySelect, collapse = ", "))
-#   } else {
-#     "City: All"
-#   }
-#   
-#   paste("Summary statistics for", county_label, city_label)
-# })
-
-# # Summary table *** COMMENTED OUT FOR NOW TO MAKE CLEANER
-# output$summaryTable <- DT::renderDataTable({
-#   summary_stats <- data.frame(
-#     Statistic = c("Mean", "Median", "Mode", "Min", "Max", "Standard Deviation"),
-#     Value = c(
-#       mean(filtered_data()$m_ps_m3),
-#       median(filtered_data()$m_ps_m3),
-#       Mode(filtered_data()$m_ps_m3),
-#       min(filtered_data()$m_ps_m3),
-#       max(filtered_data()$m_ps_m3),
-#       sd(filtered_data()$m_ps_m3)
-#     )
-#   )
-# 
-#   datatable(
-#     summary_stats,
-#     style = "bootstrap",
-#     class = "cell-border stripe"
-#   )
-# })
 
 shinyApp(ui, server)
