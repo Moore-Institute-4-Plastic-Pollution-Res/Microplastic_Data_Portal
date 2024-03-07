@@ -55,8 +55,7 @@ ui <- bs4DashPage(
       HTML(".sidebar { background-color: #78909C; }")
     ),
     sidebarMenu(
-      menuItem("Interactive Map", tabName = "mapTab", icon = icon("map")),
-      menuItem("Treatment Library", tabName = "treatmentLibrary", icon = icon("flask"))
+      menuItem("Interactive Map", tabName = "mapTab", icon = icon("map"))
     )
   ),
   bs4DashBody(
@@ -65,7 +64,7 @@ ui <- bs4DashPage(
         tabName = "mapTab",
         fluidRow(
           box(
-            title = "California Microplastics in Drinking Water", 
+            title = "California Microplastics in Drinking Water",
             h3(
               tags$div(
                 "Disclaimer: The data presented in this tab is entirely simulated for illustrative purposes and does not represent actual observations. This synthetic dataset is generated to demonstrate the functionality of the application and should not be interpreted as real-world information.",
@@ -79,7 +78,7 @@ ui <- bs4DashPage(
           column(
             width = 12,
             # Add yearSelect input above the first map
-            selectInput("yearSelect", "Select Year", choices = 2000:2024, selected = 2024)
+            selectInput("yearSelect", "Select Year", choices = 2024, selected = 2024)
           ),
           column(
             width = 12,
@@ -98,7 +97,7 @@ ui <- bs4DashPage(
             box(
               title = "Plastic Data by Location",
               style = "overflow-x: auto;",
-              DT::dataTableOutput("plastictableLocation"), 
+              DT::dataTableOutput("plastictableLocation"),
               width = 12
             )
           ),
@@ -388,42 +387,5 @@ server <- function(input, output, session) {
       theme(text = element_text(size = 12, family = "Arial"))
   })
 }
-# Summary text*** COMMENTED OUT FOR NOW TO MAKE CLEANER
-# output$summaryText <- renderText({
-#   county_label <- if (!is.null(input$countySelect) && length(input$countySelect) > 0) {
-#     paste("County:", paste(input$countySelect, collapse = ", "))
-#   } else {
-#     "County: All"
-#   }
-#   
-#   city_label <- if (!is.null(input$citySelect) && length(input$citySelect) > 0) {
-#     paste("City:", paste(input$citySelect, collapse = ", "))
-#   } else {
-#     "City: All"
-#   }
-#   
-#   paste("Summary statistics for", county_label, city_label)
-# })
-
-# # Summary table *** COMMENTED OUT FOR NOW TO MAKE CLEANER
-# output$summaryTable <- DT::renderDataTable({
-#   summary_stats <- data.frame(
-#     Statistic = c("Mean", "Median", "Mode", "Min", "Max", "Standard Deviation"),
-#     Value = c(
-#       mean(filtered_data()$m_ps_m3),
-#       median(filtered_data()$m_ps_m3),
-#       Mode(filtered_data()$m_ps_m3),
-#       min(filtered_data()$m_ps_m3),
-#       max(filtered_data()$m_ps_m3),
-#       sd(filtered_data()$m_ps_m3)
-#     )
-#   )
-# 
-#   datatable(
-#     summary_stats,
-#     style = "bootstrap",
-#     class = "cell-border stripe"
-#   )
-# })
 
 shinyApp(ui, server)

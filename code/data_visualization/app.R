@@ -21,8 +21,33 @@ library(gridExtra)
 library(networkD3)
 library(tidyr)
 
+# Get the current working directory
+wd <- getwd()
+
+# Define the directory names
+code <- c("code")
+data_visualization <- c("data_visualization")
+data_path <- c("data")
+
+# Construct the full directory path
+directory_path1 <- file.path(wd, code, data_visualization)
+
+# Define the file name
+file_name1 <- "merged_data_sf.csv"
+
+# Construct the full file path
+file_path1 <- file.path(directory_path1, file_name1)
+
+merged_data_sf <- read_csv(file_path1)
+
+file_name2 <- "Samples_Geocoded.csv"
+
+directory_path2 <- file.path(directory_path1, data_path)
+
+file_path2 <- file.path(directory_path2, file_name2)
+
 #full file path to data
-Samples_Geocoded <- read_csv("data/Samples_Geocoded.csv", locale = locale(encoding = "latin1"))
+Samples_Geocoded <- read_csv(file_path2, locale = locale(encoding = "latin1"))
 
 Location_choices <- unique(Samples_Geocoded$Location)
 Country_choices <- unique(Samples_Geocoded$Countries)
@@ -58,6 +83,8 @@ all <- lapply(1:3, function(i){
     sankify(x = Samples_Geocoded, starts = c("Morphology_", "Color_", "Material_")[i])
 })
 
+
+
 ui <- bs4DashPage(
   bs4DashNavbar(
     title = "Drinking Water Plastics",
@@ -73,7 +100,7 @@ ui <- bs4DashPage(
       menuItem("Map By Raw Data", tabName = "MapByRawData", icon = icon("map")),
       menuItem("Map By Countries", tabName = "MapByCountries", icon = icon("map")),
       menuItem("Other Visuals", tabName = "sankeyPlot", icon = icon("sliders-h")),
-      menuItem("CA Microplastic Fake Data", tabName = "FakeDataTab", icon = icon("database"))
+      menuItem("CA Microplastic Synthetic Data", tabName = "mapTab", icon = icon("database"))
     )
   ),
   bs4DashBody(
@@ -225,16 +252,14 @@ ui <- bs4DashPage(
           )
         ),
       tabItem(
-        tabName = "FakeDataTab",
+        tabName = "mapTab",
         fluidRow(
           box(
-            title = "CA Microplastic Fake Data", 
+            title = "California Microplastics in Drinking Water",
             h3(
               tags$div(
-                "Fake data for microplastics in drinking water facilities in California",
-                br(),
-                br(),
-                "Disclaimer: The data presented in this tab is entirely simulated for illustrative purposes and does not represent actual observations. This synthetic dataset is generated to demonstrate the functionality of the application and should not be interpreted as real-world information."
+                "Disclaimer: The data presented in this tab is entirely simulated for illustrative purposes and does not represent actual observations. This synthetic dataset is generated to demonstrate the functionality of the application and should not be interpreted as real-world information.",
+                style = "font-size: 14px;"
               )
             ),
             width = 12
@@ -243,15 +268,86 @@ ui <- bs4DashPage(
         fluidRow(
           column(
             width = 12,
-            leafletOutput("mapCalifornia")
+            # Add yearSelect input above the first map
+            selectInput("yearSelect", "Select Year", choices = 2024, selected = 2024)
+          ),
+          column(
+            width = 12,
+            leafletOutput("mapLocation1")
+          ),
+          column(
+            width = 6,
+            selectInput("countySelect", "Select County", choices = NULL, multiple = TRUE)
+          ),
+          column(
+            width = 6,
+            selectInput("citySelect", "Select City", choices = NULL, multiple = TRUE)
+          ),
+          column(
+            width = 12,
+            box(
+              title = "Plastic Data by Location",
+              style = "overflow-x: auto;",
+              DT::dataTableOutput("plastictableLocation"),
+              width = 12
+            )
+          ),
+          column(
+            width = 12,
+            box(
+              title = "Shape Distribution",
+              plotOutput("shapeBarPlot"),
+              width = 12
+            )
+          ),
+          column(
+            width = 12,
+            box(
+              title = "Color Distribution",
+              plotOutput("colorBarPlot"),
+              width = 12
+            )
+          ),
+          column(
+            width = 12,
+            box(
+              title = "Polymer Distribution",
+              plotOutput("polymerDistributionPlot"),
+              width = 12
+            )
+          ),
+          column(
+            width = 12,
+            box(
+              title = "Width Distribution",
+              plotOutput("widthBarPlot"),
+              width = 12
+            )
+          ),
+          column(
+            width = 12,
+            box(
+              title = "Yearly Average Concentrations",
+              plotOutput("stackedBarPlot"),
+              width = 12
+            )
+          ),
+          column(
+            width = 12,
+            box(
+              title = "Treatment Library",
+              width = 12,
+              selectInput("treatmentSelect", "Select Treatment Level", choices = c("Primary", "Secondary", "Tertiary", "Disinfected", "Filtered"), multiple = TRUE),
+              plotOutput("boxplotTreatment")
             )
           )
         )
       )
+      )
     ) 
   )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   filtered_data <- reactive({
     samples_location <- Samples_Geocoded[Samples_Geocoded$Location %in% input$Location, ]
     samples_country <- Samples_Geocoded[Samples_Geocoded$Countries %in% input$Country, ]
@@ -519,6 +615,233 @@ server <- function(input, output) {
             fontSize = 10, nodeWidth = 50
         )
     }
+  })
+
+  # Bar plot for "shape" within the app with reactivity
+  output$shapeBarPlot <- renderPlot({
+    filtered_data2 <- filtered_data2()  # Get filtered data based on selectors
+
+    ggplot(filtered_data2, aes(x = shape)) +
+      geom_bar(fill = "#4682B4") +
+      labs(x = "Shape", y = "Count") +
+      theme_minimal() +
+      theme(text = element_text(size = 12, family = "Arial"))
+  })
+
+  # Bar plot for "color" within the app with reactivity
+  output$colorBarPlot <- renderPlot({
+    filtered_data2 <- filtered_data2()  # Get filtered data based on selectors
+
+    ggplot(filtered_data2, aes(x = color)) +
+      geom_bar(fill = "#708090") +
+      labs(x = "Color", y = "Count") +
+      theme_minimal() +
+      theme(text = element_text(size = 12, family = "Arial"))
+  })
+
+  # Reactive expression for filtering based on county and city input
+  polymer_distribution_data <- reactive({
+    filtered_data2 <- filtered_data2()  # Get filtered data based on selectors
+
+    # Exclude rows with NA values in the polymer column GETTING RID OF NA VALUES, CHANGE WITH REAL DATA
+    filtered_data2 <- filtered_data2[!is.na(filtered_data2$polymer), ]
+
+    ggplot(filtered_data2, aes(x = polymer)) +
+      geom_bar(fill = "#4682B4") +
+      labs(x = "Polymer", y = "Count") +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
+      theme(text = element_text(size = 12, family = "Arial"))
+  })
+
+
+  # Bar plot for polymer distribution within the app with reactivity
+  output$polymerDistributionPlot <- renderPlot({
+    polymer_distribution_data()
+  })
+
+
+  # Bar plot for "width_mm" within the app with logarithmic scale and reactivity
+  output$widthBarPlot <- renderPlot({
+    filtered_data2 <- filtered_data2()  # Get filtered data based on selectors
+
+    ggplot(filtered_data2, aes(x = width_mm)) +
+      geom_bar(fill = "#708090", color = "#708090", linewidth = 0.5) +  # Adjust fill color, outline color, and size
+      labs(x = "Width (mm)", y = "Count") +
+      scale_x_log10() +  # Apply logarithmic scale to x-axis
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
+      theme(text = element_text(size = 12, family = "Arial"))
+  })
+
+  # Bar plot for yearly microplastic concentrations
+  output$stackedBarPlot <- renderPlot({
+    # Filtered data
+    data <- filtered_data2()
+
+    # Initialize lists to store means and years
+    means <- list()
+    years <- list()
+
+    # Iterate through years 2000 to 2024
+    for (year in 2000:2024) {
+      # Get column name for the year
+      col_name <- paste0("m_ps_m3_", year)
+
+      # Check if column exists in the data
+      if (col_name %in% names(data)) {
+        # Calculate mean concentration for the year
+        means[[col_name]] <- mean(data[[col_name]], na.rm = TRUE)
+        years[[col_name]] <- year
+      }
+    }
+
+    # Combine means and years into single vectors
+    means <- unlist(means)
+    years <- unlist(years)
+
+    # Plot the bar plot
+    barplot(means, names.arg = years, xlab = "Year", ylab = "Mean Microplastic Concentration (P/m^3)", col = "#4682B4", ylim = c(0, max(means) * 1.2))
+    # Add horizontal lines at specific y-axis values with ascending colors of concern
+    abline(h = c(0.0003, 0.066, 0.219, 0.859), lty = "dashed", lwd = 0.75, col = "#000000")
+
+    # Add text labels for each line with adjusted colors and y-axis values
+    text(2000, 0.0003, "Threshold 1: Investigative monitoring", adj = c(0, -0.1), cex = 0.7, col = "#000000", pos = 4)
+    text(2000, 0.066, "Threshold 2: Discharge monitoring", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
+    text(2000, 0.219, "Threshold 3: Management planning", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
+    text(2000, 0.859, "Threshold 4: Source control measures", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
+  })
+
+
+  # Populate county choices for selectInput
+  observe({
+    county_choices <- unique(merged_data_sf$county)
+    updateSelectInput(session, "countySelect", choices = county_choices)
+  })
+
+  # Populate city choices based on selected counties for selectInput
+  observe({
+    selected_counties <- input$countySelect
+    city_choices <- unique(merged_data_sf$city[merged_data_sf$county %in% selected_counties])
+    city_choices <- sort(city_choices)  # Sort the city choices alphabetically
+    updateSelectInput(session, "citySelect", choices = city_choices)
+  })
+
+  # Reactive expression for filtering based on county and city input
+  filtered_melted_data <- reactive({
+    keyword <- input$damSearch
+    selected_counties <- input$countySelect
+    selected_cities <- input$citySelect
+
+    # Filter by dam name
+    filtered <- if (is.null(keyword) || keyword == "") {
+      melted_data
+    } else {
+      melted_data[grep(keyword, melted_data$water_system_name, ignore.case = TRUE), ]
+    }
+
+    # Filter by selected counties
+    if (!is.null(selected_counties) && length(selected_counties) > 0) {
+      filtered <- filtered %>% filter(county %in% selected_counties)
+    }
+
+    # Filter by selected cities
+    if (!is.null(selected_cities) && length(selected_cities) > 0) {
+      filtered <- filtered %>% filter(city %in% selected_cities)
+    }
+
+    return(filtered)
+  })
+
+  # Reactive expression for filtering based on county and city input
+  filtered_data2 <- reactive({
+    keyword <- input$damSearch
+    selected_counties <- input$countySelect
+    selected_cities <- input$citySelect
+
+    # Filter by water system name
+    filtered <- if (is.null(keyword) || keyword == "") {
+      merged_data_sf
+    } else {
+      merged_data_sf[grep(keyword, merged_data_sf$water_system_name, ignore.case = TRUE), ]
+    }
+
+    # Filter by selected counties
+    if (!is.null(selected_counties) && length(selected_counties) > 0) {
+      filtered <- filtered %>% filter(county %in% selected_counties)
+    }
+
+    # Filter by selected cities
+    if (!is.null(selected_cities) && length(selected_cities) > 0) {
+      filtered <- filtered %>% filter(city %in% selected_cities)
+    }
+
+    return(filtered)
+  })
+
+  # Location tab
+  output$plastictableLocation <- DT::renderDataTable({
+    data_to_display <- filtered_data2() %>%
+      select(county, city, water_system_name, m_ps_m3, everything()) %>%
+      rename(
+        County = county,
+        City = city,
+        "Water System Name" = water_system_name,
+        "Concentration (Particles/m^3)" = m_ps_m3,
+        "Lake ID" = id_lake,
+        "Sample ID" = sample_lake,
+        "Slide Number" = slide_numb,
+        "Plastic Code" = plastic_code,
+        "Morphology" = shape,
+        "Fragment/Fiber" = shape_fra_fib
+        ##### Continue to do this#####
+      )
+
+    datatable(data_to_display, style = "bootstrap", class = "cell-border stripe")
+  })
+
+  output$mapLocation1 <- renderLeaflet({
+    leaflet() %>%
+      setView(lng = -119.4179, lat = 36.7783, zoom = 6) %>%
+      addTiles(urlTemplate = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png") %>%
+      addCircleMarkers(
+        data = filtered_data2(),
+        clusterOptions = markerClusterOptions(),
+        popup = paste0(
+          "<div class='custom-popup'>",
+          "<h4>Water System Details</h4>",
+          "<p><strong>Water System Name:</strong> ", filtered_data2()$water_system_name, "</p>",
+          "<p><strong>Latitude:</strong> ", filtered_data2()$latitude, "</p>",
+          "<p><strong>Longitude:</strong> ", filtered_data2()$longitude, "</p>",
+          "<p><strong>Particles/m^3:</strong> ", filtered_data2()$m_ps_m3, "</p>",
+          "<p><strong>City:</strong> ", filtered_data2()$city, "</p>",
+          "<p><strong>County:</strong> ", filtered_data2()$county, "</p>",
+          "</div>"
+        ),
+        color = ~colorFactor("Set1", unique(filtered_data2()$m_ps_m3))(m_ps_m3),
+        fillOpacity = 0.8
+      )
+  })
+
+  # Filtered data for box plots
+  filtered_boxplot_data <- reactive({
+    # Filter data based on selected treatment levels
+    filtered_data2 <- merged_data_sf %>%
+      filter(treatment_level %in% input$treatmentSelect)
+
+    filtered_data2
+  })
+
+  # Box plot for microplastic concentration based on treatment levels
+  output$boxplotTreatment <- renderPlot({
+    filtered_data2 <- filtered_boxplot_data()  # Get filtered data based on selected treatment levels
+
+    # Plot box plots for microplastic concentration (m_ps_m3) based on treatment levels
+    ggplot(filtered_data2, aes(x = treatment_level, y = m_ps_m3)) +
+      geom_boxplot(fill = "#708090") +
+      labs(x = "Treatment Level", y = "Microplastic Concentration (m_ps_m3)") +
+      theme_minimal() +
+      theme(text = element_text(size = 12, family = "Arial"))
   })
 }
 

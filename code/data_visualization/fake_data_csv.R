@@ -23,7 +23,22 @@ library(tidyr)
 library(janitor)
 library(RColorBrewer)
 
-DWF <- read.csv("/Users/nick_leong/Downloads/9dca2f92-4630-4bee-a9f9-69d2085b57e3.csv")
+# Get the current working directory
+wd <- getwd()
+
+# Define the directory names
+code <- c("code")
+data_visualization <- c("data_visualization")
+data_path <- c("data")
+
+# Construct the full directory path
+directory_path1 <- file.path(wd, code, data_visualization)
+directory_path2 <- file.path(directory_path1, data_path)
+
+file_name1 <- "9dca2f92-4630-4bee-a9f9-69d2085b57e3.csv"
+file_path1 <- file.path(directory_path2, file_name1)
+
+DWF <- read.csv(file_path1)
 DWF <- clean_names(DWF)
 
 # Load required libraries
@@ -54,35 +69,44 @@ DWF_names <- DWF %>%
 
 
 # Specify the correct path to your CSV file
-file_path1 <- "/Users/nick_leong/Downloads/1_Lake_coordinates_MPs_concentration.csv"
-
+file_name2 <- "1_Lake_coordinates_MPs_concentration.csv"
+file_path2 <- file.path(directory_path2, file_name2)
 # Read the CSV file using read_delim
 X1_Lake_coordinates_MPs_concentration <- read_delim(
-  file_path1,
-  delim = ";",
-  escape_double = FALSE,
-  locale = locale(decimal_mark = ",")
-)
-
-# Specify the correct path to your CSV file
-file_path2 <- "/Users/nick_leong/Downloads/2_MPs_features.csv"
-
-# Read the CSV file using read_delim
-X2_MPs_features <- read_delim(
   file_path2,
   delim = ";",
   escape_double = FALSE,
   locale = locale(decimal_mark = ",")
 )
 
-i17_California_Jurisdictional_Dams <- read_csv("~/Downloads/i17_California_Jurisdictional_Dams.csv")
+# Specify the correct path to your CSV file
+file_name3 <- "2_MPs_features.csv"
+file_path3 <- file.path(directory_path2, file_name3)
+# Read the CSV file using read_delim
+X2_MPs_features <- read_delim(
+  file_path3,
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ",")
+)
+
+file_name4 <- "i17_California_Jurisdictional_Dams.csv"
+file_path4 <- file.path(directory_path2, file_name4)
+
+i17_California_Jurisdictional_Dams <- read_csv(file_path4)
 i17_California_Jurisdictional_Dams <- clean_names(i17_California_Jurisdictional_Dams)
 
 #cities_sf <- st_read("/Users/nick_leong/Downloads/City_Boundaries/City_Boundaries.shp")
-cities <- st_read("/Users/nick_leong/Downloads/ca-places-boundaries/CA_Places_TIGER2016.shp")
+file_name5 <- "CA_Places_TIGER2016.shp"
+file_path5 <- file.path(directory_path2, "ca-places-boundaries")
+file_path5 <- file.path(file_path5, file_name5)
+cities <- st_read(file_path5)
 cities <- clean_names(cities)
 cities <- rename(cities, city = name)
-counties <- st_read("/Users/nick_leong/Downloads/CA_Counties/CA_Counties_TIGER2016.shp")
+file_name6 <- "CA_Counties_TIGER2016.shp"
+file_path6 <- file.path(directory_path2, "CA_Counties")
+file_path6 <- file.path(file_path6, file_name6)
+counties <- st_read(file_path6)
 counties <- clean_names(counties)
 counties <- rename(counties, county = name)
 # Create a new column in cities with the first 5 digits of geoid
