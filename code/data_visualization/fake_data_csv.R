@@ -96,29 +96,6 @@ file_path4 <- file.path(directory_path2, file_name4)
 i17_California_Jurisdictional_Dams <- read_csv(file_path4)
 i17_California_Jurisdictional_Dams <- clean_names(i17_California_Jurisdictional_Dams)
 
-#cities_sf <- st_read("/Users/nick_leong/Downloads/City_Boundaries/City_Boundaries.shp")
-file_name5 <- "CA_Places_TIGER2016.shp"
-file_path5 <- file.path(directory_path2, "ca-places-boundaries")
-file_path5 <- file.path(file_path5, file_name5)
-cities <- st_read(file_path5)
-cities <- clean_names(cities)
-cities <- rename(cities, city = name)
-file_name6 <- "CA_Counties_TIGER2016.shp"
-file_path6 <- file.path(directory_path2, "CA_Counties")
-file_path6 <- file.path(file_path6, file_name6)
-counties <- st_read(file_path6)
-counties <- clean_names(counties)
-counties <- rename(counties, county = name)
-# Create a new column in cities with the first 5 digits of geoid
-cities <- mutate(cities, county_geoid = substr(geoid, 1, 5))
-
-# Convert cities to sf object
-cities_sf <- st_as_sf(cities, coords = c("longitude_column_name", "latitude_column_name"))
-
-# Perform spatial join using st_join
-cities_sf <- st_join(cities_sf, counties %>% select(geoid, county), by = c("county_geoid" = "geoid"))
-
-
 # Select and merge variables
 dam_data <- i17_California_Jurisdictional_Dams
 # Make DWF_names equal in size to merged_data
@@ -168,22 +145,5 @@ melted_data <- reshape2::melt(merged_data)
 # Extract the year from the variable column
 melted_data$year <- as.numeric(gsub("m_ps_m3_", "", melted_data$variable))
 
-# Clean the cities_sf_wgs84 data before Shiny app starts running
-cities_sf_wgs84 <- st_transform(cities_sf, "+proj=longlat +datum=WGS84")
-cities_sf_wgs84 <- clean_names(cities_sf_wgs84)
-
-# Convert merged_data to an sf object and set CRS
-merged_data_sf <- st_as_sf(merged_data, coords = c("longitude_new", "latitude_new"), crs = st_crs(cities_sf_wgs84))
-
-merged_data_sf <- st_make_valid(merged_data_sf)
-cities_sf_wgs84 <- st_make_valid(cities_sf_wgs84)
-duplicated_rows <- duplicated(merged_data_sf)
-merged_data_sf <- merged_data_sf[!duplicated_rows, ]
-merged_data_sf <- st_simplify(merged_data_sf)
-cities_sf_wgs84 <- st_simplify(cities_sf_wgs84)
-
-# Spatial join to associate dam points with cities and counties
-merged_data_sf <- st_join(merged_data_sf, cities_sf_wgs84, join = st_within)
-
 # Export dataframe to CSV file
-write.csv(merged_data_sf, "merged_data_sf.csv", row.names = FALSE)
+write.csv(merged_data, "merged_data.csv", row.names = FALSE)
