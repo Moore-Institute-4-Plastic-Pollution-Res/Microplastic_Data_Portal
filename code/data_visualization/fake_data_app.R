@@ -198,25 +198,6 @@ server <- function(input, output, session) {
   })
   
   
-  # Bar plot for polymer distribution within the app with reactivity
-  output$polymerDistributionPlot <- renderPlot({
-    polymer_distribution_data()
-  })
-  
-  
-  # Bar plot for "width_mm" within the app with logarithmic scale and reactivity
-  output$widthBarPlot <- renderPlot({
-    filtered_data <- filtered_data()  # Get filtered data based on selectors
-    
-    ggplot(filtered_data, aes(x = width_mm)) +
-      geom_bar(fill = "#708090", color = "#708090", linewidth = 0.5) +  # Adjust fill color, outline color, and size
-      labs(x = "Width (mm)", y = "Count") +
-      scale_x_log10() +  # Apply logarithmic scale to x-axis
-      theme_minimal() +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
-      theme(text = element_text(size = 12, family = "Arial"))
-  })
-  
   # Bar plot for yearly microplastic concentrations
   output$stackedBarPlot <- renderPlot({
     # Filtered data
@@ -245,15 +226,36 @@ server <- function(input, output, session) {
     
     # Plot the bar plot
     barplot(means, names.arg = years, xlab = "Year", ylab = "Mean Microplastic Concentration (P/m^3)", col = "#4682B4", ylim = c(0, max(means) * 1.2))
-    # Add horizontal lines at specific y-axis values with ascending colors of concern
-    abline(h = c(0.0003, 0.066, 0.219, 0.859), lty = "dashed", lwd = 0.75, col = "#000000")
     
-    # Add text labels for each line with adjusted colors and y-axis values
-    text(2000, 0.0003, "Threshold 1: Investigative monitoring", adj = c(0, -0.1), cex = 0.7, col = "#000000", pos = 4)
-    text(2000, 0.066, "Threshold 2: Discharge monitoring", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
-    text(2000, 0.219, "Threshold 3: Management planning", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
-    text(2000, 0.859, "Threshold 4: Source control measures", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
-  })
+    # Add horizontal lines at specific y-axis values with ascending colors of concern
+    abline(h = c(0.0003), lty = "dotted", lwd = 1, col = "#000000")
+    abline(h = c(0.066), lty = "dotdash", lwd = 1, col = "#000000")
+    abline(h = c(0.219), lty = "dashed", lwd = 1, col = "#000000")
+    abline(h = c(0.859), lty = "solid", lwd = 1, col = "#000000")
+    
+    
+    # Get the width of the plotting area
+    plot_width <- par("usr")[2] - par("usr")[1]
+    
+    space_between_legends <- plot_width / 4
+    
+    # Calculate the x-coordinate for each legend
+    legend_x1 <- par("usr")[1]
+    legend_x2 <- legend_x1 + space_between_legends
+    legend_x3 <- legend_x1 + 2 * space_between_legends
+    legend_x4 <- legend_x1 + 3 * space_between_legends
+    # Set the y-coordinate for the legends to be near the top of the plot
+    legend_y <- par("usr")[4] - 0.05
+    
+    # Add legend
+    legend(x = legend_x1, y = legend_y, legend = c("Threshold 1"), lty = "dotted", lwd = 0.75, col = "#000000", bty = "n", cex = 1)
+    legend(x = legend_x2, y = legend_y, legend = c("Threshold 2"), lty = "dotdash", lwd = 0.75, col = "#000000", bty = "n", cex = 1)
+    legend(x = legend_x3, y = legend_y, legend = c("Threshold 3"), lty = "dashed", lwd = 0.75, col = "#000000", bty = "n", cex = 1)
+    legend(x = legend_x4, y = legend_y, legend = c("Threshold 4"), lty = "solid", lwd = 0.75, col = "#000000", bty = "n", cex = 1)
+    
+    })
+  
+  
   
   
   # Populate county choices for selectInput

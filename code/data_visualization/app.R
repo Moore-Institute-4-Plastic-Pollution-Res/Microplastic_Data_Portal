@@ -33,18 +33,58 @@ data_path <- c("data")
 directory_path1 <- file.path(wd, code, data_visualization)
 
 # Define the file name
-file_name1 <- "merged_data_sf.csv"
+file_name1 <- "merged_data.csv"  ### INSERT NAME OF INPUTTED CSV FILE HERE ###
 
 # Construct the full file path
-file_path1 <- file.path(directory_path1, file_name1)
+file_path1 <- file.path(wd, file_name1)
 
-merged_data_sf <- read_csv(file_path1)
+merged_data <- read_csv(file_path1)
 
 file_name2 <- "Samples_Geocoded.csv"
 
 directory_path2 <- file.path(directory_path1, data_path)
 
 file_path2 <- file.path(directory_path2, file_name2)
+
+
+#cities_sf <- st_read("/Users/nick_leong/Downloads/City_Boundaries/City_Boundaries.shp")
+file_name3 <- "CA_Places_TIGER2016.shp"
+file_path3 <- file.path(directory_path2, "ca-places-boundaries")
+file_path3 <- file.path(file_path3, file_name3)
+cities <- st_read(file_path3)
+cities <- clean_names(cities)
+cities <- rename(cities, city = name)
+file_name4 <- "CA_Counties_TIGER2016.shp"
+file_path4 <- file.path(directory_path2, "CA_Counties")
+file_path4 <- file.path(file_path4, file_name4)
+counties <- st_read(file_path4)
+counties <- clean_names(counties)
+counties <- rename(counties, county = name)
+# Create a new column in cities with the first 5 digits of geoid
+cities <- mutate(cities, county_geoid = substr(geoid, 1, 5))
+
+# Convert cities to sf object
+cities_sf <- st_as_sf(cities, coords = c("longitude_column_name", "latitude_column_name"))
+
+# Perform spatial join using st_join
+cities_sf <- st_join(cities_sf, counties %>% select(geoid, county), by = c("county_geoid" = "geoid"))
+
+# Clean the cities_sf_wgs84 data before Shiny app starts running
+cities_sf_wgs84 <- st_transform(cities_sf, "+proj=longlat +datum=WGS84")
+cities_sf_wgs84 <- clean_names(cities_sf_wgs84)
+
+# Convert merged_data to an sf object and set CRS
+merged_data_sf <- st_as_sf(merged_data, coords = c("longitude_new", "latitude_new"), crs = st_crs(cities_sf_wgs84))
+
+merged_data_sf <- st_make_valid(merged_data_sf)
+cities_sf_wgs84 <- st_make_valid(cities_sf_wgs84)
+duplicated_rows <- duplicated(merged_data_sf)
+merged_data_sf <- merged_data_sf[!duplicated_rows, ]
+merged_data_sf <- st_simplify(merged_data_sf)
+cities_sf_wgs84 <- st_simplify(cities_sf_wgs84)
+
+# Spatial join to associate dam points with cities and counties
+merged_data_sf <- st_join(merged_data_sf, cities_sf_wgs84, join = st_within)
 
 #full file path to data
 Samples_Geocoded <- read_csv(file_path2, locale = locale(encoding = "latin1"))
@@ -678,16 +718,16 @@ server <- function(input, output, session) {
   output$stackedBarPlot <- renderPlot({
     # Filtered data
     data <- filtered_data2()
-
+    
     # Initialize lists to store means and years
     means <- list()
     years <- list()
-
+    
     # Iterate through years 2000 to 2024
     for (year in 2000:2024) {
       # Get column name for the year
       col_name <- paste0("m_ps_m3_", year)
-
+      
       # Check if column exists in the data
       if (col_name %in% names(data)) {
         # Calculate mean concentration for the year
@@ -695,21 +735,40 @@ server <- function(input, output, session) {
         years[[col_name]] <- year
       }
     }
-
+    
     # Combine means and years into single vectors
     means <- unlist(means)
     years <- unlist(years)
-
+    
     # Plot the bar plot
     barplot(means, names.arg = years, xlab = "Year", ylab = "Mean Microplastic Concentration (P/m^3)", col = "#4682B4", ylim = c(0, max(means) * 1.2))
+    
     # Add horizontal lines at specific y-axis values with ascending colors of concern
-    abline(h = c(0.0003, 0.066, 0.219, 0.859), lty = "dashed", lwd = 0.75, col = "#000000")
-
-    # Add text labels for each line with adjusted colors and y-axis values
-    text(2000, 0.0003, "Threshold 1: Investigative monitoring", adj = c(0, -0.1), cex = 0.7, col = "#000000", pos = 4)
-    text(2000, 0.066, "Threshold 2: Discharge monitoring", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
-    text(2000, 0.219, "Threshold 3: Management planning", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
-    text(2000, 0.859, "Threshold 4: Source control measures", adj = c(0, -0.5), cex = 0.7, col = "#000000", pos = 4)
+    abline(h = c(0.0003), lty = "dotted", lwd = 1, col = "#000000")
+    abline(h = c(0.066), lty = "dotdash", lwd = 1, col = "#000000")
+    abline(h = c(0.219), lty = "dashed", lwd = 1, col = "#000000")
+    abline(h = c(0.859), lty = "solid", lwd = 1, col = "#000000")
+    
+    
+    # Get the width of the plotting area
+    plot_width <- par("usr")[2] - par("usr")[1]
+    
+    space_between_legends <- plot_width / 4
+    
+    # Calculate the x-coordinate for each legend
+    legend_x1 <- par("usr")[1]
+    legend_x2 <- legend_x1 + space_between_legends
+    legend_x3 <- legend_x1 + 2 * space_between_legends
+    legend_x4 <- legend_x1 + 3 * space_between_legends
+    # Set the y-coordinate for the legends to be near the top of the plot
+    legend_y <- par("usr")[4] - 0.05
+    
+    # Add legend
+    legend(x = legend_x1, y = legend_y, legend = c("Threshold 1"), lty = "dotted", lwd = 0.75, col = "#000000", bty = "n", cex = 1)
+    legend(x = legend_x2, y = legend_y, legend = c("Threshold 2"), lty = "dotdash", lwd = 0.75, col = "#000000", bty = "n", cex = 1)
+    legend(x = legend_x3, y = legend_y, legend = c("Threshold 3"), lty = "dashed", lwd = 0.75, col = "#000000", bty = "n", cex = 1)
+    legend(x = legend_x4, y = legend_y, legend = c("Threshold 4"), lty = "solid", lwd = 0.75, col = "#000000", bty = "n", cex = 1)
+    
   })
 
 
@@ -782,7 +841,7 @@ server <- function(input, output, session) {
   # Location tab
   output$plastictableLocation <- DT::renderDataTable({
     data_to_display <- filtered_data2() %>%
-      select(county, city, water_system_name, m_ps_m3, everything()) %>%
+      select(county, city, water_system_name, m_ps_m3, id_lake, sample_lake,slide_numb,plastic_code,shape,shape_fra_fib,shape_code,color,width_mm, dim_type,polymer,latitude,longitude, treatment_level,m_ps_m3_2000, m_ps_m3_2001, m_ps_m3_2002, m_ps_m3_2003, m_ps_m3_2004, m_ps_m3_2005, m_ps_m3_2006, m_ps_m3_2007, m_ps_m3_2008, m_ps_m3_2009, m_ps_m3_2010, m_ps_m3_2011, m_ps_m3_2012, m_ps_m3_2013, m_ps_m3_2014, m_ps_m3_2015, m_ps_m3_2016, m_ps_m3_2017, m_ps_m3_2018, m_ps_m3_2019, m_ps_m3_2020, m_ps_m3_2021, m_ps_m3_2022, m_ps_m3_2023, m_ps_m3_2024 )%>%
       rename(
         County = county,
         City = city,
@@ -793,8 +852,41 @@ server <- function(input, output, session) {
         "Slide Number" = slide_numb,
         "Plastic Code" = plastic_code,
         "Morphology" = shape,
-        "Fragment/Fiber" = shape_fra_fib
-        ##### Continue to do this#####
+        "Fragment/Fiber" = shape_fra_fib,
+        "Shape Code" = shape_code,
+        "Color" = color,
+        "Width (mm)" = width_mm,
+        "Dimension Type" = dim_type,
+        "Polymer" = polymer,
+        "Latitude" = latitude,
+        "Longitude" = longitude,
+        "Treatment Level" = treatment_level,
+        "Concentration (Particles/m^3) in 2000" = m_ps_m3_2000,
+        "Concentration (Particles/m^3) in 2001" = m_ps_m3_2001,
+        "Concentration (Particles/m^3) in 2002" = m_ps_m3_2002,
+        "Concentration (Particles/m^3) in 2003" = m_ps_m3_2003,
+        "Concentration (Particles/m^3) in 2004" = m_ps_m3_2004,
+        "Concentration (Particles/m^3) in 2005" = m_ps_m3_2005,
+        "Concentration (Particles/m^3) in 2006" = m_ps_m3_2006,
+        "Concentration (Particles/m^3) in 2007" = m_ps_m3_2007,
+        "Concentration (Particles/m^3) in 2008" = m_ps_m3_2008,
+        "Concentration (Particles/m^3) in 2009" = m_ps_m3_2009,
+        "Concentration (Particles/m^3) in 2010" = m_ps_m3_2010,
+        "Concentration (Particles/m^3) in 2011" = m_ps_m3_2011,
+        "Concentration (Particles/m^3) in 2012" = m_ps_m3_2012,
+        "Concentration (Particles/m^3) in 2013" = m_ps_m3_2013,
+        "Concentration (Particles/m^3) in 2014" = m_ps_m3_2014,
+        "Concentration (Particles/m^3) in 2015" = m_ps_m3_2015,
+        "Concentration (Particles/m^3) in 2016" = m_ps_m3_2016,
+        "Concentration (Particles/m^3) in 2017" = m_ps_m3_2017,
+        "Concentration (Particles/m^3) in 2018" = m_ps_m3_2018,
+        "Concentration (Particles/m^3) in 2019" = m_ps_m3_2019,
+        "Concentration (Particles/m^3) in 2020" = m_ps_m3_2020,
+        "Concentration (Particles/m^3) in 2021" = m_ps_m3_2021,
+        "Concentration (Particles/m^3) in 2022" = m_ps_m3_2022,
+        "Concentration (Particles/m^3) in 2023" = m_ps_m3_2023,
+        "Concentration (Particles/m^3) in 2024" = m_ps_m3_2024
+       
       )
 
     datatable(data_to_display, style = "bootstrap", class = "cell-border stripe")
