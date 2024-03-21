@@ -1,0 +1,38 @@
+﻿name,description,dataset,valid_example,severity,rule
+m_ps_m3,Microplastic concentration in particles/m3,merged_data,1.816745656,warning,is.numeric(m_ps_m3) & !is.na(m_ps_m3)
+shape,The shape of the microplastic,merged_data,Fiber,warning,"(shape%vin%c(""Fiber"") | shape%vin%c(""Fragment"") | shape%vin%c(""Other"") | shape%vin%c(""Film"")) & !is.na(shape)"
+color,The color of the microplastic,merged_data,Black,warning,is.character(color)
+width_mm,The width of the microplastic,merged_data,1.7,warning,is.numeric(width_mm) | is.na(width_mm)
+dim_type,Bin for the particle size,merged_data,meso_small,warning,"dim_type%vin%c(""meso_small"") | dim_type%vin%c(""meso_large"") | dim_type%vin%(""micro"") | dim_type%vin%(""macro"")"
+polymer,The polymer type of the microplastic,merged_data,anthropogenic,warning,is.character(polymer)
+water_system_name,The name of the water system,merged_data,Lorem ipsum dolor sit amet,warning,is.character(water_system_name) & !is.na(water_system_name)
+latitude_new,The new latitude of the water system,merged_data,34.4605,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", latitude_new) & !is.na(latitude_new)"
+longitude_new,The new longitude of the water system,merged_data,-117.3646,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", longitude_new) & !is.na(longitude_new)"
+latitude,The latitude of the water system,merged_data,34.4605,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", latitude) & !is.na(latitude)"
+longitude,The longitude of the water system,merged_data,-117.3646,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", longitude) & !is.na(longitude)"
+treatment_level,The water system's highest level of treatment,merged_data,Primary,warning,"treatment_level%vin%c(""Filtered"") | treatment_level%vin%c(""Tertiary"") | treatment_level%vin%(""Secondary"") | treatment_level%vin%(""Primary"") | treatment_level%vin%(""Disinfected"")"
+m_ps_m3_2000,Microplastic concentration per cubic meter in the year 2000,merged_data,1.334846964,warning,is.numeric(m_ps_m3_2000) & !is.na(m_ps_m3_2000)
+m_ps_m3_2001,Microplastic concentration per cubic meter in the year 2001,merged_data,1.558129865,warning,is.numeric(m_ps_m3_2001) & !is.na(m_ps_m3_2001)
+m_ps_m3_2002,Microplastic concentration per cubic meter in the year 2002,merged_data,2.880294793,warning,is.numeric(m_ps_m3_2002) & !is.na(m_ps_m3_2002)
+m_ps_m3_2003,Microplastic concentration per cubic meter in the year 2003,merged_data,1.648470151,warning,is.numeric(m_ps_m3_2003) & !is.na(m_ps_m3_2003)
+m_ps_m3_2004,Microplastic concentration per cubic meter in the year 2004,merged_data,0.900155304,warning,is.numeric(m_ps_m3_2004) & !is.na(m_ps_m3_2004)
+m_ps_m3_2005,Microplastic concentration per cubic meter in the year 2005,merged_data,2.379295313,warning,is.numeric(m_ps_m3_2005) & !is.na(m_ps_m3_2005)
+m_ps_m3_2006,Microplastic concentration per cubic meter in the year 2006,merged_data,1.195625773,warning,is.numeric(m_ps_m3_2006) & !is.na(m_ps_m3_2006)
+m_ps_m3_2007,Microplastic concentration per cubic meter in the year 2007,merged_data,4.03197636,warning,is.numeric(m_ps_m3_2007) & !is.na(m_ps_m3_2007)
+m_ps_m3_2008,Microplastic concentration per cubic meter in the year 2008,merged_data,2.2188016,warning,is.numeric(m_ps_m3_2008) & !is.na(m_ps_m3_2008)
+m_ps_m3_2009,Microplastic concentration per cubic meter in the year 2009,merged_data,1.135641027,warning,is.numeric(m_ps_m3_2009) & !is.na(m_ps_m3_2009)
+m_ps_m3_2010,Microplastic concentration per cubic meter in the year 2010,merged_data,1.571175933,warning,is.numeric(m_ps_m3_2010) & !is.na(m_ps_m3_2010)
+m_ps_m3_2011,Microplastic concentration per cubic meter in the year 2011,merged_data,1.954799188,warning,is.numeric(m_ps_m3_2011) & !is.na(m_ps_m3_2011)
+m_ps_m3_2012,Microplastic concentration per cubic meter in the year 2012,merged_data,2.764204798,warning,is.numeric(m_ps_m3_2012) & !is.na(m_ps_m3_2012)
+m_ps_m3_2013,Microplastic concentration per cubic meter in the year 2013,merged_data,2.872406583,warning,is.numeric(m_ps_m3_2013) & !is.na(m_ps_m3_2013)
+m_ps_m3_2014,Microplastic concentration per cubic meter in the year 2014,merged_data,0.341251119,warning,is.numeric(m_ps_m3_2014) & !is.na(m_ps_m3_2014)
+m_ps_m3_2015,Microplastic concentration per cubic meter in the year 2015,merged_data,1.532436231,warning,is.numeric(m_ps_m3_2015) & !is.na(m_ps_m3_2015)
+m_ps_m3_2016,Microplastic concentration per cubic meter in the year 2016,merged_data,1.212730594,warning,is.numeric(m_ps_m3_2016) & !is.na(m_ps_m3_2016)
+m_ps_m3_2017,Microplastic concentration per cubic meter in the year 2017,merged_data,1.847329616,warning,is.numeric(m_ps_m3_2017) & !is.na(m_ps_m3_2017)
+m_ps_m3_2018,Microplastic concentration per cubic meter in the year 2018,merged_data,2.512705557,warning,is.numeric(m_ps_m3_2018) & !is.na(m_ps_m3_2018)
+m_ps_m3_2019,Microplastic concentration per cubic meter in the year 2019,merged_data,2.005595409,warning,is.numeric(m_ps_m3_2019) & !is.na(m_ps_m3_2019)
+m_ps_m3_2020,Microplastic concentration per cubic meter in the year 2020,merged_data,0.440704263,warning,is.numeric(m_ps_m3_2020) & !is.na(m_ps_m3_2020)
+m_ps_m3_2021,Microplastic concentration per cubic meter in the year 2021,merged_data,0.844549797,warning,is.numeric(m_ps_m3_2021) & !is.na(m_ps_m3_2021)
+m_ps_m3_2022,Microplastic concentration per cubic meter in the year 2022,merged_data,1.110026747,warning,is.numeric(m_ps_m3_2022) & !is.na(m_ps_m3_2022)
+m_ps_m3_2023,Microplastic concentration per cubic meter in the year 2023,merged_data,0.16179675,warning,is.numeric(m_ps_m3_2023) & !is.na(m_ps_m3_2023)
+m_ps_m3_2024,Microplastic concentration per cubic meter in the year 2024,merged_data,1.816745656,warning,is.numeric(m_ps_m3_2024) & !is.na(m_ps_m3_2024)
