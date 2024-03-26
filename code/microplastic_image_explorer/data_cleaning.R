@@ -72,7 +72,6 @@ annafiles <- files[,c("name", "id")] %>%
 write.csv(annafiles, "data/annak.csv")
 
 
-
 # Fadare ----
 fadare <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/microplastic_image_explorer/extra_data/Fadare and Conkle MP Taxonomy.xlsx")
 
@@ -114,6 +113,8 @@ algalita_bind <- files %>%
 write.csv(algalita_bind, "data/algalita.csv")
 
 # Join the files ----
+test <- tolower(gsub("\\..{1,4}$", "", list.files("G:\\My Drive\\MooreInstitute\\Projects\\PeoplesLab\\Data\\SEM Data Sharing (File responses)\\Image File (File responses)")))
+
 algalita2 <- algalita %>%
     rename(file_name = ParticleID, 
            citation = Citation, 
@@ -127,12 +128,12 @@ algalita2 <- algalita %>%
 
 annak2 <- annak %>%
     rename(file_name = name, 
-           citation = Citation,
            color = `Color of particle`, 
            morphology = `Morphology of particle`, 
            polymer = `Polymer-type of particle`,
            size = `Size of particle`) %>%
-    mutate(type = "visual microscopy")%>%
+    mutate(type = "visual microscopy",
+           citation = "Kukkola et al. 2022")%>%
     select(file_name, citation, color, morphology, polymer, size, type)
 
 fadare2 <- fadare %>%
@@ -142,6 +143,9 @@ fadare2 <- fadare %>%
            morphology = `Morphology of particle`,
            polymer = `Polymer-type of particle`, 
            size = `Size of particle`) %>%
+    mutate(file_name = gsub(" .*", "", file_name)) %>%
+    left_join(data.frame(file_name = gsub(" .*", "", test), id = test)) %>%
+    mutate(file_name = id) %>%
     mutate(type = "visual microscopy")%>%
     select(file_name, citation, color, morphology, polymer, size, type)
 
@@ -154,6 +158,11 @@ leah2 <- leah_files_raw %>%
     mutate(type = "visual microscopy") %>%
     select(file_name, citation, color, morphology, polymer, size, type)
 
-joined <- bind_rows(leah2, fadare2, algalita2, annak2)    
+
+joined <- bind_rows(leah2, fadare2, algalita2, annak2) %>%
+    mutate(file_name = tolower(gsub("\\..{1,4}$", "", file_name))) %>%
+    filter(file_name %in% test)
+
+table(joined$citation)
 
 fwrite(joined, "code/microplastic_image_explorer/image_metadata.csv")
