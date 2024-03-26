@@ -4,6 +4,7 @@ library(dplyr)
 library("jpeg")
 library("tiff")
 library(magick)
+library(data.table)
 
 #Info we want Timestamp	Image File	Researcher Name	Affiliation	Citation	Instrument name	Analysis Date	Polymer-type of particle	Magnification	Color	Morphology	Size of particle	Size dimension
 
@@ -42,9 +43,13 @@ drive_deauth()
 files <- drive_ls(drive_get(as_id("https://drive.google.com/drive/folders/103OUoOpOqxgn06fJA2Rq38SjFgfdejbRcvanC9u2juKqelwmgzrL0f7xI8T9G-_z7r6XbAeb")))
 leahfiles <- files[,c("name", "id")] %>%
     inner_join(info_clean, by = c("name" = "file")) %>%
-    select(timestamp, id, researcher, affiliation, citation, instrument, analysis_date, qa_chemid, magnification, qa_color, qa_morphology, sizefraction, dimension)
+    select(file, timestamp, id, researcher, affiliation, citation, instrument, analysis_date, qa_chemid, magnification, qa_color, qa_morphology, sizefraction, dimension)
 
 write.csv(leahfiles, "data/leah.csv")
+
+leah_files_raw <- info_clean %>%
+    select(file, researcher, affiliation, citation, instrument, analysis_date, qa_chemid, magnification, qa_color, qa_morphology, sizefraction, dimension)
+
 
 # AnnaK ----
 annak <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/microplastic_image_explorer/extra_data/Photos_data.xlsx") %>%
@@ -84,7 +89,15 @@ joined <- left_join(fadare %>%
 write.csv(joined, "data/fadare.csv")
 
 #Algalita ----
-algalita <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/microplastic_taxonomy/extra_data/MethodEvaluationStudy_ALGALITA.xlsx", sheet = "tbl_rawdata")
+algalita <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/code/microplastic_image_explorer/extra_data/MethodEvaluationStudy_ALGALITA.xlsx", sheet = "tbl_rawdata")  %>%
+    mutate(Researcher = "Charles Moore and Gwen Lattin", 
+           Affilitation = "Moore Institute for Plastic Pollution Research", 
+           Citation = "Lattin and Moore 2020, Interlab Comparison Study Data, Moore Institute for Plastic Pollution Research", 
+           Instrument = "Nikon SMZ1270", 
+           Magnification = "60-80x",
+           Analysis = "2020",
+           Polymer = NA,
+           Dimension = "Nominal")
 
 file <- tryCatch(algalita %>%
         slice_sample(n = 0),
@@ -96,22 +109,51 @@ algalita_bind <- files %>%
     select(name, id) %>%
     mutate(PhotoID = gsub(".JPG", "" , name, ignore.case = T)) %>%
     right_join(algalita) %>%
-    mutate(Researcher = "Charles Moore and Gwen Lattin", 
-           Affilitation = "Moore Institute for Plastic Pollution Research", 
-           Citation = "Lattin and Moore 2020, Interlab Comparison Study Data, Moore Institute for Plastic Pollution Research", 
-           Instrument = "Nikon SMZ1270", 
-           Magnification = "60-80x",
-           Analysis = "2020",
-           Polymer = NA,
-           Dimension = "Nominal") %>%
     select(id, Researcher, Affilitation, Citation, Instrument, Analysis, Polymer, Magnification, Color, Morphology, SizeFraction, Dimension)
 
 write.csv(algalita_bind, "data/algalita.csv")
 
-filtered <- file %>% 
-    filter(if(input$color != "ALL") tolower(`Color of particle`) == tolower(input$color) else !is.na(images)) %>%
-    filter(if(input$morphology != "ALL") tolower(`Morphology of particle`) == tolower(input$morphology) else !is.na(images)) %>%
-    filter(if(input$polymer != "ALL") tolower(`Polymer-type of particle`) == tolower(input$polymer) else !is.na(images)) %>%
-    slice_sample(n= if(nrow(.) > 100) 100 else if(nrow(.) == 0) 1 else nrow(.)) 
+# Join the files ----
+algalita2 <- algalita %>%
+    rename(file_name = ParticleID, 
+           citation = Citation, 
+           color = Color, 
+           morphology = Morphology,
+           polymer = Polymer) %>%
+    mutate(size = as.character((Length+Width)/2), 
+           type = "visual microscopy") %>%
+    select(file_name, citation, color, morphology, polymer, size, type)
 
-    
+
+annak2 <- annak %>%
+    rename(file_name = name, 
+           citation = Citation,
+           color = `Color of particle`, 
+           morphology = `Morphology of particle`, 
+           polymer = `Polymer-type of particle`,
+           size = `Size of particle`) %>%
+    mutate(type = "visual microscopy")%>%
+    select(file_name, citation, color, morphology, polymer, size, type)
+
+fadare2 <- fadare %>%
+    rename(file_name = Filename, 
+           citation = Citation,
+           color = `Color of particle`, 
+           morphology = `Morphology of particle`,
+           polymer = `Polymer-type of particle`, 
+           size = `Size of particle`) %>%
+    mutate(type = "visual microscopy")%>%
+    select(file_name, citation, color, morphology, polymer, size, type)
+
+leah2 <- leah_files_raw %>%
+    rename(file_name = file, 
+           color = qa_color, 
+           morphology = qa_morphology, 
+           polymer = qa_chemid, 
+           size = sizefraction) %>%
+    mutate(type = "visual microscopy") %>%
+    select(file_name, citation, color, morphology, polymer, size, type)
+
+joined <- bind_rows(leah2, fadare2, algalita2, annak2)    
+
+fwrite(joined, "code/microplastic_image_explorer/image_metadata.csv")
