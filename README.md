@@ -22,6 +22,8 @@ Contributions of all kinds are welcome!
 ### Data Validator
 Data validation is essential before sharing data widely. We have created the data validator package [![CRAN version](https://www.r-pkg.org/badges/version/One4All)](https://CRAN.R-project.org/package=One4All) and app [![Website](https://img.shields.io/badge/web-openanalysis.org-white)](https://openanalysis.org/one4all).
 
+![](man/validatorimage.png)
+
 If using the R Package:
 
 ```r
