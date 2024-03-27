@@ -22,6 +22,8 @@ Contributions of all kinds are welcome!
 ### Data Validator
 Data validation is essential before sharing data widely. We have created the data validator package [![CRAN version](https://www.r-pkg.org/badges/version/One4All)](https://CRAN.R-project.org/package=One4All) and app [![Website](https://img.shields.io/badge/web-openanalysis.org-white)](https://openanalysis.org/one4all).
 
+![](man/validatorimage.png)
+
 If using the R Package:
 
 ```r
@@ -42,6 +44,8 @@ The code for the app is in [/code/data_visualization](https://github.com/Moore-I
 Microplastic data is unique because it includes unstructured data, like images, which can be difficult to query. This is why we created the image explorer. 
 The code for the app is in [/code/microplastic_image_explorer](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/microplastic_image_explorer)
 - To get started with the tool, go to [openanalysis.org/image_explorer](openanalysis.org/image_explorer). 
+
+![](man/imageexplorer.png)
 
 ## Data
 Looking for data? Download the files supporting the apps [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data).
