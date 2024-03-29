@@ -192,7 +192,10 @@ ui <- bs4DashPage(
                 "The concentration and source of plastics of the selected locations are then displayed in a rain cloud plot below.",
                 br(),
                 br(),
-                "The table directly generates the data from the Open Data Portal, and shows additional information regarding the characteristics of the plastics."
+                "The table directly generates the data from the Open Data Portal, and shows additional information regarding the characteristics of the plastics.",
+                br(),
+                br(),
+                "Warning: The latitude and longitude data for some locations are inaccurate due to multiple locations being grouped together within a single sample."
               )
             ),
             class = "about-box-content",
@@ -436,6 +439,30 @@ server <- function(input, output, session) {
       addLegend(position = "bottomright", colors = "#01579B", labels = "Location")
   })
   
+  # Countries tab
+  output$mapCountries <- renderLeaflet({
+    data_country <- filtered_data()$samples_country
+    leaflet() %>%
+      addProviderTiles("CartoDB.Voyager", options = tileOptions(minZoom = 2)) %>%
+      addCircleMarkers(
+        data = data_country,
+        lat = ~Approximate_Latitude,
+        lng = ~Approximate_Longitude,
+        group = ~Countries,
+        clusterOptions = markerClusterOptions(),
+        popup = paste0(
+          "<div class='custom-popup'>",
+          "<h4>Location Details</h4>",
+          "<p><strong>Latitude:</strong> ", data_country$Approximate_Latitude, "</p>",
+          "<p><strong>Longitude:</strong> ", data_country$Approximate_Longitude, "</p>",
+          "<p><strong>Source:</strong> ", data_country$Source, "</p>",
+          "<p><strong>Concentration:</strong> ", data_country$Concentration, "</p>",
+          "</div>"
+        ),
+        color = "#01579B"
+      ) %>%
+      addLegend(position = "bottomright", colors = "#01579B", labels = "Location")
+  })
   
   # Location tab
   output$tableLocation <- DT::renderDataTable({
