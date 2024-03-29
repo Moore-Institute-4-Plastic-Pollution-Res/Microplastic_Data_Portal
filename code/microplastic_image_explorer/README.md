@@ -4,7 +4,7 @@
 
 # Description
 
-Welcome to the Microplastic Image Explorer page. This tool was designed to allow users to improve their use of visual microscopy in microplastic identification. Start by querying the database of microplastic images by citation, color, morphology, polymer, and/or size.
+Welcome to the Microplastic Image Explorer webpage. This tool was designed to allow users to improve their use of visual microscopy in microplastic identification. Start by querying the database of microplastic images by citation, color, morphology, polymer, and/or size.
 
 # Installation
 
