@@ -27,20 +27,74 @@ library(RColorBrewer)
 wd <- getwd()
 
 # Define the directory names
-directory_name1 <- c("code")
-directory_name2 <- c("data_visualization")
+code <- c("code")
+data_visualization <- c("data_visualization")
+data_path <- c("data")
 
 # Construct the full directory path
-directory_path <- file.path(wd, directory_name1, directory_name2)
+directory_path1 <- file.path(wd, code, data_visualization)
 
 # Define the file name
-file_name <- "merged_data_sf.csv"
+file_name1 <- "merged_data.csv"  ### INSERT NAME OF INPUTTED CSV FILE HERE ###
 
 # Construct the full file path
-file_path <- file.path(directory_path, file_name)
+file_path1 <- file.path(wd, file_name1)
 
-merged_data_sf <- read_csv(file_path)
+# merged_data <- read_csv(file_path1)
+con <- mongo(
+  url = "mongodb+srv://hannah:Singinglove2019@cluster0.hzb0jlh.mongodb.net/?retryWrites=true&w=majority",
+  db = "test",
+  collection = "One4All"
+)
+# Fetch data associated with the specific ObjectId
+mongo_data <- con$find()
+merged_data <- read.csv("/Users/nick_leong/Library/CloudStorage/GoogleDrive-nickleong@g.ucla.edu/My Drive/MIPPR/Microplastic_Data_Portal/code/data_visualization/merged_data.csv")
 
+file_name2 <- "Samples_Geocoded.csv"
+
+directory_path2 <- file.path(directory_path1, data_path)
+
+file_path2 <- file.path(directory_path2, file_name2)
+
+
+#cities_sf <- st_read("/Users/nick_leong/Downloads/City_Boundaries/City_Boundaries.shp")
+file_name3 <- "CA_Places_TIGER2016.shp"
+file_path3 <- file.path(directory_path2, "ca-places-boundaries")
+file_path3 <- file.path(file_path3, file_name3)
+cities <- st_read(file_path3)
+cities <- clean_names(cities)
+cities <- rename(cities, city = name)
+file_name4 <- "CA_Counties_TIGER2016.shp"
+file_path4 <- file.path(directory_path2, "CA_Counties")
+file_path4 <- file.path(file_path4, file_name4)
+counties <- st_read(file_path4)
+counties <- clean_names(counties)
+counties <- rename(counties, county = name)
+# Create a new column in cities with the first 5 digits of geoid
+cities <- mutate(cities, county_geoid = substr(geoid, 1, 5))
+
+# Convert cities to sf object
+cities_sf <- st_as_sf(cities, coords = c("longitude_column_name", "latitude_column_name"))
+
+# Perform spatial join using st_join
+cities_sf <- st_join(cities_sf, counties %>% select(geoid, county), by = c("county_geoid" = "geoid"))
+
+# Clean the cities_sf_wgs84 data before Shiny app starts running
+cities_sf_wgs84 <- st_transform(cities_sf, "+proj=longlat +datum=WGS84")
+cities_sf_wgs84 <- clean_names(cities_sf_wgs84)
+
+# Convert merged_data to an sf object and set CRS
+merged_data_sf <- st_as_sf(merged_data, coords = c("longitude_new", "latitude_new"), crs = st_crs(cities_sf_wgs84))
+
+merged_data_sf <- st_make_valid(merged_data_sf)
+cities_sf_wgs84 <- st_make_valid(cities_sf_wgs84)
+duplicated_rows <- duplicated(merged_data_sf)
+merged_data_sf <- merged_data_sf[!duplicated_rows, ]
+merged_data_sf <- st_simplify(merged_data_sf)
+cities_sf_wgs84 <- st_simplify(cities_sf_wgs84)
+
+# Spatial join to associate dam points with cities and counties
+merged_data_sf <- st_join(merged_data_sf, cities_sf_wgs84, join = st_within)
 
 #############################
 ui <- bs4DashPage(
@@ -198,6 +252,25 @@ server <- function(input, output, session) {
   })
   
   
+  # Bar plot for polymer distribution within the app with reactivity
+  output$polymerDistributionPlot <- renderPlot({
+    polymer_distribution_data()
+  })
+  
+  
+  # Bar plot for "width_mm" within the app with logarithmic scale and reactivity
+  output$widthBarPlot <- renderPlot({
+    filtered_data <- filtered_data()  # Get filtered data based on selectors
+    
+    ggplot(filtered_data, aes(x = width_mm)) +
+      geom_bar(fill = "#708090", color = "#708090", linewidth = 0.5) +  # Adjust fill color, outline color, and size
+      labs(x = "Width (mm)", y = "Count") +
+      scale_x_log10() +  # Apply logarithmic scale to x-axis
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
+      theme(text = element_text(size = 12, family = "Arial"))
+  })
+  
   # Bar plot for yearly microplastic concentrations
   output$stackedBarPlot <- renderPlot({
     # Filtered data
@@ -253,9 +326,7 @@ server <- function(input, output, session) {
     legend(x = legend_x3, y = legend_y, legend = c("Threshold 3"), lty = "dashed", lwd = 0.75, col = "#000000", bty = "n", cex = 1)
     legend(x = legend_x4, y = legend_y, legend = c("Threshold 4"), lty = "solid", lwd = 0.75, col = "#000000", bty = "n", cex = 1)
     
-    })
-  
-  
+  })
   
   
   # Populate county choices for selectInput
@@ -327,25 +398,50 @@ server <- function(input, output, session) {
   # Location tab
   output$plastictableLocation <- DT::renderDataTable({
     data_to_display <- filtered_data() %>%
-      select(county, city, water_system_name, m_ps_m3, everything()) %>%
+      select(county, city, water_system_name, m_ps_m3,shape,color,width_mm,polymer,latitude,longitude, treatment_level,m_ps_m3_2000, m_ps_m3_2001, m_ps_m3_2002, m_ps_m3_2003, m_ps_m3_2004, m_ps_m3_2005, m_ps_m3_2006, m_ps_m3_2007, m_ps_m3_2008, m_ps_m3_2009, m_ps_m3_2010, m_ps_m3_2011, m_ps_m3_2012, m_ps_m3_2013, m_ps_m3_2014, m_ps_m3_2015, m_ps_m3_2016, m_ps_m3_2017, m_ps_m3_2018, m_ps_m3_2019, m_ps_m3_2020, m_ps_m3_2021, m_ps_m3_2022, m_ps_m3_2023, m_ps_m3_2024 )%>%
       rename(
         County = county,
         City = city,
         "Water System Name" = water_system_name,
         "Concentration (Particles/m^3)" = m_ps_m3,
-        "Lake ID" = id_lake,
-        "Sample ID" = sample_lake,
-        "Slide Number" = slide_numb,
-        "Plastic Code" = plastic_code,
         "Morphology" = shape,
-        "Fragment/Fiber" = shape_fra_fib
-        ##### Continue to do this#####
+        "Color" = color,
+        "Width (mm)" = width_mm,
+        "Polymer" = polymer,
+        "Latitude" = latitude,
+        "Longitude" = longitude,
+        "Treatment Level" = treatment_level,
+        "Concentration (Particles/m^3) in 2000" = m_ps_m3_2000,
+        "Concentration (Particles/m^3) in 2001" = m_ps_m3_2001,
+        "Concentration (Particles/m^3) in 2002" = m_ps_m3_2002,
+        "Concentration (Particles/m^3) in 2003" = m_ps_m3_2003,
+        "Concentration (Particles/m^3) in 2004" = m_ps_m3_2004,
+        "Concentration (Particles/m^3) in 2005" = m_ps_m3_2005,
+        "Concentration (Particles/m^3) in 2006" = m_ps_m3_2006,
+        "Concentration (Particles/m^3) in 2007" = m_ps_m3_2007,
+        "Concentration (Particles/m^3) in 2008" = m_ps_m3_2008,
+        "Concentration (Particles/m^3) in 2009" = m_ps_m3_2009,
+        "Concentration (Particles/m^3) in 2010" = m_ps_m3_2010,
+        "Concentration (Particles/m^3) in 2011" = m_ps_m3_2011,
+        "Concentration (Particles/m^3) in 2012" = m_ps_m3_2012,
+        "Concentration (Particles/m^3) in 2013" = m_ps_m3_2013,
+        "Concentration (Particles/m^3) in 2014" = m_ps_m3_2014,
+        "Concentration (Particles/m^3) in 2015" = m_ps_m3_2015,
+        "Concentration (Particles/m^3) in 2016" = m_ps_m3_2016,
+        "Concentration (Particles/m^3) in 2017" = m_ps_m3_2017,
+        "Concentration (Particles/m^3) in 2018" = m_ps_m3_2018,
+        "Concentration (Particles/m^3) in 2019" = m_ps_m3_2019,
+        "Concentration (Particles/m^3) in 2020" = m_ps_m3_2020,
+        "Concentration (Particles/m^3) in 2021" = m_ps_m3_2021,
+        "Concentration (Particles/m^3) in 2022" = m_ps_m3_2022,
+        "Concentration (Particles/m^3) in 2023" = m_ps_m3_2023,
+        "Concentration (Particles/m^3) in 2024" = m_ps_m3_2024
       )
     
     datatable(data_to_display, style = "bootstrap", class = "cell-border stripe")
   })
   
-  output$mapLocation <- renderLeaflet({
+  output$mapLocation1 <- renderLeaflet({
     leaflet() %>%
       setView(lng = -119.4179, lat = 36.7783, zoom = 6) %>%
       addTiles(urlTemplate = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png") %>%

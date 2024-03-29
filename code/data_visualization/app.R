@@ -20,6 +20,24 @@ library(PupillometryR)
 library(gridExtra)
 library(networkD3)
 library(tidyr)
+library(One4All)
+
+# # Load the required configuration
+# config<- config::get(file = "code/validator/fake_data_config.yml")
+# 
+# result <- query_document_by_object_id(
+#   apiKey = apiKey,
+#   collection = config$mongo_collection,
+#   database = 'test',
+#   dataSource = 'Cluster0',
+#   objectId = "65fdc635b63d55375f0d2345"
+# )
+# 
+# pulled_data <- result[["documents"]][[1]][["merged_data"]]
+# rows <- lapply(pulled_data, function(x) as.data.frame(t(x)))
+# merged_data <- do.call(rbind, rows)
+
+merged_data <- read.csv("/Users/nick_leong/Library/CloudStorage/GoogleDrive-nickleong@g.ucla.edu/My Drive/MIPPR/Microplastic_Data_Portal/code/data_visualization/data/merged_data.csv")
 
 # Get the current working directory
 wd <- getwd()
@@ -31,14 +49,6 @@ data_path <- c("data")
 
 # Construct the full directory path
 directory_path1 <- file.path(wd, code, data_visualization)
-
-# Define the file name
-file_name1 <- "merged_data.csv"  ### INSERT NAME OF INPUTTED CSV FILE HERE ###
-
-# Construct the full file path
-file_path1 <- file.path(wd, file_name1)
-
-merged_data <- read_csv(file_path1)
 
 file_name2 <- "Samples_Geocoded.csv"
 
@@ -73,6 +83,9 @@ cities_sf <- st_join(cities_sf, counties %>% select(geoid, county), by = c("coun
 cities_sf_wgs84 <- st_transform(cities_sf, "+proj=longlat +datum=WGS84")
 cities_sf_wgs84 <- clean_names(cities_sf_wgs84)
 
+merged_data$longitude_new <- merged_data$longitude
+merged_data$latitude_new <- merged_data$latitude
+
 # Convert merged_data to an sf object and set CRS
 merged_data_sf <- st_as_sf(merged_data, coords = c("longitude_new", "latitude_new"), crs = st_crs(cities_sf_wgs84))
 
@@ -85,6 +98,10 @@ cities_sf_wgs84 <- st_simplify(cities_sf_wgs84)
 
 # Spatial join to associate dam points with cities and counties
 merged_data_sf <- st_join(merged_data_sf, cities_sf_wgs84, join = st_within)
+
+# Gets rid of redundant rows
+row_numbers <- as.numeric(row.names(merged_data_sf))
+merged_data_sf <- merged_data_sf[row_numbers %% 1 == 0, ]
 
 #full file path to data
 Samples_Geocoded <- read_csv(file_path2, locale = locale(encoding = "latin1"))
@@ -841,22 +858,15 @@ server <- function(input, output, session) {
   # Location tab
   output$plastictableLocation <- DT::renderDataTable({
     data_to_display <- filtered_data2() %>%
-      select(county, city, water_system_name, m_ps_m3, id_lake, sample_lake,slide_numb,plastic_code,shape,shape_fra_fib,shape_code,color,width_mm, dim_type,polymer,latitude,longitude, treatment_level,m_ps_m3_2000, m_ps_m3_2001, m_ps_m3_2002, m_ps_m3_2003, m_ps_m3_2004, m_ps_m3_2005, m_ps_m3_2006, m_ps_m3_2007, m_ps_m3_2008, m_ps_m3_2009, m_ps_m3_2010, m_ps_m3_2011, m_ps_m3_2012, m_ps_m3_2013, m_ps_m3_2014, m_ps_m3_2015, m_ps_m3_2016, m_ps_m3_2017, m_ps_m3_2018, m_ps_m3_2019, m_ps_m3_2020, m_ps_m3_2021, m_ps_m3_2022, m_ps_m3_2023, m_ps_m3_2024 )%>%
+      select(county, city, water_system_name, m_ps_m3,shape,color,width_mm,polymer,latitude,longitude, treatment_level,m_ps_m3_2000, m_ps_m3_2001, m_ps_m3_2002, m_ps_m3_2003, m_ps_m3_2004, m_ps_m3_2005, m_ps_m3_2006, m_ps_m3_2007, m_ps_m3_2008, m_ps_m3_2009, m_ps_m3_2010, m_ps_m3_2011, m_ps_m3_2012, m_ps_m3_2013, m_ps_m3_2014, m_ps_m3_2015, m_ps_m3_2016, m_ps_m3_2017, m_ps_m3_2018, m_ps_m3_2019, m_ps_m3_2020, m_ps_m3_2021, m_ps_m3_2022, m_ps_m3_2023, m_ps_m3_2024 )%>%
       rename(
         County = county,
         City = city,
         "Water System Name" = water_system_name,
         "Concentration (Particles/m^3)" = m_ps_m3,
-        "Lake ID" = id_lake,
-        "Sample ID" = sample_lake,
-        "Slide Number" = slide_numb,
-        "Plastic Code" = plastic_code,
         "Morphology" = shape,
-        "Fragment/Fiber" = shape_fra_fib,
-        "Shape Code" = shape_code,
         "Color" = color,
         "Width (mm)" = width_mm,
-        "Dimension Type" = dim_type,
         "Polymer" = polymer,
         "Latitude" = latitude,
         "Longitude" = longitude,
@@ -886,7 +896,6 @@ server <- function(input, output, session) {
         "Concentration (Particles/m^3) in 2022" = m_ps_m3_2022,
         "Concentration (Particles/m^3) in 2023" = m_ps_m3_2023,
         "Concentration (Particles/m^3) in 2024" = m_ps_m3_2024
-       
       )
 
     datatable(data_to_display, style = "bootstrap", class = "cell-border stripe")
