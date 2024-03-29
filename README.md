@@ -40,6 +40,8 @@ Once you have data, you may want to analyze it, microplastic data has some uniqu
 The code for the app is in [/code/data_visualization](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/data_visualization)
 - To get started with the tool, go to [openanalysis.org/microplastic_analysis](openanalysis.org/microplastic_analysis). 
 
+![](man/datavisualization.png)
+
 ### Microplastic Image Explorer
 Microplastic data is unique because it includes unstructured data, like images, which can be difficult to query. This is why we created the image explorer. 
 The code for the app is in [/code/microplastic_image_explorer](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/microplastic_image_explorer)
