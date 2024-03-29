@@ -117,21 +117,25 @@ combined_lake_data <- combined_lake_data %>%
   mutate(row_num = row_number())
 random_dam_data <- random_dam_data %>%
   mutate(row_num = row_number())
-merged_data <- merge(combined_lake_data, random_dam_data, by = "row_num", suffixes = c("_old", "_new"))
+combined_lake_data <- combined_lake_data %>%
+  select(-longitude, -latitude)
+merged_data <- dplyr::left_join(combined_lake_data, random_dam_data, by = "row_num")
 merged_data <- merged_data %>%
-  select(-lake, -latitude_old, -longitude_old, -row_num)
-merged_data$latitude <- merged_data$latitude_new
-merged_data$longitude <- merged_data$longitude_new
+  select(-lake, -row_num)
 # Add a new column called treatment_level to merged_data
 merged_data <- merged_data %>%
   mutate(treatment_level = factor(sample(c("Primary", "Secondary", "Tertiary", "Disinfected", "Filtered"), nrow(merged_data), replace = TRUE)))
-
+merged_data <- merged_data[1:1236, ]
 
 
 set.seed(123)
 
 # Generate random concnetrations from 2000 to 2023
 years <-2000:2023
+
+nrow(merged_data)
+mean(merged_data$m_ps_m3)
+sd(merged_data$m_ps_m3)
 
 # Add columns for each year and fill with random concentrations
 for (year in years) {
@@ -140,10 +144,11 @@ for (year in years) {
 
 merged_data <- within(merged_data, m_ps_m3_2024 <- m_ps_m3)
 
-melted_data <- reshape2::melt(merged_data)
+merged_data <- merged_data %>%
+  select(-id_lake, -sample_lake, -slide_numb, -x12, -plastic_code, -shape_fra_fib, -shape_code)
 
-# Extract the year from the variable column
-melted_data$year <- as.numeric(gsub("m_ps_m3_", "", melted_data$variable))
+file_name5 <- "merged_data.csv"
+file_path5 <- file.path(directory_path2, file_name5)
 
 # Export dataframe to CSV file
-write.csv(merged_data, "merged_data.csv", row.names = FALSE)
+write.csv(merged_data, file_path5, row.names = FALSE)
