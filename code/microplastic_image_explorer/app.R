@@ -4,13 +4,10 @@ library(bs4Dash)
 library(shinyWidgets)
 library(googlesheets4)
 library(dplyr)
-library(imager)
 library(curl)
 
-gs4_deauth()
-file <- read_sheet("https://docs.google.com/spreadsheets/d/1pOLzGuweqyUinMaqYpWop0mqf0LaMNyHdCsWZ-ToV8M/edit?usp=sharing")
-file$images <- paste0("https://drive.google.com/uc?id=", gsub(".*id=", "", file$`Image File`))
-
+file <- read.csv("image_metadata.csv")
+file$images <- paste0("https://d2jrxerjcsjhs7.cloudfront.net/", file$file_names)
 ui <- dashboardPage(
   dashboardHeader(title = "Microplastic Image Explorer",
                   fluidRow(
@@ -104,14 +101,14 @@ ui <- dashboardPage(
           column(4,
                  selectizeInput(inputId = "citation", 
                                 label = "Citation", 
-                                choices = c("ALL", toupper(unique(file$Citation))),
+                                choices = c("ALL", toupper(unique(file$citation))),
                                 selected = "ALL"
                  )
           ),
           column(4, 
                  selectizeInput(inputId = "color", 
                                 label = "Color", 
-                                choices = c("ALL", toupper(unique(file$Color))),
+                                choices = c("ALL", toupper(unique(file$color))),
                                 selected = "ALL"
                  )
           ),
@@ -127,14 +124,14 @@ ui <- dashboardPage(
           column(4,
                  selectizeInput(inputId = "polymer", 
                                 label = "Polymer", 
-                                choices = c("ALL", toupper(unique(file$`Polymer-type of particle`))),
+                                choices = c("ALL", toupper(unique(file$polymer))),
                                 selected = "ALL"
                  )
           ),
           column(4,
                  selectizeInput(inputId = "size", 
                                 label = "Size", 
-                                choices = c("ALL", toupper(unique(file$`Size of particle`))),
+                                choices = c("ALL", toupper(unique(file$size))),
                                 selected = "ALL"
                  )
           ),
@@ -166,35 +163,37 @@ server <- function(input, output, session) {
     breadcrumb_text
   })
   
+  filtered <- reactive({
+      file %>% 
+          filter(if(input$citation != "ALL") tolower(citation) == tolower(input$citation) else !is.na(images)) %>%
+          filter(if(input$size != "ALL") tolower(size) == tolower(input$size) else !is.na(images)) %>%
+          filter(if(input$color != "ALL") tolower(color) == tolower(input$color) else !is.na(images)) %>%
+          filter(if(input$morphology != "ALL") tolower(morphology) == tolower(input$morphology) else !is.na(images)) %>%
+          filter(if(input$polymer != "ALL") tolower(polymer) == tolower(input$polymer) else !is.na(images))
+  })
+  
   output$breadcrumb_output <- renderText({
     breadcrumb_text <- filtered_breadcrumb()
   })
   
   observeEvent(list(input$citation, input$color, input$morphology, input$size, input$polymer), {
     current_choices <- filtered()
-    updateSelectizeInput(session, "citation", choices = c("ALL", toupper(unique(current_choices$Citation))), selected = input$citation)
-    updateSelectizeInput(session, "color", choices = c("ALL", toupper(unique(current_choices$Color))), selected = input$color)
-    updateSelectizeInput(session, "morphology", choices = c("ALL", toupper(unique(current_choices$Morphology))), selected = input$morphology)
-    updateSelectizeInput(session, "polymer", choices = c("ALL", toupper(unique(current_choices$`Polymer-type of particle`))), selected = input$polymer)
-    updateSelectizeInput(session, "size", choices = c("ALL", toupper(unique(current_choices$`Size of particle`))), selected = input$size)
+    updateSelectizeInput(session, "citation", choices = c("ALL", toupper(unique(current_choices$citation))), selected = input$citation)
+    updateSelectizeInput(session, "color", choices = c("ALL", toupper(unique(current_choices$color))), selected = input$color)
+    updateSelectizeInput(session, "morphology", choices = c("ALL", toupper(unique(current_choices$morphology))), selected = input$morphology)
+    updateSelectizeInput(session, "polymer", choices = c("ALL", toupper(unique(current_choices$polymer))), selected = input$polymer)
+    updateSelectizeInput(session, "size", choices = c("ALL", toupper(unique(current_choices$size))), selected = input$size)
   })
   
   observeEvent(input$clear_filters, {
-    updateSelectizeInput(session, "citation", choices = c("ALL", toupper(unique(file$Citation))), selected = "ALL")
-    updateSelectizeInput(session, "color", choices = c("ALL", toupper(unique(file$Color))), selected = "ALL")
-    updateSelectizeInput(session, "morphology", choices = c("ALL", toupper(unique(file$Morphology))), selected = "ALL")
-    updateSelectizeInput(session, "polymer", choices = c("ALL", toupper(unique(file$`Polymer-type of particle`))), selected = "ALL")
-    updateSelectizeInput(session, "size", choices = c("ALL", toupper(unique(file$`Size of particle`))), selected = "ALL")
+    updateSelectizeInput(session, "citation", choices = c("ALL", toupper(unique(file$citation))), selected = "ALL")
+    updateSelectizeInput(session, "color", choices = c("ALL", toupper(unique(file$color))), selected = "ALL")
+    updateSelectizeInput(session, "morphology", choices = c("ALL", toupper(unique(file$morphology))), selected = "ALL")
+    updateSelectizeInput(session, "polymer", choices = c("ALL", toupper(unique(file$polymer))), selected = "ALL")
+    updateSelectizeInput(session, "size", choices = c("ALL", toupper(unique(file$size))), selected = "ALL")
   })
   
-  filtered <- reactive({
-    file %>% 
-      filter(if(input$citation != "ALL") tolower(Citation) == tolower(input$citation) else !is.na(images)) %>%
-      filter(if(input$size != "ALL") tolower(`Size of particle`) == tolower(input$size) else !is.na(images)) %>%
-      filter(if(input$color != "ALL") tolower(Color) == tolower(input$color) else !is.na(images)) %>%
-      filter(if(input$morphology != "ALL") tolower(Morphology) == tolower(input$morphology) else !is.na(images)) %>%
-      filter(if(input$polymer != "ALL") tolower(`Polymer-type of particle`) == tolower(input$polymer) else !is.na(images))
-  })
+
   
   images_per_page <- 30
   current_page <- reactiveVal(1)
@@ -220,14 +219,14 @@ server <- function(input, output, session) {
         class = "col-sm-4",
         box(
           id = paste0("box", x),
-          title = paged_data()$`Researcher Name`[x],
+          title = paged_data()$researcher[x],
           div(
             class = "figure",
             style = "display: flex; justify-content: center; align-items: center;",
             tags$figure(
               tags$a(href=paged_data()$images[x], target="_blank",
                      tags$img(src = paged_data()$images[x], style = 'width: 100%; height: 200px; object-fit: contain;')),
-              tags$figcaption(tags$small(paged_data()$`Citation`[x]))
+              tags$figcaption(tags$small(paged_data()$citation[x]))
             )
           ),
           maximizable = TRUE,

@@ -1,6 +1,7 @@
 # Microplastics Data Portal
-[![Twitter Follow](https://img.shields.io/twitter/follow/ThePlastiverse?style=social)](https://twitter.com/ThePlastiverse)
-[![Twitter Follow](https://img.shields.io/twitter/follow/MoorePlasticRes?style=social)](https://twitter.com/MoorePlasticRes)
+[![image](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/moore-institute/about/)
+
+[![CRAN version](https://www.r-pkg.org/badges/version/One4All)](https://CRAN.R-project.org/package=One4All) [![Website](https://img.shields.io/badge/web-openanalysis.org-white)](https://openanalysis.org)
 
 
 We are innovating what government open data can be by creating an open source data portal where all aspects of data ingestion, analysis, visualization, and sharing are transparent and collaboratable by the open source community. This project is a collaboration with [California Water Boards](https://www.waterboards.ca.gov/), [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/), [The Gray Lab @ UCR](https://www.thegraylab.org/), [San Francisco Estuary Institue](https://www.sfei.org/), [California 100](https://california100.org/), [Possibility Lab](https://possibilitylab.berkeley.edu/) and the open source community at large.
@@ -8,160 +9,46 @@ We are innovating what government open data can be by creating an open source da
 This data portal supports the implementation of Senate Bill No. 1422 which mandates sharing of microplastic data from drinking water, policy SAM 5160 which mandates that state data be open access, and policy SAM 4984 which mandates that software be open by default. Our vision is to use this project as a framework for future open software development by state agencies in the California. All engagement on this open repo will be the subject of future policy research on how government and open source communities can better collaborate on software development projects.
 
 ## Connect
-If you want to discuss anything with the community you can start a conversation on [Gitter](https://gitter.im/Microplastic_Data_Portal/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+If you want to discuss anything with the developers, you can email wincowger@gmail.com
 
 ## Contributing
 Contributions of all kinds are welcome!
 
-We have meetings every two weeks at 3PM California Time on Thursday for anyone interested in being involved. Contact wincowger@gmail.com to get added to the virtual meeting invite.
-
-Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/).
-
-Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
-
-### Meeting Videos
-- [Check in: December 1, 2023](https://drive.google.com/file/d/1QrPvvz-06GijKPW6ixVTjT4t8X6XrmzF/view)
-- [Check in: November 12, 2023](https://drive.google.com/file/d/1GmUN5Mx0r_H1TODwR219uf0gNTp8nLef/view)
-- [Check in: September 29, 2023](https://drive.google.com/file/d/1kj006UATuv7SXVARcBe4GHB4bjY9RdqX/view)
-- [Check in: September 1, 2023](https://drive.google.com/file/d/1dpEbbgaVEhN36PVYUEXXPurDPXjF3SWl/view?usp=sharing)
-- [Check in: July 7, 2023](https://drive.google.com/file/d/1BWo07hLgZwRXID3fhsFkc2nXJYD74V53/view?usp=sharing)
-- [Check in: April 14, 2023](https://drive.google.com/file/d/1nxZmmghq-f22k3v_q1ZupUEGOBQqVL-n/view?usp=drivesdk)
-- [Check in: March 3, 2023](https://drive.google.com/file/d/1J1M6JrM9JOXCwYDq7tl_1PEg5OtqFsUq/view?usp=sharing)
-- [Check in: February 3, 2023](https://drive.google.com/file/d/14ofOmJ59_SPuySvWltITe5iy-0mb0x7V/view?usp=sharing)
-- [Check in: January 20, 2023](https://drive.google.com/file/d/135xeiMmsis7Ya0WY5j44zpQNqMicUqiW/view?usp=sharing)
-- [3 Month Update: January 6, 2023](https://drive.google.com/file/d/15o4KYY_YAMX31JN5AKH9afxHSOFH9N9D/view?usp=sharing)
-- [Upcoming conference practice and app updates: October 28, 2022](https://drive.google.com/file/d/1Go_Vwl1bhNezcOBgfivsruRF1YT8VYjf/view?usp=sharing)
-- [Bugs in validation app and schema updates: October 14, 2022](https://drive.google.com/file/d/1UpCYxKfu1n45WKt6BQfNy43CYImdXGZL/view?usp=share_link)
-- [Overview of project status: September 28, 2022](https://drive.google.com/file/d/1tL33tC0d3oa1RsiVt7ylnbo1Z_VdRhC3/view?usp=sharing)
-- [Update on Validation and Wikidata: August 18 2022](https://drive.google.com/file/d/1QH2WDoJ3k1GW4wSMebObGS-R53kBfyIj/view?usp=sharing)
-- [Github Demo: July 21 2022](https://drive.google.com/file/d/1wlJwcfsrGVNbPxqRq67vcWxlshbJ32xk/view?usp=sharing)
+- Some ideas on [How to Contribute](https://opensource.guide/how-to-contribute/).
+- Please adhere to this project's [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
 ## Installation
-### Data
-Download the .xlsx files we have created to begin developing the database schema and visualizations in [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data).
 
-#### Definitions for terms in manuscript database [LINK](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/data/README.md)
+### Data Validator
+Data validation is essential before sharing data widely. We have created the data validator package [![CRAN version](https://www.r-pkg.org/badges/version/One4All)](https://CRAN.R-project.org/package=One4All) and app [![Website](https://img.shields.io/badge/web-openanalysis.org-white)](https://openanalysis.org/one4all).
 
-### Software
-Coming Soon
-```bash
-  ....
+![](man/validatorimage.png)
+
+If using the R Package:
+
+```r
+  install.package("One4All")
+  library(One4All)
 ```
 
-## Roadmap
-```mermaid
-gantt
-    title Project Timeline
-    dateFormat  YYYY-MM-DD
-    section Innovation
-    Community Engagement           :2022-06-01, 2022-08-31
-    Minimum Viable Product     :2022-08-01 , 2023-01-31
-    Beta Testing     :2023-01-01 , 2023-06-30
-    Data Portal Finalization and Publishing     :2023-06-01 , 2023-12-31
-    section Research
-    Policy Research Scoping      :2022-06-01  , 2022-08-31
-    Data Collection      : 2022-06-01  , 2024-06-01
-    Software Manuscript      : 2023-06-01  , 2024-06-01
-    Policy Manuscript      : 2023-06-01  , 2024-06-01
-```
+If using the web app:
+- Go to [openanalysis.org/one4all](openanalysis.org/one4all).
+- The code for the app is in [/code/validator](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
 
-### Community Engagement (June 1, 2022 - August 31, 2022)
-* [ ] Engage with open source community
-  * [x] Water Data Challenge, [Started Meetup](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#meeting-videos)
-  * [ ] Presentation at Code for America Groups (waiting until after beta version)
-* [x] Stakeholder Meetings
-  * [x] Presentation to Trash Monitoring Workgroup
-  * [x] Presentation at SoCal SETAC
-  * [x] Presentation at SoCal Academy of Sciences
-  * [x] Presentation to Water Data Science Symposium
-  * [x] Meetings with drinking water regulators
-  * [x] Meetings with drinking water facilities
-  * [x] Meetings with environmental justice organizations
-  * [x] Meetings with open source policy creators
-  * [x] Meetings with government coders and database managers
+### Data Visualization
+Once you have data, you may want to analyze it, microplastic data has some unique ways to interpret it so we made a tool that can take all the data from the validator app and make use of it. 
+The code for the app is in [/code/data_visualization](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/data_visualization)
+- To get started with the tool, go to [openanalysis.org/microplastic_analysis](openanalysis.org/microplastic_analysis). 
 
-### Policy Research Scoping (June 1, 2022 - August 31, 2022)
-* [x] Meetings with drinking water regulators
-* [x] Meetings with drinking water facilities
-* [x] Meetings with environmental justice organizations
-* [x] Meetings with open source policy creators
-* [x] Meetings with government coders and database managers
+### Microplastic Image Explorer
+Microplastic data is unique because it includes unstructured data, like images, which can be difficult to query. This is why we created the image explorer. 
+The code for the app is in [/code/microplastic_image_explorer](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/microplastic_image_explorer)
+- To get started with the tool, go to [openanalysis.org/image_explorer](openanalysis.org/image_explorer). 
 
-### Data Collection (June 1, 2022 - June 1, 2024)
-* [x] [Github Data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal)
-* [x] Presentation and Workshop Notes
-* [x] Media Feedback
-	* [x] Made it into [policy handbook](https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/docs/2022/mp-hndbk.pdf).  
-		* [ ] Searching for related press releases relevant to the data portal.
-* [x] [Security Reports in Logs](https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates)
-	* [ ] Customize tooling.
+![](man/imageexplorer.png)
 
-### Minimum Viable Product Creation (August 1, 2022 - Jan 31, 2023)
-* [x] [Initial Dataset Development](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data)
-* [x] Web Application Development
-	* [x] [Validation Upload User Interface](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
-    		* [x] Standardize data format for uploads. (Leah is helping)
-    		* [x] Standardize data validation rules for upload. (Leah is helping with this)
-    	* [x] Data Visualization analysis download
-    		* [x] Richard made [this](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/blob/main/code/data_visualization.R)
- 		* [x] Image Explorer
-			* [x] Website online [microplastics image explorer](https://wincowger.shinyapps.io/microplastic_image_explorer/)
-			* [x] Coauthor collaboration started with ~10 other researchers.
-			* [x] Publication (Laura working on)
-	* [x] Database
-		* [x] API keys, got keys to [this](https://data.ca.gov/)
-		* [x] Schema definitions
-			* [x] Definition created for manuscript data
-   		* [x] Integrate back end for upload
-			* [x] Connection made
-			* [x] Add data from manuscripts to data.ca.gov.
-			* [x] Add api keys so only certain users with permissions can upload.
-		* [x] Integrate back end for download
-			* [x] Standardize data from manuscripts.
-		* [x] Taxonomy
-			* [x] Hannah made rough draft of the taxonomies.
-			* [x] Integrate into data base queries
-			* [x] Integrate into wikidata.
-### Policy  (August 1, 2022 - June 31, 2023)
-* [ ] Collaborations and knowlege sharing with stakeholders in long term future of data portal.  
-	* [x] Submitted to Water Data Challenge.
-	* [x] Created press release for policy post.
-* [ ] [Waterboard Github](https://github.com/CAWaterBoardDataCenter) Collaboration FAQ
-* [ ] [California Open Data Portal](https://data.ca.gov/) Integration Notes and Framework
-* [ ] Open Source Portal Policy Brief [similar too](https://handbook.data.ca.gov/) and [based on](https://codecagov-playbook.readthedocs.io/en/latest/policy/)
-* [ ] Get Waterboard Repo on code.ca.gov
-
-### Beta Testing of Portal (January 1, 2023 - June 30, 2023)
-* [ ] Meetings with Trash Monitoring Workgroup
-* [ ] Meetings with Water Data Science Symposium
-* [ ] Meetings with drinking water regulators
-* [ ] Meetings with drinking water facilities
-* [ ] Meetings with environmental justice organizations
-* [ ] Meetings with open source policy creators
-* [ ] Meetings with government coders and database managers
-
-### Data Portal Finalization and Publishing (June 1, 2023 - December 31, 2023)
-* [ ] Link all tools together in one application? (not sure if necessary, likely different endpoints for different services, maybe one for data analysis / download and one for upload)
-* [ ] Data Vis App
-	* [ ] Turn into a web application for data vis from ckan.
-	* [ ] Pull down and visualize data from manuscripts.  
-	* [ ] Download formatting setup from CKAN
-* [ ] Integration of beta testers feedback
-* [ ] Handoff project to Waterboard staff for long term management
-* [ ] [Wikidata integration](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal#knowledge-graph-representation)
-
-
-### Software Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
-* [ ] Identify coauthors on manuscript
-* [ ] Outline Manuscript and Share with Coauthors
-* [ ] First Draft of Manuscript and Share with Coauthors
-* [ ] Final Draft of Manuscript and share with Coauthors
-
-### Policy Manuscript Drafting and Publication (June 1, 2023 - June 1, 2024)
-* [ ] Identify coauthors on manuscript
-* [ ] Outline Manuscript and Share with Coauthors
-* [ ] First Draft of Manuscript and Share with Coauthors
-* [ ] Final Draft of Manuscript and share with Coauthors
+## Data
+Looking for data? Download the files supporting the apps [/data](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/data).
 
 ## Helpful Resources
 * [California Microplastics Policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
@@ -177,130 +64,6 @@ gantt
 * [CKAN Data Portal Framework](https://github.com/ckan/ckan)
 * [HUBKIT Data Portal Framework](https://github.com/internetofwater/HubKit)
 
-## Extra Resources
-### Knowledge graph representation
-![image](https://user-images.githubusercontent.com/26821843/180331100-1c067439-d5ca-41c4-a2fb-2fa539e1e261.png)
-
-#### Proposed Schema for Database
-```mermaid
-erDiagram
-    METHODOLOGY ||--|| SAMPLES : RELATES
-    PARTICLES ||--|| METHODOLOGY : RELATES
-    PARTICLES }|--|{ SAMPLES : RELATES
-    PARTICLES ||--|| POLYMER_HIERARCHY : RELATES
-    PARTICLES ||--|| MORPHOLOGY_HIERARCHY : RELATES
-
-    SAMPLES {
-        string SampleID PK "Unique ID for Sample"
-        string Methodology FK "Online identifier for methodology"
-	string SubmissionID "Unique ID for each submission"
-        string OwnerOrganization "Unique ID for organization who owns the sample"
-        string AnalysisOrganization "Unique ID for organization who analyzed the sample"
-        string ReportingOrganization "Unique ID for organization who reported the sample results"
-        string Location "Latitude and Longitude of Sample"
-        string Source "One of Bottled or Tap"
-        date CollectionDate "Sample Collection Date"
-        date AnalysisDate "Sample Analysis Date"
-	numeric SampleVolume "Volume of sample (L)"
-        numeric ParticleCount "Count of particles in the sample (count)"
-        numeric PolymerX "A value for the proportion of particles of polymer X"
-        numeric SizeX "A value for the proportion of particles of size range X"
-        numeric ShapeX "A value for the proportion of particles of shape X"
-        numeric ColorX "A value for the proportion of particles of color X"
-        numeric TactileX "A value for the proportion of particles of tactile feature X"
-    }
-
-    PARTICLES {
-        string ParticleID PK "Unique ID for each particle"
-        string Methodology FK "Online identifier for methodology"
-        string SampleID FK "Unique ID for sample"
-	string PhotoID "URL address for photo of particle"
-	string ImageTime "Time image was taken"
-	string Comments "Any comments about the particle analysis"
-        string Polymer FK "Particle Polymer name"
-        string Morphology FK "Particle morphology"
-        numeric Length "Particle size longest dimension"
-        numeric Width "Particle size shortest dimension"
-	numeric Height "Third particle dimension"
-	numeric Mass "Particle mass"
-        numeric SurfaceArea "Particle projected surface area"
-        numeric Volume "Particle projected surface area"
-        string Color "Particle color"
-        string Tactile "Particle tactile features"
-    }
-
-    METHODOLOGY {
-        string Methodology PK "Online identifier for methodology"
-        string SamplingDevice "Device used to collect sample and dimensions"
-	string AirFiltration "Is there HEPA air filtration system in the lab?"
-	string AirFiltrationType "What is the type of HEPA air filtration system in the lab?"
-	string ClothingPolicy "Is synthetic clothing allowed in the lab?"
-	string SealedEnvironment "Is a sealed environment used to minimize contamination?"
-	string SealedEnvironmentType "Type of sealed environment used?"
-	string SieveMeshSizes "mesh sizes of seives used"
-        string FilterType "Filter material type"
-	string FilterDiameter "Diameter of filter in mm"
-        numeric FilterPoreSize "Filter pore size in um"
-        string VisIDMethod "Visual Confirmation methods used e.g. visual microscopy SEM"
-	string VisualSoftware "Software used for visual analysis"
-	string PickingStrategy "Picked wet or picked dry"
-	string Magnification "40x"
-        string MatIDMethod "Material identification method e.g. pygcms, raman, ftir"
-	string MatIDSoftware "Material ID software used"
-    }
-      POLYMER_HIERARCHY {
-        string Polymer PK "Polymer name"
-        string Parent "Parent Category of the Polymer"
-    }   
-
-    MORPHOLOGY_HIERARCHY {
-        string Morphology PK "Particle morphology"
-        string Parent "Parent Category of the morphology"
-    }   
-```
-
-#### Proposed Framework for Software Development
-```mermaid
-graph LR
-    B(CKAN Database)--API---I(R Shiny);
-      subgraph Back End
-      C(Auto Export to State Databases)---B;
-      F(CRUD)---B;
-      G(Deployment)---B;
-      H(Wikidata)---B;
-      end
-      subgraph Front End
-      I---J(Upload);
-      J---E(Data QAQC);
-      I---K(Analysis);
-      K---L(Visualization);
-      K---M(Download);
-      M---D(Download Formatting);
-      end
-      click B href "https://github.com/ckan/ckan" _blank
-      click I "https://shiny.rstudio.com/" "R Shiny"
-      click L "https://plotly.com/r/" "Plotly"
-      click H "https://www.wikidata.org/wiki/Wikidata:Main_Page" "Wikidata"
-      click J "https://shiny.rstudio.com/gallery/file-upload.html" "Upload"
-      click M "https://shiny.rstudio.com/gallery/file-download.html" "Download"
-      click K "https://www.tidyverse.org/" "tidyverse"
-      click F "https://github.com/ropensci/ckanr"
-      click G "https://docs.ckan.org/en/2.9/maintaining/installing/install-from-docker-compose.html"
-      click E "https://wincowger.shinyapps.io/validate"
-      style B stroke:#333,stroke-width:4px
-      style H stroke:#333,stroke-width:4px
-      style F stroke:#333,stroke-width:4px
-      style G stroke:#333,stroke-width:4px
-      style I stroke:#333,stroke-width:4px
-      style L stroke:#333,stroke-width:4px
-      style J stroke:#333,stroke-width:4px
-      style M stroke:#333,stroke-width:4px
-      style K stroke:#333,stroke-width:4px
-      style E stroke:#333,stroke-width:4px
-
-```
-
-## Policy Scoping
 ### Microplastic Policy
 - 2018 Require developing methods for microplastics in drinking water [policy](https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201720180SB1422)
     -  https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/microplastics/mcrplstcs_ir.pdf
@@ -323,3 +86,22 @@ graph LR
     - https://github.com/cagov
     - https://github.com/CAWaterBoardDataCenter
     - https://medium.com/code-california/how-civic-engagement-is-unlocking-californias-dmv-web-services-e71339879bf0
+
+### Meeting Videos
+We have meetings every two weeks at 3PM California Time on Thursday for anyone interested in being involved. Contact wincowger@gmail.com to get added to the virtual meeting invite.
+
+- [Check in: December 1, 2023](https://drive.google.com/file/d/1QrPvvz-06GijKPW6ixVTjT4t8X6XrmzF/view)
+- [Check in: November 12, 2023](https://drive.google.com/file/d/1GmUN5Mx0r_H1TODwR219uf0gNTp8nLef/view)
+- [Check in: September 29, 2023](https://drive.google.com/file/d/1kj006UATuv7SXVARcBe4GHB4bjY9RdqX/view)
+- [Check in: September 1, 2023](https://drive.google.com/file/d/1dpEbbgaVEhN36PVYUEXXPurDPXjF3SWl/view?usp=sharing)
+- [Check in: July 7, 2023](https://drive.google.com/file/d/1BWo07hLgZwRXID3fhsFkc2nXJYD74V53/view?usp=sharing)
+- [Check in: April 14, 2023](https://drive.google.com/file/d/1nxZmmghq-f22k3v_q1ZupUEGOBQqVL-n/view?usp=drivesdk)
+- [Check in: March 3, 2023](https://drive.google.com/file/d/1J1M6JrM9JOXCwYDq7tl_1PEg5OtqFsUq/view?usp=sharing)
+- [Check in: February 3, 2023](https://drive.google.com/file/d/14ofOmJ59_SPuySvWltITe5iy-0mb0x7V/view?usp=sharing)
+- [Check in: January 20, 2023](https://drive.google.com/file/d/135xeiMmsis7Ya0WY5j44zpQNqMicUqiW/view?usp=sharing)
+- [3 Month Update: January 6, 2023](https://drive.google.com/file/d/15o4KYY_YAMX31JN5AKH9afxHSOFH9N9D/view?usp=sharing)
+- [Upcoming conference practice and app updates: October 28, 2022](https://drive.google.com/file/d/1Go_Vwl1bhNezcOBgfivsruRF1YT8VYjf/view?usp=sharing)
+- [Bugs in validation app and schema updates: October 14, 2022](https://drive.google.com/file/d/1UpCYxKfu1n45WKt6BQfNy43CYImdXGZL/view?usp=share_link)
+- [Overview of project status: September 28, 2022](https://drive.google.com/file/d/1tL33tC0d3oa1RsiVt7ylnbo1Z_VdRhC3/view?usp=sharing)
+- [Update on Validation and Wikidata: August 18 2022](https://drive.google.com/file/d/1QH2WDoJ3k1GW4wSMebObGS-R53kBfyIj/view?usp=sharing)
+- [Github Demo: July 21 2022](https://drive.google.com/file/d/1wlJwcfsrGVNbPxqRq67vcWxlshbJ32xk/view?usp=sharing)
