@@ -4,11 +4,10 @@ library(bs4Dash)
 library(shinyWidgets)
 library(googlesheets4)
 library(dplyr)
-library(imager)
 library(curl)
 
 file <- read.csv("image_metadata.csv")
-file$images <- paste0("http://microplasticimagespublic.s3-website.us-east-2.amazonaws.com/", file$file_names)
+file$images <- paste0("https://d2jrxerjcsjhs7.cloudfront.net/", file$file_names)
 ui <- dashboardPage(
   dashboardHeader(title = "Microplastic Image Explorer",
                   fluidRow(
