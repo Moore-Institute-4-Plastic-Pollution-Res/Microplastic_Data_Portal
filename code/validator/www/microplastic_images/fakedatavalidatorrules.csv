@@ -6,8 +6,6 @@ width_mm,The width of the microplastic,merged_data,1.7,warning,is.numeric(width_
 dim_type,Bin for the particle size,merged_data,meso_small,warning,"dim_type%vin%c(""meso_small"") | dim_type%vin%c(""meso_large"") | dim_type%vin%(""micro"") | dim_type%vin%(""macro"")"
 polymer,The polymer type of the microplastic,merged_data,anthropogenic,warning,is.character(polymer)
 water_system_name,The name of the water system,merged_data,Lorem ipsum dolor sit amet,warning,is.character(water_system_name) & !is.na(water_system_name)
-latitude_new,The new latitude of the water system,merged_data,34.4605,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", latitude_new) & !is.na(latitude_new)"
-longitude_new,The new longitude of the water system,merged_data,-117.3646,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", longitude_new) & !is.na(longitude_new)"
 latitude,The latitude of the water system,merged_data,34.4605,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", latitude) & !is.na(latitude)"
 longitude,The longitude of the water system,merged_data,-117.3646,warning,"grepl(""^-?\\d+(\\.\\d{1,8})*$"", longitude) & !is.na(longitude)"
 treatment_level,The water system's highest level of treatment,merged_data,Primary,warning,"treatment_level%vin%c(""Filtered"") | treatment_level%vin%c(""Tertiary"") | treatment_level%vin%(""Secondary"") | treatment_level%vin%(""Primary"") | treatment_level%vin%(""Disinfected"")"
