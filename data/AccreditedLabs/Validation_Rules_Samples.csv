@@ -1,9 +1,0 @@
-name,description,valid_example,severity,rule
-SampleID,"Unique ID for Sample, values must be unique and non missing in this table",23jreh334,error,is_unique(SampleID) & !is.na(SampleID)
-OwnerOrganization,Unique ID for organization who owns the sample,Moore Institute for Plastic Pollution Research,error,!is.na(OwnerOrganization)
-AnalysisOrganization,Unique ID for organization who analyzed the sample,Moore Institute for Plastic Pollution Research,error,!is.na(AnalysisOrganization)
-ReportingOrganization,Unique ID for organization who reported the sample results,Moore Institute for Plastic Pollution Research,error,!is.na(ReportingOrganization)
-Latitude,Latitude of sample in decimal degrees,33.746974,error,(as.numeric(Latitude) > -90 & as.numeric(Latitude) < 90) & !is.na(Latitude)
-Longitude,Longitude of sample in decimal degrees,-118.115372,error,(as.numeric(Longitude) > -180 & as.numeric(Longitude) < 180) & !is.na(Longitude)
-CollectionDate,Sample Collection Date in Year-Month-Day format,2023-01-30,error,"!is.na(CollectionDate) & !is.na(as.Date(CollectionDate, format = ""%Y-%m-%d""))"
-Sample Volume,"Volume of sample (L), must be between 1 and 1,000,000",100,error,!is.na(SampleVolume) & (as.numeric(SampleVolume) > 1 & as.numeric(SampleVolume) < 1000000)

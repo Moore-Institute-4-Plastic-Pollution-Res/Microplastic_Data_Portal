@@ -1,0 +1,75 @@
+Timestamp,Image File,"Image type 
+BF= bright field
+FL = Fluoresence",Researcher Name,Affiliation,Citation,Instrument name,Analysis Date,Polymer-type of particle,Magnification,Color of particle,Morphology of particle,Size of particle,Size dimension
+2022,pink fibres,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,Pink,Fibre,>500um,longest length
+2022,sw3_grey_bf,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,Grey,Fragment,100-500um,ferret diameter
+2022,sw3_grey_fl,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,63x,Grey,Fragment,100-500um,ferret diameter
+2022,triangle_bf,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,Pink(stained),Fragment,>500,ferret diameter
+2022,triangle_fl,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32x,Pink(stained),Fragment,>501,ferret diameter
+2022,SW1_F_BF,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,Grey,Fragment,>500,ferret diameter
+2022,SW1_F_FL,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32x,Grey,Fragment,>501,ferret diameter
+2022,SW2_F_BF,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,Pink(stained),Fragment,~1mm,ferret diameter
+2022,SW2_F_FL,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32x,Pink(stained),Fragment,~1mm,ferret diameter
+2022,SW2_F2_BF,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,Pink(stained),Fragment,>500,ferret diameter
+2022,sw1_frag_bf,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,Pink(stained),Fragment,100-500um,ferret diameter
+2022,sw1_frag_fl,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32x,Pink(stained),Fragment,100-500um,ferret diameter
+2022,sw3_big_flake_bf,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,Pink(stained),flake/film,3mm,ferret diameter
+2022,sw3_big_flake_fl,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32x,Pink(stained),flake/film,3mm,ferret diameter
+2022,sw3_bluefrag_bf,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,blue,shaving,~1mm,ferret diameter
+2022,sw3_bluefrag_fl,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,63x,blue,shaving,~1mm,ferret diameter
+2022,sw2_f_bf01,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,Orange,fragment,~1mm,ferret diameter
+2022,sw1_f2_bf02,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,clear(stained),Fragment,>500,ferret diameter
+2022,ORANGE FIBRE_BF,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,Orange,Fibre,~1mm,longest length
+2022,ORANGE FIBRE_FL,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,63x,Orange,Fibre,~1mm,longest length
+2022,f2_BF,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,clear,Fragment,100-500um,ferret diameter
+2022,f2_FL,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,63x,clear,Fragment,100-500um,ferret diameter
+2022,s2_clear fragment_bf,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,clear,Fragment,>500,ferret diameter
+2022,s2_clear fragment_fl,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32x,clear,Fragment,>501,ferret diameter
+2022,SW3_3MM_FRAG_BF,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,Tan,shaving,~3mm,ferret diameter
+2022,SW3_3MM_FRAG_FL,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32x,Tan,shaving,~3mm,ferret diameter
+2022,SW3F3BLUE_bf,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32X,blue,Fragment,~1mm,ferret diameter
+2022,SW3F3BLUE_FL,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32X,blue,Fragment,~1mm,ferret diameter
+2022,sw1_blue_bf,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32X,blue,Fragment,>500um,ferret diameter
+2022,sw1_blue_fl,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32X,,Fragment,>500um,ferret diameter
+2022,sw1 clear bf,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32X,clear,Fragment,>500um,ferret diameter
+2022,sw1 clear fl,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32X,,Fragment,>500um,ferret diameter
+2022,SW3_F2_BF2,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,clear,Fragment,100-500um,ferret diameter
+2022,SW3_F2_FL2,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,63x,,Fragment,100-500um,ferret diameter
+2022,SW1_F_BF,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32X,clear,Fragment,>500um,ferret diameter
+2022,SW1_F_FL1,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32X,,Fragment,>500um,ferret diameter
+2022,yellow_fibre_bf,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32X,yellow,Fibre,~2mm,longest length
+2022,yellow_fibre_fl,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32X,,Fibre,~2mm,longest length
+2022,SW3_F3_RAINBOWCOLOUR_BF,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,multi colour,Fragment,100-500um,ferret diameter
+2022,BC-AFB1-P2BF,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,Clear,Fragment,100-500um,ferret diameter
+2022,BC-AFB1-P2FL,FL,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,"Olympus MVX-ZB10.
+excitation filter: 470/40 nm, dichroic mirror: 495 nm high pass, emission filter: 525/50 nm, light intensity 12, 50ms exp",2022,NA,32x,,Fragment,100-500um,ferret diameter
+2022,BC-9TH-1_REDFIBRE,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,red,fibre,2mm,longest length
+2022,BC-AFB2-RED,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,red,fibre,2mm,longest length
+2022,BC-BRO2_BLACK2,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,black,fibre,~1mm,longest length
+2022,SBC-ROCO2_BLACK,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,black,fibre,1.5mm,longest length
+2022,BC-BRO1_PINKFRAG,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,pink,Fragment,100-500um,ferret diameter
+2022,BC-FOOT1_GreyFibre,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,grey,fibre,100-500um,longest length
+2022,SBCBEC1_SHAVING,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,clear,Fragment,100-500um,ferret diameter
+2022,SBC-BGR2_BLUEFRAG2,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,blue,Fragment,>500,ferret diameter
+2022,SBC-93-1-BLACKFIBRE,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,black,fibre,~2mm,longest length
+2022,SBC-93-1-BLUEFIBRE,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,63x,blue,fibre,>3mm,longest length
+2022,BC-100-2-P7_BF,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,stained,Fragment,100-500um,ferret diameter
+2022,BC-9TH_BLUE,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,blue,fibre,>500,longest length
+2022,MBC-CR-TAN,BF,Anna Kukkola,University of Birmingham,Kukkola et al. 2022,Olympus MVX-ZB10,2022,NA,32x,tan,fibre,~1mm,longest length

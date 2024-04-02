@@ -1,9 +1,0 @@
-name,description,severity,rule
-DOI,A unique DOI is given for each manuscript and should have no missing values.,error,!is.na(DOI) & is_unique(DOI)
-Sample Device and Deployment Method,This should include a description of how the measurement was taken and have no missing values. ,error,!is.na(Sample_device_and_deployment_methods)
-Digestion,The digestion fluid used for the lab analysis. This field should have no missing values.,error,!is.na(Digestion)
-Filtration,Description of the materials used for filtration. ,error,!is.na(Filtration)
-Filter Size,The size of the filtration apparatus. This should have no missing values. ,error,!is.na(Filter_Size)
-Microplastic Identification Method,Description of techniques used to identify the microplastics. ,error,!is.na(Microplastic_Identification_Method)
-Spectral Analysis,Description of spectral techniques used to identify the microplastics. ,error,!is.na(Spectral_Analysis)
-Controls,Description of controls used to prevent contamination and assess recovery. Should have no missing values. ,error,!is.na(Controls)
