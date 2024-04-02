@@ -1,0 +1,616 @@
+﻿DOI,Sample_ID,Subsample_ID,Location,Source,Date,Concentration,Concentration_Units
+10.1016/j.watres.2017.11.011,1.10.1016/j.watres.2017.11.011,N/A,Germany,Single Use Bottles,N/A,14,particles/L
+10.1016/j.watres.2017.11.011,2.10.1016/j.watres.2017.11.011,N/A,Germany,Resuable Bottles,N/A,118,particles/L
+10.1016/j.watres.2017.11.011,3.10.1016/j.watres.2017.11.011,N/A,Germany,Glass Water Bottles,N/A,50,particles/L
+10.1016/j.watres.2017.11.011,4.10.1016/j.watres.2017.11.011,N/A,Germany,Beverage Cartons,N/A,11,particles/L
+10.1039/c6ay01184e,1.10.1039/c6ay01184e,N/A,Germany,Beer bottles,N/A,19-Oct,particles/0.33 L
+10.1039/c6ay01184e,2.10.1039/c6ay01184e,N/A,Germany,Bottled mineral water,N/A,1,particles/0.33 L
+10.3389/fchem.2018.00407,IB 101119.10.3389/fchem.2018.00407,N/A,"Jakarta, Indonesia",Aqua (bottled water brand),N/A,37.1,particles/L
+10.3389/fchem.2018.00407,BB 311019 08: 11 PSRL6.10.3389/fchem.2018.00407,N/A,"Bali, Indonesia",Aqua (bottled water brand),N/A,705,particles/L
+10.3389/fchem.2018.00407,BB 311019 09: 50 STB1.10.3389/fchem.2018.00407,N/A,"Medan, Indonesia",Aqua (bottled water brand),N/A,404,particles/L
+10.3389/fchem.2018.00407,Oct0719.10.3389/fchem.2018.00407,N/A,N/A,"Aquafina (bottled water brand, purchased on Amazon)",N/A,252,particles/L
+10.3389/fchem.2018.00407,BN7141A04117.10.3389/fchem.2018.00407,N/A,"Chennai, India",Aquafina (bottled water brand),N/A,174,particles/L
+10.3389/fchem.2018.00407,HE.B.No 229 (BM/AS).10.3389/fchem.2018.00407,N/A,"Chennai, India",Bisleri (bottled water brand),N/A,826,particles/L
+10.3389/fchem.2018.00407,MU.N.No.298 (MA/AD).10.3389/fchem.2018.00407,N/A,"Mumbai, India",Bisleri (bottled water brand),N/A,213,particles/L
+10.3389/fchem.2018.00407,SO.B No.087 (AS/LB).10.3389/fchem.2018.00407,N/A,"New Delhi, India",Bisleri (bottled water brand),N/A,3.72,particles/L
+10.3389/fchem.2018.00407,Oct 0118NHBRB.10.3389/fchem.2018.00407,N/A,N/A,"Dasani (bottled water brand, purchased on Amazon)",N/A,165,particles/L
+10.3389/fchem.2018.00407,P18NOV17CG3.10.3389/fchem.2018.00407,N/A,"Nairobi, Kenya",Dasani (bottled water brand),N/A,74.6,particles/L
+10.3389/fchem.2018.00407,17.11.18.10.3389/fchem.2018.00407,N/A,"Mexico City, Mexico",E-Pura (bottled water brand),11/17/18,686,particles/L
+10.3389/fchem.2018.00407,14.10.18.10.3389/fchem.2018.00407,N/A,"Tijuana, Mexico",E-Pura (bottled water brand),10/14/18,20.0,particles/L
+10.3389/fchem.2018.00407,09.08.18.10.3389/fchem.2018.00407,N/A,"Reynosa, Mexico",E-Pura (bottled water brand),8/9/18,37.3,particles/L
+10.3389/fchem.2018.00407,PRD 03 21 2017 14:02.10.3389/fchem.2018.00407,N/A,N/A,"Evian (bottled water brand, purchased on Amazon)",N/A,197,particles/L
+10.3389/fchem.2018.00407,PRD 05 24 17 11:29.10.3389/fchem.2018.00407,N/A,"Fredonia, NY, USA",Evian (bottled water brand),N/A,58.2,particles/L
+10.3389/fchem.2018.00407,07.142018 2.10.3389/fchem.2018.00407,N/A,"Fredonia, NY, USA",Gerolsteiner (bottled water brand),N/A,1410,particles/L
+10.3389/fchem.2018.00407,NV No. AC-51-07269.10.3389/fchem.2018.00407,N/A,N/A,"Gerolsteiner (bottled water brand, purchased on Amazon)",N/A,204,particles/L
+10.3389/fchem.2018.00407,FAB: 211017 09:06SP.10.3389/fchem.2018.00407,N/A,"Sao Paulo, Brazil",Minalba (bottled water brand),N/A,40.1,particles/L
+10.3389/fchem.2018.00407,FAB: 160817 15:05SP.10.3389/fchem.2018.00407,N/A,"Aparecida de Goiania, Brazil",Minalba (bottled water brand),N/A,12.5,particles/L
+10.3389/fchem.2018.00407,FAB: 091217 16:53SP.10.3389/fchem.2018.00407,N/A,"Rio de Janerio, Brazil",Minalba (bottled water brand),N/A,150,particles/L
+10.3389/fchem.2018.00407,100517 278WF246.10.3389/fchem.2018.00407,N/A,N/A,"Nestle Pure Life (bottled water brand, purchased on Amazon)",N/A,2277,particles/L
+10.3389/fchem.2018.00407,P: 4/11/17 03:34 AZ.10.3389/fchem.2018.00407,N/A,"Beirut, Lebanon",Nestle Pure Life (bottled water brand),N/A,49.3,particles/L
+10.3389/fchem.2018.00407,730805210A 23:28.10.3389/fchem.2018.00407,N/A,"Bangkok, Thailand",Nestle Pure Life (bottled water brand),N/A,468,particles/L
+10.3389/fchem.2018.00407,BBE 11.2018 10.10.3389/fchem.2018.00407,N/A,N/A,"San Pellegrino (bottled water brand, purchased on Amazon)",N/A,30.3,particles/L
+10.3389/fchem.2018.00407,20171102 1214JN.10.3389/fchem.2018.00407,N/A,"Jinan, China",Wahaha (bottled water brand),N/A,156,particles/L
+10.3389/fchem.2018.00407,20171021 3214GH.10.3389/fchem.2018.00407,N/A,"Beijing, China",Wahaha (bottled water brand),N/A,66.7,particles/L
+10.3389/fchem.2018.00407,20171103 2106WF.10.3389/fchem.2018.00407,N/A,"Qingdao, China",Wahaha (bottled water brand),N/A,67.1,particles/L
+10.1371/journal.pone.0194970,Tap Water_Cuba.10.1371/journal.pone.0194970,N/A,"Havana, Cuba",Tap Water,N/A,7.17,particles/L
+10.1371/journal.pone.0194970,Tap Water_Ecuador.10.1371/journal.pone.0194970,N/A,"Quito, Ecuador",Tap Water,N/A,4.02,particles/L
+10.1371/journal.pone.0194970,Tap Water_England.10.1371/journal.pone.0194970,N/A,"London, England",Tap Water,N/A,7.73,particles/L
+10.1371/journal.pone.0194970,Tap Water_France.10.1371/journal.pone.0194970,N/A,"Paris, France",Tap Water,N/A,1.82,particles/L
+10.1371/journal.pone.0194970,Tap Water_Germany.10.1371/journal.pone.0194970,N/A,"Berlin, Germany; Tubingen, Germany",Tap Water,N/A,0.91,particles/L
+10.1371/journal.pone.0194970,Tap Water_India.10.1371/journal.pone.0194970,N/A,"Ner Delhi, India",Tap Water,N/A,6.24,particles/L
+10.1371/journal.pone.0194970,Tap Water_Indonesia.10.1371/journal.pone.0194970,N/A,"Depok City, Indonesia; Desa Puspanegara, Indonesia; Jakarta, Indonesia; Jatirahayu, Indonesia; Kedaung, Indonesia; Menteng, Indonesia; North Paninggilan, Indonesia; Pasireurih, Indonesia; South Tangerang City, Indonesia; Sukatani, Indonesia; Teluknaga, Indonesia; Warnasari, Indonesia",Tap Water,N/A,3.23,particles/L
+10.1371/journal.pone.0194970,Tap Water_Ireland.10.1371/journal.pone.0194970,N/A,"Dublin, Ireland",Tap Water,N/A,1.83,particles/L
+10.1371/journal.pone.0194970,Tap Water_Italy.10.1371/journal.pone.0194970,N/A,"Pavia, Italy",Tap Water,N/A,0,particles/L
+10.1371/journal.pone.0194970,Tap Water_Lebanon.10.1371/journal.pone.0194970,N/A,"Beirut, Lebanon; Burj el Brajneh, Lebanon; Choueifat, Lebanon; Ghobayreh, Lebanon; Khaldeh, Lebanon; Mreijeh, Lebanon",Tap Water,N/A,6.64,particles/L
+10.1371/journal.pone.0194970,Tap Water_Slovakia.10.1371/journal.pone.0194970,N/A,"Brezova pod Bradlom, Slovakia; Kocvce, Slovakia; Piestany, Slovakia; Poprad, Slovakia; Prasnik, Slovakia; Radosina, Slovakia; Ruzomberok, Slovakia",Tap Water,N/A,3.83,particles/L
+10.1371/journal.pone.0194970,Tap Water_Switzerland.10.1371/journal.pone.0194970,N/A,"Davos Platz, Switzerland; Gerbertingen, Switzerland",Tap Water,N/A,2.74,particles/L
+10.1371/journal.pone.0194970,Tap Water_Uganda.10.1371/journal.pone.0194970,N/A,"Jinja, Uganda; Kampala, Uganda",Tap Water,N/A,3.92,particles/L
+10.1371/journal.pone.0194970,Tap Water_USA.10.1371/journal.pone.0194970,N/A,"Alpena, USA; Buffalo, USA; Chicago, USA; Clayton, USA; Duluth, USA; Glenview, USA; Holland, USA; Lawrence, USA; Los Angeles, USA; Louisville, USA; Mahopack, USA; Middle Village, USA; New York City, USA; Overland Park, USA; Palmetto Bay, USA; Pinebluff, USA; Spring, USA; Washington DC, USA; Wauwatosa, USA",Tap Water,N/A,9.24,particles/L
+10.1371/journal.pone.0194970,Bottled Water.10.1371/journal.pone.0194970,N/A,USA,Bottled water,N/A,3.57,particles/L
+10.1371/journal.pone.0194970,Lake Superior 1.10.1371/journal.pone.0194970,N/A,Lake Superior,Beer bottles,N/A,0.67,particles/L
+10.1371/journal.pone.0194970,Lake Superior 2.10.1371/journal.pone.0194970,N/A,Lake Superior,Beer bottles,N/A,4.33,particles/L
+10.1371/journal.pone.0194970,Lake Superior 3.10.1371/journal.pone.0194970,N/A,Lake Superior,Beer bottles,N/A,3.33,particles/L
+10.1371/journal.pone.0194970,Lake Michigan 1.10.1371/journal.pone.0194970,N/A,Lake Michigan,Beer bottles,N/A,1.33,particles/L
+10.1371/journal.pone.0194970,Lake Michigan 2.10.1371/journal.pone.0194970,N/A,Lake Michigan,Beer bottles,N/A,0.00,particles/L
+10.1371/journal.pone.0194970,Lake Michigan 3.10.1371/journal.pone.0194970,N/A,Lake Michigan,Beer bottles,N/A,14.3,particles/L
+10.1371/journal.pone.0194970,Lake Michigan 4.10.1371/journal.pone.0194970,N/A,Lake Michigan,Beer bottles,N/A,2.33,particles/L
+10.1371/journal.pone.0194970,Lake Huron 1.10.1371/journal.pone.0194970,N/A,Lake Huron,Beer bottles,N/A,1.33,particles/L
+10.1371/journal.pone.0194970,Lake Erie 1.10.1371/journal.pone.0194970,N/A,Lake Erie,Beer bottles,N/A,2.00,particles/L
+10.1371/journal.pone.0194970,Lake Erie 2.10.1371/journal.pone.0194970,N/A,Lake Erie,Beer bottles,N/A,3.00,particles/L
+10.1371/journal.pone.0194970,Lake Ontario 1.10.1371/journal.pone.0194970,N/A,Lake Ontario,Beer bottles,N/A,8.00,particles/L
+10.1371/journal.pone.0194970,Lake Ontario 2.10.1371/journal.pone.0194970,N/A,Lake Ontario,Beer bottles,N/A,8.00,particles/L
+10.1016/j.sciotenv.2018.08.178,Nethen.1.10.1016/j.sciotenv.2018.08.178,N/A,"Nethen, Belgium",Tap water,N/A,3,particles/m3
+10.1016/j.sciotenv.2018.08.178,Nethen.2.10.1016/j.sciotenv.2018.08.178,N/A,"Nethen, Belgium",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Nethen.3.10.1016/j.sciotenv.2018.08.178,N/A,"Nethen, Belgium",Tap water,N/A,1,particles/m3
+10.1016/j.sciotenv.2018.08.178,Nethen.4.10.1016/j.sciotenv.2018.08.178,N/A,"Nethen, Belgium",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Holdorf.1a.10.1016/j.sciotenv.2018.08.178,N/A,"Holdorf, Germany",Tap water,N/A,7,particles/m3
+10.1016/j.sciotenv.2018.08.178,Holdorf.1b.10.1016/j.sciotenv.2018.08.178,N/A,"Holdorf, Germany",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Holdorf.2.10.1016/j.sciotenv.2018.08.178,N/A,"Holdorf, Germany",Tap water,N/A,1,particles/m3
+10.1016/j.sciotenv.2018.08.178,Holdorf.3.10.1016/j.sciotenv.2018.08.178,N/A,"Holdorf, Germany",Tap water,N/A,3,particles/m3
+10.1016/j.sciotenv.2018.08.178,Holdorf.4.10.1016/j.sciotenv.2018.08.178,N/A,"Holdorf, Germany",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Grossenkneten.1.10.1016/j.sciotenv.2018.08.178,N/A,"Grossenkneten, Germany",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Grossenkneten.2.10.1016/j.sciotenv.2018.08.178,N/A,"Grossenkneten, Germany",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Grossenkneten.3.10.1016/j.sciotenv.2018.08.178,N/A,"Grossenkneten, Germany",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Grossenkneten.4.10.1016/j.sciotenv.2018.08.178,N/A,"Grossenkneten, Germany",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Sandelermoens.1.10.1016/j.sciotenv.2018.08.178,N/A,"Sandelermoens, Germany",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Sandelermoens.2.10.1016/j.sciotenv.2018.08.178,N/A,"Sandelermoens, Germany",Tap water,N/A,1,particles/m3
+10.1016/j.sciotenv.2018.08.178,Sandelermoens.3.10.1016/j.sciotenv.2018.08.178,N/A,"Sandelermoens, Germany",Tap water,N/A,1,particles/m3
+10.1016/j.sciotenv.2018.08.178,Sandelermoens.4.10.1016/j.sciotenv.2018.08.178,N/A,"Sandelermoens, Germany",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Thuelsfelde.1.10.1016/j.sciotenv.2018.08.178,N/A,"Thuelsfelde, Germany",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Thuelsfelde.2.10.1016/j.sciotenv.2018.08.178,N/A,"Thuelsfelde, Germany",Tap water,N/A,1,particles/m3
+10.1016/j.sciotenv.2018.08.178,Thuelsfelde.3.10.1016/j.sciotenv.2018.08.178,N/A,"Thuelsfelde, Germany",Tap water,N/A,1,particles/m3
+10.1016/j.sciotenv.2018.08.178,Thuelsfelde.4.10.1016/j.sciotenv.2018.08.178,N/A,"Thuelsfelde, Germany",Tap water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Holdorf.Well 1.10.1016/j.sciotenv.2018.08.178,N/A,"Holdorf, Germany",Well water,N/A,2,particles/m3
+10.1016/j.sciotenv.2018.08.178,Holdorf.Well 2.10.1016/j.sciotenv.2018.08.178,N/A,"Holdorf, Germany",Well water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.178,Holdorf.Well 3.10.1016/j.sciotenv.2018.08.178,N/A,"Holdorf, Germany",Well water,N/A,0,particles/m3
+10.1016/j.sciotenv.2018.08.102,Mineral Water.1.10.1016/j.sciotenv.2018.08.178,N/A,Czech Republic,Mineral water from single use PET bottles,Nov 2017-Jan 2018,2649,particles/L
+10.1016/j.sciotenv.2018.08.102,Mineral Water.2.10.1016/j.sciotenv.2018.08.178,N/A,Czech Republic,Mineral water from reusable PET bottles,Nov 2017-Jan 2018,4889,particles/L
+10.1016/j.sciotenv.2018.08.102,Mineral Water.3.10.1016/j.sciotenv.2018.08.178,N/A,Czech Republic,Mineral water from glass bottles,Nov 2017-Jan 2018,6292,particles/L
+10.1016/j.sciotenv.2018.08.102,WTP1_Treated.10.1016/j.sciotenv.2018.08.178,N/A,Czech Republic,Drinking water treatment plant,Nov 2017-Jan 2018,443,particles/L
+10.1016/j.sciotenv.2018.08.102,WTP2_Treated.10.1016/j.sciotenv.2018.08.178,N/A,Czech Republic,Drinking water treatment plant,Nov 2017-Jan 2018,338,particles/L
+10.1016/j.sciotenv.2018.08.102,WTP3_Treated.10.1016/j.sciotenv.2018.08.178,N/A,Czech Republic,Drinking water treatment plant,Nov 2017-Jan 2018,628,particles/L
+http://dce2.au.dk/pub/SR291.pdf ,1.http://dce2.au.dk/pub/SR291.pdf ,1a.http://dce2.au.dk/pub/SR291.pdf ,Knabrostræde (1210 Kbh. K) ,Tap water,4/11/18,29,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,1.http://dce2.au.dk/pub/SR291.pdf ,1b.http://dce2.au.dk/pub/SR291.pdf ,Knabrostræde (1210 Kbh. K) ,Tap water,6/1/18,18,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,2.http://dce2.au.dk/pub/SR291.pdf ,N/A,Eriksgade (1708 Kbh. V) ,Tap water,4/11/18,16,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,3.http://dce2.au.dk/pub/SR291.pdf ,N/A,Blegdamsvej (2200 Kbh N) ,Tap water,5/2/18,12,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,4.http://dce2.au.dk/pub/SR291.pdf ,N/A,Ernie Wilkins Vej (2450 Kbh S.) ,Tap water,5/2/18,13,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,5.http://dce2.au.dk/pub/SR291.pdf ,N/A,Saunte Bygade (3100 Hornbæk) ,Tap water,4/4/18,7,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,6.http://dce2.au.dk/pub/SR291.pdf ,N/A,Kolibrivej (4040 Jyllinge) ,Tap water,5/28/18,11,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,7.http://dce2.au.dk/pub/SR291.pdf ,N/A,Østre Allé (4800 Nykøbing F) ,Tap water,6/8/18,10,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,8.http://dce2.au.dk/pub/SR291.pdf ,N/A,Ore Strandpark (4850 Stubbekøbing) ,Tap water,6/8/18,30,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,9.http://dce2.au.dk/pub/SR291.pdf ,N/A,Villestofteheg-net (5210 Odense NV) ,Tap water,5/26/18,12,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,10.http://dce2.au.dk/pub/SR291.pdf ,N/A,Lindehaven (5270 Odense) ,Tap water,5/26/18,13,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,11.http://dce2.au.dk/pub/SR291.pdf ,N/A,Dagmargade 6000 Odense C) ,Tap water,5/26/18,11,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,12.http://dce2.au.dk/pub/SR291.pdf ,N/A,Hjelmallé (6200 Aabenrå) ,Tap water,4/19/18,27,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,13.http://dce2.au.dk/pub/SR291.pdf ,N/A,Lundsbjerg Industrivej (6200 Aabenrå) ,Tap water,4/19/18,9,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,14.http://dce2.au.dk/pub/SR291.pdf ,N/A,Kværsløkke (6300 Gråsten),Tap water,4/19/18,4,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,15.http://dce2.au.dk/pub/SR291.pdf ,N/A,Aavangen (9575 Terndrup) ,Tap water,5/16/18,19,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,16.http://dce2.au.dk/pub/SR291.pdf ,N/A,Gunnar Clausens vej (8260 Viby J.) ,Tap water,5/16/18,17,particles/50 L
+http://dce2.au.dk/pub/SR291.pdf ,17.http://dce2.au.dk/pub/SR291.pdf ,N/A,Kristtornvej (8200 Aarhus N.) ,Tap water,5/16/18,13,particles/50 L
+10.1016/j.hazmat.2021.125708,S2.10.1016/j.hazmat.2021.125708,N/A,"Algard lakes, Norway",Drinking water treatment plant,N/A,9.7,ug/m3
+10.1016/j.hazmat.2021.125708,S3.10.1016/j.hazmat.2021.125708,N/A,South-western Norway,Drinking water treatment plant,N/A,12.8,ug/m3
+10.1016/j.hazmat.2021.125708,S4.10.1016/j.hazmat.2021.125708,N/A,South-western Norway,Drinking water treatment plant,N/A,6.1,ug/m3
+10.1016/j.chemosphere.2021.132587,settled_10.1016/j.chemosphere.2021.132587,N/A,"Ontario, Canada",Drinking water treatment plant,N/A,11,particles/L
+10.1016/j.chemosphere.2021.132588,filtered_10.1016/j.chemosphere.2021.132587,N/A,"Ontario, Canada",Drinking water treatment plant,N/A,11,particles/L
+10.1016/j.chemosphere.2021.132589,clearwell_10.1016/j.chemosphere.2021.132587,N/A,"Ontario, Canada",Drinking water treatment plant,N/A,31,particles/L
+10.1016/j.chemosphere.2021.132590,distribution_10.1016/j.chemosphere.2021.132587,N/A,"Ontario, Canada",Drinking water treatment plant,N/A,20,particles/L
+10.1016/j.watres.2020.11.6519,V.10.1016/j.watres.2020.11.6519,N/A,"Skane, Sweeden",Drinking water treatment plant,N/A,N/A,N/A
+10.1016/j.watres.2020.11.6519,BJP.10.1016/j.watres.2020.11.6519,N/A,"Skane, Sweeden",Drinking water treatment plant,N/A,N/A,N/A
+10.1016/j.watres.2020.11.6519,BJH.10.1016/j.watres.2020.11.6519,N/A,"Skane, Sweeden",Drinking water treatment plant,N/A,N/A,N/A
+10.1016/j.watres.2020.11.6519,BOP.10.1016/j.watres.2020.11.6519,N/A,"Skane, Sweeden",Drinking water treatment plant,N/A,N/A,N/A
+10.1016/j.watres.2020.11.6519,BOH.10.1016/j.watres.2020.11.6519,N/A,"Skane, Sweeden",Drinking water treatment plant,N/A,N/A,N/A
+10.1007/s11270-022-05649-y,1.10.1007/s11270-022-05649-y,N/A,"Yangtze River, China; Jailing River, China",River water; spiked filter water,N/A,1.8,g/L
+10.1016/j.scitotenv.2021.152623,1.10.1016/j.scitotenv.2021.152623,N/A,"Geneva, Switzerland",Spiked drinking water,N/A,10,mg/L
+10.18520/cs/v117/i11/1874-1879,C.10.18520/cs/v117/i11/1874-1879,N/A,"Chennai, India",Commercially available drinking water,N/A,6,particles/L
+10.18520/cs/v117/i11/1874-1879,B1.10.18520/cs/v117/i11/1874-1879,N/A,"Chennai, India",Commercially available drinking water,N/A,5,particles/L
+10.18520/cs/v117/i11/1874-1879,B2.10.18520/cs/v117/i11/1874-1879,N/A,"Chennai, India",Commercially available drinking water,N/A,5,particles/L
+10.18520/cs/v117/i11/1874-1879,B3.10.18520/cs/v117/i11/1874-1879,N/A,"Chennai, India",Commercially available drinking water,N/A,5,particles/L
+10.18520/cs/v117/i11/1874-1879,B4.10.18520/cs/v117/i11/1874-1879,N/A,"Chennai, India",Commercially available drinking water,N/A,5,particles/L
+10.18520/cs/v117/i11/1874-1879,B5.10.18520/cs/v117/i11/1874-1879,N/A,"Chennai, India",Commercially available drinking water,N/A,2,particles/L
+10.1016/j.scitotenv.2021.150545,A_BioTreatment.10.1016/j.scitotenv.2021.150545,A_BioTreatment_PE.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,610,particles/L
+10.1016/j.scitotenv.2021.150545,A_BioTreatment.10.1016/j.scitotenv.2021.150545,A_BioTreatment_PP.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,1042.6,particles/L
+10.1016/j.scitotenv.2021.150545,A_BioTreatment.10.1016/j.scitotenv.2021.150545,A_BioTreatment_PVC.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,560,particles/L
+10.1016/j.scitotenv.2021.150545,A_Sedimentation.10.1016/j.scitotenv.2021.150545,A_Sedimentation_PE.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,1186,particles/L
+10.1016/j.scitotenv.2021.150545,A_Sedimentation.10.1016/j.scitotenv.2021.150545,A_Sedimentation_PP.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,1489,particles/L
+10.1016/j.scitotenv.2021.150545,A_Sedimentation.10.1016/j.scitotenv.2021.150545,A_Sedimentation_PVC.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,100.4,particles/L
+10.1016/j.scitotenv.2021.150545,A_Ozonation.10.1016/j.scitotenv.2021.150545,A_Ozonation_PE.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,353.2,particles/L
+10.1016/j.scitotenv.2021.150545,A_Ozonation.10.1016/j.scitotenv.2021.150545,A_Ozonation_PP.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,1721.2,particles/L
+10.1016/j.scitotenv.2021.150545,A_Ozonation.10.1016/j.scitotenv.2021.150545,A_Ozonation_PVC.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,650,particles/L
+10.1016/j.scitotenv.2021.150545,A_BAC.10.1016/j.scitotenv.2021.150545,A_BAC_PE.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,271.2,particles/L
+10.1016/j.scitotenv.2021.150545,A_BAC.10.1016/j.scitotenv.2021.150545,A_BAC_PP.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,200.5,particles/L
+10.1016/j.scitotenv.2021.150545,A_BAC.10.1016/j.scitotenv.2021.150545,A_BAC_PVC.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,200.5,particles/L
+10.1016/j.scitotenv.2021.150545,A_Flocc.10.1016/j.scitotenv.2021.150545,A_Flocc_PE.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,62.7,particles/L
+10.1016/j.scitotenv.2021.150545,A_Flocc.10.1016/j.scitotenv.2021.150545,A_Flocc_PP.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,774.1,particles/L
+10.1016/j.scitotenv.2021.150545,A_Flocc.10.1016/j.scitotenv.2021.150545,A_Flocc_PVC.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,200.8,particles/L
+10.1016/j.scitotenv.2021.150545,A_Sand.10.1016/j.scitotenv.2021.150545,A_Sand_PE.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,280.6,particles/L
+10.1016/j.scitotenv.2021.150545,A_Sand.10.1016/j.scitotenv.2021.150545,A_Sand_PP.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,260.4,particles/L
+10.1016/j.scitotenv.2021.150545,A_Sand.10.1016/j.scitotenv.2021.150545,A_Sand_PVC.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,200,particles/L
+10.1016/j.scitotenv.2021.150545,A_Treated.10.1016/j.scitotenv.2021.150545,A_Treated_PE.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,180.1,particles/L
+10.1016/j.scitotenv.2021.150545,A_Treated.10.1016/j.scitotenv.2021.150545,A_Treated_PP.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,200.1,particles/L
+10.1016/j.scitotenv.2021.150545,A_Treated.10.1016/j.scitotenv.2021.150545,A_Treated_PVC.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,90.0,particles/L
+10.1016/j.scitotenv.2021.150545,B_BioTreatment.10.1016/j.scitotenv.2021.150545,B_BioTreatment_PA.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,394.1,particles/L
+10.1016/j.scitotenv.2021.150545,B_BioTreatment.10.1016/j.scitotenv.2021.150545,B_BioTreatment_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,1092.3,particles/L
+10.1016/j.scitotenv.2021.150545,B_BioTreatment.10.1016/j.scitotenv.2021.150545,B_BioTreatment_VINYON.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,2030,particles/L
+10.1016/j.scitotenv.2021.150545,B_Sedimentation.10.1016/j.scitotenv.2021.150545,B_Sedimentation_PA.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,451.3,particles/L
+10.1016/j.scitotenv.2021.150545,B_Sedimentation.10.1016/j.scitotenv.2021.150545,B_Sedimentation_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,1042,particles/L
+10.1016/j.scitotenv.2021.150545,B_Sedimentation.10.1016/j.scitotenv.2021.150545,B_Sedimentation_VINYON.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,504.1,particles/L
+10.1016/j.scitotenv.2021.150545,B_Ozonation.10.1016/j.scitotenv.2021.150545,B_Ozonation_PA.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,300,particles/L
+10.1016/j.scitotenv.2021.150545,B_Ozonation.10.1016/j.scitotenv.2021.150545,B_Ozonation_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,252,particles/L
+10.1016/j.scitotenv.2021.150545,B_Ozonation.10.1016/j.scitotenv.2021.150545,B_Ozonation_VINYON.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,552.4,particles/L
+10.1016/j.scitotenv.2021.150545,B_BAC.10.1016/j.scitotenv.2021.150545,B_BAC_PA.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,413.2,particles/L
+10.1016/j.scitotenv.2021.150545,B_BAC.10.1016/j.scitotenv.2021.150545,B_BAC_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,230,particles/L
+10.1016/j.scitotenv.2021.150545,B_BAC.10.1016/j.scitotenv.2021.150545,B_BAC_VINYON.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,232,particles/L
+10.1016/j.scitotenv.2021.150545,B_Flocc.10.1016/j.scitotenv.2021.150545,B_Flocc_PA.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,276.4,particles/L
+10.1016/j.scitotenv.2021.150545,B_Flocc.10.1016/j.scitotenv.2021.150545,B_Flocc_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,140,particles/L
+10.1016/j.scitotenv.2021.150545,B_Flocc.10.1016/j.scitotenv.2021.150545,B_Flocc_VINYON.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,161.5,particles/L
+10.1016/j.scitotenv.2021.150545,B_Sand.10.1016/j.scitotenv.2021.150545,B_Sand_PA.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,150.3,particles/L
+10.1016/j.scitotenv.2021.150545,B_Sand.10.1016/j.scitotenv.2021.150545,B_Sand_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,130.1,particles/L
+10.1016/j.scitotenv.2021.150545,B_Sand.10.1016/j.scitotenv.2021.150545,B_Sand_VINYON.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,55,particles/L
+10.1016/j.scitotenv.2021.150545,B_Treated.10.1016/j.scitotenv.2021.150545,B_Treated_PA.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,160,particles/L
+10.1016/j.scitotenv.2021.150545,B_Treated.10.1016/j.scitotenv.2021.150545,B_Treated_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.1,particles/L
+10.1016/j.scitotenv.2021.150545,B_Treated.10.1016/j.scitotenv.2021.150545,B_Treated_VINYON.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,30,particles/L
+10.1016/j.scitotenv.2021.150545,C_BioTreatment.10.1016/j.scitotenv.2021.150545,C_BioTreatment_PET.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.15,particles/L
+10.1016/j.scitotenv.2021.150545,C_BioTreatment.10.1016/j.scitotenv.2021.150545,C_BioTreatment_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.2,particles/L
+10.1016/j.scitotenv.2021.150545,C_BioTreatment.10.1016/j.scitotenv.2021.150545,C_BioTreatment_OTHERS.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.25,particles/L
+10.1016/j.scitotenv.2021.150545,C_Sedimentation.10.1016/j.scitotenv.2021.150545,C_Sedimentation_PET.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.05,particles/L
+10.1016/j.scitotenv.2021.150545,C_Sedimentation.10.1016/j.scitotenv.2021.150545,C_Sedimentation_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.07,particles/L
+10.1016/j.scitotenv.2021.150545,C_Sedimentation.10.1016/j.scitotenv.2021.150545,C_Sedimentation_OTHERS.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.26,particles/L
+10.1016/j.scitotenv.2021.150545,C_Ozonation.10.1016/j.scitotenv.2021.150545,C_Ozonation_PET.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.0,particles/L
+10.1016/j.scitotenv.2021.150545,C_Ozonation.10.1016/j.scitotenv.2021.150545,C_Ozonation_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.14,particles/L
+10.1016/j.scitotenv.2021.150545,C_Ozonation.10.1016/j.scitotenv.2021.150545,C_Ozonation_OTHERS.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.19,particles/L
+10.1016/j.scitotenv.2021.150545,C_BAC.10.1016/j.scitotenv.2021.150545,C_BAC_PET.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.0,particles/L
+10.1016/j.scitotenv.2021.150545,C_BAC.10.1016/j.scitotenv.2021.150545,C_BAC_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,2.68,particles/L
+10.1016/j.scitotenv.2021.150545,C_BAC.10.1016/j.scitotenv.2021.150545,C_BAC_OTHERS.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.13,particles/L
+10.1016/j.scitotenv.2021.150545,C_Flocc.10.1016/j.scitotenv.2021.150545,C_Flocc_PET.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.0,particles/L
+10.1016/j.scitotenv.2021.150545,C_Flocc.10.1016/j.scitotenv.2021.150545,C_Flocc_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.1,particles/L
+10.1016/j.scitotenv.2021.150545,C_Flocc.10.1016/j.scitotenv.2021.150545,C_Flocc_OTHERS.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.17,particles/L
+10.1016/j.scitotenv.2021.150545,C_Sand.10.1016/j.scitotenv.2021.150545,C_Sand_PET.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.0,particles/L
+10.1016/j.scitotenv.2021.150545,C_Sand.10.1016/j.scitotenv.2021.150545,C_Sand_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.0,particles/L
+10.1016/j.scitotenv.2021.150545,C_Sand.10.1016/j.scitotenv.2021.150545,C_Sand_OTHERS.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.09,particles/L
+10.1016/j.scitotenv.2021.150545,C_Treated.10.1016/j.scitotenv.2021.150545,C_Treated_PET.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.0,particles/L
+10.1016/j.scitotenv.2021.150545,C_Treated.10.1016/j.scitotenv.2021.150545,C_Treated_VINYL.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.0,particles/L
+10.1016/j.scitotenv.2021.150545,C_Treated.10.1016/j.scitotenv.2021.150545,C_Treated_OTHERS.10.1016/j.scitotenv.2021.150545,N/A,Drinking water treatment plant,N/A,0.0,particles/L
+10.1371/journal.pone.0236838,Mintenig_10.1371/journal.pone.0236838,N/A,N/A,Groundwater from wells,N/A,0.0007,particles/L
+10.1371/journal.pone.0236838,Shruti_10.1371/journal.pone.0236838,N/A,N/A,Tap water,N/A,18,particles/L
+10.1371/journal.pone.0236838,Strand_10.1371/journal.pone.0236838,N/A,N/A,Tap water,N/A,0.59,particles/L
+10.1371/journal.pone.0236838,Zhang_10.1371/journal.pone.0236838,N/A,N/A,Tap water,N/A,0.7,particles/L
+10.1371/journal.pone.0236838,Mason_10.1371/journal.pone.0236838,Mason.1_10.1371/journal.pone.0236838,N/A,Table and mineral water,N/A,315,particles/L
+10.1371/journal.pone.0236838,Mason_10.1371/journal.pone.0236838,Mason.2_10.1371/journal.pone.0236838,N/A,Table and mineral water,N/A,10.4,particles/L
+10.1371/journal.pone.0236838,Ossmann_10.1371/journal.pone.0236838,N/A,N/A,Mineral water,N/A,3074,particles/L
+10.1371/journal.pone.0236838,Weisheu_10.1371/journal.pone.0236838,N/A,N/A,Mineral water,N/A,0.33,particles/L
+10.11001/jksww.2020.34.5.357,Czech_Milence_DWTP_10.11001/jksww.2020.34.5.357,N/A,Czech Republic,Drinking water treatment plant,N/A,14,particles/L
+10.11001/jksww.2020.34.5.357,Czech_Plzen_DWTP_10.11001/jksww.2020.34.5.357,N/A,Czech Republic,Drinking water treatment plant,N/A,151,particles/L
+10.1016/j.scitotenv.2019.02.431,Nethen_10.1016/j.scitotenv.2019.02.431,N/A,"Nethen, Germany",Drinking water treatment plant,N/A,< 1 ,particles/L
+10.1016/j.scitotenv.2019.02.431,Holdorf_10.1016/j.scitotenv.2019.02.431,N/A,"Holdorf, Germany",Drinking water treatment plant,N/A,< 1 ,particles/L
+10.1016/j.scitotenv.2019.02.431,Aqua_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,382,particles/L
+10.1016/j.scitotenv.2019.02.431,Auqafina_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,213,particles/L
+10.1016/j.scitotenv.2019.02.431,Bisleri_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,347,particles/L
+10.1016/j.scitotenv.2019.02.431,Dasani_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,119,particles/L
+10.1016/j.scitotenv.2019.02.431,E-Pura_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,248,particles/L
+10.1016/j.scitotenv.2019.02.431,Evian_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,128,particles/L
+10.1016/j.scitotenv.2019.02.431,PlasticGerosteiner_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,1411,particles/L
+10.1016/j.scitotenv.2019.02.431,GlassGerosteiner_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,168,particles/L
+10.1016/j.scitotenv.2019.02.431,Minalba_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,67,particles/L
+10.1016/j.scitotenv.2019.02.431,NestlePureLife_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,932,particles/L
+10.1016/j.scitotenv.2019.02.431,SanPellegrino_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,29,particles/L
+10.1016/j.scitotenv.2019.02.431,Wahaha_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,96,particles/L
+10.1016/j.scitotenv.2019.02.431,SingleUsePET_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,2649,particles/L
+10.1016/j.scitotenv.2019.02.431,ResuablePET_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,4889,particles/L
+10.1016/j.scitotenv.2019.02.431,GlassBottles_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,6298,particles/L
+10.1016/j.scitotenv.2019.02.431,SingleUsePlastic_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,15,particles/L
+10.1016/j.scitotenv.2019.02.431,ReturnablePlastic_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,117,particles/L
+10.1016/j.scitotenv.2019.02.431,GlassBottles2_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,56,particles/L
+10.1016/j.scitotenv.2019.02.431,BeverageCartons_10.1016/j.scitotenv.2019.02.431,N/A,N/A,Bottled water,N/A,11,particles/L
+10.1016/j.watres.2019.02.054,AverageAll_10.1016/j.watres.2019.02.054,N/A,N/A,Drinking water treatment plant; bottled water; ground water; tap water,N/A,N/A,N/A
+10.1016/j.cej.2020.128381,France_10.1016/j.cej.2020.128381,N/A,France,Drinking water treatment plant,N/A,32,particles/L
+10.1016/j.cej.2020.128381,Finland_10.1016/j.cej.2020.128381,Finland.1_10.1016/j.cej.2020.128381,Finland,Drinking water treatment plant,N/A,1,particles/L
+10.1016/j.cej.2020.128381,Finland_10.1016/j.cej.2020.128381,Finland.2_10.1016/j.cej.2020.128381,Finland,Drinking water treatment plant,N/A,0.4,particles/L
+10.1016/j.cej.2020.128381,China_10.1016/j.cej.2020.128381,China.1_10.1016/j.cej.2020.128381,China,Drinking water treatment plant,N/A,0.14,particles/L
+10.1016/j.cej.2020.128381,China_10.1016/j.cej.2020.128381,China.2_10.1016/j.cej.2020.128381,China,Drinking water treatment plant,N/A,0.06,particles/L
+10.1016/j.cej.2020.128381,Korea_10.1016/j.cej.2020.128381,Korea.1_10.1016/j.cej.2020.128381,Korea,Drinking water treatment plant,N/A,0.4,particles/L
+10.1016/j.cej.2020.128381,Korea_10.1016/j.cej.2020.128381,Korea.2_10.1016/j.cej.2020.128381,Korea,Drinking water treatment plant,N/A,0.1,particles/L
+10.1016/j.cej.2020.128381,Korea_10.1016/j.cej.2020.128381,Korea.3_10.1016/j.cej.2020.128381,Korea,Drinking water treatment plant,N/A,0.3,particles/L
+10.1016/j.cej.2020.128381,Scotland_10.1016/j.cej.2020.128381,N/A,Scotland,Drinking water treatment plant,N/A,1-3,particles/L
+10.1016/j.cej.2020.128381,Finland2_10.1016/j.cej.2020.128381,N/A,Finland,Drinking water treatment plant,N/A,2.5,particles/L
+10.1016/j.cej.2020.128381,HongKong_10.1016/j.cej.2020.128381,HongKong.1_10.1016/j.cej.2020.128381,Hong Kong,Drinking water treatment plant,N/A,0.4,particles/L
+10.1016/j.cej.2020.128381,HongKong_10.1016/j.cej.2020.128381,HongKong.2_10.1016/j.cej.2020.128381,Hong Kong,Drinking water treatment plant,N/A,0.27,particles/L
+10.1016/j.cej.2020.128381,UnitedStates_10.1016/j.cej.2020.128381,United States.1_10.1016/j.cej.2020.128381,United States,Drinking water treatment plant,N/A,0.0008,particles/L
+10.1016/j.cej.2020.128381,UnitedStates_10.1016/j.cej.2020.128381,United States.2_10.1016/j.cej.2020.128381,United States,Drinking water treatment plant,N/A,0.00000243,particles/L
+10.1016/j.cej.2020.128381,Germany_10.1016/j.cej.2020.128381,N/A,Germany,Drinking water treatment plant,N/A,0.08-7.52 ,particles/L
+10.1016/j.cej.2020.128381,Denmark_10.1016/j.cej.2020.128381,N/A,Denmark,Drinking water treatment plant,N/A,19-447 ,particles/L
+10.1016/j.cej.2020.128381,China2_10.1016/j.cej.2020.128381,N/A,China,Drinking water treatment plant,N/A,0.004-0.195 ,particles/L
+10.1016/j.cej.2020.128381,UnitedStates2_10.1016/j.cej.2020.128381,UnitedStates2.1_10.1016/j.cej.2020.128381,United States,Drinking water treatment plant,N/A,0.009,particles/L
+10.1016/j.cej.2020.128381,UnitedStates2_10.1016/j.cej.2020.128381,UnitedStates2.2_10.1016/j.cej.2020.128381,United States,Drinking water treatment plant,N/A,0.019,particles/L
+10.1016/j.cej.2020.128381,UnitedStates2_10.1016/j.cej.2020.128381,UnitedStates2.3_10.1016/j.cej.2020.128381,United States,Drinking water treatment plant,N/A,0.047,particles/L
+10.1016/j.cej.2020.128381,UnitedStates2_10.1016/j.cej.2020.128381,UnitedStates2.4_10.1016/j.cej.2020.128381,United States,Drinking water treatment plant,N/A,0.064,particles/L
+10.1016/j.cej.2020.128381,UnitedStates2_10.1016/j.cej.2020.128381,UnitedStates2.5_10.1016/j.cej.2020.128381,United States,Drinking water treatment plant,N/A,0.092,particles/L
+10.1016/j.cej.2020.128381,UnitedStates2_10.1016/j.cej.2020.128381,UnitedStates2.6_10.1016/j.cej.2020.128381,United States,Drinking water treatment plant,N/A,0.127,particles/L
+10.1016/j.jece.2020.104527,RiverBulkSampling_10.1016/j.jece.2020.104527,N/A,N/A,N/A,N/A,3,particles/m3
+10.1016/j.jece.2020.104527,LakeAndReservoir_10.1016/j.jece.2020.104527,N/A,N/A,N/A,N/A,3.25,particles/m3
+10.1016/j.jece.2020.104527,RiverNet_10.1016/j.jece.2020.104527,N/A,N/A,N/A,N/A,0,particles/m3
+10.1016/j.jece.2020.104527,LakeAndReservoirNet_10.1016/j.jece.2020.104527,N/A,N/A,N/A,N/A,0,particles/m3
+10.1016/j.jece.2020.104527,RiverNet_10.1016/j.jece.2020.104527,N/A,N/A,N/A,N/A,0,particles/m3
+10.1016/j.jece.2020.104527,LakeAndReservoirNet2_10.1016/j.jece.2020.104527,N/A,N/A,N/A,N/A,0,particles/m3
+10.1016/j.chemosphere.2020.126612,1_10.1016/j.chemosphere.2020.126612,N/A,"Danube River, Austria",Drinking water source,N/A,< 1 ,particles/L
+10.1016/j.chemosphere.2020.126612,2_10.1016/j.chemosphere.2020.126612,N/A,"River Seine, France",Drinking water source,N/A,0.3-0.5 ,particles/L
+10.1016/j.chemosphere.2020.126612,3_10.1016/j.chemosphere.2020.126612,N/A,"River Seine, France",Drinking water source,N/A,3-106 ,particles/L
+10.1016/j.chemosphere.2020.126612,4_10.1016/j.chemosphere.2020.126612,N/A,"Amsterdam Canal Water, Netherlands",Drinking water source,N/A,48-147 ,particles/L
+10.1016/j.chemosphere.2020.126612,6_10.1016/j.chemosphere.2020.126612,N/A,"29 Great Lakes, USA",Drinking water source,N/A,< 1 ,particles/L
+10.1016/j.chemosphere.2020.126612,7_10.1016/j.chemosphere.2020.126612,N/A,"Surface Water, Hungary",Drinking water source,N/A,< 1 ,particles/L
+10.1016/j.chemosphere.2020.126612,8_10.1016/j.chemosphere.2020.126612,N/A,"Surface Water, Czech Republic",Drinking water source,N/A,3123-4464 ,particles/L
+10.1016/j.chemosphere.2020.126612,9_10.1016/j.chemosphere.2020.126612,N/A,"Three Gorges Reservoir, China",Drinking water source,N/A,1.6-12.6 ,particles/L
+10.1016/j.chemosphere.2020.126612,10_10.1016/j.chemosphere.2020.126612,N/A,"Dongting Lake, China",Drinking water source,N/A,< 1-2.8 ,particles/L
+10.1016/j.chemosphere.2020.126612,11_10.1016/j.chemosphere.2020.126612,N/A,"Taihi Lake, China",Drinking water source,N/A,3.4-25.8 ,particles/L
+10.1016/j.chemosphere.2020.126612,12_10.1016/j.chemosphere.2020.126612,N/A,"Poyang Lake, China",Drinking water source,N/A,5-34,particles/L
+10.1016/j.chemosphere.2020.126612,13_10.1016/j.chemosphere.2020.126612,N/A,"Yangtze River, China",Drinking water source,N/A,0.5-3.1 ,particles/L
+10.1016/j.chemosphere.2020.126612,14_10.1016/j.chemosphere.2020.126612,N/A,"Suzhou and Huangpu River, China",Drinking water source,N/A,1.8-2.4 ,particles/L
+10.1016/j.chemosphere.2020.126612,15_10.1016/j.chemosphere.2020.126612,N/A,"Hong Lake, China",Drinking water source,N/A,1.3-4.7 ,particles/L
+10.1016/j.chemosphere.2020.126612,16_10.1016/j.chemosphere.2020.126612,N/A,"Urban lakes, Hanjiang and Wuhan rivers, China",Drinking water source,N/A,1.7-8.9 ,particles/L
+10.1016/j.impact.2021.100302,MineralWater_SingleUsePET_10.1016/j.impact.2021.100302,N/A,N/A,Bottled water,N/A,2649,particles/L
+10.1016/j.impact.2021.100302,MineralWater_ReusablePET_10.1016/j.impact.2021.100302,N/A,N/A,Bottled water,N/A,4889,particles/L
+10.1016/j.impact.2021.100302,MineralWater_Glass_10.1016/j.impact.2021.100302,N/A,N/A,Bottled water,N/A,6292,particles/L
+10.1016/j.impact.2021.100302,RawDrinkingWater_10.1016/j.impact.2021.100302,RawDrinkingWater.1_10.1016/j.impact.2021.100302,N/A,Drinking water treatment plant,N/A,1473,particles/L
+10.1016/j.impact.2021.100302,RawDrinkingWater_10.1016/j.impact.2021.100302,RawDrinkingWater.2_10.1016/j.impact.2021.100302,N/A,Drinking water treatment plant,N/A,1812,particles/L
+10.1016/j.impact.2021.100302,RawDrinkingWater_10.1016/j.impact.2021.100302,RawDrinkingWater.3_10.1016/j.impact.2021.100302,N/A,Drinking water treatment plant,N/A,3605,particles/L
+10.1016/j.impact.2021.100302,TapWater_10.1016/j.impact.2021.100302,N/A,N/A,Tap water,N/A,440,particles/L
+10.1016/j.impact.2021.100302,RawWater_10.1016/j.impact.2021.100302,N/A,N/A,Drinking water treatment plant,N/A,6614,particles/L
+10.1016/j.impact.2021.100302,TreatedDrinkingWater2_10.1016/j.impact.2021.100302,N/A,N/A,Drinking water treatment plant,N/A,930,particles/L
+10.1016/j.impact.2021.100302,MineralWaterPET_10.1016/j.impact.2021.100302,N/A,N/A,Bottled water,N/A,32000000-110000000 ,particles/L
+10.1007/s11783-021-1492-5,Mintenig_10.1007/s11783-021-1492-5,N/A,Germany,Drinking water treatment plant,N/A,0-0.7,particles/m3
+10.1007/s11783-021-1492-5,Sarkar_10.1007/s11783-021-1492-5,N/A,"Ganga River, India",Drinking water treatment plant,N/A,2.75,particles/L
+10.1007/s11783-021-1492-5,Johnson_10.1007/s11783-021-1492-5,N/A,UK,Drinking water treatment plant,N/A,0-0.0028,particles/L
+10.1007/s11783-021-1492-5,Dalmau-Soler_10.1007/s11783-021-1492-5,N/A,Spain,Drinking water treatment plant,N/A,0.07,particles/L
+10.1016/j.envres.2022.112855,AverageAll_10.1016/j.envres.2022.112855,N/A,China,Groundwater drinking water,N/A,29,particles/L
+10.1021/acs.est.9b01517,Bottled_Water_10.1021/acs.est.9b01517,N/A,N/A,Bottled water,N/A,94.37,particles/L
+10.1021/acs.est.9b01517,Tap_Water_10.1021/acs.est.9b01517,N/A,N/A,Tap water,N/A,4.23,particles/L
+10.1016/j.envpol.2021.117524,PE_10.1016/j.envpol.2021.117524,N/A,Warnow river,Drinking water treatment plant,N/A,117,particles/m3
+10.1016/j.envpol.2021.117524,PP_10.1016/j.envpol.2021.117524,N/A,Warnow river,Drinking water treatment plant,N/A,34,particles/m3
+10.1016/j.envpol.2021.117524,PS_10.1016/j.envpol.2021.117524,N/A,Warnow river,Drinking water treatment plant,N/A,45,particles/m3
+10.1016/j.envpol.2021.117524,PET_10.1016/j.envpol.2021.117524,N/A,Warnow river,Drinking water treatment plant,N/A,0,particles/m3
+10.1016/j.envpol.2021.117524,PVC_10.1016/j.envpol.2021.117524,N/A,Warnow river,Drinking water treatment plant,N/A,0,particles/m3
+10.1016/j.envpol.2021.117524,others_10.1016/j.envpol.2021.117524,N/A,Warnow river,Drinking water treatment plant,N/A,0,particles/m3
+10.21203/rs.3.rs-242504/v1,DWTP1_10.21203/rs.3.rs-242504/v1,N/A,Tehran,Drinking water treatment plant,N/A,1401,particles/L
+10.21203/rs.3.rs-242504/v1,DWTP2_10.21203/rs.3.rs-242504/v1,N/A,Tehran,Drinking water treatment plant,N/A,1042,particles/L
+10.21203/rs.3.rs-242504/v1,DWTP3_10.21203/rs.3.rs-242504/v1,N/A,Tehran,Drinking water treatment plant,N/A,971,particles/L
+10.1016/j.sciotenv.2020.143421,10.1016/j.sciotenv.2020.143421,N/A,Germany,Tap water,N/A,0,particles/L
+10.1016/j.etap.2018.12.009,29_10.1016/j.etap.2018.12.009,N/A,"Three Gorges Reservoir, China",Reservoir sample,N/A,4703,particles/m3
+10.1016/j.etap.2018.12.009,30_10.1016/j.etap.2018.12.009,N/A,"Dongting Lake, China",Reservoir sample,N/A,1191.7,particles/m3
+10.1016/j.etap.2018.12.009,20a_10.1016/j.etap.2018.12.009,N/A,"Hong Lake, China",Reservoir sample,N/A,2282.5,particles/m3
+10.1016/j.etap.2018.12.009,7_10.1016/j.etap.2018.12.009,N/A,"Yangtze Estuary, China",Reservoir sample,N/A,4137.3,particles/m3
+10.1016/j.etap.2018.12.009,123_10.1016/j.etap.2018.12.009,N/A,"Urban Lakes in Wuhan, China",Reservoir sample,N/A,1660-8925 ,particles/m3
+10.1016/j.etap.2018.12.009,11_10.1016/j.etap.2018.12.009,N/A,"Taihu Lake, China",Reservoir sample,N/A,3.4-25.8 ,particles/m3
+10.1016/j.etap.2018.12.009,20b_10.1016/j.etap.2018.12.009,N/A,"Danjangkou Reservoir, China",Reservoir sample,N/A,2594,particles/m3
+10.1016/j.envpol.2020.114227,1.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Transport Zone",Public water fountains,N/A,20,particles/L
+10.1016/j.envpol.2020.114227,2.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Market Zone",Public water fountains,N/A,13,particles/L
+10.1016/j.envpol.2020.114227,3.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,17,particles/L
+10.1016/j.envpol.2020.114227,4.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,14,particles/L
+10.1016/j.envpol.2020.114227,5.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Commercial Zone",Public water fountains,N/A,60,particles/L
+10.1016/j.envpol.2020.114227,6.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,13,particles/L
+10.1016/j.envpol.2020.114227,7.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Transport Zone",Public water fountains,N/A,15,particles/L
+10.1016/j.envpol.2020.114227,8.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,18,particles/L
+10.1016/j.envpol.2020.114227,9.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Market Zone",Public water fountains,N/A,37,particles/L
+10.1016/j.envpol.2020.114227,10.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Tourism Zone",Public water fountains,N/A,34,particles/L
+10.1016/j.envpol.2020.114227,11.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Tourism Zone",Public water fountains,N/A,38,particles/L
+10.1016/j.envpol.2020.114227,12.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Tourism Zone",Public water fountains,N/A,60,particles/L
+10.1016/j.envpol.2020.114227,13.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,7,particles/L
+10.1016/j.envpol.2020.114227,14.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Transport Zone",Public water fountains,N/A,25,particles/L
+10.1016/j.envpol.2020.114227,15.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Transport Zone",Public water fountains,N/A,22,particles/L
+10.1016/j.envpol.2020.114227,16.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,15,particles/L
+10.1016/j.envpol.2020.114227,17.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Hospital Zone",Public water fountains,N/A,7,particles/L
+10.1016/j.envpol.2020.114227,18.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,37,particles/L
+10.1016/j.envpol.2020.114227,19.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Hospital Zone",Public water fountains,N/A,9,particles/L
+10.1016/j.envpol.2020.114227,20.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Commercial Zone",Public water fountains,N/A,6,particles/L
+10.1016/j.envpol.2020.114227,21.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Recreation Zone",Public water fountains,N/A,7,particles/L
+10.1016/j.envpol.2020.114227,22.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Education Zone",Public water fountains,N/A,8,particles/L
+10.1016/j.envpol.2020.114227,23.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,14,particles/L
+10.1016/j.envpol.2020.114227,24.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,8,particles/L
+10.1016/j.envpol.2020.114227,25.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,8,particles/L
+10.1016/j.envpol.2020.114227,26.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Market Zone",Public water fountains,N/A,7,particles/L
+10.1016/j.envpol.2020.114227,27.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,13,particles/L
+10.1016/j.envpol.2020.114227,28.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Education Zone",Public water fountains,N/A,8,particles/L
+10.1016/j.envpol.2020.114227,29.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Transport Zone",Public water fountains,N/A,6,particles/L
+10.1016/j.envpol.2020.114227,30.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Transport Zone",Public water fountains,N/A,10,particles/L
+10.1016/j.envpol.2020.114227,31.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Commercial Zone",Public water fountains,N/A,23,particles/L
+10.1016/j.envpol.2020.114227,32.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,15,particles/L
+10.1016/j.envpol.2020.114227,33.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Education Zone",Public water fountains,N/A,13,particles/L
+10.1016/j.envpol.2020.114227,34.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Recreation Zone",Public water fountains,N/A,9,particles/L
+10.1016/j.envpol.2020.114227,35.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Tourism Zone",Public water fountains,N/A,10,particles/L
+10.1016/j.envpol.2020.114227,36.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,28,particles/L
+10.1016/j.envpol.2020.114227,37.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,5,particles/L
+10.1016/j.envpol.2020.114227,38.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Education Zone",Public water fountains,N/A,8,particles/L
+10.1016/j.envpol.2020.114227,39.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Commercial Zone",Public water fountains,N/A,10,particles/L
+10.1016/j.envpol.2020.114227,40.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Commercial Zone",Public water fountains,N/A,7,particles/L
+10.1016/j.envpol.2020.114227,41.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico; Commercial Zone",Public water fountains,N/A,7,particles/L
+10.1016/j.envpol.2020.114227,42.10.1016/j.envpol.2020.114227,N/A,"Mexico City, Mexico",Public water fountains,N/A,91,particles/L
+10.1007/s11356-021-12467-y,1.10.1007/s11356-021-12467-y,N/A,"Baden-Wurttemberg, Germany",Drinking water treatment plant,N/A,66,particles/m3
+10.3390/w12113115,drinking_water.10.3390/w12113115,N/A,"Sinos River Basin, Rio Grande, Brazil",Drinking water treatment plant,N/A,105.8,particles/L
+10.3390/environments8120138,gallon_brand1.10.3390/environments8120138,N/A,"Kenjeran, Surabaya, Indonesia",Bottled water,N/A,9.18,ug/g
+10.3390/environments8120138,gallon_brand 2.10.3390/environments8120138,N/A,"Kenjeran, Surabaya, Indonesia",Bottled water,N/A,0,ug/g
+10.3390/environments8120138,gallon_refill1.10.3390/environments8120138,N/A,"Kenjeran, Surabaya, Indonesia",Water fountain,N/A,0,ug/g
+10.3390/environments8120138,gallon_refill2.10.3390/environments8120138,N/A,"Kenjeran, Surabaya, Indonesia",Water fountain,N/A,0,ug/g
+10.3390/environments8120138,gallon_refill3.10.3390/environments8120138,N/A,"Kenjeran, Surabaya, Indonesia",Water fountain,N/A,30.21,ug/g
+10.1016/j.cotox.2021.09.003,Ossmann1.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,6292,particles/L
+10.1016/j.cotox.2021.09.003,Ossmann2.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,4889,particles/L
+10.1016/j.cotox.2021.09.003,Ossmann3.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,2649,particles/L
+10.1016/j.cotox.2021.09.003,Winkler.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,980,particles/L
+10.1016/j.cotox.2021.09.003,Mason1.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,325,particles/L
+10.1016/j.cotox.2021.09.003,Weisser.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,317,particles/L
+10.1016/j.cotox.2021.09.003,Giese1.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,242,particles/L
+10.1016/j.cotox.2021.09.003,Kankanige1.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,140,particles/L
+10.1016/j.cotox.2021.09.003,Giese2.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,131,particles/L
+10.1016/j.cotox.2021.09.003,Schymanski1.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,118,particles/L
+10.1016/j.cotox.2021.09.003,Kankanige2.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,52,particles/L
+10.1016/j.cotox.2021.09.003,Schymanski2.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,50,particles/L
+10.1016/j.cotox.2021.09.003,Almaiman1.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,26,particles/L
+10.1016/j.cotox.2021.09.003,Schymanski3.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,14,particles/L
+10.1016/j.cotox.2021.09.003,Schymanski4.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,11,particles/L
+10.1016/j.cotox.2021.09.003,Makhdoumi.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,8.5,particles/L
+10.1016/j.cotox.2021.09.003,Almaiman2.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,1.8,particles/L
+10.1016/j.cotox.2021.09.003,Mason2.10.1016/j.cotox.2021.09.003,N/A,N/A,Bottled water,N/A,1.41,particles/L
+10.1016/j.cotox.2021.09.003,Pivokonsky1.10.1016/j.cotox.2021.09.003,N/A,"Uhlava River, Czech Republic",Drinking water treatment plant,N/A,338,particles/L
+10.1016/j.cotox.2021.09.003,Pivokonsky2.10.1016/j.cotox.2021.09.003,N/A,"Reservoir Water, Czech Republic",Drinking water treatment plant,N/A,151,particles/L
+10.1016/j.cotox.2021.09.003,Kosuth.10.1016/j.cotox.2021.09.003,N/A,N/A,Drinking water treatment plant,N/A,61,particles/L
+10.1016/j.cotox.2021.09.003,Kankanige3.10.1016/j.cotox.2021.09.003,Kankanige3.1.10.1016/j.cotox.2021.09.003,N/A,Drinking water treatment plant,N/A,56,particles/L
+10.1016/j.cotox.2021.09.003,Kankanige3.10.1016/j.cotox.2021.09.003,Kankanige3.2.10.1016/j.cotox.2021.09.003,N/A,Drinking water treatment plant,N/A,14,particles/L
+10.1016/j.cotox.2021.09.003,Kankanige3.10.1016/j.cotox.2021.09.003,Kankanige3.3.10.1016/j.cotox.2021.09.003,N/A,Drinking water treatment plant,N/A,13,particles/L
+10.1016/j.cotox.2021.09.003,Kankanige3.10.1016/j.cotox.2021.09.003,Kankanige3.4.10.1016/j.cotox.2021.09.003,N/A,Drinking water treatment plant,N/A,6,particles/L
+10.1016/j.cotox.2021.09.003,Pivokonsky3.10.1016/j.cotox.2021.09.003,Pivokonsky3.10.1016/j.cotox.2021.09.003,N/A,Drinking water treatment plant,N/A,14,particles/L
+10.1016/j.cotox.2021.09.003,Sarkar.10.1016/j.cotox.2021.09.003,N/A,N/A,Drinking water treatment plant,N/A,2.75,particles/L
+10.1016/j.cotox.2021.09.003,Lam.10.1016/j.cotox.2021.09.003,N/A,N/A,Drinking water treatment plant,N/A,2.181,particles/L
+10.1016/j.cotox.2021.09.003,Kirstein.10.1016/j.cotox.2021.09.003,N/A,N/A,Drinking water treatment plant,N/A,0.174,particles/L
+10.1016/j.cotox.2021.09.003,Dalmau-Soler.10.1016/j.cotox.2021.09.003,N/A,N/A,Drinking water treatment plant,N/A,0.06,particles/L
+10.1016/j.cotox.2021.09.003,Pittroff.10.1016/j.cotox.2021.09.003,N/A,N/A,Drinking water treatment plant,N/A,0.066,particles/L
+10.1016/j.cotox.2021.09.003,Johnson.10.1016/j.cotox.2021.09.003,N/A,N/A,Drinking water treatment plant,N/A,0.00011,particles/L
+10.1016/j.cotox.2021.09.003,Almaiman3.10.1016/j.cotox.2021.09.003,N/A,N/A,Drinking water treatment plant,N/A,0,particles/L
+10.1016/j.cotox.2021.09.003,Weber.10.1016/j.cotox.2021.09.003,N/A,N/A,Drinking water treatment plant,N/A,0,particles/L
+10.1016/j.jwpe.2020.101884,Lao Shann.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,5,particles/bottle
+10.1016/j.jwpe.2020.101884,VOSS.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,17,particles/bottle
+10.1016/j.jwpe.2020.101884,Master_kong.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,18,particles/bottle
+10.1016/j.jwpe.2020.101884,Kun_Lun_Shan.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,22,particles/bottle
+10.1016/j.jwpe.2020.101884,Wahaha.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,14,particles/bottle
+10.1016/j.jwpe.2020.101884,C'estbon.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,5,particles/bottle
+10.1016/j.jwpe.2020.101884,Run_Tian_Cui10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,7,particles/bottle
+10.1016/j.jwpe.2020.101884,Ever_Grande.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,4,particles/bottle
+10.1016/j.jwpe.2020.101884,Ocean_AQUA.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,2,particles/bottle
+10.1016/j.jwpe.2020.101884,Ganten_Mineral_Water.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,6,particles/bottle
+10.1016/j.jwpe.2020.101884,Nong_Fu.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,9,particles/bottle
+10.1016/j.jwpe.2020.101884,Tibet_Ge_Sang.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,5,particles/bottle
+10.1016/j.jwpe.2020.101884,ALKAO.UA.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,12,particles/bottle
+10.1016/j.jwpe.2020.101884,Ban_Ma.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,14,particles/bottle
+10.1016/j.jwpe.2020.101884,Shi_Lin.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,7,particles/bottle
+10.1016/j.jwpe.2020.101884,LAVA.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,7,particles/bottle
+10.1016/j.jwpe.2020.101884,Watsons.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,16,particles/bottle
+10.1016/j.jwpe.2020.101884,Hui_Shan_Gu.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,3,particles/bottle
+10.1016/j.jwpe.2020.101884,Nong_Shi.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,3,particles/bottle
+10.1016/j.jwpe.2020.101884,Jin_Mai_lang.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,5,particles/bottle
+10.1016/j.jwpe.2020.101884,Ganten_Purified_Water.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,2,particles/bottle
+10.1016/j.jwpe.2020.101884,Nestle_Pure_Life.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,22,particles/bottle
+10.1016/j.jwpe.2020.101884,Tian_Di_Jing_Hua.10.1016/j.jwpe.2020.101884,N/A,China,Bottled water,N/A,8,particles/bottle
+10.1007/s11356-021-13220-1,Raw.10.1007/s11356-021-13220-1,N/A,"Llobregat River Basin, Germany",Drinking water treatment plant,N/A,1.0,particles/L
+10.1007/s11356-021-13220-1,Sand.10.1007/s11356-021-13220-1,N/A,"Llobregat River Basin, Germany",Drinking water treatment plant,N/A,0.2,particles/L
+10.1007/s11356-021-13220-1,GAC.10.1007/s11356-021-13220-1,N/A,"Llobregat River Basin, Germany",Drinking water treatment plant,N/A,0.2,particles/L
+10.1007/s11356-021-13220-1,Reverse_Osmosis.10.1007/s11356-021-13220-1,N/A,"Llobregat River Basin, Germany",Drinking water treatment plant,N/A,0.1,particles/L
+10.1007/s11356-021-13220-1,Finished.10.1007/s11356-021-13220-1,N/A,"Llobregat River Basin, Germany",Drinking water treatment plant,N/A,0.1,particles/L
+10.1016/j.cofs.2021.02.011,Single_PET2.10.1016/j.cofs.2021.02.011,N/A,N/A,Bottled water,N/A,2649,particles/L
+10.1016/j.cofs.2021.02.011,Returnable_PET2.10.1016/j.cofs.2021.02.011,N/A,N/A,Bottled water,N/A,4889,particles/L
+10.1016/j.cofs.2021.02.011,Glass2_10.1016/j.cofs.2021.02.011,N/A,N/A,Bottled water,N/A,6292,particles/L
+10.1016/j.cofs.2021.02.011,Single_PET3.10.1016/j.cofs.2021.02.011,N/A,N/A,Bottled water,N/A,315,particles/L
+10.1016/j.cofs.2021.02.011,Glass3.10.1016/j.cofs.2021.02.011,N/A,N/A,Bottled water,N/A,195.7,particles/L
+10.1016/j.cofs.2021.02.011,Single_PET4.10.1016/j.cofs.2021.02.011,N/A,N/A,Bottled water,N/A,54200000,particles/L
+10.1016/j.cofs.2021.02.011,Single_PET5.10.1016/j.cofs.2021.02.011,N/A,N/A,Bottled water,N/A,140,particles/L
+10.1016/j.cofs.2021.02.011,Glass4.10.1016/j.cofs.2021.02.011,N/A,N/A,Bottled water,N/A,52,particles/L
+10.22630/PNIKS.2019.28.4.59,B_Well.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Well,N/A,3,particles/mL
+10.22630/PNIKS.2019.28.4.59,C_Well.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Well,N/A,2,particles/mL
+10.22630/PNIKS.2019.28.4.59,G_Well.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Well,N/A,2,particles/mL
+10.22630/PNIKS.2019.28.4.59,D_Reserve_Tank.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Reservoir,N/A,1,particles/mL
+10.22630/PNIKS.2019.28.4.59,I_Reserve_Tank.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Reservoir,N/A,2,particles/mL
+10.22630/PNIKS.2019.28.4.59,K_Reserve_Tank.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Reservoir,N/A,1,particles/mL
+10.22630/PNIKS.2019.28.4.59,N_Reserve_Tank.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Reservoir,N/A,1,particles/mL
+10.22630/PNIKS.2019.28.4.59,F_Distribution_Network.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Distribution Network,N/A,1,particles/mL
+10.22630/PNIKS.2019.28.4.59,N_Distribution_Network.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Distribution Network,N/A,1,particles/mL
+10.22630/PNIKS.2019.28.4.59,C_Hydrant.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Fire hydrant,N/A,1,particles/mL
+10.22630/PNIKS.2019.28.4.59,D_Hydrant.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Fire hydrant,N/A,1,particles/mL
+10.22630/PNIKS.2019.28.4.59,I_Hydrant.10.22630/PNIKS.2019.28.4.59,N/A,"Riobamba City, Ecuador",Fire hydrant,N/A,1,particles/mL
+10.3390/app112110109,Australia1.10.3390/app112110109,N/A,Australia,Drinking water treatment plant,N/A,1.5,particles/L
+10.3390/app112110109,Australia2.10.3390/app112110109,N/A,Australia,Drinking water treatment plant,N/A,0.48,particles/L
+10.3390/app112110109,Australia3.10.3390/app112110109,N/A,Australia,Drinking water treatment plant,N/A,0.28,particles/L
+10.3390/app112110109,Australia4.10.3390/app112110109,N/A,Australia,Drinking water treatment plant,N/A,0.18,particles/L
+10.3390/app112110109,Australia5.10.3390/app112110109,N/A,Australia,Drinking water treatment plant,N/A,0.96,particles/L
+10.3390/app112110109,Australia6.10.3390/app112110109,N/A,Australia,Drinking water treatment plant,N/A,0.91,particles/L
+10.3390/app112110109,Australia7.10.3390/app112110109,N/A,Australia,Drinking water treatment plant,N/A,2.76,particles/L
+10.3390/app112110109,Canada1.10.3390/app112110109,N/A,Canada,Drinking water treatment plant,N/A,0.5,particles/L
+10.3390/app112110109,Canada2.10.3390/app112110109,N/A,Canada,Drinking water treatment plant,N/A,1.76,particles/L
+10.3390/app112110109,China1.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,28.4,particles/L
+10.3390/app112110109,China2.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.13,particles/L
+10.3390/app112110109,China3.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.05,particles/L
+10.3390/app112110109,China4.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,2.7,particles/L
+10.3390/app112110109,China5.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.3,particles/L
+10.3390/app112110109,China6.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.6,particles/L
+10.3390/app112110109,China7.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.59,particles/L
+10.3390/app112110109,China8.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.59,particles/L
+10.3390/app112110109,China9.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,30.6,particles/L
+10.3390/app112110109,China10.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,1.72,particles/L
+10.3390/app112110109,China11.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,22.9,particles/L
+10.3390/app112110109,China12.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,2.9,particles/L
+10.3390/app112110109,China13.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,7.9,particles/L
+10.3390/app112110109,China14.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,30.3,particles/L
+10.3390/app112110109,China15.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,14.3,particles/L
+10.3390/app112110109,China16.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,8.25,particles/L
+10.3390/app112110109,China17.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.24,particles/L
+10.3390/app112110109,China18.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.34,particles/L
+10.3390/app112110109,China19.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,20.96,particles/L
+10.3390/app112110109,China20.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,31.85,particles/L
+10.3390/app112110109,China21.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,40.67,particles/L
+10.3390/app112110109,China22.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,20.44,particles/L
+10.3390/app112110109,China23.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.78,particles/L
+10.3390/app112110109,China24.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.62,particles/L
+10.3390/app112110109,China25.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.1,particles/L
+10.3390/app112110109,China26.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0.07,particles/L
+10.3390/app112110109,China27.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0,particles/L
+10.3390/app112110109,China28.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,0,particles/L
+10.3390/app112110109,China29.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,400,particles/L
+10.3390/app112110109,China30.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,750,particles/L
+10.3390/app112110109,China31.10.3390/app112110109,N/A,China,Drinking water treatment plant,N/A,300,particles/L
+10.3390/app112110109,Denmark1.10.3390/app112110109,N/A,Denmark,Drinking water treatment plant,N/A,120.3,particles/L
+10.3390/app112110109,Finland1.10.3390/app112110109,N/A,Finland,Drinking water treatment plant,N/A,1.05,particles/L
+10.3390/app112110109,Finland2.10.3390/app112110109,N/A,Finland,Drinking water treatment plant,N/A,13.5,particles/L
+10.3390/app112110109,Finland3.10.3390/app112110109,N/A,Finland,Drinking water treatment plant,N/A,0.03,particles/L
+10.3390/app112110109,Finland4.10.3390/app112110109,N/A,Finland,Drinking water treatment plant,N/A,0.005,particles/L
+10.3390/app112110109,Finland5.10.3390/app112110109,N/A,Finland,Drinking water treatment plant,N/A,0.1,particles/L
+10.3390/app112110109,Finland6.10.3390/app112110109,N/A,Finland,Drinking water treatment plant,N/A,0.02,particles/L
+10.3390/app112110109,Finland7.10.3390/app112110109,N/A,Finland,Drinking water treatment plant,N/A,6.84,particles/L
+10.3390/app112110109,France1.10.3390/app112110109,N/A,France,Drinking water treatment plant,N/A,35,particles/L
+10.3390/app112110109,France2.10.3390/app112110109,N/A,France,Drinking water treatment plant,N/A,2.84,particles/L
+10.3390/app112110109,Germany1.10.3390/app112110109,N/A,Germany,Drinking water treatment plant,N/A,1.82,particles/L
+10.3390/app112110109,Germany2.10.3390/app112110109,N/A,Germany,Drinking water treatment plant,N/A,5.9,particles/L
+10.3390/app112110109,Germany3.10.3390/app112110109,N/A,Germany,Drinking water treatment plant,N/A,3,particles/L
+10.3390/app112110109,Germany4.10.3390/app112110109,N/A,Germany,Drinking water treatment plant,N/A,7,particles/L
+10.3390/app112110109,Germany5.10.3390/app112110109,N/A,Germany,Drinking water treatment plant,N/A,14,particles/L
+10.3390/app112110109,HingKong1.10.3390/app112110109,N/A,Hong Kong,Drinking water treatment plant,N/A,0.27,particles/L
+10.3390/app112110109,HingKong2.10.3390/app112110109,N/A,Hong Kong,Drinking water treatment plant,N/A,0.4,particles/L
+10.3390/app112110109,Iran1.10.3390/app112110109,N/A,Iran,Drinking water treatment plant,N/A,0.42,particles/L
+10.3390/app112110109,Iran2.10.3390/app112110109,N/A,Iran,Drinking water treatment plant,N/A,1.91,particles/L
+10.3390/app112110109,Iran3.10.3390/app112110109,N/A,Iran,Drinking water treatment plant,N/A,2.11,particles/L
+10.3390/app112110109,Iran4.10.3390/app112110109,N/A,Iran,Drinking water treatment plant,N/A,0.58,particles/L
+10.3390/app112110109,Israel1.10.3390/app112110109,N/A,Israel,Drinking water treatment plant,N/A,1.97,particles/L
+10.3390/app112110109,Israel2.10.3390/app112110109,N/A,Israel,Drinking water treatment plant,N/A,7.3,particles/L
+10.3390/app112110109,Italy1.10.3390/app112110109,N/A,Italy,Drinking water treatment plant,N/A,0.4,particles/L
+10.3390/app112110109,Italy2.10.3390/app112110109,N/A,Italy,Drinking water treatment plant,N/A,0.52,particles/L
+10.3390/app112110109,Italy3.10.3390/app112110109,N/A,Italy,Drinking water treatment plant,N/A,0.2,particles/L
+10.3390/app112110109,Korea1.10.3390/app112110109,N/A,Korea,Drinking water treatment plant,N/A,0.44,particles/L
+10.3390/app112110109,Korea2.10.3390/app112110109,N/A,Korea,Drinking water treatment plant,N/A,0.14,particles/L
+10.3390/app112110109,Korea3.10.3390/app112110109,N/A,Korea,Drinking water treatment plant,N/A,0.28,particles/L
+10.3390/app112110109,Korea4.10.3390/app112110109,N/A,Korea,Drinking water treatment plant,N/A,0.11,particles/L
+10.3390/app112110109,Netherlands1.10.3390/app112110109,N/A,Netherlands,Drinking water treatment plant,N/A,39,particles/L
+10.3390/app112110109,Netherlands2.10.3390/app112110109,N/A,Netherlands,Drinking water treatment plant,N/A,61,particles/L
+10.3390/app112110109,Netherlands3.10.3390/app112110109,N/A,Netherlands,Drinking water treatment plant,N/A,65,particles/L
+10.3390/app112110109,Netherlands4.10.3390/app112110109,N/A,Netherlands,Drinking water treatment plant,N/A,81,particles/L
+10.3390/app112110109,Netherlands5.10.3390/app112110109,N/A,Netherlands,Drinking water treatment plant,N/A,56,particles/L
+10.3390/app112110109,Netherlands6.10.3390/app112110109,N/A,Netherlands,Drinking water treatment plant,N/A,55,particles/L
+10.3390/app112110109,Netherlands7.10.3390/app112110109,N/A,Netherlands,Drinking water treatment plant,N/A,55,particles/L
+10.3390/app112110109,Poland1.10.3390/app112110109,N/A,Poland,Drinking water treatment plant,N/A,0.34,particles/L
+10.3390/app112110109,Russia1.10.3390/app112110109,N/A,Russia,Drinking water treatment plant,N/A,148,particles/L
+10.3390/app112110109,Scotland1.10.3390/app112110109,N/A,Scotland,Drinking water treatment plant,N/A,0.25,particles/L
+10.3390/app112110109,Scotland2.10.3390/app112110109,N/A,Scotland,Drinking water treatment plant,N/A,1,particles/L
+10.3390/app112110109,SouthKorea1.10.3390/app112110109,N/A,South Korea,Drinking water treatment plant,N/A,49,particles/L
+10.3390/app112110109,SouthKorea2.10.3390/app112110109,N/A,South Korea,Drinking water treatment plant,N/A,33,particles/L
+10.3390/app112110109,SouthKorea3.10.3390/app112110109,N/A,South Korea,Drinking water treatment plant,N/A,297,particles/L
+10.3390/app112110109,SouthKorea4.10.3390/app112110109,N/A,South Korea,Drinking water treatment plant,N/A,66,particles/L
+10.3390/app112110109,Spain1.10.3390/app112110109,N/A,Spain,Drinking water treatment plant,N/A,0.31,particles/L
+10.3390/app112110109,Spain2.10.3390/app112110109,N/A,Spain,Drinking water treatment plant,N/A,0.44,particles/L
+10.3390/app112110109,Spain3.10.3390/app112110109,N/A,Spain,Drinking water treatment plant,N/A,0.92,particles/L
+10.3390/app112110109,Spain4.10.3390/app112110109,N/A,Spain,Drinking water treatment plant,N/A,1.08,particles/L
+10.3390/app112110109,Spain5.10.3390/app112110109,N/A,Spain,Drinking water treatment plant,N/A,12.8,particles/L
+10.3390/app112110109,Spain6.10.3390/app112110109,N/A,Spain,Drinking water treatment plant,N/A,41.77,particles/L
+10.3390/app112110109,Spain7.10.3390/app112110109,N/A,Spain,Drinking water treatment plant,N/A,16.4,particles/L
+10.3390/app112110109,Spain8.10.3390/app112110109,N/A,Spain,Drinking water treatment plant,N/A,131.36,particles/L
+10.3390/app112110109,Spain9.10.3390/app112110109,N/A,Spain,Drinking water treatment plant,N/A,0.98,particles/L
+10.3390/app112110109,Sweden1.10.3390/app112110109,N/A,Sweden,Drinking water treatment plant,N/A,4,particles/L
+10.3390/app112110109,Sweden2.10.3390/app112110109,N/A,Sweden,Drinking water treatment plant,N/A,0.008,particles/L
+10.3390/app112110109,Thailand1.10.3390/app112110109,N/A,Thailand,Drinking water treatment plant,N/A,2,particles/L
+10.3390/app112110109,Turkey1.10.3390/app112110109,N/A,Turkey,Drinking water treatment plant,N/A,7.00,particles/L
+10.3390/app112110109,Turkey2.10.3390/app112110109,N/A,Turkey,Drinking water treatment plant,N/A,4.11,particles/L
+10.3390/app112110109,Turkey3.10.3390/app112110109,N/A,Turkey,Drinking water treatment plant,N/A,1.6,particles/L
+10.3390/app112110109,Turkey4.10.3390/app112110109,N/A,Turkey,Drinking water treatment plant,N/A,0.7,particles/L
+10.3390/app112110109,Turkey5.10.3390/app112110109,N/A,Turkey,Drinking water treatment plant,N/A,0.6,particles/L
+10.3390/app112110109,UK1.10.3390/app112110109,N/A,UK,Drinking water treatment plant,N/A,15.7,particles/L
+10.3390/app112110109,USA1.10.3390/app112110109,N/A,USA,Drinking water treatment plant,N/A,3.7,particles/L
+10.3390/app112110109,USA2.10.3390/app112110109,N/A,USA,Drinking water treatment plant,N/A,17.6,particles/L
+10.3390/app112110109,USA3.10.3390/app112110109,N/A,USA,Drinking water treatment plant,N/A,17.2,particles/L
+10.3390/app112110109,USA4.10.3390/app112110109,N/A,USA,Drinking water treatment plant,N/A,0.09,particles/L
+10.3390/app112110109,USA5.10.3390/app112110109,N/A,USA,Drinking water treatment plant,N/A,0.05,particles/L
+10.3390/app112110109,USA6.10.3390/app112110109,N/A,USA,Drinking water treatment plant,N/A,5.9,particles/L
+10.3390/app112110109,USA7.10.3390/app112110109,N/A,USA,Drinking water treatment plant,N/A,2.6,particles/L
+10.3390/app112110109,USA8.10.3390/app112110109,N/A,USA,Drinking water treatment plant,N/A,0.098,particles/L
+10.3390/app112110109,USA9.10.3390/app112110109,N/A,USA,Drinking water treatment plant,N/A,0.00088,particles/L
+10.1016/j.jhazmat.2021.125347,27.11.2019.10.1016/j.jhazmat.2021.125347,N/A,"Kolkata, India",Drinking water treatment plant,11/27/19,2.71,particles/L
+10.1016/j.jhazmat.2021.125347,21.12.2019.10.1016/j.jhazmat.2021.125347,N/A,"Kolkata, India",Drinking water treatment plant,12/21/19,2.56,particles/L
+10.1016/j.jhazmat.2021.125347,22.01.2020.10.1016/j.jhazmat.2021.125347,N/A,"Kolkata, India",Drinking water treatment plant,1/22/20,2.40,particles/L
+10.1016/j.jhazmat.2021.125347,19.02.2020.10.1016/j.jhazmat.2021.125347,N/A,"Kolkata, India",Drinking water treatment plant,2/19/20,2.85,particles/L
+10.1016/j.jhazmat.2021.125347,16.03.2020.10.1016/j.jhazmat.2021.125347,N/A,"Kolkata, India",Drinking water treatment plant,3/16/20,3.23,particles/L
+10.1016/j.scitotenv.2020.140236,Milence.10.1016/j.scitotenv.2020.140236,Milence_Fibers.10.1016/j.scitotenv.2020.140236,"Uhlava River, Czech Republic",Drinking water treatment plant,N/A,2.8,particles/L
+10.1016/j.scitotenv.2020.140236,Milence.10.1016/j.scitotenv.2020.140236,Milence_Fragments.10.1016/j.scitotenv.2020.140236,"Uhlava River, Czech Republic",Drinking water treatment plant,N/A,17,particles/L
+10.1016/j.scitotenv.2020.140236,Plzen.10.1016/j.scitotenv.2020.140236,Plzen_Fibers.10.1016/j.scitotenv.2020.140236,"Uhlava River, Czech Republic",Drinking water treatment plant,N/A,12,particles/L
+10.1016/j.scitotenv.2020.140236,Plzen.10.1016/j.scitotenv.2020.140236,Plzen_Fragments.10.1016/j.scitotenv.2020.140236,"Uhlava River, Czech Republic",Drinking water treatment plant,N/A,180,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,1.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,125,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,2.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,0,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,3.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,249,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,4.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,872,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,5.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,249,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,6.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,374,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,7.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,499,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,8.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,249,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,9.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,499,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,10.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,374,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,11.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,249,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,12.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,249,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,13.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,249,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,14.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,374,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,15.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,748,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,16.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,374,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,17.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,1247,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,18.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,623,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,19.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,499,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,20.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,374,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,21.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,125,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,22.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,499,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,23.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,249,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,24.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,499,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,25.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,249,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,26.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,0,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,27.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,1247,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,28.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,374,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,29.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,623,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,30.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,499,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,31.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,499,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,32.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,374,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,33.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,748,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,34.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,623,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,35.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,249,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,36.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,374,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,37.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,249,particles/L
+10.1016/j.chemosphere.2020.126493,10.1016/j.chemosphere.2020.126493,38.10.1016/j.chemosphere.2020.126493,China,Drinking water treatment plant,N/A,748,particles/L
+10.1016/j.scitotenv.2019.134520,Finished.10.1016/j.scitotenv.2019.134520,N/A,"Yangtze River, China",Drinking water treatment plant,N/A,930,particles/L
+10.1007/s11356-021-13769-x,April_DWTP.10.1007/s11356-021-13769-x,N/A,XiangJiang River,Drinking water treatment plant,Apr-19,282,particles/L
+10.1007/s11356-021-13769-x,April_Tap.10.1007/s11356-021-13769-x,N/A,XiangJiang River,Tap Water,Apr-19,267,particles/L
+10.1007/s11356-021-13769-x,May_DWTP.10.1007/s11356-021-13769-x,N/A,XiangJiang River,Drinking water treatment plant,May-19,338,particles/L
+10.1007/s11356-021-13769-x,May_Tap.10.1007/s11356-021-13769-x,N/A,XiangJiang River,Tap Water,May-19,321,particles/L
+10.1007/s11356-021-13769-x,June_DWTP.10.1007/s11356-021-13769-x,N/A,XiangJiang River,Drinking water treatment plant,Jun-19,388,particles/L
+10.1007/s11356-021-13769-x,June_Tap.10.1007/s11356-021-13769-x,N/A,XiangJiang River,Tap Water,Jun-19,381,particles/L
+10.1007/s11356-021-13769-x,July_DWTP.10.1007/s11356-021-13769-x,N/A,XiangJiang River,Drinking water treatment plant,Jul-19,400,particles/L
+10.1007/s11356-021-13769-x,July_Tap.10.1007/s11356-021-13769-x,N/A,XiangJiang River,Tap Water,Jul-19,405,particles/L
+10.1016/j.scitotenv.2021.148001,TCQS.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,400,particles/m3
+10.1016/j.scitotenv.2021.148001,SHN.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,510,particles/m3
+10.1016/j.scitotenv.2021.148001,CHQ.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,510,particles/m3
+10.1016/j.scitotenv.2021.148001,CHH.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,550,particles/m3
+10.1016/j.scitotenv.2021.148001,ZHB.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,600,particles/m3
+10.1016/j.scitotenv.2021.148001,DAS.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,605,particles/m3
+10.1016/j.scitotenv.2021.148001,XHS.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,630,particles/m3
+10.1016/j.scitotenv.2021.148001,HNZ.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,750,particles/m3
+10.1016/j.scitotenv.2021.148001,TCH.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,560,particles/m3
+10.1016/j.scitotenv.2021.148001,WHH.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,600,particles/m3
+10.1016/j.scitotenv.2021.148001,Spr.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,390,particles/m3
+10.1016/j.scitotenv.2021.148001,Sum.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,360,particles/m3
+10.1016/j.scitotenv.2021.148001,Aut.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,750,particles/m3
+10.1016/j.scitotenv.2021.148001,Win.10.1016/j.scitotenv.2021.148001,N/A,"South-to-North Water Diversion Project, China",Drinking water canal,N/A,540,particles/m3
+10.1016/j.scitotenv.2022.154015,1.10.1016/j.scitotenv.2022.154015,N/A,South Korea,Drinking water treatment plant,N/A,0.2,particles/L
