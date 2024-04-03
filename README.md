@@ -8,6 +8,8 @@ We are innovating what government open data can be by creating an open source da
 
 This data portal supports the implementation of Senate Bill No. 1422 which mandates sharing of microplastic data from drinking water, policy SAM 5160 which mandates that state data be open access, and policy SAM 4984 which mandates that software be open by default. Our vision is to use this project as a framework for future open software development by state agencies in the California. All engagement on this open repo will be the subject of future policy research on how government and open source communities can better collaborate on software development projects.
 
+Tutorial available [here](https://youtu.be/1AayVru5qAk)
+
 ## Connect
 If you want to discuss anything with the developers, you can email wincowger@gmail.com
 
