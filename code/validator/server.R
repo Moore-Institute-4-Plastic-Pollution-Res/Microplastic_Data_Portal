@@ -84,11 +84,11 @@ function(input, output, session) {
                         rownames = FALSE,
                         filter = "top", 
                         #style = "bootstrap", 
-                        selection = list(mode = "single", color = "red")) %>%
+                        selection = list(mode = "single", color = "#FF817e")) %>%
                     formatStyle(
                         'status',
                         target = 'row',
-                        backgroundColor = styleEqual(c("error", "warning", "success"), c('red', 'yellow', 'white')))
+                        backgroundColor = styleEqual(c("error", "warning", "success"), c('#FF817e', '#FFFFAD', 'white')))
             })
             
             rows_for_rules_selected <- reactive({
@@ -143,7 +143,7 @@ function(input, output, session) {
                                 variables(validation()$rules[[x]][rules_broken(results = validation()$results[[x]], show_decision = input[[paste0("show_decision", x)]])[input[[paste0("show_report", x, "_rows_selected")]], "name"]])  
                             }
                             else{NULL},
-                            backgroundColor =  'red'
+                            backgroundColor =  '#FF817e'
                         )
                 }
                 else{
