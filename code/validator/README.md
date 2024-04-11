@@ -1,4 +1,4 @@
-# Validator Tool <a href="https://moore-institute-4-plastic-pollution-res.github.io/One4All/"><img src="man/Validatorhex.png" alt="Validator Tool logo" align="right" style="height: 140px;"/></a>
+# Validator Tool <a href="https://openanalysis.org/one4all"><img src="man/Validatorhex.png" alt="Validator Tool logo" align="right" style="height: 140px;"/></a>
 
 [![CRAN version](https://www.r-pkg.org/badges/version/One4All)](https://CRAN.R-project.org/package=One4All) [![Website](https://img.shields.io/badge/web-openanalysis.org-white)](https://openanalysis.org/one4all)
 
