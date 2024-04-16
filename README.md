@@ -3,11 +3,11 @@
 
 [![CRAN version](https://www.r-pkg.org/badges/version/One4All)](https://CRAN.R-project.org/package=One4All) [![Website](https://img.shields.io/badge/web-openanalysis.org-white)](https://openanalysis.org)
 
-Navigate the portal with this [tutorial](https://youtu.be/1AayVru5qAk)
+Welcome! Navigate the Microplastics Data Portal with this [tutorial](https://youtu.be/1AayVru5qAk).
 
 We are innovating what government open data can be by creating an open source data portal where all aspects of data ingestion, analysis, visualization, and sharing are transparent and collaboratable by the open source community. This project is a collaboration with [California Water Boards](https://www.waterboards.ca.gov/), [Moore Institute for Plastic Pollution Research](https://mooreplasticresearch.org/), [The Gray Lab @ UCR](https://www.thegraylab.org/), [San Francisco Estuary Institue](https://www.sfei.org/), [California 100](https://california100.org/), [Possibility Lab](https://possibilitylab.berkeley.edu/) and the open source community at large.
 
-This data portal supports the implementation of Senate Bill No. 1422 which mandates sharing of microplastic data from drinking water, policy SAM 5160 which mandates that state data be open access, and policy SAM 4984 which mandates that software be open by default. Our vision is to use this project as a framework for future open software development by state agencies in the California. All engagement on this open repo will be the subject of future policy research on how government and open source communities can better collaborate on software development projects.
+This data portal supports the implementation of Senate Bill No. 1422 which mandates sharing of microplastic data from drinking water, policy SAM 5160 which mandates that state data be open access, and policy SAM 4984 which mandates that software be open by default. Our vision is to use this project as a framework for future open software development by state agencies in California. All engagement on this open repo will be the subject of future policy research on how government and open source communities can better collaborate on software development projects.
 
 ## Connect
 If you want to discuss anything with the developers, you can email wincowger@gmail.com
@@ -34,18 +34,18 @@ If using the R Package:
 
 If using the web app:
 - Go to [openanalysis.org/one4all](https://openanalysis.org/one4all/).
-- The code for the app is in [/code/validator](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator)
+- The code for the app is in [/code/validator](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator).
 
 ### Data Visualization
 Once you have data, you may want to analyze it, microplastic data has some unique ways to interpret it so we made a tool that can take all the data from the validator app and make use of it. 
-The code for the app is in [/code/data_visualization](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/data_visualization)
+The code for the app is in [/code/data_visualization](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/data_visualization).
 - To get started with the tool, go to [openanalysis.org/microplastic_analysis](https://openanalysis.org/microplastic_analysis/). 
 
 ![](man/datavisualization.png)
 
 ### Microplastic Image Explorer
 Microplastic data is unique because it includes unstructured data, like images, which can be difficult to query. This is why we created the image explorer. 
-The code for the app is in [/code/microplastic_image_explorer](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/microplastic_image_explorer)
+The code for the app is in [/code/microplastic_image_explorer](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/microplastic_image_explorer).
 - To get started with the tool, go to [openanalysis.org/image_explorer](https://openanalysis.org/image_explorer/). 
 
 ![](man/imageexplorer.png)
