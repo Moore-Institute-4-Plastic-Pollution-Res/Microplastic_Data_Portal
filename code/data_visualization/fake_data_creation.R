@@ -150,5 +150,71 @@ merged_data <- merged_data %>%
 file_name5 <- "merged_data.csv"
 file_path5 <- file.path(directory_path2, file_name5)
 
+##### Take data from the updated merged_data and update with correct rules
+# If rerunning, change 
+# - polymer -> Polymer
+# - color -> Color
+# - shape -> Morphology
+# - width_mm -> Width
+# - latitude -> Latitude
+# - longitude -> Longitude
+# - water_system_name -> AnalysisOrganization
+# - m_ps_m3 -> MicroplasticConcentration
+# - m_ps_m3 -> MicroplasticConcentration2000-2024
+# - treatment_level -> TreatmentLevel
+# List of colors
+colors <- c("Transparent", "Blue", "Red", "Brown", "Green", "Orange", "White", 
+            "Yellow", "Pink", "Black", "Purple", "Grey", "Other")
+
+# Get the number of rows in merged_data
+num_rows <- nrow(merged_data)
+
+# Generate random colors
+set.seed(123)  # Setting seed for reproducibility
+Colors_new <- sample(colors, num_rows, replace = TRUE)
+
+# Assign random colors to "Colors" column
+merged_data$Color <- Colors_new
+
+# List of morphology types
+morphologies <- c("Fragment", "Fiber", "Sphere", "Rubbery Fragment", 
+                  "Film", "Pellet", "Fiber Bundle", "Foam")
+
+# Get the number of rows in merged_data
+num_rows <- nrow(merged_data)
+
+# Generate random morphology types
+set.seed(123)  # Setting seed for reproducibility
+random_morphologies <- sample(morphologies, num_rows, replace = TRUE)
+
+# Assign random morphology types to "Morphology" column
+merged_data$Morphology <- random_morphologies
+
+# List of polymer types
+polymers <- c("Polyolefins (polyalkenes)", "Polycarbonates", "Polysiloxanes", 
+              "Polyesters", "Polyterephthalates", "Polydienes (butadienes, isoprenes)", 
+              "Polystyrenes (polyphenylethylenes, -methylstyrene)", 
+              "Polyurethanes (isocyanates)", "Polyhaloolefins (vinylhalides)", 
+              "Polyacrylonitriles (nitriles)", "Cellulose derivatives (ether cellulose)", 
+              "Polyamides (polylactams)", "Polymethacrylates", 
+              "Polyethersulfones (polysulfone)", "Polyvinylethers", 
+              "Polydiglycidyl ethers (polyepoxides, polyhydroxyethers, phenoxy)", 
+              "Polyphenylethers (polyphenyleneoxide)", "Polyhydroxy(meth)acrylates", 
+              "Polyacrylates (propenoates)", 
+              "Polyethers (polyglycols, oxyalkylenes, glycidyl ethers & cyclic ethers)", 
+              "Polyvinylesters", "Polyvinylalcohols", "Polyacrylamides", 
+              "Polyvinylketones", "Poly(ether)ketones (polyketones)", 
+              "Polyphenylenes (polyaromatics)", "Polysuccinates")
+
+# Get the number of rows in merged_data
+num_rows <- nrow(merged_data)
+
+# Generate random polymer types
+set.seed(123)  # Setting seed for reproducibility
+random_polymers <- sample(polymers, num_rows, replace = TRUE)
+
+# Assign random polymer types to "Polymer" column
+merged_data$Polymer <- random_polymers
+
 # Export dataframe to CSV file
 write.csv(merged_data, file_path5, row.names = FALSE)
