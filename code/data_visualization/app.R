@@ -31,43 +31,12 @@ config<- config::get(file = "code/validator/fake_data_config.yml")
 result <- query_document_by_object_id(
   apiKey = apiKey,
   collection = config$mongo_collection,
-  database = 'test', # Win is 'validator'
+  database = 'test', # Official is 'validator'
   dataSource = 'Cluster0',
   objectId = "660c85af0eddb6bfe0067db1"
 )
 
-# result <- find_from_api(apiKey = "oHUi48HmGj7wNFapFJNI6Wj7upVNbPKzksNNbl7hizWtQaym4loFn7YlMtfIKJpZ", collection = "One4All", database = "test")
-
-
-pulled_data <- result[["documents"]][[1]][["merged_data"]]
-rows <- lapply(pulled_data, function(x) as.data.frame(t(x)))
-merged_data <- bind_rows(rows)
-# Assuming col_names is a vector of column names you want to convert to numeric
-col_names <- c("m_ps_m3", "width_mm", "latitude", "longitude", "m_ps_m3_2000", "m_ps_m3_2001", "m_ps_m3_2002", "m_ps_m3_2003",
-               "m_ps_m3_2004", "m_ps_m3_2005", "m_ps_m3_2006", "m_ps_m3_2007",
-               "m_ps_m3_2008", "m_ps_m3_2009", "m_ps_m3_2010", "m_ps_m3_2011",
-               "m_ps_m3_2012", "m_ps_m3_2013", "m_ps_m3_2014", "m_ps_m3_2015",
-               "m_ps_m3_2016", "m_ps_m3_2017", "m_ps_m3_2018", "m_ps_m3_2019",
-               "m_ps_m3_2020", "m_ps_m3_2021", "m_ps_m3_2022", "m_ps_m3_2023",
-               "m_ps_m3_2024")
-
-# Apply as.numeric() to multiple columns
-merged_data <- mutate_at(merged_data, vars(all_of(col_names)), as.numeric)
-
-merged_data1 <- read.csv("/Users/nick_leong/Library/CloudStorage/GoogleDrive-nickleong@g.ucla.edu/My Drive/MIPPR/Microplastic_Data_Portal/code/data_visualization/data/merged_data.csv")
-
-library(mongolite)
-# 
-conn <- mongo(
-  url = "mongodb+srv://hannah:Singinglove2019@cluster0.hzb0jlh.mongodb.net/?retryWrites=true&w=majority",
-  db = "test",
-  collection = "One4All"
-)
-
-data <- conn$find()
-
-merged_data <- data[["merged_data"]][[1]]
-
+merged_data <- result[[2]][[1]]
 
 # Get the current working directory
 wd <- getwd()
