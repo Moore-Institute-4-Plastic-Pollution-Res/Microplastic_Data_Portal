@@ -128,13 +128,13 @@ ui <- dashboardPage(
                                 selected = "ALL"
                  )
           ),
-          column(4,
-                 selectizeInput(inputId = "size", 
-                                label = "Size", 
-                                choices = c("ALL", toupper(unique(file$size))),
-                                selected = "ALL"
-                 )
-          ),
+          #column(4,
+          #       selectizeInput(inputId = "size", 
+          #                      label = "Size", 
+          #                      choices = c("ALL", toupper(unique(file$size))),
+          #                      selected = "ALL"
+          #       )
+          #),
           column(4, actionButton(inputId = "clear_filters", label = "Clear All"))
         ),
         fluidRow(
@@ -157,16 +157,20 @@ server <- function(input, output, session) {
     color <- input$color
     morphology <- input$morphology
     polymer <- input$polymer
-    size <- input$size
+    #size <- input$size
     
-    breadcrumb_text <- paste("Filters:", citation, color, morphology, polymer, size, sep = " > ")
+    breadcrumb_text <- paste("Filters:", citation, 
+                             color, morphology, 
+                             polymer, 
+                             #size, 
+                             sep = " > ")
     breadcrumb_text
   })
   
   filtered <- reactive({
       file %>% 
           filter(if(input$citation != "ALL") tolower(citation) == tolower(input$citation) else !is.na(images)) %>%
-          filter(if(input$size != "ALL") tolower(size) == tolower(input$size) else !is.na(images)) %>%
+          #filter(if(input$size != "ALL") tolower(size) == tolower(input$size) else !is.na(images)) %>%
           filter(if(input$color != "ALL") tolower(color) == tolower(input$color) else !is.na(images)) %>%
           filter(if(input$morphology != "ALL") tolower(morphology) == tolower(input$morphology) else !is.na(images)) %>%
           filter(if(input$polymer != "ALL") tolower(polymer) == tolower(input$polymer) else !is.na(images))
@@ -176,13 +180,17 @@ server <- function(input, output, session) {
     breadcrumb_text <- filtered_breadcrumb()
   })
   
-  observeEvent(list(input$citation, input$color, input$morphology, input$size, input$polymer), {
+  observeEvent(list(input$citation, 
+                    input$color, 
+                    input$morphology, 
+                    #input$size, 
+                    input$polymer), {
     current_choices <- filtered()
     updateSelectizeInput(session, "citation", choices = c("ALL", toupper(unique(current_choices$citation))), selected = input$citation)
     updateSelectizeInput(session, "color", choices = c("ALL", toupper(unique(current_choices$color))), selected = input$color)
     updateSelectizeInput(session, "morphology", choices = c("ALL", toupper(unique(current_choices$morphology))), selected = input$morphology)
     updateSelectizeInput(session, "polymer", choices = c("ALL", toupper(unique(current_choices$polymer))), selected = input$polymer)
-    updateSelectizeInput(session, "size", choices = c("ALL", toupper(unique(current_choices$size))), selected = input$size)
+    #updateSelectizeInput(session, "size", choices = c("ALL", toupper(unique(current_choices$size))), selected = input$size)
   })
   
   observeEvent(input$clear_filters, {
@@ -190,7 +198,7 @@ server <- function(input, output, session) {
     updateSelectizeInput(session, "color", choices = c("ALL", toupper(unique(file$color))), selected = "ALL")
     updateSelectizeInput(session, "morphology", choices = c("ALL", toupper(unique(file$morphology))), selected = "ALL")
     updateSelectizeInput(session, "polymer", choices = c("ALL", toupper(unique(file$polymer))), selected = "ALL")
-    updateSelectizeInput(session, "size", choices = c("ALL", toupper(unique(file$size))), selected = "ALL")
+    #updateSelectizeInput(session, "size", choices = c("ALL", toupper(unique(file$size))), selected = "ALL")
   })
   
 
