@@ -37,19 +37,17 @@ library(httr)
 # )
 # 
 # merged_data <- result[[2]][[1]]
+# Get the current working directory
+wd <- getwd()
 
 # Define the directory names
-code <- c("code")
-data_visualization <- c("data_visualization")
 data_path <- c("data")
 
 # Construct the full directory path
-directory_path1 <- file.path(wd, code, data_visualization)
-
 file_name1 <- "merged_data.csv"
 
-directory_path2 <- file.path(directory_path1, data_path)
-file_path1 <- file.path(directory_path2, file_name1)
+directory_path1 <- file.path(wd, data_path)
+file_path1 <- file.path(directory_path1, file_name1)
 
 merged_data <- read_csv(file_path1)
 
@@ -84,29 +82,16 @@ merged_data <- merged_data%>%
          water_system_name = analysis_organization
   )
 
-
-# Get the current working directory
-wd <- getwd()
-
-# Define the directory names
-code <- c("code")
-data_visualization <- c("data_visualization")
-data_path <- c("data")
-
 # Construct the full directory path
-directory_path1 <- file.path(wd, code, data_visualization)
-
 file_name2 <- "Samples_Geocoded.csv"
 
-directory_path2 <- file.path(directory_path1, data_path)
+file_path2 <- file.path(directory_path1, file_name2)
 
-file_path2 <- file.path(directory_path2, file_name2)
-
+directory_path2 <- directory_path1
 
 #cities_sf <- st_read("/Users/nick_leong/Downloads/City_Boundaries/City_Boundaries.shp")
 file_name3 <- "CA_Places_TIGER2016.shp"
-ca_places <- "ca-places-boundaries"
-file_path3 <- file.path(directory_path2, ca_places)
+file_path3 <- file.path(directory_path2, "ca-places-boundaries")
 file_path3 <- file.path(file_path3, file_name3)
 cities <- st_read(file_path3)
 cities <- clean_names(cities)
