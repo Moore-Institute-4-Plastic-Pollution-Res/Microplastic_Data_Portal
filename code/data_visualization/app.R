@@ -25,18 +25,65 @@ library(janitor)
 library(jsonlite)
 library(httr)
 
-# Load the required configuration
-config<- config::get(file = "code/validator/fake_data_config.yml")
+# # Load the required configuration
+# config<- config::get(file = "code/validator/fake_data_config.yml")
+# 
+# result <- query_document_by_object_id(
+#   apiKey = apiKey,
+#   collection = config$mongo_collection,
+#   database = 'test', # Official is 'validator'
+#   dataSource = 'Cluster0',
+#   objectId = "660c85af0eddb6bfe0067db1"
+# )
+# 
+# merged_data <- result[[2]][[1]]
 
-result <- query_document_by_object_id(
-  apiKey = apiKey,
-  collection = config$mongo_collection,
-  database = 'test', # Official is 'validator'
-  dataSource = 'Cluster0',
-  objectId = "660c85af0eddb6bfe0067db1"
-)
+# Define the directory names
+code <- c("code")
+data_visualization <- c("data_visualization")
+data_path <- c("data")
 
-merged_data <- result[[2]][[1]]
+# Construct the full directory path
+directory_path1 <- file.path(wd, code, data_visualization)
+
+file_name1 <- "merged_data.csv"
+
+directory_path2 <- file.path(directory_path1, data_path)
+file_path1 <- file.path(directory_path2, file_name1)
+
+merged_data <- read_csv(file_path1)
+
+merged_data <- clean_names(merged_data)
+merged_data <- merged_data%>% 
+  rename(shape = morphology, width_mm = width, m_ps_m3 = microplastic_concentration,
+         m_ps_m3_2000 = microplastic_concentration2000,
+         m_ps_m3_2001 = microplastic_concentration2001,
+         m_ps_m3_2002 = microplastic_concentration2002,
+         m_ps_m3_2003 = microplastic_concentration2003,
+         m_ps_m3_2004 = microplastic_concentration2004,
+         m_ps_m3_2005 = microplastic_concentration2005,
+         m_ps_m3_2006 = microplastic_concentration2006,
+         m_ps_m3_2007 = microplastic_concentration2007,
+         m_ps_m3_2008 = microplastic_concentration2008,
+         m_ps_m3_2009 = microplastic_concentration2009,
+         m_ps_m3_2010 = microplastic_concentration2010,
+         m_ps_m3_2011 = microplastic_concentration2011,
+         m_ps_m3_2012 = microplastic_concentration2012,
+         m_ps_m3_2013 = microplastic_concentration2013,
+         m_ps_m3_2014 = microplastic_concentration2014,
+         m_ps_m3_2015 = microplastic_concentration2015,
+         m_ps_m3_2016 = microplastic_concentration2016,
+         m_ps_m3_2017 = microplastic_concentration2017,
+         m_ps_m3_2018 = microplastic_concentration2018,
+         m_ps_m3_2019 = microplastic_concentration2019,
+         m_ps_m3_2020 = microplastic_concentration2020,
+         m_ps_m3_2021 = microplastic_concentration2021,
+         m_ps_m3_2022 = microplastic_concentration2022,
+         m_ps_m3_2023 = microplastic_concentration2023,
+         m_ps_m3_2024 = microplastic_concentration2024,
+         water_system_name = analysis_organization
+  )
+
 
 # Get the current working directory
 wd <- getwd()
@@ -58,7 +105,8 @@ file_path2 <- file.path(directory_path2, file_name2)
 
 #cities_sf <- st_read("/Users/nick_leong/Downloads/City_Boundaries/City_Boundaries.shp")
 file_name3 <- "CA_Places_TIGER2016.shp"
-file_path3 <- file.path(directory_path2, "ca-places-boundaries")
+ca_places <- "ca-places-boundaries"
+file_path3 <- file.path(directory_path2, ca_places)
 file_path3 <- file.path(file_path3, file_name3)
 cities <- st_read(file_path3)
 cities <- clean_names(cities)
