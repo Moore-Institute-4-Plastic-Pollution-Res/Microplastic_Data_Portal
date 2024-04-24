@@ -33,7 +33,7 @@ If using the R Package:
 ```
 
 If using the web app:
-- Go to [openanalysis.org/one4all](https://openanalysis.org/one4all/).
+- Go to [openanalysis.org/one4all](https://openanalysis.org/microplastic_data_portal/).
 - The code for the app is in [/code/validator](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/validator).
 
 ### Data Visualization
@@ -46,7 +46,7 @@ The code for the app is in [/code/data_visualization](https://github.com/Moore-I
 ### Microplastic Image Explorer
 Microplastic data is unique because it includes unstructured data, like images, which can be difficult to query. This is why we created the image explorer. 
 The code for the app is in [/code/microplastic_image_explorer](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/microplastic_image_explorer).
-- To get started with the tool, go to [openanalysis.org/image_explorer](https://openanalysis.org/image_explorer/). 
+- To get started with the tool, go to [openanalysis.org/microplastic_image_explorer](https://openanalysis.org/microplastic_image_explorer/). 
 
 ![](man/imageexplorer.png)
 
