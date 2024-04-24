@@ -1,6 +1,6 @@
-# Microplastic Image Explorer Tool <a href="https://openanalysis.org/image_explorer"><img src="man/MicroplasticImageExplorerhex.png" alt="Microplastic Image Explorer logo" align="right" style="height: 140px;"/></a>
+# Microplastic Image Explorer Tool <a href="https://openanalysis.org/microplastic_image_explorer/"><img src="man/MicroplasticImageExplorerhex.png" alt="Microplastic Image Explorer logo" align="right" style="height: 140px;"/></a>
 
-[![Website](https://img.shields.io/badge/web-openanalysis.org-white)](https://openanalysis.org/image_explorer)
+[![Website](https://img.shields.io/badge/web-openanalysis.org-white)](https://openanalysis.org/microplastic_image_explorer/)
 
 # Description
 
@@ -8,7 +8,7 @@ Welcome to the Microplastic Image Explorer webpage. This tool was designed to al
 
 # Installation
 
-- Use the web app: [openanalysis.org/image_explorer](https://openanalysis.org/image_explorer)
+- Use the web app: [openanalysis.org/microplastic_image_explorer](https://openanalysis.org/microplastic_image_explorer/)
 
 - The code for the app is in [/code/microplastic_image_explorer](https://github.com/Moore-Institute-4-Plastic-Pollution-Res/Microplastic_Data_Portal/tree/main/code/microplastic_image_explorer) 
 
