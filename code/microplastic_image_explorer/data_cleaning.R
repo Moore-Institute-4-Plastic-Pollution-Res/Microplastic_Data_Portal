@@ -204,19 +204,20 @@ joined2 <- joined %>%
 fwrite(joined2, "code/microplastic_image_explorer/image_metadata.csv")
 
 #Add More ----
-joined2 <- fread("code/microplastic_image_explorer/image_metadata.csv")
+joined2 <- fread("code/microplastic_image_explorer/image_metadata.csv") %>%
+    filter(researcher != "Hsuan-Cheng Lu")
 
 Cheng2 <- Cheng %>%
     rename(citation = Citation,
            color = Color, 
-           file_name = name, 
+           file_names = name, 
            morphology = Morphology, 
            polymer = Polymer, 
            size = Size, 
            researcher = ResearchName) %>%
     mutate(type = "visual microscopy",
            size = as.character(size)) %>%
-    select(file_name, citation, color, morphology, polymer, size, type, researcher)
+    select(file_names, citation, color, morphology, polymer, size, type, researcher)
 
 joined2 <- bind_rows(joined2, Cheng2)
 
