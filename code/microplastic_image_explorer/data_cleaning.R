@@ -10,6 +10,19 @@ library(data.table)
 
 #Convert images to thumbnails
 
+#Cheng ----
+Cheng <- read_xlsx(path = "G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/microplastic_images/OneDrive_1_4-14-2024/Microplastic Image Explorer Metadata.xlsx") %>%
+    mutate(name = paste0(ImageID, ".jpg"))
+
+files_in_list <- list.files("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/microplastic_images/OneDrive_1_4-14-2024/Images", pattern = ".tif", full.names = T)
+files_in_list_names <- list.files("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/microplastic_images/OneDrive_1_4-14-2024/Images", pattern = ".tif")
+
+#for(image in 1:length(files_in_list)){
+#    img <- readTIFF(files_in_list[image], native=TRUE)
+#    writeJPEG(img, target = paste0("G:/My Drive/MooreInstitute/Projects/PeoplesLab/Code/Microplastic_Data_Portal/data/microplastic_images/OneDrive_1_4-14-2024/Images/",gsub("\\..*", "", files_in_list_names[image]), ".jpg"), quality = 1)
+#}
+
+
 #Leah ----
 jpegs <- list.files("C:/Users/winco/OneDrive/Documents/Images_MicroplasticImageExplorer/Leah", pattern = ".jpg", recursive = T, full.names = T)
 shortjpegs <- gsub(".jpg", "", gsub(".*/", "", jpegs))
@@ -190,6 +203,22 @@ joined2 <- joined %>%
 
 fwrite(joined2, "code/microplastic_image_explorer/image_metadata.csv")
 
+#Add More ----
+joined2 <- fread("code/microplastic_image_explorer/image_metadata.csv")
 
+Cheng2 <- Cheng %>%
+    rename(citation = Citation,
+           color = Color, 
+           file_name = name, 
+           morphology = Morphology, 
+           polymer = Polymer, 
+           size = Size, 
+           researcher = ResearchName) %>%
+    mutate(type = "visual microscopy",
+           size = as.character(size)) %>%
+    select(file_name, citation, color, morphology, polymer, size, type, researcher)
 
+joined2 <- bind_rows(joined2, Cheng2)
+
+fwrite(joined2, "code/microplastic_image_explorer/image_metadata.csv")
 
